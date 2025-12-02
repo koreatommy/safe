@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 
 interface GlowCapsuleButtonProps {
   children: ReactNode;
@@ -12,6 +12,7 @@ interface GlowCapsuleButtonProps {
   variant?: "primary" | "secondary";
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
+  style?: CSSProperties;
 }
 
 export function GlowCapsuleButton({
@@ -22,6 +23,7 @@ export function GlowCapsuleButton({
   variant = "primary",
   type = "button",
   disabled = false,
+  style,
 }: GlowCapsuleButtonProps) {
   const baseClasses = cn(
     "relative px-8 py-4 rounded-full",
@@ -41,6 +43,7 @@ export function GlowCapsuleButton({
     whileHover: disabled ? {} : { scale: 1.05 },
     whileTap: disabled ? {} : { scale: 0.98 },
     className: baseClasses,
+    style,
   };
 
   const glowEffect = (
