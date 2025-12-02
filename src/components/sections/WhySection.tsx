@@ -40,7 +40,7 @@ export function WhySection() {
     <section id="why" className="relative py-20 md:py-32 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         <FloatingSection>
-          <h2 className="text-white text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl md:text-6xl font-light mb-8 md:mb-16 text-center leading-tight md:leading-normal">
             왜 지금 <span className="text-[#00ff88]">'안전성평가'</span>가 필요한가요?
           </h2>
         </FloatingSection>
@@ -50,11 +50,11 @@ export function WhySection() {
             <GlassPanel>
               <div className="flex items-center gap-3 mb-6">
                 <AlertTriangle className="w-8 h-8 text-[#00ff88]" />
-                <h3 className="text-white text-2xl md:text-3xl font-medium">
+                <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium">
                   기존 제도의 한계
                 </h3>
               </div>
-              <p className="text-white/80 text-lg mb-6 font-light">
+              <p className="text-white/80 text-sm sm:text-base md:text-lg mb-6 font-light leading-normal md:leading-relaxed">
                 전통적인 어린이놀이시설은 정량화된 안전기준과 법적 검사를 통해 관리되지만,
                 신종 놀이공간은 다음과 같은 이유로 기존 제도로 관리가 어렵습니다.
               </p>
@@ -83,11 +83,11 @@ export function WhySection() {
             <GlassPanel>
               <div className="flex items-center gap-3 mb-6">
                 <Shield className="w-8 h-8 text-[#00ff88]" />
-                <h3 className="text-white text-2xl md:text-3xl font-medium">
+                <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium">
                   안전성평가가 해결하는 것
                 </h3>
               </div>
-              <p className="text-white/80 text-lg mb-6 font-light">
+              <p className="text-white/80 text-sm sm:text-base md:text-lg mb-6 font-light leading-normal md:leading-relaxed">
                 안전성평가는 다음 요소들을 통합적으로 점검합니다:
               </p>
               <motion.ul

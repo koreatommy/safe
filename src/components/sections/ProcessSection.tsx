@@ -46,14 +46,14 @@ export function ProcessSection() {
     <section id="process" className="relative py-20 md:py-32 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         <FloatingSection>
-          <h2 className="text-white text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl md:text-6xl font-light mb-8 md:mb-16 text-center leading-tight md:leading-normal">
             <span className="text-[#00ff88]">안전성평가</span> 절차
           </h2>
         </FloatingSection>
 
         <div className="space-y-12 md:space-y-16">
           <FloatingSection delay={0.2}>
-            <h3 className="text-white text-2xl md:text-3xl font-medium mb-8">
+            <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-8">
               평가 유형
             </h3>
             <div className="grid md:grid-cols-3 gap-6">
@@ -83,7 +83,7 @@ export function ProcessSection() {
           </FloatingSection>
 
           <FloatingSection delay={0.4}>
-            <h3 className="text-white text-2xl md:text-3xl font-medium mb-8">
+            <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-8">
               평가 단계
             </h3>
             <div className="relative">

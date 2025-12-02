@@ -16,7 +16,7 @@ export function InfoGraphicSection() {
           <GlassPanel className="p-4 md:p-8 overflow-hidden">
             {/* 제목 */}
             <div className="text-center mb-10">
-              <h3 className="text-white text-3xl md:text-4xl font-medium mb-4">
+              <h3 className="text-white text-xl sm:text-2xl md:text-4xl font-medium mb-4 leading-tight md:leading-normal">
                 안전사각지대 신종놀이공간 안전성평가
               </h3>
             </div>

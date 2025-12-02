@@ -68,7 +68,7 @@ export function EducationSection() {
     <section id="education" className="relative py-20 md:py-32 px-4 md:px-8 pb-4 md:pb-6">
       <div className="max-w-6xl mx-auto">
         <FloatingSection>
-          <h2 className="text-white text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl md:text-6xl font-light mb-8 md:mb-16 text-center leading-tight md:leading-normal">
             놀이시설 <span className="text-[#00ff88]">안전성평가 교육</span>
           </h2>
         </FloatingSection>
@@ -76,10 +76,10 @@ export function EducationSection() {
         <div className="space-y-12 md:space-y-16">
           <FloatingSection delay={0.2}>
             <GlassPanel>
-              <h3 className="text-white text-2xl md:text-3xl font-medium mb-6">
+              <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-6">
                 교육 개요
               </h3>
-              <p className="text-white/80 text-lg font-light leading-relaxed">
+              <p className="text-white/80 text-sm sm:text-base md:text-lg font-light leading-normal md:leading-relaxed">
                 신종·유사 놀이시설의 위험요소를 정확히 이해하고, 안전성평가를 통해 현장에서 즉시 적용 가능한 실무 역량을 강화하는 전문 교육 과정입니다.
                 모든 과정은 어린이놀이시설 안전관리 기준 및 최신 정책과 연계하여 구성되었습니다.
               </p>
@@ -88,10 +88,10 @@ export function EducationSection() {
 
           <FloatingSection delay={0.3}>
             <GlassPanel>
-              <h3 className="text-white text-2xl md:text-3xl font-medium mb-6">
+              <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-6">
                 교육 일정
               </h3>
-              <p className="text-white/80 mb-6 font-light">
+              <p className="text-white/80 mb-6 font-light text-sm sm:text-base md:text-lg">
                 일자: 09:30 ~ 17:50 (총 1일 과정)
               </p>
               <div className="overflow-x-auto">
@@ -150,7 +150,7 @@ export function EducationSection() {
                 <div className="w-12 h-12 rounded-full bg-[#00ff88]/20 flex items-center justify-center">
                   <CheckCircle2 className="w-6 h-6 text-[#00ff88]" />
                 </div>
-                <h3 className="text-white text-2xl md:text-3xl font-medium">
+                <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium">
                   교육 핵심 포인트
                 </h3>
               </div>
@@ -184,10 +184,10 @@ export function EducationSection() {
           <FloatingSection delay={0.5}>
             <GlassPanel className="p-8 md:p-12">
               <div className="text-center mb-10">
-                <h3 className="text-white text-3xl md:text-4xl font-medium mb-4">
+                <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-medium mb-4">
                   교육 신청하기
                 </h3>
-                <p className="text-white/80 text-lg md:text-xl font-light max-w-2xl mx-auto">
+                <p className="text-white/80 text-sm sm:text-base md:text-xl font-light max-w-2xl mx-auto leading-normal md:leading-relaxed">
                   놀이시설 안전성평가 교육에 참여를 원하시는 분은 아래 버튼을 통해 신청서를 제출해 주십시오.
                 </p>
               </div>

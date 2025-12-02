@@ -54,7 +54,7 @@ export function TargetSection() {
     <section id="target" className="relative py-20 md:py-32 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         <FloatingSection>
-          <h2 className="text-white text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl md:text-6xl font-light mb-8 md:mb-16 text-center leading-tight md:leading-normal">
             <span className="text-[#00ff88]">안전성평가</span> 대상 및 주요 위험요소
           </h2>
         </FloatingSection>
@@ -62,10 +62,10 @@ export function TargetSection() {
         <div className="space-y-12 md:space-y-16">
           <FloatingSection delay={0.2}>
             <GlassPanel>
-              <h3 className="text-white text-2xl md:text-3xl font-medium mb-6">
+              <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-6">
                 평가 대상 시설
               </h3>
-              <p className="text-white/80 text-lg mb-6 font-light">
+              <p className="text-white/80 text-sm sm:text-base md:text-lg mb-6 font-light leading-normal">
                 다음과 같은 시설은 모두 안전성평가 대상입니다:
               </p>
               <ul className="space-y-3">
@@ -81,7 +81,7 @@ export function TargetSection() {
 
           <FloatingSection delay={0.3}>
             <GlassPanel>
-              <h3 className="text-white text-2xl md:text-3xl font-medium mb-6">
+              <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-6">
                 유사 놀이기구 분류
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -98,7 +98,7 @@ export function TargetSection() {
           </FloatingSection>
 
           <FloatingSection delay={0.4}>
-            <h3 className="text-white text-2xl md:text-3xl font-medium mb-8 text-center">
+            <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-8 text-center">
               주요 위험유형 (핵심 사례 중심)
             </h3>
             <div className="grid md:grid-cols-2 gap-6">

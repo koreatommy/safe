@@ -78,7 +78,7 @@ export function CTASection() {
     <section id="cta" className="relative pt-8 md:pt-12 pb-20 md:pb-32 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         <FloatingSection>
-          <h2 className="text-white text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl md:text-6xl font-light mb-8 md:mb-16 text-center leading-tight md:leading-normal">
             수료생 <span className="text-[#00ff88]">교육소감</span>
           </h2>
         </FloatingSection>
@@ -119,7 +119,7 @@ export function CTASection() {
                       <div className="flex gap-1">
                         {renderStars(testimonials[currentIndex].rating)}
                       </div>
-                      <p className="text-white/90 text-lg md:text-xl lg:text-2xl font-light leading-relaxed max-w-4xl">
+                      <p className="text-white/90 text-sm sm:text-base md:text-xl lg:text-2xl font-light leading-normal md:leading-relaxed max-w-4xl">
                         "{testimonials[currentIndex].content}"
                       </p>
                       <div className="pt-4">

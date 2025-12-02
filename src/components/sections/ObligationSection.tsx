@@ -41,7 +41,7 @@ export function ObligationSection() {
     <section id="obligation" className="relative py-20 md:py-32 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         <FloatingSection>
-          <h2 className="text-white text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl md:text-6xl font-light mb-8 md:mb-16 text-center leading-tight md:leading-normal">
             관리 주체(사업주)의 <span className="text-[#00ff88]">의무</span> 및 권고사항
           </h2>
         </FloatingSection>

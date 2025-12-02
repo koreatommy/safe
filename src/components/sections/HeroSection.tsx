@@ -21,18 +21,18 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h1 className="text-white font-light mb-6 md:mb-8 leading-[1.2] tracking-tight">
-                <span className="block text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-2">
+              <h1 className="text-white font-light mb-4 md:mb-8 leading-[1.25] md:leading-[1.2] tracking-tight">
+                <span className="block text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl mb-1.5 md:mb-2">
                   보이지 않는 위험까지 관리
                 </span>
-                <span className="block text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-2">
+                <span className="block text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl mb-1.5 md:mb-2">
                   하는 새로운 안전 기준,
                 </span>
-                <span className="block text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium text-[#00ff88]">
+                <span className="block text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-medium text-[#00ff88]">
                   신종놀이시설 안전성평가
                 </span>
               </h1>
-              <p className="text-white/90 text-xl md:text-2xl lg:text-3xl font-light leading-relaxed">
+              <p className="text-white/90 text-base sm:text-lg md:text-2xl lg:text-3xl font-light leading-normal md:leading-relaxed">
                 아이들이 자유롭게 놀 수 있는 공간, 이제 더 <span className="text-[#00ff88] font-medium">안전하게</span> 관리해야 합니다.
               </p>
             </motion.div>
@@ -46,11 +46,11 @@ export function HeroSection() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="space-y-6"
             >
-              <p className="text-white/85 text-lg md:text-xl lg:text-2xl leading-relaxed font-light">
+              <p className="text-white/85 text-sm sm:text-base md:text-xl lg:text-2xl leading-normal md:leading-relaxed font-light">
                 급증하는 <strong className="font-medium text-[#00ff88]">무인키즈풀·무인키즈카페·키즈펜션</strong> 등 신종 어린이 놀이공간은 기존 법령의 관리 대상이 아니어서{" "}
                 <strong className="font-medium text-[#00ff88]">안전 사각지대</strong>가 되고 있습니다.
               </p>
-              <p className="text-white/85 text-lg md:text-xl lg:text-2xl leading-relaxed font-light">
+              <p className="text-white/85 text-sm sm:text-base md:text-xl lg:text-2xl leading-normal md:leading-relaxed font-light">
                 이를 해결하기 위해 정부는 <strong className="font-medium text-[#00ff88]">신종놀이시설 안전성평가 제도</strong>를 도입하여, 다양한 형태의 놀이공간에서 발생할 수 있는{" "}
                 <strong className="font-medium text-[#00ff88]">환경·관리·이용자 행동 기반 위험요소까지 포괄적으로 관리</strong>할 수 있도록 지원합니다.
               </p>

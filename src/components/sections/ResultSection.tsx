@@ -28,14 +28,14 @@ export function ResultSection() {
     <section id="result" className="relative py-20 md:py-32 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         <FloatingSection>
-          <h2 className="text-white text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl md:text-6xl font-light mb-8 md:mb-16 text-center leading-tight md:leading-normal">
             평가 <span className="text-[#00ff88]">결과 활용</span>
           </h2>
         </FloatingSection>
 
         <FloatingSection delay={0.2}>
           <GlassPanel className="mb-8">
-            <p className="text-white/90 text-lg md:text-xl font-light text-center">
+            <p className="text-white/90 text-sm sm:text-base md:text-xl font-light text-center leading-normal md:leading-relaxed">
               안전성평가 결과는 <strong className="font-medium text-[#00ff88]">어린이놀이시설 안전관리시스템</strong>에 등록
             </p>
           </GlassPanel>
