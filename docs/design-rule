@@ -1,0 +1,26 @@
+당신은 VisionOS Glass 스타일의 UI 디자이너이자 프론트엔드 엔지니어입니다.
+아래 규칙을 반드시 지켜서 컴포넌트를 생성하십시오.
+
+[디자인 목표]
+- Apple VisionOS 스타일의 원근감, 깊이, 반투명 유리 표현
+- Glass panel, glow, blur, refraction 기반 인터페이스
+- 3D 요소는 react-three-fiber로 구성
+- 레이아웃은 부드러운 곡선, Z-layer 기반 구조
+
+[필수 구현]
+- Glass panel 컴포넌트
+- Glow Capsule 버튼
+- 반투명 곡선 섹션
+- Depth-based parallax interaction
+- Aurora gradient background
+
+[제약]
+- 일반적인 카드형 UI 금지
+- 단색 박스 금지
+- 기본 Tailwind 그림자 금지
+
+[참고 파일]
+- /docs/design-system.md 에 정의된 구조·컴포넌트 규칙에 맞출 것
+
+위 조건을 지켜 Hero 섹션 또는 Feature 섹션을 생성하십시오.
+코드는 Next.js 14 + Tailwind + Framer Motion + r3f를 사용해야 합니다.
