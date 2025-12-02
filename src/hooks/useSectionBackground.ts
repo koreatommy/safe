@@ -18,6 +18,30 @@ export function useSectionBackground() {
   const [currentSection, setCurrentSection] = useState<string>("hero");
 
   useEffect(() => {
+    const updateBackgroundImage = () => {
+      if (typeof document === "undefined") return;
+      
+      const educationSection = document.getElementById("education");
+      if (educationSection) {
+        const educationTop = educationSection.offsetTop;
+        const scrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        
+        // 교육 섹션에 도달했는지 확인 (뷰포트 중앙이 교육 섹션에 도달하면)
+        const hasReachedEducation = scrollY + viewportHeight / 2 >= educationTop;
+        
+        if (hasReachedEducation) {
+          // 3232.jpg로 전환 (첫 번째 이미지 fade out, 두 번째 이미지 fade in)
+          document.documentElement.style.setProperty("--bg-opacity-1", "0");
+          document.documentElement.style.setProperty("--bg-opacity-2", "1");
+        } else {
+          // 578.jpg로 유지 (첫 번째 이미지 fade in, 두 번째 이미지 fade out)
+          document.documentElement.style.setProperty("--bg-opacity-1", "1");
+          document.documentElement.style.setProperty("--bg-opacity-2", "0");
+        }
+      }
+    };
+
     const updateBackground = () => {
       const sections = document.querySelectorAll("section[id]");
       const viewportHeight = window.innerHeight;
@@ -56,6 +80,9 @@ export function useSectionBackground() {
       if (activeSection !== currentSection) {
         setCurrentSection(activeSection);
       }
+      
+      // 배경 이미지 업데이트
+      updateBackgroundImage();
     };
 
     // 초기 설정

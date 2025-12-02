@@ -147,11 +147,7 @@
 }
 
 html {
-  background-image: url('/578.jpg');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
   scroll-behavior: smooth;
 }
 
@@ -162,7 +158,44 @@ html::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* 어두운 오버레이 */
+  background-image: url('/578.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  pointer-events: none;
+  opacity: var(--bg-opacity-1, 1);
+  transition: opacity 1.5s ease-in-out;
+}
+
+html::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/3232.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  pointer-events: none;
+  opacity: var(--bg-opacity-2, 0);
+  transition: opacity 1.5s ease-in-out;
+}
+
+/* 오버레이를 별도 요소로 추가 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: -1;
   pointer-events: none;
 }
