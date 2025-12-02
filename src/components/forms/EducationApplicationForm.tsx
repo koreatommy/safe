@@ -4,6 +4,8 @@ import { useState } from "react";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { motion } from "framer-motion";
 import { User, Mail, Phone, Building2, Send } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import confetti from "canvas-confetti";
 
 export function EducationApplicationForm() {
   const [formData, setFormData] = useState({
@@ -62,9 +64,66 @@ export function EducationApplicationForm() {
 
     setIsSubmitting(true);
     
-    // 실제 제출 로직은 여기에 구현
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+    try {
+      const { data, error } = await supabase
+        .from('safe_education_applications')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            affiliation: formData.affiliation,
+          }
+        ])
+        .select();
+
+      if (error) {
+        console.error('Supabase 저장 오류:', error);
+        setErrors({ submit: '신청 저장 중 오류가 발생했습니다. 다시 시도해주세요.' });
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('저장된 데이터:', data);
+      
+      // 폭죽 효과
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min: number, max: number) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval: NodeJS.Timeout = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        });
+      }, 250);
+
+      // 중앙에서 폭발하는 효과
+      confetti({
+        ...defaults,
+        particleCount: 100,
+        origin: { x: 0.5, y: 0.5 },
+        colors: ['#00ff88', '#39ff14', '#ffffff', '#b7d7ff', '#c4f2ff']
+      });
+      
     setIsSubmitting(false);
     setIsSubmitted(true);
     
@@ -73,6 +132,11 @@ export function EducationApplicationForm() {
       setIsSubmitted(false);
       setFormData({ name: "", email: "", phone: "", affiliation: "" });
     }, 3000);
+    } catch (error) {
+      console.error('예상치 못한 오류:', error);
+      setErrors({ submit: '신청 저장 중 오류가 발생했습니다. 다시 시도해주세요.' });
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -190,6 +254,11 @@ export function EducationApplicationForm() {
           )}
         </div>
       </div>
+
+      {/* 제출 에러 메시지 */}
+      {errors.submit && (
+        <div className="text-red-400 text-sm text-center">{errors.submit}</div>
+      )}
 
       {/* 제출 버튼 */}
       <div className="pt-4">

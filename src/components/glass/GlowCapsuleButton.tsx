@@ -11,6 +11,7 @@ interface GlowCapsuleButtonProps {
   className?: string;
   variant?: "primary" | "secondary";
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
 export function GlowCapsuleButton({
@@ -20,22 +21,25 @@ export function GlowCapsuleButton({
   className,
   variant = "primary",
   type = "button",
+  disabled = false,
 }: GlowCapsuleButtonProps) {
   const baseClasses = cn(
     "relative px-8 py-4 rounded-full",
     "backdrop-filter backdrop-blur-md",
     "transition-all duration-300",
     "font-medium text-base md:text-lg",
-    variant === "primary"
+    disabled
+      ? "opacity-50 cursor-not-allowed"
+      : variant === "primary"
       ? "bg-white/10 text-white hover:bg-white/15 border border-[#00ff88]/50 hover:border-[#00ff88]"
       : "bg-transparent text-white/90 hover:text-white border border-white/30 hover:border-[#00ff88]/50",
-    "hover:shadow-[0_0_30px_rgba(0,255,136,0.5)]",
+    !disabled && "hover:shadow-[0_0_30px_rgba(0,255,136,0.5)]",
     className
   );
 
   const motionProps = {
-    whileHover: { scale: 1.05 },
-    whileTap: { scale: 0.98 },
+    whileHover: disabled ? {} : { scale: 1.05 },
+    whileTap: disabled ? {} : { scale: 0.98 },
     className: baseClasses,
   };
 
@@ -59,9 +63,9 @@ export function GlowCapsuleButton({
   }
 
   return (
-    <motion.button {...motionProps} type={type} onClick={onClick}>
+    <motion.button {...motionProps} type={type} onClick={onClick} disabled={disabled}>
       <span className="relative z-10">{children}</span>
-      {glowEffect}
+      {!disabled && glowEffect}
     </motion.button>
   );
 }
