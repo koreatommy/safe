@@ -9,6 +9,8 @@ import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { ApplicationsTable } from "@/components/admin/ApplicationsTable";
 import { isAuthenticated, logout } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminPage() {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);

@@ -8,6 +8,8 @@ import { GlassPanel } from "@/components/glass/GlassPanel";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { login, isAuthenticated } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
