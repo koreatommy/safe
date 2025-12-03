@@ -13,6 +13,7 @@ export function EducationApplicationForm() {
     email: "",
     phone: "",
     affiliation: "",
+    privacyAgreed: false,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -20,8 +21,11 @@ export function EducationApplicationForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
+    }));
     // 에러 초기화
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -49,6 +53,10 @@ export function EducationApplicationForm() {
 
     if (!formData.affiliation.trim()) {
       newErrors.affiliation = "소속을 입력해주세요.";
+    }
+
+    if (!formData.privacyAgreed) {
+      newErrors.privacyAgreed = "개인정보 수집·이용에 동의해주세요.";
     }
 
     setErrors(newErrors);
@@ -130,7 +138,7 @@ export function EducationApplicationForm() {
     // 3초 후 폼 초기화
     setTimeout(() => {
       setIsSubmitted(false);
-      setFormData({ name: "", email: "", phone: "", affiliation: "" });
+      setFormData({ name: "", email: "", phone: "", affiliation: "", privacyAgreed: false });
     }, 3000);
     } catch (error) {
       console.error('예상치 못한 오류:', error);
@@ -260,8 +268,28 @@ export function EducationApplicationForm() {
         <div className="text-red-400 text-sm text-center">{errors.submit}</div>
       )}
 
-      {/* 제출 버튼 */}
-      <div className="pt-4">
+      {/* 개인정보 동의 및 제출 버튼 */}
+      <div className="pt-4 space-y-4 flex flex-col items-center">
+        <div className="flex items-start gap-3 justify-center">
+          <input
+            type="checkbox"
+            id="privacyAgreed"
+            name="privacyAgreed"
+            checked={formData.privacyAgreed}
+            onChange={handleChange}
+            className="mt-1 w-5 h-5 rounded border-white/20 bg-white/5 text-[#00ff88] focus:ring-[#00ff88] focus:ring-offset-0 cursor-pointer"
+          />
+          <label
+            htmlFor="privacyAgreed"
+            className="text-white/80 text-sm cursor-pointer"
+          >
+            <span className="text-[#00ff88]">*</span> 개인정보 수집·이용 동의서에 동의합니다.
+          </label>
+        </div>
+        {errors.privacyAgreed && (
+          <p className="text-red-400 text-sm text-center">{errors.privacyAgreed}</p>
+        )}
+        
         <GlowCapsuleButton
           type="submit"
           className="w-full md:w-auto text-lg md:text-xl px-10 md:px-12 py-4 md:py-5 group"
