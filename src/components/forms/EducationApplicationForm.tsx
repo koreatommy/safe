@@ -87,7 +87,28 @@ export function EducationApplicationForm() {
 
       if (error) {
         console.error('Supabase 저장 오류:', error);
-        setErrors({ submit: '신청 저장 중 오류가 발생했습니다. 다시 시도해주세요.' });
+        console.error('에러 상세:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        
+        let errorMessage = '신청 저장 중 오류가 발생했습니다. 다시 시도해주세요.';
+        
+        // 환경 변수 관련 에러 체크
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+        
+        if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('placeholder')) {
+          errorMessage = '서버 설정 오류가 발생했습니다. 관리자에게 문의해주세요.';
+        } else if (error.message?.includes('JWT') || error.code === 'PGRST301') {
+          errorMessage = '인증 오류가 발생했습니다. 페이지를 새로고침 후 다시 시도해주세요.';
+        } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
+          errorMessage = '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.';
+        }
+        
+        setErrors({ submit: errorMessage });
         setIsSubmitting(false);
         return;
       }
