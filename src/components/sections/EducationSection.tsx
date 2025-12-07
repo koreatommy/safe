@@ -92,9 +92,14 @@ export function EducationSection() {
               <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-6">
                 교육 일정
               </h3>
-              <p className="text-white/80 mb-6 font-light text-sm sm:text-base md:text-lg">
-                일자: 09:30 ~ 17:50 (총 1일 과정)
-              </p>
+              <div className="mb-6 space-y-2">
+                <p className="text-white/80 font-light text-sm sm:text-base md:text-lg">
+                  일자: 09:30 ~ 17:50 (총 1일 과정)
+                </p>
+                <p className="text-white/80 font-light text-sm sm:text-base md:text-lg">
+                  교육장소: 노원구청 5층 소회의실
+                </p>
+              </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -192,6 +197,10 @@ export function EducationSection() {
                   놀이시설 안전성평가 교육에 참여를 원하시는 분은 아래 버튼을 통해 신청서를 제출해 주십시오.
                   <br />
                   <span className="text-white/70 text-xs sm:text-sm md:text-base">(최초 교육 후 매년 1회 보수교육 실시)</span>
+                  <br />
+                  <span className="text-[#00ff88] text-xs sm:text-sm md:text-base underline decoration-[#00ff88] decoration-2 underline-offset-2">
+                    본 교육은 한국안전기술점검원과 함께합니다
+                  </span>
                 </p>
               </div>
 
