@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
-import { motion } from "framer-motion";
-import { User, Mail, Phone, Building2, Send } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { User, Mail, Phone, Building2, Send, ChevronDown, Shield, FileText, Clock, Users, Database, AlertCircle, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import confetti from "canvas-confetti";
 
@@ -19,6 +19,8 @@ export function EducationApplicationForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isPrivacyExpanded, setIsPrivacyExpanded] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<number[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -290,54 +292,290 @@ export function EducationApplicationForm() {
       )}
 
       {/* 개인정보 동의 및 제출 버튼 */}
-      <div className="pt-4 space-y-4 flex flex-col items-center">
-        <div className="flex items-start gap-3 justify-center">
-          <input
-            type="checkbox"
-            id="privacyAgreed"
-            name="privacyAgreed"
-            checked={formData.privacyAgreed}
-            onChange={handleChange}
-            className="mt-1 w-5 h-5 rounded border-white/20 bg-white/5 text-[#00ff88] focus:ring-[#00ff88] focus:ring-offset-0 cursor-pointer"
-          />
-          <label
-            htmlFor="privacyAgreed"
-            className="text-white/80 text-sm cursor-pointer"
-          >
-            <span className="text-[#00ff88]">*</span> 개인정보 수집·이용 동의서에 동의합니다.
-          </label>
-        </div>
-        {errors.privacyAgreed && (
-          <p className="text-red-400 text-sm text-center">{errors.privacyAgreed}</p>
-        )}
-        
-        <GlowCapsuleButton
-          type="submit"
-          className="w-full md:w-auto text-lg md:text-xl px-10 md:px-12 py-4 md:py-5 group"
-          onClick={(e) => {
-            // 버튼 클릭 시 폼 제출
-          }}
-        >
-          <span className="flex items-center justify-center gap-2">
-            {isSubmitting ? (
-              <>
+      <div className="pt-4 space-y-4">
+        {/* 체크박스와 자세히 보기 */}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-start gap-3 justify-center">
+            <input
+              type="checkbox"
+              id="privacyAgreed"
+              name="privacyAgreed"
+              checked={formData.privacyAgreed}
+              onChange={handleChange}
+              className="mt-1 w-5 h-5 rounded border-white/20 bg-white/5 text-[#00ff88] focus:ring-[#00ff88] focus:ring-offset-0 cursor-pointer"
+            />
+            <div className="flex-1">
+              <label
+                htmlFor="privacyAgreed"
+                className="text-white/80 text-sm cursor-pointer"
+              >
+                <span className="text-[#00ff88]">*</span> 개인정보 수집·이용 동의서에 동의합니다.
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsPrivacyExpanded(!isPrivacyExpanded)}
+                className="mt-1 text-xs text-[#00ff88] hover:text-white transition-colors flex items-center gap-1"
+              >
+                {isPrivacyExpanded ? "접기" : "자세히 보기"}
                 <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                  animate={{ rotate: isPrivacyExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-3 h-3" />
+                </motion.div>
+              </button>
+            </div>
+          </div>
+          
+          {errors.privacyAgreed && (
+            <p className="text-red-400 text-sm text-center">{errors.privacyAgreed}</p>
+          )}
+        </div>
+
+        {/* 인라인 확장 동의서 내용 */}
+        <AnimatePresence>
+          {isPrivacyExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="glass-panel p-4 md:p-6 rounded-xl border border-white/10 max-h-[60vh] overflow-y-auto space-y-3">
+                {/* 헤더 */}
+                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
+                  <div className="w-8 h-8 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
+                    <Shield className="w-4 h-4 text-[#00ff88]" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white">개인정보 수집·이용 동의서</h3>
+                    <p className="text-xs text-white/60">한국창의융합연구원</p>
+                  </div>
+                </div>
+
+                <p className="text-xs text-white/70 leading-relaxed mb-4">
+                  「개인정보 보호법」에 따라 교육 신청 및 운영을 위한 최소한의 개인정보를 수집합니다.
+                </p>
+
+                {/* 동의서 내용 */}
+                <PrivacyContent 
+                  expandedSections={expandedSections}
+                  setExpandedSections={setExpandedSections}
                 />
-                제출 중...
-              </>
-            ) : (
-              <>
-                지금 바로 신청하기
-                <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </>
-            )}
-          </span>
-        </GlowCapsuleButton>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        <div className="flex justify-center">
+          <GlowCapsuleButton
+            type="submit"
+            className="w-full md:w-auto text-lg md:text-xl px-10 md:px-12 py-4 md:py-5 group"
+            onClick={(e) => {
+              // 버튼 클릭 시 폼 제출
+            }}
+          >
+            <span className="flex items-center justify-center gap-2">
+              {isSubmitting ? (
+                <>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                  />
+                  제출 중...
+                </>
+              ) : (
+                <>
+                  지금 바로 신청하기
+                  <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
+            </span>
+          </GlowCapsuleButton>
+        </div>
       </div>
     </form>
+  );
+}
+
+// 개인정보 동의서 내용 컴포넌트
+interface PrivacyContentProps {
+  expandedSections: number[];
+  setExpandedSections: React.Dispatch<React.SetStateAction<number[]>>;
+}
+
+function PrivacyContent({ expandedSections, setExpandedSections }: PrivacyContentProps) {
+  const toggleSection = (sectionId: number) => {
+    setExpandedSections(prev =>
+      prev.includes(sectionId)
+        ? prev.filter(id => id !== sectionId)
+        : [...prev, sectionId]
+    );
+  };
+
+  return (
+    <div className="space-y-2">
+      {/* 섹션 1 */}
+      <AccordionSection
+        id={1}
+        icon={<FileText className="w-3.5 h-3.5" />}
+        title="수집·이용 목적"
+        isExpanded={expandedSections.includes(1)}
+        onToggle={() => toggleSection(1)}
+      >
+        <ul className="space-y-1.5 text-xs text-white/70">
+          <li className="flex gap-2"><span className="text-[#00ff88]">•</span> 교육 신청 접수 및 본인 확인</li>
+          <li className="flex gap-2"><span className="text-[#00ff88]">•</span> 교육 일정 안내, 운영관리, 참여 확인</li>
+          <li className="flex gap-2"><span className="text-[#00ff88]">•</span> 교육 관련 공지사항 전달 및 사후 안내</li>
+          <li className="flex gap-2"><span className="text-[#00ff88]">•</span> 교육 품질 향상 및 내부 서비스 개선(통계 목적)</li>
+        </ul>
+      </AccordionSection>
+
+      {/* 섹션 2 */}
+      <AccordionSection
+        id={2}
+        icon={<Database className="w-3.5 h-3.5" />}
+        title="수집하는 개인정보 항목"
+        badge="필수"
+        isExpanded={expandedSections.includes(2)}
+        onToggle={() => toggleSection(2)}
+      >
+        <div className="space-y-3">
+          <div className="p-2.5 rounded-lg bg-[#00ff88]/5 border border-[#00ff88]/20">
+            <p className="text-xs font-semibold text-[#00ff88] mb-2 flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3" />
+              필수항목
+            </p>
+            <div className="flex flex-wrap gap-1.5 text-xs text-white/80">
+              <span className="px-2 py-1 rounded bg-white/5">성명</span>
+              <span className="px-2 py-1 rounded bg-white/5">연락처</span>
+              <span className="px-2 py-1 rounded bg-white/5">이메일</span>
+              <span className="px-2 py-1 rounded bg-white/5">소속</span>
+              <span className="px-2 py-1 rounded bg-white/5">신청 프로그램</span>
+            </div>
+          </div>
+        </div>
+      </AccordionSection>
+
+      {/* 섹션 3 */}
+      <AccordionSection
+        id={3}
+        icon={<Clock className="w-3.5 h-3.5" />}
+        title="보유 및 이용 기간"
+        isExpanded={expandedSections.includes(3)}
+        onToggle={() => toggleSection(3)}
+      >
+        <ul className="space-y-1.5 text-xs text-white/70">
+          <li className="flex gap-2">
+            <Clock className="w-3 h-3 text-[#00ff88] mt-0.5 flex-shrink-0" />
+            <span>교육 종료일로부터 <span className="text-[#00ff88] font-semibold">3년간 보관</span> 후 즉시 파기</span>
+          </li>
+          <li className="flex gap-2"><span className="text-[#00ff88]">•</span> 관계 법령에 따라 보존이 필요한 경우 해당 법령에서 정한 기간 동안 보관</li>
+        </ul>
+      </AccordionSection>
+
+      {/* 섹션 4 */}
+      <AccordionSection
+        id={4}
+        icon={<Users className="w-3.5 h-3.5" />}
+        title="제3자 제공 (해당 시)"
+        isExpanded={expandedSections.includes(4)}
+        onToggle={() => toggleSection(4)}
+      >
+        <div className="space-y-2 text-xs text-white/70">
+          <p>교육 운영에 필요한 범위 내에서 아래 기관에 개인정보를 제공할 수 있습니다.</p>
+          <div className="space-y-1.5">
+            <div className="flex gap-2"><span className="text-[#00ff88] font-medium">제공받는 자:</span> <span>교육 관련 행정기관, 지자체 또는 협력 교육기관</span></div>
+            <div className="flex gap-2"><span className="text-[#00ff88] font-medium">제공 목적:</span> <span>교육 실적 제출, 운영 협조, 행정업무 처리</span></div>
+            <div className="flex gap-2"><span className="text-[#00ff88] font-medium">제공 항목:</span> <span>성명, 연락처, 소속, 참여 여부</span></div>
+          </div>
+        </div>
+      </AccordionSection>
+
+      {/* 섹션 5 */}
+      <AccordionSection
+        id={5}
+        icon={<AlertCircle className="w-3.5 h-3.5" />}
+        title="동의 거부권"
+        badge="중요"
+        isExpanded={expandedSections.includes(5)}
+        onToggle={() => toggleSection(5)}
+      >
+        <ul className="space-y-1.5 text-xs text-white/70">
+          <li className="flex gap-2"><span className="text-[#00ff88]">•</span> 정보주체는 개인정보 제공에 대해 동의를 거부할 수 있습니다.</li>
+          <li className="flex gap-2">
+            <AlertCircle className="w-3 h-3 text-amber-400 mt-0.5 flex-shrink-0" />
+            <span>다만, <span className="text-amber-300 font-semibold">필수항목에 대한 동의가 없을 경우</span> 교육 신청 접수 및 참여가 제한될 수 있습니다.</span>
+          </li>
+        </ul>
+      </AccordionSection>
+    </div>
+  );
+}
+
+// 아코디언 섹션 컴포넌트
+interface AccordionSectionProps {
+  id: number;
+  icon: React.ReactNode;
+  title: string;
+  badge?: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}
+
+function AccordionSection({
+  icon,
+  title,
+  badge,
+  isExpanded,
+  onToggle,
+  children,
+}: AccordionSectionProps) {
+  return (
+    <div className="rounded-lg border border-white/10 overflow-hidden glass-panel">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full p-2.5 flex items-center justify-between hover:bg-white/5 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-lg bg-[#00ff88]/10 flex items-center justify-center text-[#00ff88]">
+            {icon}
+          </div>
+          <span className="text-xs font-semibold text-white">{title}</span>
+          {badge && (
+            <span className="px-1.5 py-0.5 rounded-full bg-[#00ff88]/20 text-[#00ff88] text-xs font-medium">
+              {badge}
+            </span>
+          )}
+        </div>
+        <motion.div
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown className="w-3.5 h-3.5 text-white/60" />
+        </motion.div>
+      </button>
+      
+      <AnimatePresence initial={false}>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="p-2.5 pt-0 border-t border-white/5">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 

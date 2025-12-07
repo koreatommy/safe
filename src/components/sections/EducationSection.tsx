@@ -4,7 +4,7 @@ import { GlassPanel } from "@/components/glass/GlassPanel";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { FloatingSection } from "@/components/glass/FloatingSection";
 import { EducationApplicationForm } from "@/components/forms/EducationApplicationForm";
-import { CheckCircle2, BookOpen, Users, FileCheck, Award, Clock, UserCheck, Gift, ArrowRight } from "lucide-react";
+import { CheckCircle2, BookOpen, Book, Users, FileCheck, Award, Clock, UserCheck, Gift, ArrowRight, CreditCard, Wallet, Globe, Database } from "lucide-react";
 import { motion } from "framer-motion";
 
 const schedule = [
@@ -53,8 +53,9 @@ const targets = [
 const benefits = [
   { icon: Award, text: "교육 수료증 발급", color: "text-[#00ff88]" },
   { icon: FileCheck, text: "최신 안전성평가 체크리스트 제공", color: "text-[#00ff88]" },
+  { icon: Book, text: "안전성평가 교재 제공", color: "text-[#00ff88]" },
   { icon: BookOpen, text: "평가 준비 가이드 문서 지원", color: "text-[#00ff88]" },
-  { icon: Users, text: "전문 강사(이유진·배송수) 현장 질의응답", color: "text-[#00ff88]" },
+  { icon: Globe, text: "교육 수료생 대상 전국 어린이놀이시설 실시간 정보 서비스 100 token 제공 예정(2026. 03)", color: "text-[#00ff88]" },
 ];
 
 const applicationMethods = [
@@ -189,6 +190,8 @@ export function EducationSection() {
                 </h3>
                 <p className="text-white/80 text-sm sm:text-base md:text-xl font-light max-w-2xl mx-auto leading-normal md:leading-relaxed">
                   놀이시설 안전성평가 교육에 참여를 원하시는 분은 아래 버튼을 통해 신청서를 제출해 주십시오.
+                  <br />
+                  <span className="text-white/70 text-xs sm:text-sm md:text-base">(최초 교육 후 매년 1회 보수교육 실시)</span>
                 </p>
               </div>
 
@@ -261,7 +264,7 @@ export function EducationSection() {
                     </div>
                     <h4 className="text-white text-xl font-medium">신청 방식</h4>
                   </div>
-                  <ul className="space-y-3">
+                  <ul className="space-y-3 mb-4">
                     {applicationMethods.map((method, index) => {
                       const Icon = method.icon;
                       return (
@@ -272,6 +275,22 @@ export function EducationSection() {
                       );
                     })}
                   </ul>
+                  
+                  {/* 교육비 입금 정보 */}
+                  <div className="pt-4 mt-4 border-t border-white/10">
+                    <div className="flex items-start gap-2 mb-2">
+                      <Wallet className="w-4 h-4 text-[#00ff88] mt-1 flex-shrink-0" />
+                      <div className="flex-1">
+                        <p className="text-white/90 font-medium text-sm md:text-base mb-2">
+                          교육비: <span className="text-[#00ff88] font-semibold">25만원</span>
+                        </p>
+                        <div className="text-white/80 text-xs md:text-sm space-y-1 font-light">
+                          <p>입금 계좌: <span className="text-white/90 font-medium">우리은행 우리 1005-604-799256</span></p>
+                          <p>예금주: 한국창의융합연구원</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               </div>
 
