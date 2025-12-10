@@ -7,6 +7,18 @@ import { motion } from "framer-motion";
 export function HeroSection() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 py-20 md:py-32 pt-32 md:pt-40">
+      {/* 배경 동영상 */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+      >
+        <source src="/3.mp4" type="video/mp4" />
+      </video>
+      {/* 동영상 오버레이 - 가독성 향상 */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 via-black/30 to-black/50 z-[1]" />
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
