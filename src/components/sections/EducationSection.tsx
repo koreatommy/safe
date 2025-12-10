@@ -97,7 +97,10 @@ export function EducationSection() {
                   일자: 09:30 ~ 17:50 (총 1일 과정)
                 </p>
                 <p className="text-white/80 font-light text-sm sm:text-base md:text-lg">
-                  교육장소: 노원구청 5층 소회의실
+                  교육장소: 노원평생교육원 402호(노원구청 맞은편)
+                </p>
+                <p className="text-white/80 font-light text-sm sm:text-base md:text-lg">
+                  [01689] 서울시 노원구 노해로 437(상계동)
                 </p>
               </div>
               <div className="overflow-x-auto">
@@ -146,6 +149,34 @@ export function EducationSection() {
                     })}
                   </tbody>
                 </table>
+              </div>
+            </GlassPanel>
+          </FloatingSection>
+
+          <FloatingSection delay={0.35}>
+            <GlassPanel className="p-8 md:p-12">
+              <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-medium mb-6">
+                찾아오는 길
+              </h3>
+              <div className="mb-6 space-y-2">
+                <p className="text-white/80 font-light text-sm sm:text-base md:text-lg">
+                  노원평생교육원 402호(노원구청 맞은편)
+                </p>
+                <p className="text-white/80 font-light text-sm sm:text-base md:text-lg">
+                  [01689] 서울시 노원구 노해로 437(상계동)
+                </p>
+              </div>
+              <div className="rounded-xl overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps?q=서울시+노원구+노해로+437&output=embed"
+                  width="100%"
+                  height="400"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="md:h-[500px]"
+                />
               </div>
             </GlassPanel>
           </FloatingSection>
