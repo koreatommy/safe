@@ -10,6 +10,7 @@ import { ResultSection } from "@/components/sections/ResultSection";
 import { EducationSection } from "@/components/sections/EducationSection";
 import { InfoGraphicSection } from "@/components/sections/InfoGraphicSection";
 import { CTASection } from "@/components/sections/CTASection";
+import { ContactSection } from "@/components/sections/ContactSection";
 import { Footer } from "@/components/footer/Footer";
 import { TopNavigation } from "@/components/navigation/TopNavigation";
 import { CertificateLookupModal } from "@/components/modals/CertificateLookupModal";
@@ -31,6 +32,7 @@ export default function Home() {
       <EducationSection />
       <InfoGraphicSection />
       <CTASection />
+      <ContactSection />
       <Footer />
       <CertificateLookupModal
         isOpen={isCertificateModalOpen}
