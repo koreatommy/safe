@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, Building2, Calendar, CheckCircle, XCircle, Clock, Trash2, Edit2, MessageSquare, Save, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -282,9 +282,8 @@ export function InquiriesTable() {
             </thead>
             <tbody>
               {inquiries.map((inquiry) => (
-                <>
+                <Fragment key={inquiry.id}>
                   <tr 
-                    key={inquiry.id}
                     className="border-b border-white/5 hover:bg-white/5 transition-colors"
                   >
                     <td className="py-4 px-4 text-white/90" style={{ fontSize: '0.875rem' }}>
@@ -358,7 +357,7 @@ export function InquiriesTable() {
                   </tr>
                   {/* 문의사항 상세 확장 */}
                   {expandedInquiryId === inquiry.id && (
-                    <tr key={`${inquiry.id}-detail`} className="border-b border-white/5">
+                    <tr className="border-b border-white/5">
                       <td colSpan={8} className="py-4 px-4 bg-white/5">
                         <div className="space-y-4">
                           <div>
@@ -422,7 +421,7 @@ export function InquiriesTable() {
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               ))}
             </tbody>
           </table>
