@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { WhySection } from "@/components/sections/WhySection";
 import { TargetSection } from "@/components/sections/TargetSection";
@@ -11,14 +12,16 @@ import { InfoGraphicSection } from "@/components/sections/InfoGraphicSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Footer } from "@/components/footer/Footer";
 import { TopNavigation } from "@/components/navigation/TopNavigation";
+import { CertificateLookupModal } from "@/components/modals/CertificateLookupModal";
 import { useSectionBackground } from "@/hooks/useSectionBackground";
 
 export default function Home() {
   useSectionBackground();
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
 
   return (
     <main className="relative">
-      <TopNavigation />
+      <TopNavigation onCertificateClick={() => setIsCertificateModalOpen(true)} />
       <HeroSection />
       <WhySection />
       <TargetSection />
@@ -29,6 +32,10 @@ export default function Home() {
       <InfoGraphicSection />
       <CTASection />
       <Footer />
+      <CertificateLookupModal
+        isOpen={isCertificateModalOpen}
+        onClose={() => setIsCertificateModalOpen(false)}
+      />
     </main>
   );
 }

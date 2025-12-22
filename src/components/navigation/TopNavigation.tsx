@@ -12,10 +12,15 @@ const menuItems = [
   { id: "obligation", label: "의무 사항" },
   { id: "result", label: "결과 활용" },
   { id: "education", label: "교육 신청" },
+  { id: "certificate", label: "수료증발급", isModal: true },
   { id: "cta", label: "문의하기" },
 ];
 
-export function TopNavigation() {
+interface TopNavigationProps {
+  onCertificateClick?: () => void;
+}
+
+export function TopNavigation({ onCertificateClick }: TopNavigationProps) {
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -73,8 +78,14 @@ export function TopNavigation() {
     };
   }, []);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, isModal?: boolean) => {
     e.preventDefault();
+    
+    if (isModal && id === "certificate" && onCertificateClick) {
+      onCertificateClick();
+      return;
+    }
+    
     const element = document.getElementById(id);
     if (element) {
       const offsetTop = element.offsetTop - 80; // 네비게이션 높이만큼 오프셋
@@ -94,14 +105,14 @@ export function TopNavigation() {
           </div>
           <div className="hidden md:flex items-center gap-1 lg:gap-2">
             {menuItems.map((item) => {
-              const isActive = activeSection === item.id;
+              const isActive = activeSection === item.id && !item.isModal;
               return (
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  onClick={(e) => handleClick(e, item.id)}
+                  onClick={(e) => handleClick(e, item.id, item.isModal)}
                   className={cn(
-                    "relative px-3 lg:px-4 py-2 rounded-full text-sm lg:text-base font-light transition-all duration-300",
+                    "relative px-3 lg:px-4 py-2 rounded-full text-sm lg:text-base font-light transition-all duration-300 cursor-pointer",
                     isActive
                       ? "text-[#00ff88]"
                       : "text-white/70 hover:text-[#00ff88]"
@@ -132,10 +143,15 @@ export function TopNavigation() {
               value={activeSection}
               onChange={(e) => {
                 const id = e.target.value;
-                handleClick(
-                  { preventDefault: () => {} } as any,
-                  id
-                );
+                const item = menuItems.find((i) => i.id === id);
+                if (item?.isModal && id === "certificate" && onCertificateClick) {
+                  onCertificateClick();
+                } else {
+                  handleClick(
+                    { preventDefault: () => {} } as any,
+                    id
+                  );
+                }
               }}
               className="glass-panel bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-full appearance-none cursor-pointer"
               style={{

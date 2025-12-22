@@ -5,6 +5,7 @@ import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Mail, Phone, Building2, Send, ChevronDown, Shield, FileText, Clock, Users, Database, AlertCircle, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/utils";
 import confetti from "canvas-confetti";
 
 export function EducationApplicationForm() {
@@ -24,10 +25,21 @@ export function EducationApplicationForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({ 
-      ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
-    }));
+    
+    // 전화번호 필드인 경우 자동 포맷팅
+    if (name === 'phone' && type !== 'checkbox') {
+      const formatted = formatPhoneNumber(value);
+      setFormData((prev) => ({ 
+        ...prev, 
+        [name]: formatted
+      }));
+    } else {
+      setFormData((prev) => ({ 
+        ...prev, 
+        [name]: type === 'checkbox' ? checked : value 
+      }));
+    }
+    
     // 에러 초기화
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -49,8 +61,13 @@ export function EducationApplicationForm() {
 
     if (!formData.phone.trim()) {
       newErrors.phone = "전화번호를 입력해주세요.";
-    } else if (!/^[0-9-]+$/.test(formData.phone)) {
-      newErrors.phone = "올바른 전화번호 형식을 입력해주세요.";
+    } else {
+      const phoneNumbers = normalizePhoneNumber(formData.phone);
+      if (phoneNumbers.length < 10 || phoneNumbers.length > 11) {
+        newErrors.phone = "올바른 전화번호를 입력해주세요. (10-11자리)";
+      } else if (!/^01[0-9]|02/.test(phoneNumbers)) {
+        newErrors.phone = "올바른 전화번호 형식을 입력해주세요.";
+      }
     }
 
     if (!formData.affiliation.trim()) {
@@ -75,13 +92,17 @@ export function EducationApplicationForm() {
     setIsSubmitting(true);
     
     try {
+      // 전화번호를 정규화하여 저장 (하이픈 제거 후 포맷팅)
+      const normalizedPhone = normalizePhoneNumber(formData.phone);
+      const formattedPhone = formatPhoneNumber(normalizedPhone);
+      
       const { data, error } = await supabase
         .from('safe_education_applications')
         .insert([
           {
             name: formData.name,
             email: formData.email,
-            phone: formData.phone,
+            phone: formattedPhone,
             affiliation: formData.affiliation,
           }
         ])

@@ -1,4 +1,4 @@
-const ADMIN_PASSWORD = 'admin123';
+const ADMIN_PASSWORD = 'admin3256';
 const AUTH_KEY = 'admin_auth';
 
 export function login(password: string): boolean {
