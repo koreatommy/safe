@@ -12,7 +12,7 @@ const menuItems = [
   { id: "obligation", label: "의무 사항" },
   { id: "result", label: "결과 활용" },
   { id: "education", label: "교육 신청" },
-  { id: "certificate", label: "수료증발급", isModal: true },
+  { id: "certificate", label: "수료증 조회", isModal: true },
   { id: "cta", label: "문의하기" },
 ];
 

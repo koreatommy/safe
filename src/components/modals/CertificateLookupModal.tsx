@@ -182,10 +182,13 @@ export function CertificateLookupModal({
                         <FileText className="w-5 h-5 text-[#00ff88]" />
                       </div>
                       <div>
-                        <h2 className="text-sm md:text-base font-bold text-white whitespace-nowrap">
+                        <h2 
+                          className="font-bold text-white whitespace-nowrap"
+                          style={{ fontSize: '18px' }}
+                        >
                           수료증 조회
                         </h2>
-                        <p className="text-xs text-white/60 mt-0.5">
+                        <p className="text-white/60 mt-1" style={{ fontSize: '13px' }}>
                           이름과 전화번호로 조회하세요
                         </p>
                       </div>
@@ -210,6 +213,7 @@ export function CertificateLookupModal({
                         <label
                           htmlFor="lookup-name"
                           className="flex items-center gap-2 text-white/90 font-medium mb-2"
+                          style={{ fontSize: '14px' }}
                         >
                           <User className="w-4 h-4 text-[#00ff88]" />
                           이름 <span className="text-[#00ff88]">*</span>
@@ -221,11 +225,12 @@ export function CertificateLookupModal({
                           value={formData.name}
                           onChange={handleChange}
                           className="w-full px-4 py-3 rounded-xl glass-panel border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#00ff88] transition-all"
+                          style={{ fontSize: '15px' }}
                           placeholder="이름을 입력해주세요"
                           disabled={isSearching}
                         />
                         {errors.name && (
-                          <p className="text-red-400 text-sm mt-1">{errors.name}</p>
+                          <p className="text-red-400 mt-1" style={{ fontSize: '13px' }}>{errors.name}</p>
                         )}
                       </div>
 
@@ -234,6 +239,7 @@ export function CertificateLookupModal({
                         <label
                           htmlFor="lookup-phone"
                           className="flex items-center gap-2 text-white/90 font-medium mb-2"
+                          style={{ fontSize: '14px' }}
                         >
                           <Phone className="w-4 h-4 text-[#00ff88]" />
                           전화번호 <span className="text-[#00ff88]">*</span>
@@ -245,17 +251,18 @@ export function CertificateLookupModal({
                           value={formData.phone}
                           onChange={handleChange}
                           className="w-full px-4 py-3 rounded-xl glass-panel border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#00ff88] transition-all"
+                          style={{ fontSize: '15px' }}
                           placeholder="010-1234-5678"
                           disabled={isSearching}
                         />
                         {errors.phone && (
-                          <p className="text-red-400 text-sm mt-1">{errors.phone}</p>
+                          <p className="text-red-400 mt-1" style={{ fontSize: '13px' }}>{errors.phone}</p>
                         )}
                       </div>
 
                       {/* 제출 에러 메시지 */}
                       {errors.submit && (
-                        <div className="text-red-400 text-sm text-center">
+                        <div className="text-red-400 text-center" style={{ fontSize: '13px' }}>
                           {errors.submit}
                         </div>
                       )}
@@ -265,10 +272,10 @@ export function CertificateLookupModal({
                         <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3">
                           <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                           <div className="flex-1">
-                            <p className="text-sm font-medium text-amber-200 mb-1">
+                            <p className="font-medium text-amber-200 mb-1" style={{ fontSize: '14px' }}>
                               조회 결과가 없습니다
                             </p>
-                            <p className="text-xs text-amber-200/70">
+                            <p className="text-amber-200/70" style={{ fontSize: '13px' }}>
                               입력하신 정보를 다시 확인해주세요.
                             </p>
                           </div>
@@ -279,7 +286,8 @@ export function CertificateLookupModal({
                       <button
                         onClick={handleSearch}
                         disabled={isSearching}
-                        className="w-full py-3 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88] hover:bg-[#00ff88]/20 hover:border-[#00ff88]/50 transition-all font-medium text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full py-3 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88] hover:bg-[#00ff88]/20 hover:border-[#00ff88]/50 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{ fontSize: '15px' }}
                       >
                         {isSearching ? (
                           <>
@@ -302,7 +310,7 @@ export function CertificateLookupModal({
                       <div className="p-4 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/20 flex items-start gap-3">
                         <CheckCircle2 className="w-5 h-5 text-[#00ff88] flex-shrink-0 mt-0.5" />
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-[#00ff88] mb-2">
+                          <p className="font-medium text-[#00ff88] mb-2" style={{ fontSize: '14px' }}>
                             수료증을 찾았습니다
                           </p>
                         </div>
@@ -310,44 +318,44 @@ export function CertificateLookupModal({
 
                       <div className="space-y-3 p-4 rounded-xl glass-panel border border-white/10">
                         <div className="flex justify-between items-center">
-                          <span className="text-xs text-white/60">이름</span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-white/60" style={{ fontSize: '13px' }}>이름</span>
+                          <span className="font-medium text-white" style={{ fontSize: '15px' }}>
                             {certificateData.name}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-xs text-white/60">전화번호</span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-white/60" style={{ fontSize: '13px' }}>전화번호</span>
+                          <span className="font-medium text-white" style={{ fontSize: '15px' }}>
                             {certificateData.phone}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-xs text-white/60">이메일</span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-white/60" style={{ fontSize: '13px' }}>이메일</span>
+                          <span className="font-medium text-white" style={{ fontSize: '15px' }}>
                             {certificateData.email}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-xs text-white/60">소속</span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-white/60" style={{ fontSize: '13px' }}>소속</span>
+                          <span className="font-medium text-white" style={{ fontSize: '15px' }}>
                             {certificateData.affiliation}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-xs text-white/60">수료증 번호</span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-white/60" style={{ fontSize: '13px' }}>수료증 번호</span>
+                          <span className="font-medium text-white" style={{ fontSize: '15px' }}>
                             {certificateData.certificateNumber}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-xs text-white/60">과정명</span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-white/60" style={{ fontSize: '13px' }}>과정명</span>
+                          <span className="font-medium text-white" style={{ fontSize: '15px' }}>
                             {certificateData.courseName}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-xs text-white/60">발급일</span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-white/60" style={{ fontSize: '13px' }}>발급일</span>
+                          <span className="font-medium text-white" style={{ fontSize: '15px' }}>
                             {certificateData.issueDate}
                           </span>
                         </div>
@@ -355,7 +363,8 @@ export function CertificateLookupModal({
 
                       <button
                         onClick={handleReset}
-                        className="w-full py-3 rounded-xl glass-panel border border-white/10 text-white hover:bg-white/10 transition-all font-medium text-sm"
+                        className="w-full py-3 rounded-xl glass-panel border border-white/10 text-white hover:bg-white/10 transition-all font-medium"
+                        style={{ fontSize: '15px' }}
                       >
                         다시 조회하기
                       </button>
@@ -368,7 +377,8 @@ export function CertificateLookupModal({
                   <div className="p-5 md:p-6 border-t border-white/10 bg-gradient-to-b from-transparent to-black/20">
                     <button
                       onClick={onClose}
-                      className="w-full py-3 rounded-xl glass-panel border border-white/10 text-white hover:bg-white/10 transition-all font-medium text-sm"
+                      className="w-full py-3 rounded-xl glass-panel border border-white/10 text-white hover:bg-white/10 transition-all font-medium"
+                      style={{ fontSize: '15px' }}
                     >
                       닫기
                     </button>
