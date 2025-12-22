@@ -50,17 +50,30 @@ export function InquiriesTable() {
       if (error) {
         console.error("데이터 조회 오류:", error);
         console.error("에러 상세:", {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code
+          message: error?.message,
+          details: error?.details,
+          hint: error?.hint,
+          code: error?.code
         });
+        
+        // 에러 코드에 따른 처리
+        if (error?.code === 'PGRST116' || error?.message?.includes('does not exist') || error?.message?.includes('relation') || error?.message?.includes('table')) {
+          console.error("⚠️ 테이블이 존재하지 않습니다. 마이그레이션을 실행해주세요.");
+          console.error("실행할 마이그레이션 파일:");
+          console.error("1. supabase/migrations/20251222182553_create_contact_inquiries_table.sql");
+          console.error("2. supabase/migrations/20251222193638_add_contact_inquiries_rls_policies.sql");
+        } else if (error?.code === 'PGRST301' || error?.message?.includes('permission') || error?.message?.includes('policy')) {
+          console.error("⚠️ 접근 권한 문제입니다. RLS 정책을 확인해주세요.");
+        }
+        
+        setInquiries([]);
         return;
       }
 
       setInquiries(data || []);
     } catch (error) {
       console.error("예상치 못한 오류:", error);
+      setInquiries([]);
     } finally {
       setIsLoading(false);
     }
