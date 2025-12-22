@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Phone, Search, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { X, User, Phone, Search, FileText, CheckCircle2, AlertCircle, Download, Eye } from "lucide-react";
 import { GlassPanel } from "@/components/glass/GlassPanel";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -21,6 +21,7 @@ interface CertificateData {
   issueDate: string;
   courseName: string;
   status: string;
+  certificateFileUrl: string | null;
 }
 
 export function CertificateLookupModal({
@@ -134,6 +135,7 @@ export function CertificateLookupModal({
         issueDate: formattedDate,
         courseName: "신종놀이시설 안전성평가 교육",
         status: matchingData.status,
+        certificateFileUrl: matchingData.certificate_file_url || null,
       });
     } catch (error) {
       console.error("수료증 조회 오류:", error);
@@ -360,6 +362,76 @@ export function CertificateLookupModal({
                           </span>
                         </div>
                       </div>
+
+                      {/* 수료증 파일 미리보기 및 다운로드 */}
+                      {certificateData.certificateFileUrl && (
+                        <div className="p-4 rounded-xl glass-panel border border-white/10 space-y-3">
+                          <div className="flex items-center gap-2 mb-3">
+                            <FileText className="w-5 h-5 text-[#00ff88]" />
+                            <h3 className="font-medium text-white" style={{ fontSize: '15px' }}>
+                              수료증 파일
+                            </h3>
+                          </div>
+                          <div className="flex gap-2">
+                            {/* 미리보기 버튼 */}
+                            <button
+                              onClick={() => window.open(certificateData.certificateFileUrl || '', '_blank')}
+                              className="flex-1 py-2.5 px-4 rounded-lg bg-blue-500/20 border border-blue-500/50 text-blue-400 hover:bg-blue-500/30 hover:border-blue-500 transition-all font-medium flex items-center justify-center gap-2"
+                              style={{ fontSize: '14px' }}
+                            >
+                              <Eye className="w-4 h-4" />
+                              미리보기
+                            </button>
+                            {/* 다운로드 버튼 */}
+                            <button
+                              onClick={async () => {
+                                if (!certificateData.certificateFileUrl) return;
+                                
+                                try {
+                                  // 파일을 fetch로 가져와서 Blob으로 변환
+                                  const response = await fetch(certificateData.certificateFileUrl);
+                                  if (!response.ok) {
+                                    throw new Error('파일 다운로드 실패');
+                                  }
+                                  
+                                  const blob = await response.blob();
+                                  
+                                  // Blob URL 생성
+                                  const blobUrl = URL.createObjectURL(blob);
+                                  
+                                  // 다운로드 링크 생성
+                                  const link = document.createElement('a');
+                                  link.href = blobUrl;
+                                  link.download = `수료증_${certificateData.name}_${certificateData.certificateNumber}.pdf`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  
+                                  // 정리
+                                  document.body.removeChild(link);
+                                  URL.revokeObjectURL(blobUrl);
+                                } catch (error) {
+                                  console.error('파일 다운로드 오류:', error);
+                                  alert('파일 다운로드에 실패했습니다.');
+                                }
+                              }}
+                              className="flex-1 py-2.5 px-4 rounded-lg bg-[#00ff88]/20 border border-[#00ff88]/50 text-[#00ff88] hover:bg-[#00ff88]/30 hover:border-[#00ff88] transition-all font-medium flex items-center justify-center gap-2"
+                              style={{ fontSize: '14px' }}
+                            >
+                              <Download className="w-4 h-4" />
+                              다운로드
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 수료증 파일이 없는 경우 안내 메시지 */}
+                      {!certificateData.certificateFileUrl && (
+                        <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                          <p className="text-white/60 text-center" style={{ fontSize: '13px' }}>
+                            수료증 파일이 등록되지 않았습니다.
+                          </p>
+                        </div>
+                      )}
 
                       <button
                         onClick={handleReset}
