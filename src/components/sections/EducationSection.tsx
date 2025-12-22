@@ -322,12 +322,9 @@ export function EducationSection() {
                       <Wallet className="w-4 h-4 text-[#00ff88] mt-1 flex-shrink-0" />
                       <div className="flex-1">
                         <p className="text-white/90 font-medium text-sm md:text-base mb-2">
-                          교육비: <span className="text-[#00ff88] font-semibold">25만원</span>
+                          교육: <span className="text-[#00ff88] font-semibold">교육마감되었습니다.</span>
                         </p>
-                        <div className="text-white/80 text-xs md:text-sm space-y-1 font-light">
-                          <p>입금 계좌: <span className="text-white/90 font-medium">우리은행 우리 1005-604-799256</span></p>
-                          <p>예금주: 한국창의융합연구원</p>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
