@@ -8,7 +8,7 @@ import { CheckCircle2, BookOpen, Book, Users, FileCheck, Award, Clock, UserCheck
 import { motion } from "framer-motion";
 
 const schedule = [
-  { time: "09:30~10:00", content: "참석자 등록 및 책자 배포", instructor: "이유진(전 KOLAS 교육기관 원장)", period: "오전" },
+  { time: "09:30~10:00", content: "참석자 등록 및 책자 배포", instructor: "주최사", period: "오전" },
   { time: "10:00~12:00", content: "놀이시설 안전관리 실무교육", instructor: "이유진(전 KOLAS 교육기관 원장)", period: "오전" },
   { time: "13:00~13:50", content: "신종·유사 놀이시설 및 놀이기구의 구분과 사례", instructor: "배송수(검사기관협의회회장)", period: "오후" },
   { time: "14:00~14:50", content: "사고위험과 위해요인의 식별 (이용자 행동특성 등)", instructor: "배송수(검사기관협의회회장)", period: "오후" },
@@ -230,7 +230,7 @@ export function EducationSection() {
                   <span className="text-white/70 text-xs sm:text-sm md:text-base">(최초 교육 후 매년 1회 보수교육 실시)</span>
                   <br />
                   <span className="text-[#00ff88] text-xs sm:text-sm md:text-base underline decoration-[#00ff88] decoration-2 underline-offset-2">
-                    본 교육은 한국안전기술점검원과 함께합니다
+                    본 교육은 사단법인 놀이시설위험연구원과 함께합니다
                   </span>
                 </p>
               </div>
