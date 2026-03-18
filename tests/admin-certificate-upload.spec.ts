@@ -13,7 +13,7 @@ import fs from 'fs';
  */
 
 test.describe('관리자 모드 수료증 업로드', () => {
-  const ADMIN_PASSWORD = 'admin3256';
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? '';
   const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
   
   // 테스트용 PDF 파일 생성 헬퍼 함수
@@ -330,8 +330,8 @@ test.describe('관리자 모드 수료증 업로드', () => {
 });
 
 // 성능 테스트
-test.describe('성능 및 안정성 테스트', () => {
-  const ADMIN_PASSWORD = 'admin3256';
+  test.describe('성능 및 안정성 테스트', () => {
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? '';
   const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
   
   test('대용량 파일 업로드 거부 (10MB 초과)', async ({ page }) => {
