@@ -90,12 +90,15 @@ export function CertificateLookupModal({
     try {
       // 전화번호 정규화 (하이픈 제거 후 비교)
       const normalizedPhone = normalizePhoneNumber(formData.phone.trim());
+      const searchName = formData.name.trim();
       
+      console.log('[수료증 조회] 검색 시작:', { name: searchName, phone: normalizedPhone });
+      
+      // 이름으로 조회 (상태 필터 제거 - 모든 상태에서 조회 가능)
+      // 이름은 정확 일치로 조회하되, DB에 저장된 값도 trim 처리 필요
       const { data: applications, error } = await supabase
         .from("safe_education_applications")
-        .select("*")
-        .eq("name", formData.name.trim())
-        .eq("status", "confirmed");
+        .select("*");
       
       if (error) {
         console.error("수료증 조회 오류:", error);
@@ -104,10 +107,44 @@ export function CertificateLookupModal({
         return;
       }
       
-      // 클라이언트 측에서 전화번호 비교 (DB에 저장된 형식이 다를 수 있음)
-      const matchingData = applications?.find((item) => {
+      console.log('[수료증 조회] 전체 조회 결과:', applications?.length || 0, '건');
+      if (applications && applications.length > 0) {
+        console.log('[수료증 조회] 찾은 신청자들:', applications.map(a => ({ 
+          name: a.name, 
+          status: a.status, 
+          phone: a.phone 
+        })));
+      }
+      
+      // 이름으로 필터링 (정확 일치, 양쪽 모두 trim 처리)
+      const nameFiltered = applications?.filter((item) => {
+        const itemName = (item.name || '').trim();
+        return itemName === searchName;
+      });
+      
+      console.log('[수료증 조회] 이름 일치 결과:', nameFiltered?.length || 0, '건');
+      if (nameFiltered && nameFiltered.length > 0) {
+        console.log('[수료증 조회] 이름 일치 신청자들:', nameFiltered.map(a => ({ 
+          name: a.name, 
+          status: a.status, 
+          phone: a.phone 
+        })));
+      }
+      
+      // 이름과 전화번호 모두 일치하는 항목 찾기
+      const matchingData = nameFiltered?.find((item) => {
         const itemPhone = normalizePhoneNumber(item.phone || '');
-        return itemPhone === normalizedPhone;
+        const phoneMatch = itemPhone === normalizedPhone;
+        
+        console.log('[수료증 조회] 전화번호 비교:', {
+          itemName: (item.name || '').trim(),
+          itemPhone,
+          normalizedPhone,
+          phoneMatch,
+          status: item.status
+        });
+        
+        return phoneMatch;
       });
 
       if (!matchingData) {
