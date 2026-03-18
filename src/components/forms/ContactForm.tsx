@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Mail, Phone, Building2, Send, ChevronDown, Shield, FileText, Clock, Users, Database, AlertCircle, CheckCircle2, MessageSquare } from "lucide-react";
+import { User, Mail, Phone, Building2, Send, ChevronDown, Shield, FileText, Clock, Users, Database, AlertCircle, CheckCircle2, MessageSquare, Paperclip } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { formatPhoneNumber, normalizePhoneNumber } from "@/lib/utils";
+import { uploadContactFiles } from "@/lib/upload-contact-files";
+import { FileDropZone } from "@/components/forms/FileDropZone";
 import confetti from "canvas-confetti";
 
 export function ContactForm() {
@@ -18,6 +20,7 @@ export function ContactForm() {
     privacyAgreed: false,
   });
 
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -101,6 +104,19 @@ export function ContactForm() {
       // 전화번호를 정규화하여 저장 (하이픈 제거 후 포맷팅)
       const normalizedPhone = normalizePhoneNumber(formData.phone);
       const formattedPhone = formatPhoneNumber(normalizedPhone);
+
+      // 첨부파일 업로드
+      let attachmentUrls: { name: string; url: string; size: number }[] = [];
+      if (attachedFiles.length > 0) {
+        try {
+          attachmentUrls = await uploadContactFiles(attachedFiles);
+        } catch (uploadError) {
+          console.error('파일 업로드 오류:', uploadError);
+          setErrors({ submit: uploadError instanceof Error ? uploadError.message : '파일 업로드 중 오류가 발생했습니다.' });
+          setIsSubmitting(false);
+          return;
+        }
+      }
       
       const { data, error } = await supabase
         .from('safe_contact_inquiries')
@@ -111,6 +127,7 @@ export function ContactForm() {
             phone: formattedPhone,
             affiliation: formData.affiliation,
             inquiry: formData.inquiry,
+            attachment_urls: attachmentUrls,
           }
         ])
         .select();
@@ -190,6 +207,7 @@ export function ContactForm() {
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({ name: "", email: "", phone: "", affiliation: "", inquiry: "", privacyAgreed: false });
+      setAttachedFiles([]);
     }, 3000);
     } catch (error) {
       console.error('예상치 못한 오류:', error);
@@ -335,6 +353,19 @@ export function ContactForm() {
         {errors.inquiry && (
           <p className="text-red-400 text-sm mt-1">{errors.inquiry}</p>
         )}
+      </div>
+
+      {/* 첨부파일 */}
+      <div>
+        <label className="flex items-center gap-2 text-white/90 font-medium mb-2">
+          <Paperclip className="w-4 h-4 text-[#00ff88]" />
+          첨부파일
+        </label>
+        <FileDropZone
+          files={attachedFiles}
+          onFilesChange={setAttachedFiles}
+          maxFiles={10}
+        />
       </div>
 
       {/* 제출 에러 메시지 */}
