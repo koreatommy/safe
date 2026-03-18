@@ -59,9 +59,12 @@ export function HeroSection() {
               className="space-y-6"
             >
               <p className="text-white/85 text-sm sm:text-base md:text-xl lg:text-2xl leading-normal md:leading-relaxed font-light">
-                급증하는 <strong className="font-medium text-[#00ff88]">무인키즈풀·무인키즈카페·키즈펜션</strong> 등 신종 어린이 놀이공간은 기존 법령의 관리 대상이 아니어서{" "}
-                <strong className="font-medium text-[#00ff88]">안전 사각지대</strong>가 되고 있습니다.{" "}
-                <strong className="font-medium text-[#00ff88]">서울형 키즈카페</strong> 문구 추가.
+                급증하는{" "}
+                <strong className="font-medium text-[#00ff88]">
+                  무인키즈풀·무인키즈카페·키즈펜션·서울형키즈카페
+                </strong>{" "}
+                등 신종 어린이 놀이공간은 기존 법령의 관리 대상이 아니어서{" "}
+                <strong className="font-medium text-[#00ff88]">안전 사각지대</strong>가 되고 있습니다.
               </p>
               <p className="text-white/85 text-sm sm:text-base md:text-xl lg:text-2xl leading-normal md:leading-relaxed font-light">
                 이를 해결하기 위해 정부는 <strong className="font-medium text-[#00ff88]">신종놀이시설 안전성평가 제도</strong>를 도입하여, 다양한 형태의 놀이공간에서 발생할 수 있는{" "}
