@@ -15,6 +15,7 @@ interface Inquiry {
   inquiry: string;
   status: "pending" | "processing" | "completed";
   notes: string | null;
+  attachment_urls: unknown;
   created_at: string;
   updated_at: string;
 }
@@ -213,6 +214,23 @@ export function InquiriesTable() {
       delete newState[id];
       return newState;
     });
+  };
+
+  const parseAttachmentUrls = (raw: unknown): string[] => {
+    // DB에 JSONB로 저장된 값을 안전하게 문자열 배열로 변환
+    if (!raw) return [];
+    if (Array.isArray(raw)) {
+      return raw.filter((v) => typeof v === "string") as string[];
+    }
+    if (typeof raw === "string") {
+      try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? (parsed.filter((v) => typeof v === "string") as string[]) : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
   };
 
   const toggleInquiryExpansion = (id: string) => {
@@ -416,6 +434,52 @@ export function InquiriesTable() {
                                 </button>
                               </div>
                             )}
+                          </div>
+
+                          <div>
+                            <h4 className="text-white/90 font-medium mb-2" style={{ fontSize: '0.875rem' }}>
+                              첨부파일
+                            </h4>
+                            {(() => {
+                              const urls = parseAttachmentUrls(inquiry.attachment_urls);
+                              if (!urls.length) {
+                                return (
+                                  <p className="text-white/60 text-sm">
+                                    첨부파일이 없습니다.
+                                  </p>
+                                );
+                              }
+
+                              return (
+                                <div className="space-y-2">
+                                  {urls.map((url, idx) => {
+                                    // public URL로부터 파일명 유추 (선택)
+                                    const fileName = url.split("/").pop() || `file-${idx + 1}`;
+                                    return (
+                                      <div key={`${url}-${idx}`} className="flex items-center gap-3">
+                                        <a
+                                          href={url}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                          className="text-[#00ff88] hover:text-white transition-colors text-sm truncate"
+                                          title={fileName}
+                                        >
+                                          {fileName}
+                                        </a>
+                                        <a
+                                          href={url}
+                                          download
+                                          className="text-white/50 hover:text-white transition-colors text-sm"
+                                          title="다운로드"
+                                        >
+                                          다운로드
+                                        </a>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              );
+                            })()}
                           </div>
                         </div>
                       </td>
