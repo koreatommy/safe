@@ -4,7 +4,7 @@ import { GlassPanel } from "@/components/glass/GlassPanel";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { FloatingSection } from "@/components/glass/FloatingSection";
 import { EducationApplicationForm } from "@/components/forms/EducationApplicationForm";
-import { CheckCircle2, BookOpen, Book, Users, FileCheck, Award, Clock, UserCheck, Gift, ArrowRight, CreditCard, Wallet, Globe, Database } from "lucide-react";
+import { CheckCircle2, BookOpen, Book, Users, FileCheck, Award, Clock, UserCheck, Gift, ArrowRight, CreditCard, Wallet, Database } from "lucide-react";
 import { motion } from "framer-motion";
 
 const schedule = [
@@ -55,7 +55,6 @@ const benefits = [
   { icon: FileCheck, text: "최신 안전성평가 체크리스트 제공", color: "text-[#00ff88]" },
   { icon: Book, text: "안전성평가 교재 제공", color: "text-[#00ff88]" },
   { icon: BookOpen, text: "평가 준비 가이드 문서 지원", color: "text-[#00ff88]" },
-  { icon: Globe, text: "교육 수료생 대상 전국 어린이놀이시설 실시간 정보 서비스 100 token 제공 예정(2026. 03)", color: "text-[#00ff88]" },
 ];
 
 const applicationMethods = [
