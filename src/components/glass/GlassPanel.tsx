@@ -17,7 +17,7 @@ export function GlassPanel({ children, className, delay = 0 }: GlassPanelProps) 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
       className={cn(
-        "glass-panel p-6 md:p-8",
+        "glass-panel p-3 sm:p-6 md:p-8",
         className
       )}
     >

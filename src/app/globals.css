@@ -342,9 +342,30 @@ p, body {
   }
 }
 
-/* Smooth Scroll */
+/* 관리자 문의 상세: 본문/메모는 제목과 동일한 폰트 크기, 볼드 미적용 */
+.admin-detail-content p:not(.admin-detail-label),
+.admin-detail-content textarea {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+@media (max-width: 767px) {
+  .admin-detail-content p:not(.admin-detail-label),
+  .admin-detail-content textarea {
+    font-size: 0.9375rem;
+  }
+}
+
+/* 문의 상세 라벨(문의사항 내용, 관리자 메모, 첨부파일): 전역 font-weight 덮어써서 볼드 적용 */
+.admin-detail-content p.admin-detail-label,
+.admin-detail-content h4.admin-detail-label {
+  font-weight: 700;
+}
+
+/* Smooth Scroll & prevent horizontal page scroll */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Navigation Styles */

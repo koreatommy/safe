@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { LogOut, Users, MessageSquare, LayoutDashboard } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { LogOut, Users, MessageSquare, LayoutDashboard, Menu, X } from "lucide-react";
 import { GlassPanel } from "@/components/glass/GlassPanel";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { ApplicationsTable } from "@/components/admin/ApplicationsTable";
@@ -18,6 +18,7 @@ export default function AdminPage() {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
   const [activeMenu, setActiveMenu] = useState<MenuItem>("applications");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -59,36 +60,69 @@ export default function AdminPage() {
 
   const activeMenuItem = menuItems.find((item) => item.id === activeMenu);
 
+  const closeSidebar = () => setSidebarOpen(false);
+  const onMenuSelect = (id: MenuItem) => {
+    setActiveMenu(id);
+    setSidebarOpen(false);
+  };
+
   return (
-    <div className="min-h-screen" style={{
+    <div className="min-h-screen min-w-0 overflow-x-hidden" style={{
       background: "linear-gradient(135deg, #0f121a 0%, #1b1f2a 50%, #0c0f18 100%)",
     }}>
-      <div className="flex h-screen overflow-hidden">
-        {/* 사이드바 */}
+      <div className="flex h-screen overflow-hidden max-w-[100vw]">
+        {/* 모바일: 햄버거 열림 시 배경 오버레이 */}
+        <AnimatePresence>
+          {sidebarOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-black/60 md:hidden"
+              onClick={closeSidebar}
+              aria-hidden
+            />
+          )}
+        </AnimatePresence>
+
+        {/* 사이드바: 데스크톱 고정, 모바일 드로어 */}
         <motion.aside
-          initial={{ x: -300, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-64 border-r border-white/10 bg-black/20 flex flex-col"
+          initial={false}
+          animate={{ x: sidebarOpen ? 0 : undefined }}
+          transition={{ type: "tween", duration: 0.25 }}
+          className={`
+            fixed md:relative inset-y-0 left-0 z-50
+            w-64 min-w-[16rem] border-r border-white/10 bg-black/95 md:bg-black/20
+            flex flex-col
+            md:translate-x-0
+            ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          `}
         >
-          {/* 로고/제목 영역 */}
-          <div className="p-6 border-b border-white/10">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-full bg-[#00ff88]/20 flex items-center justify-center">
+          <div className="p-4 md:p-6 border-b border-white/10 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#00ff88]/20 flex items-center justify-center flex-shrink-0">
                 <LayoutDashboard className="w-5 h-5 text-[#00ff88]" />
               </div>
               <h1 className="font-medium text-white" style={{ fontSize: '1.125rem', lineHeight: '1.5' }}>
                 관리자 대시보드
               </h1>
             </div>
+            <button
+              type="button"
+              onClick={closeSidebar}
+              className="md:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10"
+              aria-label="메뉴 닫기"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* 메뉴 항목 */}
-          <nav className="flex-1 p-4 space-y-2">
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
             {menuItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => setActiveMenu(item.id)}
+                onClick={() => onMenuSelect(item.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   activeMenu === item.id
                     ? "bg-[#00ff88]/20 border border-[#00ff88]/50 text-white"
@@ -98,14 +132,13 @@ export default function AdminPage() {
                 <div className={`flex-shrink-0 ${activeMenu === item.id ? "text-[#00ff88]" : "text-white/60"}`}>
                   {item.icon}
                 </div>
-                <span className="font-medium" style={{ fontSize: '0.875rem' }}>
+                <span className="font-medium text-left" style={{ fontSize: '0.875rem' }}>
                   {item.label}
                 </span>
               </button>
             ))}
           </nav>
 
-          {/* 로그아웃 버튼 */}
           <div className="p-4 border-t border-white/10">
             <GlowCapsuleButton
               onClick={handleLogout}
@@ -120,36 +153,44 @@ export default function AdminPage() {
         </motion.aside>
 
         {/* 메인 콘텐츠 영역 */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-8">
-          <div className="max-w-7xl mx-auto space-y-6">
-            {/* 헤더 */}
+        <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden px-3 py-4 sm:p-4 md:p-8">
+          <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6 min-w-0">
+            {/* 헤더 + 모바일 메뉴 버튼 */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
             >
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-full bg-[#00ff88]/20 flex items-center justify-center">
-                    {activeMenuItem?.icon && (
-                      <div className="text-[#00ff88]">
-                        {activeMenuItem.icon}
-                      </div>
-                    )}
+              <div className="flex items-center gap-3 w-full min-w-0">
+                <button
+                  type="button"
+                  onClick={() => setSidebarOpen(true)}
+                  className="md:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 flex-shrink-0"
+                  aria-label="메뉴 열기"
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="hidden md:block w-10 h-10 rounded-full bg-[#00ff88]/20 flex items-center justify-center flex-shrink-0">
+                      {activeMenuItem?.icon && (
+                        <div className="text-[#00ff88]">{activeMenuItem.icon}</div>
+                      )}
+                    </div>
+                    <h1 className="font-medium text-white truncate" style={{ fontSize: '1.125rem', lineHeight: '1.5' }}>
+                      {activeMenuItem?.label}
+                    </h1>
                   </div>
-                  <h1 className="font-medium text-white" style={{ fontSize: '1.25rem', lineHeight: '1.5' }}>
-                    {activeMenuItem?.label}
-                  </h1>
+                  <p className="text-white/70 truncate" style={{ fontSize: '0.875rem' }}>
+                    {activeMenuItem?.description}
+                  </p>
                 </div>
-                <p className="text-white/70" style={{ fontSize: '0.875rem' }}>
-                  {activeMenuItem?.description}
-                </p>
               </div>
             </motion.div>
 
             {/* 테이블 */}
-            <GlassPanel>
+            <GlassPanel className="min-w-0 overflow-hidden">
               {activeMenu === "applications" && <ApplicationsTable />}
               {activeMenu === "inquiries" && <InquiriesTable />}
             </GlassPanel>
