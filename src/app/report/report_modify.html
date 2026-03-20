@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>행정안전부 사업 제안 보고서 - 어린이놀이시설 안전체험센터 시범조성 및 운영사업(안)</title>
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --paper: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --line: #d7dee8;
+    --head: #0f172a;
+    --accent: #1d4ed8;
+    --soft: #eaf2ff;
+    --soft2: #f8fafc;
+    --yellow: #fef9c3;
+    --yellow-border: #facc15;
+    --orange: #fff7ed;
+    --orange-border: #fb923c;
+    --green: #f0fdf4;
+    --green-border: #4ade80;
+    --red: #fef2f2;
+    --red-border: #f87171;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",Arial,sans-serif;
+    line-height: 1.65;
+  }
+  .wrap {
+    max-width: 1220px;
+    margin: 32px auto;
+    padding: 0 20px 40px;
+  }
+  .paper {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(15,23,42,.08);
+    overflow: hidden;
+  }
+  .hero {
+    padding: 40px 44px 28px;
+    background: linear-gradient(135deg, #eef4ff 0%, #ffffff 55%);
+    border-bottom: 1px solid var(--line);
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--soft);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .badge + .badge { margin-left: 8px; }
+  h1 {
+    margin: 14px 0 8px;
+    font-size: 34px;
+    color: var(--head);
+    line-height: 1.3;
+  }
+  .subtitle {
+    margin: 0;
+    font-size: 20px;
+    color: #334155;
+    font-weight: 700;
+  }
+  .concept-label {
+    margin: 6px 0 0;
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .desc {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .collab {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section {
+    padding: 28px 44px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section:last-child { border-bottom: 0; }
+  h2 {
+    margin: 0 0 16px;
+    font-size: 24px;
+    color: var(--head);
+  }
+  h3 {
+    margin: 22px 0 10px;
+    font-size: 18px;
+    color: var(--head);
+  }
+  h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: var(--head);
+  }
+  p, li, ol {
+    font-size: 15px;
+  }
+  p { margin: 8px 0; }
+  ul, ol {
+    margin: 8px 0 0 20px;
+    padding: 0;
+  }
+  .meta-table, .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .meta-table th, .meta-table td,
+  .budget-table th, .budget-table td {
+    border: 1px solid var(--line);
+    padding: 12px 14px;
+    vertical-align: top;
+  }
+  .meta-table th {
+    width: 160px;
+    background: var(--soft2);
+    text-align: left;
+  }
+  .budget-table thead th {
+    background: var(--soft2);
+    text-align: center;
+  }
+  .budget-table td.num {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .grid, .two-col, .summary-box {
+    display: grid;
+    gap: 18px;
+  }
+  .grid, .two-col {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+  .summary-box {
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    margin-bottom: 18px;
+  }
+  .card, .stat {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .card {
+    padding: 18px 18px 16px;
+  }
+  .stat {
+    padding: 18px;
+    background: var(--soft2);
+  }
+  .stat .label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .stat .value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--head);
+  }
+  .callout {
+    margin-top: 16px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: var(--soft);
+    border: 1px solid #cfe0ff;
+    font-size: 14px;
+  }
+  .callout-warn {
+    margin-top: 16px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    font-size: 14px;
+  }
+  .note {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* 4색 놀이터 카드 */
+  .zone-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .zone-card {
+    border-radius: 14px;
+    padding: 20px;
+    border: 2px solid;
+  }
+  .zone-card h4 {
+    margin: 0 0 6px;
+    font-size: 17px;
+  }
+  .zone-card .zone-sub {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .zone-card p {
+    font-size: 14px;
+    margin: 0 0 8px;
+  }
+  .zone-card .effect-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 6px;
+    margin-right: 4px;
+  }
+  .zone-yellow { background: var(--yellow); border-color: var(--yellow-border); }
+  .zone-yellow h4 { color: #a16207; }
+  .zone-yellow .zone-sub { color: #ca8a04; }
+  .zone-yellow .effect-tag { background: #fef08a; color: #854d0e; }
+  .zone-orange { background: var(--orange); border-color: var(--orange-border); }
+  .zone-orange h4 { color: #c2410c; }
+  .zone-orange .zone-sub { color: #ea580c; }
+  .zone-orange .effect-tag { background: #fed7aa; color: #9a3412; }
+  .zone-green { background: var(--green); border-color: var(--green-border); }
+  .zone-green h4 { color: #15803d; }
+  .zone-green .zone-sub { color: #16a34a; }
+  .zone-green .effect-tag { background: #bbf7d0; color: #166534; }
+  .zone-red { background: var(--red); border-color: var(--red-border); }
+  .zone-red h4 { color: #b91c1c; }
+  .zone-red .zone-sub { color: #dc2626; }
+  .zone-red .effect-tag { background: #fecaca; color: #991b1b; }
+
+  /* 로드맵 */
+  .roadmap {
+    position: relative;
+    margin-top: 16px;
+  }
+  .roadmap-step {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0 20px;
+    padding-bottom: 20px;
+    position: relative;
+  }
+  .roadmap-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 50px;
+    top: 36px;
+    bottom: 0;
+    width: 2px;
+    background: var(--line);
+  }
+  .step-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 32px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    position: relative;
+    z-index: 1;
+  }
+  .step-content {
+    background: var(--soft2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .step-content h4 {
+    margin: 0 0 4px;
+    font-size: 15px;
+  }
+  .step-content .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .step-content ul {
+    margin: 0 0 0 16px;
+    padding: 0;
+    font-size: 13px;
+  }
+  .step-content li {
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+  /* 기대효과 */
+  .effect-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .effect-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+    background: var(--soft2);
+    border-left: 4px solid var(--accent);
+  }
+  .effect-card .ef-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .effect-card h4 {
+    margin: 0 0 6px;
+    font-size: 15px;
+  }
+  .effect-card p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .footer {
+    padding: 24px 44px 36px;
+    color: var(--muted);
+    font-size: 13px;
+    background: #fcfdff;
+  }
+  @media (max-width: 920px) {
+    .grid, .two-col, .summary-box, .zone-grid, .effect-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero, .section, .footer {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    h1 { font-size: 28px; }
+    .subtitle { font-size: 18px; }
+    .meta-table th { width: 120px; }
+    .roadmap-step { grid-template-columns: 80px 1fr; }
+    .roadmap-step:not(:last-child)::before { left: 40px; }
+    .step-badge { width: 80px; font-size: 12px; }
+  }
+  /* Charts */
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0 8px;
+  }
+  .chart-full {
+    margin: 24px 0 8px;
+  }
+  .chart-box {
+    background: var(--soft2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 20px 16px;
+  }
+  .chart-box h4 {
+    margin: 0 0 14px;
+    font-size: 15px;
+    text-align: center;
+  }
+  .chart-box canvas {
+    width: 100% !important;
+    max-height: 320px;
+  }
+  @media (max-width: 920px) {
+    .chart-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    body {
+      line-height: 1.55;
+    }
+    .wrap {
+      margin: 12px auto;
+      padding: 0 10px 18px;
+    }
+    .paper {
+      border-radius: 14px;
+    }
+    .hero, .section, .footer {
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+    .hero {
+      padding-top: 22px;
+      padding-bottom: 18px;
+    }
+    h1 {
+      font-size: 22px;
+      line-height: 1.35;
+      word-break: keep-all;
+    }
+    h2 {
+      font-size: 19px;
+      margin-bottom: 12px;
+    }
+    h3 {
+      font-size: 16px;
+    }
+    .subtitle {
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    .concept-label,
+    .desc,
+    .collab,
+    p,
+    li,
+    ol {
+      font-size: 14px;
+    }
+    .badge {
+      font-size: 12px;
+      padding: 5px 9px;
+    }
+    .summary-box {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .stat {
+      padding: 14px;
+    }
+    .stat .value {
+      font-size: 19px;
+    }
+    .card,
+    .zone-card,
+    .step-content,
+    .effect-card,
+    .chart-box {
+      padding: 14px;
+      border-radius: 12px;
+    }
+    .zone-card h4,
+    .step-content h4,
+    .effect-card h4 {
+      font-size: 15px;
+    }
+    .roadmap-step {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding-bottom: 14px;
+    }
+    .roadmap-step:not(:last-child)::before {
+      display: none;
+    }
+    .step-badge {
+      width: fit-content;
+      min-width: 76px;
+      height: 28px;
+      padding: 0 10px;
+    }
+    .meta-table,
+    .budget-table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+    .meta-table tbody,
+    .budget-table thead,
+    .budget-table tbody {
+      display: table;
+      width: 100%;
+    }
+    .budget-table thead,
+    .budget-table tbody {
+      min-width: 680px;
+    }
+    .meta-table th,
+    .meta-table td,
+    .budget-table th,
+    .budget-table td {
+      padding: 10px 10px;
+      white-space: nowrap;
+    }
+    .meta-table td {
+      white-space: normal;
+      word-break: keep-all;
+    }
+    .chart-row,
+    .chart-full {
+      margin: 16px 0 6px;
+    }
+    .chart-box canvas {
+      max-height: 260px;
+    }
+    .scroll-top-btn {
+      right: 14px;
+      bottom: 16px;
+      width: 42px;
+      height: 42px;
+      font-size: 20px;
+    }
+  }
+  @media (max-width: 480px) {
+    .summary-box {
+      grid-template-columns: 1fr;
+    }
+    h1 {
+      font-size: 20px;
+    }
+    .subtitle {
+      font-size: 15px;
+    }
+    .chart-box canvas {
+      max-height: 220px;
+    }
+    .meta-table,
+    .budget-table {
+      font-size: 12px;
+    }
+  }
+  /* Scroll UI */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(148, 163, 184, 0.25);
+    z-index: 1200;
+  }
+  .scroll-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #2563eb 0%, #0ea5e9 100%);
+    transition: width 0.08s linear;
+  }
+  .scroll-top-btn {
+    position: fixed;
+    right: 24px;
+    bottom: 26px;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: #1d4ed8;
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    box-shadow: 0 10px 24px rgba(29, 78, 216, 0.35);
+    cursor: pointer;
+    z-index: 1200;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  }
+  .scroll-top-btn.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .scroll-top-btn:hover {
+    background: #1e40af;
+  }
+  .scroll-top-btn:focus-visible {
+    outline: 3px solid rgba(191, 219, 254, 0.95);
+    outline-offset: 2px;
+  }
+  /* Scroll reveal animation */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.985);
+    transition:
+      opacity 0.55s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.55s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: transform, opacity;
+  }
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  .zone-card.reveal-on-scroll.is-visible,
+  .card.reveal-on-scroll.is-visible,
+  .effect-card.reveal-on-scroll.is-visible,
+  .chart-box.reveal-on-scroll.is-visible,
+  .step-content.reveal-on-scroll.is-visible {
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.09);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll,
+    .reveal-on-scroll.is-visible {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.7/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true">
+    <div id="scrollProgressBar" class="scroll-progress-bar"></div>
+  </div>
+  <button id="scrollTopBtn" class="scroll-top-btn" type="button" aria-label="맨 위로 이동" title="맨 위로">↑</button>
+
+  <div class="wrap">
+    <div class="paper">
+
+      <!-- ========== HERO ========== -->
+      <div class="hero">
+        <span class="badge">행정안전부 제출용(통합 보강본)</span>
+        <span class="badge" style="background:#f0fdf4;color:#15803d;">사업계획서 + 운영예산안 통합</span>
+        <h1>어린이놀이시설 안전체험센터 시범조성 및 운영사업(안)</h1>
+        <p class="subtitle">시범 운영계획 및 예산(안)</p>
+        <p class="concept-label">핵심 개념 — 단계형 위험 인지 놀이터 (Graduated Risk Playground)</p>
+        <p class="desc">어린이 인지 발달과 위험 인지 능력 형성을 고려한 4단계 체험형 놀이환경을 조성하고, 공공재정 중심의 재원 설계·교부금+지자체 매칭 예산 편성·세부 산출내역·컨설팅비 보강안을 포함한 통합 보고서.</p>
+        <p class="collab">제안사 · (행안부)어린이놀이시설 검사기관 기술협의회 · (사)울산예방안전센터 · (사)창의융합연구원</p>
+      </div>
+
+      <!-- ========== 1. 사업개요 ========== -->
+      <div class="section">
+        <h2>1. 사업개요</h2>
+        <table class="meta-table">
+          <tr><th>사 업 명</th><td>어린이놀이시설 안전체험센터 시범조성 및 운영사업</td></tr>
+          <tr><th>핵심 개념</th><td>단계형 위험 인지 놀이터(Graduated Risk Playground) — 어린이의 인지 발달 단계에 맞춰 기초 감각 → 환경 인지 → 감각·운동 통합 → 위험 인지 체험을 점진적으로 학습하는 4단계 체험 구조</td></tr>
+          <tr><th>사업목적</th><td>어린이놀이시설 안전사고 예방을 위한 체험형 교육 기반을 구축하고, 영유아·어린이 대상 안전체험과 관리주체·검사기관 종사자 대상 전문교육을 통합 운영할 수 있는 공공형 안전체험센터를 조성하고자 함.</td></tr>
+          <tr><th>사업성격</th><td>어린이놀이시설 안전관리 정책의 실효성을 높이기 위한 공공 시범사업 (정책 실증형)</td></tr>
+          <tr><th>부지규모</th><td>약 8,000 ~ 10,000㎡ (산지형 부지 선호)</td></tr>
+          <tr><th>이용대상</th><td>유치원·어린이집 단체 체험, 일반 어린이 체험 학습 / 공인 검사기관 실무자 교육·훈련 / 관리주체 안전교육</td></tr>
+          <tr><th>추진방식</th><td>재단법인 설립 후 위탁 운영을 기본방향으로 검토하되, 설립 여건에 따라 지자체 출연·위탁 방식과 단계적으로 연계 추진</td></tr>
+          <tr><th>사업기간</th><td>총 5개년 단계별 추진</td></tr>
+        </table>
+        <div class="callout">
+          <strong>검토 포인트</strong><br>
+          본 사업은 초기 수익형 사업이 아니라 정책 실증형 시범사업에 해당하므로, 자체수입보다 공공재정 중심의 재원 설계가 타당함.
+        </div>
+      </div>
+
+      <!-- ========== 2. 추진배경 및 필요성 ========== -->
+      <div class="section">
+        <h2>2. 추진배경 및 필요성</h2>
+
+        <h3>가. 어린이 놀이환경 변화와 사고 예방 정책의 한계</h3>
+        <p>최근 어린이 놀이환경은 도시화, 학습 중심 생활환경, 디지털 미디어 확산 등의 영향으로 어린이의 신체 활동과 자유로운 놀이 경험이 점차 감소하는 경향을 보이고 있다. 이러한 변화는 어린이가 다양한 신체 활동과 감각 경험을 통해 주변 환경을 이해하고 위험을 인지하는 기회를 제한하는 요인으로 작용하고 있다.</p>
+        <p>우리나라는 2008년 「어린이놀이시설 안전관리법」을 시행하여 체계적인 안전관리 정책을 추진해 왔으나, 매년 일정 수준의 사고가 지속 발생하고 있으며, 사고 분석 결과 상당수가 <strong>이용자의 행동·판단 관련 요인</strong>에서 발생하는 것으로 나타나고 있다.</p>
+
+        <div class="callout-warn">
+          <strong>정책적 시사점</strong><br>
+          기존 정책이 시설의 구조적 안전성 확보에 중점을 두어 왔으나, 어린이가 놀이 과정에서 위험을 인지하고 스스로 행동을 조절하는 능력을 형성하는 측면에 대해서는 상대적으로 충분히 고려되지 못했음. → <strong>시설 중심 안전관리에서 이용자 위험인지 역량 강화 중심으로의 정책 확장 필요</strong>
+        </div>
+
+        <h3>나. 어린이 발달과 위험 인지 경험의 중요성</h3>
+        <p>아동 발달 연구에 따르면 어린이는 놀이 과정에서 다양한 감각 경험과 신체 활동을 통해 균형 감각, 공간 인지 능력, 환경 판단 능력 등을 발달시키며, 이러한 경험은 위험을 인지하고 행동을 조절하는 능력 형성에 중요한 영향을 미친다.</p>
+        <p>특히 어린이는 놀이 과정에서 <strong>실패와 도전을 반복적으로 경험</strong>하면서 자신의 능력과 한계를 이해하고, 위험 상황에 대한 대응 능력을 학습하게 된다. 이러한 경험이 일상생활에서 안전하게 행동할 수 있는 자기보호 능력 형성의 기초가 된다.</p>
+
+        <h3>다. 해외 벤치마킹 — RoSPA LASER 체험센터</h3>
+        <p>2007년 영국의 왕립사고예방기구(RoSPA)가 운영하는 <strong>LASER(Learning About Safety by Experiencing Risk)</strong> 체험센터 5곳을 견학한 결과, 이용자의 직접 체험이 안전 역량 형성에 매우 효과적임을 확인하고, 이를 토대로 한국형 체험형 안전교육의 장을 구상하게 되었다.</p>
+
+        <h3>라. 안전체험형 놀이터 도입의 종합적 필요성</h3>
+        <ul>
+          <li>어린이 놀이환경 변화에 대응할 체험 기반 안전교육 인프라 확충 필요</li>
+          <li>유치원·어린이집 단체 체험과 관리주체·검사기관 교육을 통합할 수 있는 복합형 시설 필요</li>
+          <li>시설의 물리적 안전성 중심 정책에서 이용자 위험인지 역량 강화 중심으로 확장 필요</li>
+          <li>단계적 체험 구조를 통해 기초 감각 경험 → 환경 인지 → 감각·운동 통합 → 위험 인지까지 점진적 학습환경 제공 필요</li>
+          <li>시범사업 성과를 토대로 전국 확산 가능한 표준모델 마련 필요</li>
+        </ul>
+      </div>
+
+      <!-- ========== 3. 사업내용 — 4색 놀이터 ========== -->
+      <div class="section">
+        <h2>3. 사업내용 — 4단계 체험 영역 구성</h2>
+        <p>어린이의 인지 발달 단계와 위험 인지 능력 형성을 고려하여, 기초 감각에서 위험 인지까지 점진적으로 학습할 수 있는 <strong>4개 체험 영역(노랑→주황→초록→빨강)</strong>과 부대시설로 구성한다.</p>
+
+        <div class="zone-grid">
+          <!-- 노랑 놀이터 -->
+          <div class="zone-card zone-yellow">
+            <h4>① 노랑 놀이터</h4>
+            <div class="zone-sub">기초 감각 놀이 영역</div>
+            <p>건너는 기구와 오르는 기구를 중심으로 구성된 기본 놀이 영역. 어린이가 놀이 과정에서 시각, 촉각, 균형 감각 및 운동 감각 등 기초 감각 능력을 경험하도록 설계한다.</p>
+            <span class="effect-tag">기초 감각 체험</span>
+            <span class="effect-tag">신체 인지 발달</span>
+          </div>
+
+          <!-- 주황 놀이터 -->
+          <div class="zone-card zone-orange">
+            <h4>② 주황 놀이터</h4>
+            <div class="zone-sub">환경 인지 놀이 영역</div>
+            <p>움직임 옵션이 다양하고 복잡한 오르는 기구 중심 영역. 높이, 경사, 중력 등 환경 요소를 체험하며, 주변 환경을 인식하고 판단하는 능력과 공간 인지 능력 발달을 유도한다.</p>
+            <span class="effect-tag">환경 인지</span>
+            <span class="effect-tag">위험 판단 능력</span>
+          </div>
+
+          <!-- 초록 놀이터 -->
+          <div class="zone-card zone-green">
+            <h4>③ 초록 놀이터</h4>
+            <div class="zone-sub">감각·운동 통합 놀이 영역</div>
+            <p>속도 경험, 회전, 공중 체험이 가능한 움직이는 놀이시설의 복합 영역. Piaget에 따르면 감각·운동 경험은 아동의 지능 발달과 논리적 사고 발달의 기초를 형성하는 핵심 요소이다.</p>
+            <span class="effect-tag">감각·운동 통합</span>
+            <span class="effect-tag">행동 조절 능력</span>
+          </div>
+
+          <!-- 빨강 놀이터 -->
+          <div class="zone-card zone-red">
+            <h4>④ 빨강 놀이터</h4>
+            <div class="zone-sub">위험 인지 체험 영역</div>
+            <p>잠재적 위험요소(Potential Hazard)가 숨겨진 체험 공간. 어린이에게 위험 요소를 식별하고 대응하는 방법을 체험적으로 교육하는 동시에, 검사기관 종사자 및 관리주체의 자격 검증·안전교육·실습 공간으로도 활용한다.</p>
+            <span class="effect-tag">위험 식별</span>
+            <span class="effect-tag">안전 교육</span>
+          </div>
+        </div>
+
+        <h3>4단계 체험 영역 교육효과 종합</h3>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th style="width:12%">영역</th>
+              <th style="width:20%">시설 구성</th>
+              <th>핵심 기능</th>
+              <th style="width:14%">체험 의미</th>
+              <th style="width:14%">교육 효과</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="background:var(--yellow);font-weight:700;">노랑</td>
+              <td>건너는 기구·오르는 기구 중심</td>
+              <td>시각·촉각·균형감각·운동감각 증진</td>
+              <td>기초 감각 체험</td>
+              <td>신체 인지</td>
+            </tr>
+            <tr>
+              <td style="background:var(--orange);font-weight:700;">주황</td>
+              <td>다양한 움직임 옵션의 복잡한 놀이 영역</td>
+              <td>높이·중력 체감, 환경 판단 능력·두뇌 발달</td>
+              <td>환경 인지</td>
+              <td>위험 판단</td>
+            </tr>
+            <tr>
+              <td style="background:var(--green);font-weight:700;">초록</td>
+              <td>속도·공중 체험, 움직이는 기구 복합</td>
+              <td>감각·운동 기술 증진 (Piaget 이론 기반)</td>
+              <td>감각·운동 통합</td>
+              <td>행동 조절</td>
+            </tr>
+            <tr>
+              <td style="background:var(--red);font-weight:700;">빨강</td>
+              <td>잠재적 위험요소(Potential Hazard) 놀이터</td>
+              <td>위험요소 인지·대응 학습 / 검사기관 교육·훈련</td>
+              <td>위험 식별</td>
+              <td>안전 교육</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>부대시설</h3>
+        <div class="grid">
+          <div class="card">
+            <h4>교육·운영 시설</h4>
+            <ul>
+              <li>실내 교육장 및 다목적 강의공간 (안전교육실)</li>
+              <li>관리·운영 공간</li>
+              <li>안전관리 및 안내 시스템</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>편의·휴게 시설</h4>
+            <ul>
+              <li>쉼터·그늘막·카페·휴게공간</li>
+              <li>산책로 및 녹지 공간</li>
+              <li>주차장 및 관리시설</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>주요 운영기능</h3>
+        <ul>
+          <li>유치원·어린이집·초등 저학년 대상 단체 안전체험 프로그램</li>
+          <li>보호자 동반 안전교육 프로그램</li>
+          <li>어린이놀이시설 관리주체 대상 실무교육</li>
+          <li>공인 검사기관 종사자 대상 자격 검증 및 전문훈련</li>
+          <li>놀이시설 워크숍 및 안전캠페인</li>
+          <li>지역사회 연계 프로그램</li>
+        </ul>
+      </div>
+
+      <!-- ========== 4. 운영방안 ========== -->
+      <div class="section">
+        <h2>4. 운영방안</h2>
+        <table class="budget-table">
+          <thead>
+            <tr><th>구분</th><th>주요 역할</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>지자체</td><td>예산지원, 정책연계, 행정지원, 부지 확보</td></tr>
+            <tr><td>재단법인</td><td>사업운영 총괄, 인력관리, 프로그램 운영, 성과관리</td></tr>
+            <tr><td>관계기관</td><td>교육협력, 프로그램 자문, 정책 확산 지원</td></tr>
+            <tr><td>검사기관 기술협의회</td><td>검사기관 종사자 교육·훈련 프로그램 설계·운영, 자격 검증 연계</td></tr>
+          </tbody>
+        </table>
+        <p class="note">재단법인 위탁운영 방식은 공공성 유지와 전문성 확보를 동시에 달성할 수 있어 초기 단계 운영구조로 적합함. 설립 여건에 따라 지자체 출연·위탁 방식과 단계적으로 연계 추진 가능.</p>
+      </div>
+
+      <!-- ========== 5. 추진 로드맵 (신규) ========== -->
+      <div class="section">
+        <h2>5. 5단계 추진 로드맵</h2>
+        <div class="roadmap">
+
+          <div class="roadmap-step">
+            <div class="step-badge">1단계</div>
+            <div class="step-content">
+              <h4>사업 기획 및 기본계획 수립 (1차년도)</h4>
+              <p class="step-desc">시범사업 추진을 위한 기본 방향 설정 및 제도적·행정적 기반 마련</p>
+              <ul>
+                <li>안전체험형 놀이터 시범사업 기본계획 수립</li>
+                <li>사업 대상지 선정 기준 마련 및 후보지 발굴</li>
+                <li>어린이 발달·놀이시설 설계·안전 전문가 건립협의체 구성</li>
+                <li>안전체험형 놀이터 공간 구성 및 설계 가이드라인 마련</li>
+                <li>재단법인 설립 및 제도설계 자문</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="roadmap-step">
+            <div class="step-badge">2단계</div>
+            <div class="step-content">
+              <h4>대상지 선정 및 설계 (2차년도)</h4>
+              <p class="step-desc">시범사업 대상지 확정 및 체험형 놀이공간 구체적 설계·사업 추진 준비</p>
+              <ul>
+                <li>시범사업 대상지 선정 및 부지 확보</li>
+                <li>체험형 놀이공간 세부 설계 (건축·조경·놀이시설)</li>
+                <li>4개 체험 영역(노랑·주황·초록·빨강) 구성 계획 수립</li>
+                <li>교육 프로그램 개발</li>
+                <li>사업 예산 확보 및 추진 협약 체결</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="roadmap-step">
+            <div class="step-badge">3단계</div>
+            <div class="step-content">
+              <h4>시범시설 조성 및 시범 운영 (3차년도)</h4>
+              <p class="step-desc">시설 조성 완료 및 단체 체험·교육 프로그램 운영 개시</p>
+              <ul>
+                <li>안전체험형 놀이터 조성 (부지정비, 시설설치, 장비구축)</li>
+                <li>유치원·어린이집 단체 체험교육 운영</li>
+                <li>관리주체 및 검사기관 종사자 대상 교육 프로그램 운영</li>
+                <li>이용자 행동 특성 및 안전 효과 분석</li>
+                <li>시설 운영 및 유지관리 체계 구축</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="roadmap-step">
+            <div class="step-badge">4단계</div>
+            <div class="step-content">
+              <h4>운영 평가 및 개선 (4차년도)</h4>
+              <p class="step-desc">시범사업 운영 결과 분석 및 정책적 효과 평가</p>
+              <ul>
+                <li>이용 만족도 조사 및 안전 효과 분석</li>
+                <li>어린이 위험 인지 능력 및 안전 행동 변화 분석</li>
+                <li>시설 설계 및 운영 프로그램 개선</li>
+                <li>시범사업 성과 평가 보고서 작성</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="roadmap-step">
+            <div class="step-badge">5단계</div>
+            <div class="step-content">
+              <h4>정책 확산 및 제도화 검토 (5차년도)</h4>
+              <p class="step-desc">시범사업 결과 기반 정책 확대 가능성 검토 및 제도화 방안 마련</p>
+              <ul>
+                <li>안전체험형 놀이터 정책 모델 정립</li>
+                <li>어린이놀이시설 정책과 연계한 확산 방안 검토</li>
+                <li>지자체 적용 가능 모델 개발</li>
+                <li>관련 지침 및 가이드라인 마련</li>
+                <li>전국 확산 여부 검토</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== 6. 재원조달 및 예산편성 기본방향 ========== -->
+      <div class="section">
+        <h2>6. 재원조달 및 예산편성 기본방향</h2>
+        <div class="two-col">
+          <div>
+            <h4>재원구조(안)</h4>
+            <ul>
+              <li>행정안전부 교부금 등 중앙재원: 50~70%</li>
+              <li>지자체 예산: 30~50%</li>
+              <li>자체수입: 초기 보조적 수준만 반영</li>
+            </ul>
+          </div>
+          <div>
+            <h4>편성원칙</h4>
+            <ul>
+              <li>시설 조성비와 운영비를 구분 편성</li>
+              <li>기획·설계·운영모델 정립비를 별도 반영</li>
+              <li>초기 수익은 보수적으로 산정</li>
+              <li>시범운영비와 성과평가비를 필수 반영</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 7. 예산 편성 기본계획 및 타당성 검토 ========== -->
+      <div class="section">
+        <h2>7. 예산 편성 기본계획 및 타당성 검토</h2>
+        <div class="callout">
+          <strong>기본 방향</strong><br>
+          본 사업은 시설 조성과 시범운영이 동시에 요구되는 공공정책 실증형 사업이므로, 초기에는 교부금과 지자체 예산을 결합한 매칭형 구조로 예산을 편성하는 것이 가장 현실적임.
+        </div>
+
+        <h3>가. 교부금 + 지자체 예산 편성의 필요성</h3>
+        <ul>
+          <li>초기 자체수익이 불명확하여 단년도 수입으로 시설 조성비와 운영비를 충당하기 어려움</li>
+          <li>사업 성격상 국가 안전정책 실증과 지역 공공서비스 제공 기능을 동시에 수행하므로 중앙-지방 공동재정 구조가 적합함</li>
+          <li>교부금은 시범사업 착수와 시설조성의 동력을 제공하고, 지자체 예산은 부지·운영·행정지원의 지속성을 확보하는 역할을 함</li>
+          <li>중앙재정 단독 또는 지방재정 단독 구조보다 사업 지속성과 책임성이 높음</li>
+        </ul>
+
+        <h3>나. 타당성 검토 논리</h3>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th style="width:22%">검토 항목</th>
+              <th>주요 내용</th>
+              <th style="width:24%">판단</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>정책 타당성</td>
+              <td>어린이놀이시설 안전사고 예방, 이용자 체험교육, 관리주체 전문교육 기능을 동시에 수행</td>
+              <td>중앙부처 시범사업 지원 논리 확보 가능</td>
+            </tr>
+            <tr>
+              <td>재정 타당성</td>
+              <td>초기 조성비가 크고 자체수입 예측이 제한적이므로 공공재정 선투입 필요</td>
+              <td>교부금 + 지자체 매칭 구조 적정</td>
+            </tr>
+            <tr>
+              <td>운영 타당성</td>
+              <td>재단법인 위탁운영을 통해 공공성과 전문성 병행 가능</td>
+              <td>운영 지속성 확보 가능</td>
+            </tr>
+            <tr>
+              <td>확산 가능성</td>
+              <td>시범운영 성과를 기반으로 타 지자체 확산 및 표준모델 제시 가능</td>
+              <td>중앙지원의 정책 파급효과 기대</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>다. 권장 재원분담(안)</h3>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th style="width:18%">비율(안)</th>
+              <th>주요 부담 내용</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>행정안전부 교부금</td>
+              <td class="num">60%</td>
+              <td>기본계획, 설계, 시범시설 조성, 시범운영 기반 구축</td>
+            </tr>
+            <tr>
+              <td>지자체 예산</td>
+              <td class="num">40%</td>
+              <td>부지 확보, 기반시설 연계, 운영지원, 행정지원</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">상기 비율은 기준안이며, 사업지 여건과 부지 제공방식에 따라 50:50 또는 70:30 범위 내에서 조정 가능함.</p>
+      </div>
+
+      <!-- ========== 8. 총사업비(안) ========== -->
+      <div class="section">
+        <h2>8. 총사업비(안)</h2>
+        <div class="summary-box">
+          <div class="stat"><div class="label">보수안</div><div class="value">68억 원</div></div>
+          <div class="stat"><div class="label">기준안</div><div class="value">95억 원 내외</div></div>
+          <div class="stat"><div class="label">확장안</div><div class="value">158억 원</div></div>
+          <div class="stat"><div class="label">권장 재원분담</div><div class="value">교부금 60%<br>지자체 40%</div></div>
+        </div>
+
+        <!-- 그래프 영역 -->
+        <div class="chart-row">
+          <div class="chart-box">
+            <h4>총사업비 시나리오 비교 (억원)</h4>
+            <canvas id="chartScenario"></canvas>
+          </div>
+          <div class="chart-box">
+            <h4>권장 재원분담 구조</h4>
+            <canvas id="chartFunding"></canvas>
+          </div>
+        </div>
+        <div class="chart-full">
+          <div class="chart-box">
+            <h4>연차별 예산 배분 — 최소·최대 범위 (억원)</h4>
+            <canvas id="chartYearly"></canvas>
+          </div>
+        </div>
+
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th style="width:16%">구분</th>
+              <th>주요내용</th>
+              <th style="width:14%">최소(억원)</th>
+              <th style="width:14%">최대(억원)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1차년도</td><td>기획·타당성·법인설립·운영모델 설계</td><td class="num">3.3</td><td class="num">7.5</td></tr>
+            <tr><td>2차년도</td><td>설계·인허가·감리·운영체계 구축</td><td class="num">5.3</td><td class="num">11.5</td></tr>
+            <tr><td>3차년도</td><td>시설 조성 및 장비 구축</td><td class="num">50.0</td><td class="num">118.0</td></tr>
+            <tr><td>4차년도</td><td>시범운영 및 성과평가</td><td class="num">9.0</td><td class="num">21.0</td></tr>
+            <tr>
+              <td colspan="2"><strong>합계</strong></td>
+              <td class="num"><strong>67.6</strong></td>
+              <td class="num"><strong>158.0</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">상기 금액은 상세 설계 전 단계의 개략 추정치이며, 부지 여건·시설 규모·설계 수준·운영 범위에 따라 조정될 수 있음.</p>
+      </div>
+
+      <!-- ========== 9. 세부 예산 산출내역서 ========== -->
+      <div class="section">
+        <h2>9. 세부 예산 산출내역서</h2>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th style="width:11%">연차</th>
+              <th style="width:14%">대분류</th>
+              <th>세부 항목</th>
+              <th style="width:10%">최소(억원)</th>
+              <th style="width:10%">최대(억원)</th>
+              <th style="width:25%">산출 기준</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1차년도</td><td>기획·설립 준비</td><td>타당성 검토 및 기본계획 수립</td><td class="num">1.5</td><td class="num">3.0</td><td>정책논리, 대상지 기준, 기본구상 포함</td></tr>
+            <tr><td>1차년도</td><td>기획·설립 준비</td><td>재단법인 설립 및 제도설계 자문</td><td class="num">0.3</td><td class="num">0.8</td><td>정관, 조직체계, 법률검토</td></tr>
+            <tr><td>1차년도</td><td>기획·설립 준비</td><td>운영모델·위탁구조·수익구조 컨설팅</td><td class="num">0.5</td><td class="num">1.2</td><td>위탁운영 구조, 수익모델, KPI 설계</td></tr>
+            <tr><td>1차년도</td><td>기획·설립 준비</td><td>전문가 자문 및 협의체 운영</td><td class="num">0.2</td><td class="num">0.5</td><td>전문가 회의, 워크숍, 자문</td></tr>
+            <tr><td>1차년도</td><td>기획·설립 준비</td><td>예비 설계 및 기본구상</td><td class="num">0.8</td><td class="num">2.0</td><td>마스터플랜, 공간배치 검토</td></tr>
+            <tr><td>2차년도</td><td>설계·인허가</td><td>기본 및 실시설계</td><td class="num">3.0</td><td class="num">6.0</td><td>건축·조경·놀이시설 설계</td></tr>
+            <tr><td>2차년도</td><td>설계·인허가</td><td>인허가·심의·안전검토</td><td class="num">0.5</td><td class="num">1.5</td><td>관련 심의 및 법정 검토</td></tr>
+            <tr><td>2차년도</td><td>설계·인허가</td><td>감리 및 발주 지원</td><td class="num">1.0</td><td class="num">2.0</td><td>발주문서 지원 포함</td></tr>
+            <tr><td>2차년도</td><td>설계·인허가</td><td>프로그램 및 운영체계 구축</td><td class="num">0.8</td><td class="num">2.0</td><td>교육 프로그램, 운영지침, 매뉴얼</td></tr>
+            <tr><td>3차년도</td><td>시설 조성</td><td>부지 정비 및 토목·조경 공사</td><td class="num">15.0</td><td class="num">35.0</td><td>산지형 부지 선호 전제</td></tr>
+            <tr><td>3차년도</td><td>시설 조성</td><td>체험형 놀이시설 설치 (4개 영역)</td><td class="num">20.0</td><td class="num">45.0</td><td>노랑·주황·초록·빨강 4개 체험영역</td></tr>
+            <tr><td>3차년도</td><td>시설 조성</td><td>교육장·관리공간·휴게공간 조성</td><td class="num">10.0</td><td class="num">25.0</td><td>교육장, 관리시설, 쉼터, 카페 등</td></tr>
+            <tr><td>3차년도</td><td>시설 조성</td><td>전기·통신·보안·안전 시스템 구축</td><td class="num">3.0</td><td class="num">8.0</td><td>CCTV, 안내, 방송, 통신</td></tr>
+            <tr><td>3차년도</td><td>시설 조성</td><td>집기·교육장비·시범운영 준비</td><td class="num">2.0</td><td class="num">5.0</td><td>교육비품, 집기류, 초기 소모품</td></tr>
+            <tr><td>4차년도</td><td>시범운영·평가</td><td>인건비</td><td class="num">4.0</td><td class="num">8.0</td><td>운영인력, 교육인력, 행정인력</td></tr>
+            <tr><td>4차년도</td><td>시범운영·평가</td><td>프로그램 운영비</td><td class="num">1.5</td><td class="num">4.0</td><td>교구, 교육재료, 행사 운영</td></tr>
+            <tr><td>4차년도</td><td>시범운영·평가</td><td>유지관리 및 공공요금</td><td class="num">2.0</td><td class="num">5.0</td><td>시설 유지보수, 전기·수도·통신</td></tr>
+            <tr><td>4차년도</td><td>시범운영·평가</td><td>보험·안전관리·정기점검</td><td class="num">0.5</td><td class="num">1.5</td><td>책임보험, 점검비</td></tr>
+            <tr><td>4차년도</td><td>시범운영·평가</td><td>홍보 및 대외협력</td><td class="num">0.5</td><td class="num">1.0</td><td>홍보물, 행사, 대외 네트워크</td></tr>
+            <tr><td>4차년도</td><td>시범운영·평가</td><td>성과평가 및 정책연구</td><td class="num">0.5</td><td class="num">1.5</td><td>만족도 조사, 성과분석</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ========== 10. 사업 컨설팅비 세부 산정 ========== -->
+      <div class="section">
+        <h2>10. 사업 컨설팅비 세부 산정</h2>
+        <div class="summary-box">
+          <div class="stat"><div class="label">최소안</div><div class="value">1.5~2.0억</div></div>
+          <div class="stat"><div class="label">기준안</div><div class="value">2.5~3.5억</div></div>
+          <div class="stat"><div class="label">확대안</div><div class="value">4.0~5.0억</div></div>
+          <div class="stat"><div class="label">세부합계 기준</div><div class="value">2.3~5.0억</div></div>
+        </div>
+
+        <div class="callout">
+          <strong>산정 원칙</strong><br>
+          컨설팅비는 매출연동 방식이 아니라 과업기반 방식으로 산정함. 총괄기획, 정책자문, 법인설계, 운영모델, 프로그램 설계, 수익구조 검토, 성과지표 설계를 포함한 필수 사전투자 성격의 비용으로 편성함.
+        </div>
+
+        <table class="budget-table" style="margin-top:16px;">
+          <thead>
+            <tr>
+              <th style="width:12%">구분</th>
+              <th style="width:24%">세부 과업</th>
+              <th>주요 내용</th>
+              <th style="width:11%">최소(억원)</th>
+              <th style="width:11%">최대(억원)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>사전기획</td><td>사업 타당성 및 정책논리 정립</td><td>정책목표 설정, 필요성 분석, 시범사업 논리 구성</td><td class="num">0.4</td><td class="num">0.8</td></tr>
+            <tr><td>재원설계</td><td>교부금·지자체 예산 구조 설계</td><td>매칭 구조, 단계별 재원배분, 편성 논리 수립</td><td class="num">0.3</td><td class="num">0.7</td></tr>
+            <tr><td>법인설계</td><td>재단법인 설립 및 운영체계 검토</td><td>정관, 조직도, 규정, 운영주체 검토</td><td class="num">0.3</td><td class="num">0.7</td></tr>
+            <tr><td>위탁운영</td><td>위탁운영 구조 및 성과관리 체계 설계</td><td>위탁범위, KPI, 보고체계, 평가체계 설계</td><td class="num">0.4</td><td class="num">0.8</td></tr>
+            <tr><td>프로그램</td><td>체험·교육 프로그램 운영모델 설계</td><td>이용자 프로그램, 전문교육 과정, 운영 프로세스 설계</td><td class="num">0.4</td><td class="num">0.8</td></tr>
+            <tr><td>수익모델</td><td>중장기 수익 및 운영수지 검토</td><td>단체이용료, 교육수입, 위탁운영비 구조 검토</td><td class="num">0.3</td><td class="num">0.6</td></tr>
+            <tr><td>성과확산</td><td>시범운영 평가 및 확산모델 설계</td><td>성과지표, 확산전략, 정책보고 체계 마련</td><td class="num">0.2</td><td class="num">0.6</td></tr>
+            <tr>
+              <td colspan="3"><strong>합계</strong></td>
+              <td class="num"><strong>2.3</strong></td>
+              <td class="num"><strong>5.0</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>가. 투입 인력 기준 예시</h3>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th style="width:22%">참여 인력</th>
+              <th style="width:18%">투입 기간(예시)</th>
+              <th>주요 역할</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>총괄 PM</td><td class="num">4개월</td><td>사업총괄, 대관협의, 보고서 총괄</td></tr>
+            <tr><td>정책·행정 전문가</td><td class="num">3개월</td><td>행안부 교부금 논리, 지자체 연계 검토</td></tr>
+            <tr><td>법인·운영 전문가</td><td class="num">3개월</td><td>재단법인 구조, 위탁운영 체계 설계</td></tr>
+            <tr><td>공간·시설기획 전문가</td><td class="num">3개월</td><td>시설규모, 공간배치, 설계 연계 검토</td></tr>
+            <tr><td>재무·수익모델 전문가</td><td class="num">2개월</td><td>운영수지, 자체수입 구조 검토</td></tr>
+            <tr><td>실무연구원</td><td class="num">4개월</td><td>자료조사, 회의 운영, 세부내역 작성</td></tr>
+          </tbody>
+        </table>
+
+        <p class="note">실제 발주 시에는 위 인력구성을 기준으로 직접인건비, 제경비, 일반관리비, 이윤, 부가가치세를 합산하는 방식으로 세부 산정하는 것이 적정함.</p>
+      </div>
+
+      <!-- ========== 11. 기대효과 (신규) ========== -->
+      <div class="section">
+        <h2>11. 기대효과</h2>
+        <div class="effect-grid">
+          <div class="effect-card">
+            <div class="ef-num">01</div>
+            <h4>정책 모델 혁신</h4>
+            <p>어린이놀이시설 안전관리 정책을 시설 중심 관리에서 이용자 역량 강화 중심 정책으로 확장하는 새로운 정책 모델 제시</p>
+          </div>
+          <div class="effect-card">
+            <div class="ef-num">02</div>
+            <h4>사고 예방 실효성 강화</h4>
+            <p>어린이의 신체 활동과 위험 인지 능력을 동시에 향상시키는 체험형 놀이환경을 조성하여 사고 예방 정책의 실효성 제고</p>
+          </div>
+          <div class="effect-card">
+            <div class="ef-num">03</div>
+            <h4>전문 역량 강화</h4>
+            <p>어린이놀이시설 관리주체 및 검사기관 종사자를 위한 실습형 안전교육 공간을 제공하여 안전관리 전문성 역량 강화</p>
+          </div>
+          <div class="effect-card">
+            <div class="ef-num">04</div>
+            <h4>전국 확산 모델 구축</h4>
+            <p>시범사업을 통해 시설 중심 안전관리와 이용자 역량 강화를 결합한 표준모델을 마련하고, 향후 지자체 단위 확산 가능한 어린이 안전체험 놀이터 모델 구축</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 12. 요청사항 ========== -->
+      <div class="section">
+        <h2>12. 요청사항</h2>
+        <ol>
+          <li>시범조성사업 추진을 위한 행정안전부 교부금 지원 검토</li>
+          <li>지자체 매칭예산과 연계한 단계별 재정지원 검토</li>
+          <li>시범운영 성과를 기반으로 한 전국 확산모델 검토</li>
+          <li>관계기관 협업을 통한 전문교육 기능 연계 지원</li>
+          <li>검사기관 기술협의회와 연계한 종사자 교육·훈련 프로그램 지원</li>
+        </ol>
+      </div>
+
+      <!-- ========== FOOTER ========== -->
+      <div class="footer">
+        본 보고서는 (행안부)어린이놀이시설 검사기관 기술협의회·(사)울산예방안전센터·(사)창의융합연구원의 사업계획서와 운영 예산안을 통합 보강한 수정본임. 단계형 위험 인지 놀이터(Graduated Risk Playground) 개념, 4색 체험영역 상세 내용, RoSPA LASER 벤치마킹, 5단계 추진 로드맵, 기대효과를 추가 반영함.
+      </div>
+
+    </div>
+  </div>
+</body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollProgressBar = document.getElementById('scrollProgressBar');
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  const revealTargets = document.querySelectorAll('.card, .zone-card, .effect-card, .stat, .step-content, .chart-box');
+
+  function updateScrollUi() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = scrollHeight > 0 ? Math.min((scrollTop / scrollHeight) * 100, 100) : 0;
+
+    if (scrollProgressBar) {
+      scrollProgressBar.style.width = ratio + '%';
+    }
+    if (scrollTopBtn) {
+      scrollTopBtn.classList.toggle('visible', scrollTop > 280);
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollUi, { passive: true });
+  window.addEventListener('resize', updateScrollUi);
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  updateScrollUi();
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (revealTargets.length > 0) {
+    revealTargets.forEach(function(node, index) {
+      node.classList.add('reveal-on-scroll');
+      node.style.setProperty('--reveal-delay', (index % 4) * 70 + 'ms');
+    });
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealTargets.forEach(function(node) {
+        node.classList.add('is-visible');
+      });
+    } else {
+      const revealObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.18,
+        rootMargin: '0px 0px -8% 0px'
+      });
+
+      revealTargets.forEach(function(node) {
+        revealObserver.observe(node);
+      });
+    }
+  }
+
+  const COLORS = {
+    blue: '#3b82f6',
+    blueSoft: 'rgba(59,130,246,0.15)',
+    indigo: '#1d4ed8',
+    indigoSoft: 'rgba(29,78,216,0.12)',
+    sky: '#0ea5e9',
+    skySoft: 'rgba(14,165,233,0.12)',
+    slate: '#64748b',
+    slateSoft: 'rgba(100,116,139,0.10)',
+    amber: '#f59e0b',
+    amberSoft: 'rgba(245,158,11,0.15)',
+    emerald: '#10b981',
+    emeraldSoft: 'rgba(16,185,129,0.15)',
+  };
+
+  const tooltipDefaults = {
+    backgroundColor: '#0f172a',
+    titleFont: { family: '"Apple SD Gothic Neo","Malgun Gothic",sans-serif', size: 13 },
+    bodyFont: { family: '"Apple SD Gothic Neo","Malgun Gothic",sans-serif', size: 12 },
+    padding: 10,
+    cornerRadius: 8,
+  };
+
+  // ─── 1) 총사업비 시나리오 비교 (Bar) ───
+  new Chart(document.getElementById('chartScenario'), {
+    type: 'bar',
+    data: {
+      labels: ['보수안', '기준안', '확장안'],
+      datasets: [{
+        label: '총사업비 (억원)',
+        data: [68, 95, 158],
+        backgroundColor: [
+          'rgba(59,130,246,0.75)',
+          'rgba(29,78,216,0.80)',
+          'rgba(14,165,233,0.75)',
+        ],
+        borderColor: [COLORS.blue, COLORS.indigo, COLORS.sky],
+        borderWidth: 2,
+        borderRadius: 8,
+        barPercentage: 0.55,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 1.5,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          ...tooltipDefaults,
+          callbacks: {
+            label: ctx => ctx.parsed.y + '억 원'
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 180,
+          ticks: {
+            callback: v => v + '억',
+            font: { size: 12 }
+          },
+          grid: { color: 'rgba(0,0,0,0.06)' }
+        },
+        x: {
+          ticks: { font: { size: 13, weight: '600' } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+
+  // ─── 2) 재원분담 구조 (Doughnut) ───
+  new Chart(document.getElementById('chartFunding'), {
+    type: 'doughnut',
+    data: {
+      labels: ['행정안전부 교부금', '지자체 예산'],
+      datasets: [{
+        data: [60, 40],
+        backgroundColor: ['rgba(29,78,216,0.80)', 'rgba(245,158,11,0.75)'],
+        borderColor: ['#fff', '#fff'],
+        borderWidth: 3,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 1.5,
+      cutout: '55%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 16,
+            usePointStyle: true,
+            pointStyleWidth: 12,
+            font: { size: 13, weight: '600', family: '"Apple SD Gothic Neo","Malgun Gothic",sans-serif' }
+          }
+        },
+        tooltip: {
+          ...tooltipDefaults,
+          callbacks: {
+            label: ctx => ctx.label + ': ' + ctx.parsed + '%'
+          }
+        }
+      }
+    }
+  });
+
+  // ─── 3) 연차별 예산 범위 (Grouped Bar) ───
+  new Chart(document.getElementById('chartYearly'), {
+    type: 'bar',
+    data: {
+      labels: [
+        '1차년도\n기획·설립',
+        '2차년도\n설계·인허가',
+        '3차년도\n시설 조성',
+        '4차년도\n시범운영'
+      ],
+      datasets: [
+        {
+          label: '최소 (억원)',
+          data: [3.3, 5.3, 50.0, 9.0],
+          backgroundColor: 'rgba(59,130,246,0.65)',
+          borderColor: COLORS.blue,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          barPercentage: 0.7,
+          categoryPercentage: 0.6,
+        },
+        {
+          label: '최대 (억원)',
+          data: [7.5, 11.5, 118.0, 21.0],
+          backgroundColor: 'rgba(14,165,233,0.55)',
+          borderColor: COLORS.sky,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          barPercentage: 0.7,
+          categoryPercentage: 0.6,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2.4,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            padding: 16,
+            usePointStyle: true,
+            pointStyleWidth: 12,
+            font: { size: 12, weight: '600', family: '"Apple SD Gothic Neo","Malgun Gothic",sans-serif' }
+          }
+        },
+        tooltip: {
+          ...tooltipDefaults,
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + '억 원'
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 130,
+          ticks: {
+            callback: v => v + '억',
+            font: { size: 12 }
+          },
+          grid: { color: 'rgba(0,0,0,0.06)' }
+        },
+        x: {
+          ticks: {
+            font: { size: 12, weight: '600' },
+            maxRotation: 0,
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+});
+</script>
+</html>
