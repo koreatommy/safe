@@ -471,23 +471,20 @@
     }
     .meta-table,
     .budget-table {
-      display: block;
       width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-collapse: separate;
-      border-spacing: 0;
+      border-collapse: collapse;
       font-size: 13px;
     }
-    .meta-table tbody,
-    .budget-table thead,
-    .budget-table tbody {
-      display: table;
-      width: 100%;
+    .budget-table {
+      display: block;
+      width: max-content;
+      min-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
-    .budget-table thead,
-    .budget-table tbody {
+    .budget-table {
       min-width: 680px;
+      table-layout: auto;
     }
     .meta-table th,
     .meta-table td,
