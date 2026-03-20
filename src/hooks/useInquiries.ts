@@ -33,6 +33,9 @@ export type InquiryFilter = "all" | "pending" | "processing" | "completed";
 
 export type AttachmentEntry = { name: string; url: string };
 
+/** 관리자 대시보드에서 문의당 허용되는 첨부 개수 상한 */
+export const MAX_INQUIRY_ATTACHMENTS = 20;
+
 type StoredAttachment = { name: string; url: string; size?: number };
 
 function parseStoredAttachments(raw: unknown): StoredAttachment[] {
@@ -256,8 +259,6 @@ export function useInquiries() {
       setUpdatingId(null);
     }
   };
-
-  const MAX_INQUIRY_ATTACHMENTS = 10;
 
   const appendInquiryAttachments = async (inquiryId: string, files: File[]) => {
     if (files.length === 0) return false;

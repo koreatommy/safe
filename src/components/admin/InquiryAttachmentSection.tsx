@@ -3,10 +3,8 @@
 import { useState } from "react";
 import { Paperclip, Upload } from "lucide-react";
 import { FileDropZone } from "@/components/forms/FileDropZone";
-import { parseAttachmentUrls } from "@/hooks/useInquiries";
+import { MAX_INQUIRY_ATTACHMENTS, parseAttachmentUrls } from "@/hooks/useInquiries";
 import { AttachmentPreview } from "./AttachmentPreview";
-
-const MAX_TOTAL = 10;
 
 interface InquiryAttachmentSectionProps {
   inquiryId: string;
@@ -26,7 +24,7 @@ export function InquiryAttachmentSection({
 }: InquiryAttachmentSectionProps) {
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const attachments = parseAttachmentUrls(attachmentUrlsRaw);
-  const remainingSlots = Math.max(0, MAX_TOTAL - attachments.length);
+  const remainingSlots = Math.max(0, MAX_INQUIRY_ATTACHMENTS - attachments.length);
   const busy = updatingId === inquiryId;
 
   const labelClass =
@@ -60,7 +58,7 @@ export function InquiryAttachmentSection({
       {remainingSlots > 0 ? (
         <div className="space-y-2 pt-1">
           <p className="text-white/45 text-xs">
-            관리자 추가 첨부 · PDF, 이미지, 문서, ZIP, TXT (최대 20MB, 합계 {MAX_TOTAL}개까지)
+            관리자 추가 첨부 · PDF, 이미지, 문서, ZIP, TXT (최대 20MB, 합계 {MAX_INQUIRY_ATTACHMENTS}개까지)
           </p>
           <FileDropZone
             files={pendingFiles}
@@ -78,7 +76,7 @@ export function InquiryAttachmentSection({
           </button>
         </div>
       ) : (
-        <p className="text-white/45 text-xs">첨부 상한({MAX_TOTAL}개)에 도달했습니다.</p>
+        <p className="text-white/45 text-xs">첨부 상한({MAX_INQUIRY_ATTACHMENTS}개)에 도달했습니다.</p>
       )}
     </div>
   );
