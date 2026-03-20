@@ -3,13 +3,12 @@
 import { useState } from "react";
 import {
   Mail, Phone, Building2, Calendar, CheckCircle, Clock,
-  Trash2, Edit2, ChevronDown, ChevronUp, Save, X, MessageSquare,
-  StickyNote, Paperclip,
+  Trash2, ChevronDown, ChevronUp, MessageSquare, Send,
+  StickyNote,
 } from "lucide-react";
 import { formatPhoneNumber } from "@/lib/utils";
-import type { Inquiry } from "@/hooks/useInquiries";
-import { parseAttachmentUrls } from "@/hooks/useInquiries";
-import { AttachmentPreview } from "./AttachmentPreview";
+import type { Inquiry, InquiryMemo } from "@/hooks/useInquiries";
+import { InquiryAttachmentSection } from "./InquiryAttachmentSection";
 
 interface InquiryCardProps {
   inquiry: Inquiry;
@@ -17,7 +16,9 @@ interface InquiryCardProps {
   deletingId: string | null;
   onStatusChange: (id: string, status: Inquiry["status"]) => void;
   onDelete: (id: string, name: string) => void;
-  onSaveNotes: (id: string, notes: string | null) => Promise<boolean>;
+  onAddMemo: (inquiryId: string, body: string) => Promise<boolean>;
+  onDeleteMemo: (inquiryId: string, memoId: string) => Promise<boolean>;
+  onAppendAttachments: (inquiryId: string, files: File[]) => Promise<boolean>;
 }
 
 const statusConfig = {
@@ -34,28 +35,24 @@ function formatDate(dateString: string) {
 
 export function InquiryCard({
   inquiry, updatingId, deletingId,
-  onStatusChange, onDelete, onSaveNotes,
+  onStatusChange, onDelete, onAddMemo, onDeleteMemo, onAppendAttachments,
 }: InquiryCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const [editingNotes, setEditingNotes] = useState(false);
-  const [notesInput, setNotesInput] = useState(inquiry.notes || "");
+  const [memoInput, setMemoInput] = useState("");
 
   const status = statusConfig[inquiry.status] || statusConfig.pending;
   const StatusIcon = status.icon;
-  const attachments = parseAttachmentUrls(inquiry.attachment_urls);
 
-  const handleSaveNotes = async () => {
-    const success = await onSaveNotes(inquiry.id, notesInput.trim() || null);
-    if (success) setEditingNotes(false);
+  const handleAddMemo = async () => {
+    const body = memoInput.trim();
+    if (!body) return;
+    const success = await onAddMemo(inquiry.id, body);
+    if (success) setMemoInput("");
   };
 
-  const handleDeleteNotes = async () => {
-    if (!confirm("관리자 메모를 삭제하시겠습니까?")) return;
-    const success = await onSaveNotes(inquiry.id, null);
-    if (success) {
-      setEditingNotes(false);
-      setNotesInput("");
-    }
+  const handleDeleteMemo = async (memoId: string) => {
+    if (!confirm("이 메모를 삭제하시겠습니까?")) return;
+    await onDeleteMemo(inquiry.id, memoId);
   };
 
   return (
@@ -129,75 +126,62 @@ export function InquiryCard({
               <StickyNote className="w-4 h-4 text-white/40 flex-shrink-0" />
               관리자 메모
             </p>
-            {editingNotes ? (
-              <div className="space-y-2">
-                <textarea
-                  value={notesInput}
-                  onChange={(e) => setNotesInput(e.target.value)}
-                  rows={3}
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#00ff88] resize-none"
-                  placeholder="관리자 메모를 입력하세요"
-                />
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={handleSaveNotes}
-                    disabled={updatingId === inquiry.id}
-                    className="px-3 py-1.5 rounded-lg bg-[#00ff88]/20 border border-[#00ff88] text-[#00ff88] text-xs flex items-center gap-1.5 disabled:opacity-50"
-                  >
-                    <Save className="w-3.5 h-3.5" /> 저장
-                  </button>
-                  <button
-                    onClick={() => { setEditingNotes(false); setNotesInput(inquiry.notes || ""); }}
-                    className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/70 text-xs flex items-center gap-1.5"
-                  >
-                    <X className="w-3.5 h-3.5" /> 취소
-                  </button>
-                  <button
-                    onClick={handleDeleteNotes}
-                    disabled={updatingId === inquiry.id}
-                    className="px-3 py-1.5 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 text-xs flex items-center gap-1.5 disabled:opacity-50 hover:bg-red-500/30"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" /> 삭제
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 space-y-2">
-                <div className="flex items-start justify-between gap-2">
-                  <p className="text-white/70 whitespace-pre-wrap flex-1 min-w-0">
-                    {inquiry.notes || "메모가 없습니다."}
-                  </p>
-                  <button
-                    onClick={() => { setEditingNotes(true); setNotesInput(inquiry.notes || ""); }}
-                    className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white flex-shrink-0"
-                  >
-                    <Edit2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                {inquiry.notes_updated_at && (
-                  <p className="text-white/45 text-xs flex items-center gap-1.5">
-                    <Clock className="w-3 h-3 flex-shrink-0" />
-                    {formatDate(inquiry.notes_updated_at)}
-                  </p>
+            <div className="rounded-lg bg-white/5 border border-white/10 overflow-hidden">
+              <ul className="divide-y divide-white/5 max-h-40 overflow-y-auto">
+                {(inquiry.memo_entries ?? []).length === 0 ? (
+                  <li className="px-3 py-3 text-white/45 text-xs">메모가 없습니다.</li>
+                ) : (
+                  (inquiry.memo_entries ?? []).map((memo: InquiryMemo) => (
+                    <li key={memo.id} className="px-3 py-2.5 flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-white/80 text-sm whitespace-pre-wrap">{memo.body}</p>
+                        <p className="text-white/45 text-xs mt-1 flex items-center gap-1.5">
+                          <Clock className="w-3 h-3 flex-shrink-0" />
+                          {formatDate(memo.created_at)}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteMemo(memo.id)}
+                        disabled={updatingId === inquiry.id}
+                        className="p-1.5 rounded hover:bg-red-500/20 text-red-400/80 hover:text-red-400 disabled:opacity-50 flex-shrink-0"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </li>
+                  ))
                 )}
-              </div>
-            )}
-          </div>
-
-          {/* 첨부파일 */}
-          {attachments.length > 0 && (
-            <div className="px-4 py-3 border-b border-white/5 space-y-3">
-              <p className="admin-detail-label text-white/50 text-[0.9375rem] flex items-center gap-2">
-                <Paperclip className="w-4 h-4 text-white/40 flex-shrink-0" />
-                첨부파일
-              </p>
-              <div className="rounded-lg bg-white/5 border border-white/10 px-3 py-2.5 flex flex-wrap gap-4">
-                {attachments.map((entry, idx) => (
-                  <AttachmentPreview key={`${entry.url}-${idx}`} name={entry.name} url={entry.url} />
-                ))}
+              </ul>
+              <div className="p-2 border-t border-white/5 flex gap-2">
+                <textarea
+                  value={memoInput}
+                  onChange={(e) => setMemoInput(e.target.value)}
+                  rows={2}
+                  className="flex-1 min-w-0 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#00ff88] resize-none text-sm"
+                  placeholder="새 메모 입력..."
+                />
+                <button
+                  type="button"
+                  onClick={handleAddMemo}
+                  disabled={updatingId === inquiry.id || !memoInput.trim()}
+                  className="px-3 py-2 rounded-lg bg-[#00ff88]/20 border border-[#00ff88] text-[#00ff88] text-xs flex items-center gap-1.5 disabled:opacity-50 self-end"
+                >
+                  <Send className="w-3.5 h-3.5" /> 저장
+                </button>
               </div>
             </div>
-          )}
+          </div>
+
+          {/* 첨부파일 + 관리자 추가 */}
+          <div className="px-4 py-3 border-b border-white/5">
+            <InquiryAttachmentSection
+              inquiryId={inquiry.id}
+              attachmentUrlsRaw={inquiry.attachment_urls}
+              updatingId={updatingId}
+              onAppendAttachments={onAppendAttachments}
+              variant="card"
+            />
+          </div>
 
           {/* 액션 버튼 */}
           <div className="px-4 py-3 flex items-center gap-3">

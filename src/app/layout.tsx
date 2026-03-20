@@ -31,11 +31,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+type LayoutProps = Readonly<{
   children: React.ReactNode;
-}>) {
+  params?: Promise<Record<string, string | string[]>>;
+}>;
+
+export default async function RootLayout({ children, params }: LayoutProps) {
+  await params;
   return (
     <html lang="ko">
       <body

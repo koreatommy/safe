@@ -16,7 +16,7 @@ export function InquiriesTable() {
   const {
     inquiries, isLoading, filter, setFilter,
     updatingId, deletingId,
-    handleStatusChange, handleDelete, saveNotes,
+    handleStatusChange, handleDelete, addMemo, deleteMemo, appendInquiryAttachments,
   } = useInquiries();
 
   return (
@@ -54,7 +54,9 @@ export function InquiriesTable() {
                 deletingId={deletingId}
                 onStatusChange={handleStatusChange}
                 onDelete={handleDelete}
-                onSaveNotes={saveNotes}
+                onAddMemo={addMemo}
+                onDeleteMemo={deleteMemo}
+                onAppendAttachments={appendInquiryAttachments}
               />
             ))}
           </div>
@@ -67,8 +69,10 @@ export function InquiriesTable() {
               deletingId={deletingId}
               onStatusChange={handleStatusChange}
               onDelete={handleDelete}
-              onSaveNotes={saveNotes}
-            />
+              onAddMemo={addMemo}
+            onDeleteMemo={deleteMemo}
+            onAppendAttachments={appendInquiryAttachments}
+          />
           </div>
         </>
       )}
