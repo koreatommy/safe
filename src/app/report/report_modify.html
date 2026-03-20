@@ -195,6 +195,44 @@
     font-size: 14px;
   }
 
+  /*
+   * 넓은 표: 가로 스크롤은 래퍼에서 처리하고 <table>은 표시(display: table)를 유지한다.
+   * (표 요소에 display:block + overflow를 주면 열 너비·스크롤이 깨져 일부 열이 보이지 않을 수 있음)
+   */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    margin: 12px 0;
+    overscroll-behavior-x: contain;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .table-scroll:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .table-scroll .budget-table {
+    width: max-content;
+    min-width: 100%;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .table-scroll {
+      scrollbar-gutter: stable;
+    }
+    .table-scroll::after {
+      content: '← 좌우로 스크롤하여 표 전체를 확인하세요 →';
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      padding: 8px 8px 4px;
+      line-height: 1.4;
+    }
+  }
+
   /* 4색 놀이터 카드 */
   .zone-grid {
     display: grid;
@@ -475,27 +513,27 @@
       border-collapse: collapse;
       font-size: 13px;
     }
-    .budget-table {
-      display: block;
-      width: max-content;
-      min-width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .budget-table {
-      min-width: 680px;
-      table-layout: auto;
-    }
     .meta-table th,
-    .meta-table td,
-    .budget-table th,
-    .budget-table td {
+    .meta-table td {
       padding: 10px 10px;
+    }
+    .meta-table th {
       white-space: nowrap;
     }
     .meta-table td {
       white-space: normal;
       word-break: keep-all;
+    }
+    .table-scroll .budget-table th,
+    .table-scroll .budget-table td {
+      padding: 10px 10px;
+      white-space: normal;
+      word-break: keep-all;
+      vertical-align: top;
+    }
+    .table-scroll .budget-table td.num {
+      white-space: nowrap;
+      text-align: right;
     }
     .chart-row,
     .chart-full {
@@ -724,6 +762,7 @@
         </div>
 
         <h3>4단계 체험 영역 교육효과 종합</h3>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
         <table class="budget-table">
           <thead>
             <tr>
@@ -765,6 +804,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
 
         <h3>부대시설</h3>
         <div class="grid">
@@ -800,6 +840,7 @@
       <!-- ========== 4. 운영방안 ========== -->
       <div class="section">
         <h2>4. 운영방안</h2>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
         <table class="budget-table">
           <thead>
             <tr><th>구분</th><th>주요 역할</th></tr>
@@ -811,6 +852,7 @@
             <tr><td>검사기관 기술협의회</td><td>검사기관 종사자 교육·훈련 프로그램 설계·운영, 자격 검증 연계</td></tr>
           </tbody>
         </table>
+        </div>
         <p class="note">재단법인 위탁운영 방식은 공공성 유지와 전문성 확보를 동시에 달성할 수 있어 초기 단계 운영구조로 적합함. 설립 여건에 따라 지자체 출연·위탁 방식과 단계적으로 연계 추진 가능.</p>
       </div>
 
@@ -937,6 +979,7 @@
         </ul>
 
         <h3>나. 타당성 검토 논리</h3>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
         <table class="budget-table">
           <thead>
             <tr>
@@ -968,8 +1011,10 @@
             </tr>
           </tbody>
         </table>
+        </div>
 
         <h3>다. 권장 재원분담(안)</h3>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
         <table class="budget-table">
           <thead>
             <tr>
@@ -991,6 +1036,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
         <p class="note">상기 비율은 기준안이며, 사업지 여건과 부지 제공방식에 따라 50:50 또는 70:30 범위 내에서 조정 가능함.</p>
       </div>
 
@@ -1022,6 +1068,7 @@
           </div>
         </div>
 
+        <div class="table-scroll" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
         <table class="budget-table">
           <thead>
             <tr>
@@ -1043,12 +1090,14 @@
             </tr>
           </tbody>
         </table>
+        </div>
         <p class="note">상기 금액은 상세 설계 전 단계의 개략 추정치이며, 부지 여건·시설 규모·설계 수준·운영 범위에 따라 조정될 수 있음.</p>
       </div>
 
       <!-- ========== 9. 세부 예산 산출내역서 ========== -->
       <div class="section">
         <h2>9. 세부 예산 산출내역서</h2>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
         <table class="budget-table">
           <thead>
             <tr>
@@ -1083,6 +1132,7 @@
             <tr><td>4차년도</td><td>시범운영·평가</td><td>성과평가 및 정책연구</td><td class="num">0.5</td><td class="num">1.5</td><td>만족도 조사, 성과분석</td></tr>
           </tbody>
         </table>
+        </div>
       </div>
 
       <!-- ========== 10. 사업 컨설팅비 세부 산정 ========== -->
@@ -1100,7 +1150,8 @@
           컨설팅비는 매출연동 방식이 아니라 과업기반 방식으로 산정함. 총괄기획, 정책자문, 법인설계, 운영모델, 프로그램 설계, 수익구조 검토, 성과지표 설계를 포함한 필수 사전투자 성격의 비용으로 편성함.
         </div>
 
-        <table class="budget-table" style="margin-top:16px;">
+        <div class="table-scroll" style="margin-top:16px" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
+        <table class="budget-table">
           <thead>
             <tr>
               <th style="width:12%">구분</th>
@@ -1125,8 +1176,10 @@
             </tr>
           </tbody>
         </table>
+        </div>
 
         <h3>가. 투입 인력 기준 예시</h3>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="표 영역, 가로 스크롤로 전체 열을 볼 수 있습니다">
         <table class="budget-table">
           <thead>
             <tr>
@@ -1144,6 +1197,7 @@
             <tr><td>실무연구원</td><td class="num">4개월</td><td>자료조사, 회의 운영, 세부내역 작성</td></tr>
           </tbody>
         </table>
+        </div>
 
         <p class="note">실제 발주 시에는 위 인력구성을 기준으로 직접인건비, 제경비, 일반관리비, 이윤, 부가가치세를 합산하는 방식으로 세부 산정하는 것이 적정함.</p>
       </div>
