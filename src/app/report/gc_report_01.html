@@ -71,15 +71,10 @@
   .timeline-item::before{content:'';position:absolute;left:-26px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid var(--white);box-shadow:0 0 0 2px var(--blue-light)}
   .timeline-date{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:4px}
   .timeline-content{font-size:13px;color:var(--gray-700)}
-  .sign-area{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;border:1px solid var(--gray-300);border-radius:8px;overflow:hidden}
-  .sign-cell{padding:14px;text-align:center;border-right:1px solid var(--gray-300);font-size:13px}
-  .sign-cell:last-child{border-right:none}
-  .sign-cell-header{background:var(--gray-200);font-weight:600;font-size:12px;color:var(--gray-700);padding:10px}
-  .sign-space{height:50px}
   .report-footer{text-align:center;padding:30px;color:var(--gray-500);font-size:12px}
   .text-left{text-align:left!important}
   @media print{body{background:white}.page-container{padding:0;max-width:100%}.section{box-shadow:none;break-inside:avoid}.cover{break-after:page}}
-  @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.cover{padding:30px 24px}.cover h1{font-size:24px}.section{padding:24px 20px}.sign-area{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.cover{padding:30px 24px}.cover h1{font-size:24px}.section{padding:24px 20px}}
 </style>
 </head>
 <body>
@@ -541,12 +536,6 @@
     </div>
 
     <div style="margin-top:40px;text-align:center;color:var(--gray-600);font-size:13px;margin-bottom:10px;">2026년 3월</div>
-    <div class="sign-area">
-      <div><div class="sign-cell sign-cell-header">작성</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);">안전관리자문 이영일</div></div>
-      <div><div class="sign-cell sign-cell-header">검토</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);">점검자 송현승</div></div>
-      <div><div class="sign-cell sign-cell-header">확인</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);">안전재난과장</div></div>
-      <div><div class="sign-cell sign-cell-header">승인</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);"> </div></div>
-    </div>
   </div>
 
   <div class="report-footer">

@@ -454,34 +454,6 @@
     color: var(--gray-700);
   }
 
-  /* ===== SIGN AREA ===== */
-  .sign-area {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin-top: 30px;
-    border: 1px solid var(--gray-300);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .sign-cell {
-    padding: 14px;
-    text-align: center;
-    border-right: 1px solid var(--gray-300);
-    font-size: 13px;
-  }
-  .sign-cell:last-child { border-right: none; }
-  .sign-cell-header {
-    background: var(--gray-200);
-    font-weight: 600;
-    font-size: 12px;
-    color: var(--gray-700);
-    padding: 10px;
-  }
-  .sign-space {
-    height: 50px;
-  }
-
   /* ===== FOOTER ===== */
   .report-footer {
     text-align: center;
@@ -519,7 +491,6 @@
     .cover { padding: 30px 24px; }
     .cover h1 { font-size: 24px; }
     .section { padding: 24px 20px; }
-    .sign-area { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -1339,31 +1310,8 @@
       </div>
     </div>
 
-    <!-- 결재란 -->
     <div style="margin-top:40px; text-align:center; color:var(--gray-600); font-size:13px; margin-bottom:10px;">
       2026년 3월
-    </div>
-    <div class="sign-area">
-      <div>
-        <div class="sign-cell sign-cell-header">작성</div>
-        <div class="sign-cell"><div class="sign-space"></div></div>
-        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);">안전관리자문 이영일</div>
-      </div>
-      <div>
-        <div class="sign-cell sign-cell-header">검토</div>
-        <div class="sign-cell"><div class="sign-space"></div></div>
-        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);">점검자 배선재</div>
-      </div>
-      <div>
-        <div class="sign-cell sign-cell-header">확인</div>
-        <div class="sign-cell"><div class="sign-space"></div></div>
-        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);">안전정책과장</div>
-      </div>
-      <div>
-        <div class="sign-cell sign-cell-header">승인</div>
-        <div class="sign-cell"><div class="sign-space"></div></div>
-        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);"> </div>
-      </div>
     </div>
   </div>
 
