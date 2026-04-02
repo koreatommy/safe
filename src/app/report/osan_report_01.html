@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오산시 개학기 어린이놀이시설 지도점검 종합보고서</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Noto+Serif+KR:wght@600;700;900&display=swap');
+
+  :root {
+    --navy: #1B2A4A;
+    --navy-light: #2C3E6B;
+    --blue: #3B6CB4;
+    --blue-light: #5A8FD4;
+    --sky: #E8F0FE;
+    --sky-deep: #D0E2FC;
+    --green: #2E7D32;
+    --green-light: #4CAF50;
+    --green-bg: #E8F5E9;
+    --yellow: #F9A825;
+    --yellow-bg: #FFF8E1;
+    --red: #C62828;
+    --red-light: #EF5350;
+    --red-bg: #FFEBEE;
+    --orange: #E65100;
+    --gray-50: #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EEEEEE;
+    --gray-300: #E0E0E0;
+    --gray-400: #BDBDBD;
+    --gray-500: #9E9E9E;
+    --gray-600: #757575;
+    --gray-700: #616161;
+    --gray-800: #424242;
+    --white: #FFFFFF;
+    --shadow: 0 2px 12px rgba(27,42,74,0.08);
+    --shadow-lg: 0 8px 32px rgba(27,42,74,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-800);
+    line-height: 1.7;
+    font-size: 14px;
+  }
+
+  .page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* ===== COVER ===== */
+  .cover {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 40%, var(--blue) 100%);
+    color: var(--white);
+    border-radius: 16px;
+    padding: 60px 50px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 30%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(90,143,212,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .cover-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .cover h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h2 {
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.85;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  .cover-meta-item strong {
+    font-weight: 600;
+    opacity: 1;
+  }
+  .cover-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--yellow);
+    border-radius: 2px;
+    margin: 20px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 36px 40px;
+    margin-bottom: 24px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .section-number {
+    background: var(--navy);
+    color: var(--white);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  /* ===== STATS CARDS ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--gray-200);
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .stat-value {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--gray-600);
+    font-weight: 500;
+  }
+  .stat-card.good .stat-value { color: var(--green); }
+  .stat-card.caution .stat-value { color: var(--yellow); }
+  .stat-card.bad .stat-value { color: var(--red); }
+  .stat-card.total .stat-value { color: var(--navy); }
+
+  /* ===== TABLES ===== */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 16px 0;
+    border-radius: 10px;
+    border: 1px solid var(--gray-200);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 12px 14px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 12.5px;
+  }
+  thead th:first-child { border-radius: 0; }
+  thead th:last-child { border-radius: 0; }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--gray-200);
+    text-align: center;
+    vertical-align: middle;
+  }
+  tbody tr:nth-child(even) { background: var(--gray-50); }
+  tbody tr:hover { background: var(--sky); }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .badge-good { background: var(--green-bg); color: var(--green); }
+  .badge-caution { background: var(--yellow-bg); color: var(--orange); }
+  .badge-bad { background: var(--red-bg); color: var(--red); }
+
+  .facility-name {
+    text-align: left !important;
+    font-weight: 500;
+    max-width: 200px;
+  }
+
+  /* ===== CHART CONTAINERS ===== */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 20px 0;
+  }
+  .chart-box {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 24px;
+    border: 1px solid var(--gray-200);
+  }
+  .chart-box h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .chart-container {
+    position: relative;
+    height: 280px;
+  }
+
+  /* ===== ISSUE LIST ===== */
+  .issue-card {
+    background: var(--white);
+    border-left: 4px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .issue-card.caution {
+    border-left-color: var(--yellow);
+  }
+  .issue-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .issue-facility {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 14px;
+  }
+  .issue-deadline {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 12px;
+  }
+  .issue-deadline.urgent { background: var(--red-bg); color: var(--red); }
+  .issue-deadline.normal { background: var(--yellow-bg); color: var(--orange); }
+  .issue-detail {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  .issue-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    font-weight: 600;
+  }
+  .tag-repair { background: var(--red-bg); color: var(--red); }
+  .tag-observe { background: var(--yellow-bg); color: var(--orange); }
+
+  /* ===== FACILITY DETAIL ===== */
+  .facility-detail {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid var(--gray-200);
+  }
+  .facility-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .facility-detail-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--navy);
+  }
+  .facility-detail-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--gray-600);
+  }
+  .overall-badge {
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .overall-good { background: var(--green-bg); color: var(--green); }
+  .overall-caution { background: var(--yellow-bg); color: var(--orange); }
+  .overall-bad { background: var(--red-bg); color: var(--red); }
+
+  .mini-table {
+    width: 100%;
+    font-size: 12px;
+  }
+  .mini-table th {
+    padding: 8px 10px;
+    font-size: 11.5px;
+  }
+  .mini-table td {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  /* ===== SUMMARY BOX ===== */
+  .summary-box {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--sky-deep) 100%);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 20px 0;
+    border: 1px solid rgba(59,108,180,0.15);
+  }
+  .summary-box h4 {
+    color: var(--navy);
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .summary-box p, .summary-box li {
+    font-size: 13.5px;
+    color: var(--navy-light);
+    line-height: 1.8;
+  }
+  .summary-box ul {
+    padding-left: 20px;
+  }
+
+  /* ===== LEGAL BOX ===== */
+  .legal-box {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.8;
+  }
+  .legal-box strong {
+    color: var(--navy);
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+    margin: 20px 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gray-300);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid var(--white);
+    box-shadow: 0 0 0 2px var(--blue-light);
+  }
+  .timeline-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 4px;
+  }
+  .timeline-content {
+    font-size: 13px;
+    color: var(--gray-700);
+  }
+
+  /* ===== SIGN AREA ===== */
+  .sign-area {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 30px;
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .sign-cell {
+    padding: 14px;
+    text-align: center;
+    border-right: 1px solid var(--gray-300);
+    font-size: 13px;
+  }
+  .sign-cell:last-child { border-right: none; }
+  .sign-cell-header {
+    background: var(--gray-200);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--gray-700);
+    padding: 10px;
+  }
+  .sign-space {
+    height: 50px;
+  }
+
+  /* ===== FOOTER ===== */
+  .report-footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--gray-500);
+    font-size: 12px;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    height: 8px;
+    background: var(--gray-200);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  .text-left { text-align: left !important; }
+
+  @media print {
+    body { background: white; }
+    .page-container { padding: 0; max-width: 100%; }
+    .section { box-shadow: none; break-inside: avoid; }
+    .cover { break-after: page; }
+  }
+
+  @media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .charts-row { grid-template-columns: 1fr; }
+    .cover { padding: 30px 24px; }
+    .cover h1 { font-size: 24px; }
+    .section { padding: 24px 20px; }
+    .sign-area { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <!-- ===== COVER ===== -->
+  <div class="cover">
+    <div class="cover-badge">오산시 어린이놀이시설 안전관리</div>
+    <h1>개학기 어린이놀이시설<br>지도·점검 종합보고서</h1>
+    <h2>어린이놀이시설 안전관리법 제17조의2에 의거</h2>
+    <div class="cover-divider"></div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><strong>점검기간</strong> 2026. 3. 23.(월) ~ 3. 24.(화)</div>
+      <div class="cover-meta-item"><strong>점검기관</strong> 오산시청 안전정책과 / 도시공원과</div>
+      <div class="cover-meta-item"><strong>자문기관</strong> 사회적협동조합 창의융합연구원(KICON)</div>
+      <div class="cover-meta-item"><strong>대상시설</strong> 9개소</div>
+    </div>
+  </div>
+
+  <!-- ===== 1. 점검 개요 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">점검 개요</div>
+    </div>
+
+    <div class="legal-box">
+      <strong>■ 법적 근거</strong><br>
+      「어린이놀이시설 안전관리법」 제17조의2(지도·점검)<br>
+      「어린이놀이시설 시설기준 및 기술기준」(행정안전부 고시)<br>
+      「어린이놀이시설의 시설기준 및 기술기준에 관한 규칙」<br><br>
+      <strong>■ 점검 목적</strong><br>
+      2026년 1학기 개학기를 맞아 오산시 관내 어린이놀이시설의 안전관리 상태를 종합 점검하여, 
+      어린이 안전사고를 사전에 예방하고 관리주체의 안전관리 의무 이행 여부를 확인한다.<br><br>
+      <strong>■ 점검 범위</strong><br>
+      안전관리 의무사항(시설등록, 설치검사, 정기시설검사, 안전교육, 보험가입, 안전점검) 이행 여부,
+      놀이기구 유지관리 상태(고정상태, 손상상태, 마모상태, 얽매임, 충격흡수용 표면재 등), 
+      개별 놀이기구 안전점검을 포함한다.
+    </div>
+
+    <div style="margin-top:20px;">
+      <strong style="color:var(--navy);">■ 점검 인원</strong>
+      <div class="table-wrapper" style="margin-top:10px;">
+        <table>
+          <thead>
+            <tr>
+              <th>구분</th><th>소속</th><th>성명</th><th>역할</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>점검자</td><td>오산시청 안전정책과</td><td>배선재</td><td>현장점검 총괄</td></tr>
+            <tr><td>점검자</td><td>오산시청 도시공원과</td><td>신새봄</td><td>공원시설 점검</td></tr>
+            <tr><td>안전관리자문</td><td>사회적협동조합 창의융합연구원</td><td>이영일</td><td>안전기술자문</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2. 종합 현황 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title">종합 현황</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card total">
+        <div class="stat-value">9</div>
+        <div class="stat-label">점검 대상 시설</div>
+      </div>
+      <div class="stat-card good">
+        <div class="stat-value">1</div>
+        <div class="stat-label">양호 시설</div>
+      </div>
+      <div class="stat-card caution">
+        <div class="stat-value">5</div>
+        <div class="stat-label">요주의 시설</div>
+      </div>
+      <div class="stat-card bad">
+        <div class="stat-value">3</div>
+        <div class="stat-label">요수리 시설</div>
+      </div>
+    </div>
+
+    <!-- 시설별 종합 현황 테이블 -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>시설번호</th>
+            <th>시설명</th>
+            <th>점검일</th>
+            <th>안전관리자</th>
+            <th>안전관리<br>의무</th>
+            <th>유지관리<br>상태</th>
+            <th>놀이기구<br>상태</th>
+            <th>종합판정</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td><td>1273</td>
+            <td class="facility-name">한라그린타운아파트 101동앞</td>
+            <td>3/23</td><td>양영숙</td>
+            <td><span class="badge badge-good">양호</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">요주의</span></td>
+          </tr>
+          <tr>
+            <td>2</td><td>1274</td>
+            <td class="facility-name">한라그린타운아파트 109동앞</td>
+            <td>3/23</td><td>양영숙</td>
+            <td><span class="badge badge-good">양호</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">요주의</span></td>
+          </tr>
+          <tr>
+            <td>3</td><td>1275</td>
+            <td class="facility-name">한라그린타운아파트 관리동앞</td>
+            <td>3/23</td><td>양영숙</td>
+            <td><span class="badge badge-good">양호</span></td>
+            <td><span class="badge badge-good">양호</span></td>
+            <td><span class="badge badge-good">양호</span></td>
+            <td><span class="badge badge-good">양호</span></td>
+          </tr>
+          <tr>
+            <td>4</td><td>2137</td>
+            <td class="facility-name">소리 어린이공원</td>
+            <td>3/24</td><td>-</td>
+            <td><span class="badge badge-good">양호</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">요수리</span></td>
+          </tr>
+          <tr>
+            <td>5</td><td>3123</td>
+            <td class="facility-name">동부삼환아파트 관리소옆</td>
+            <td>3/23</td><td>권오훈</td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">요주의</span></td>
+          </tr>
+          <tr>
+            <td>6</td><td>3124</td>
+            <td class="facility-name">동부삼환아파트 103동앞</td>
+            <td>3/23</td><td>권오훈</td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">요수리</span></td>
+          </tr>
+          <tr>
+            <td>7</td><td>3125</td>
+            <td class="facility-name">동부삼환아파트 114동앞</td>
+            <td>3/23</td><td>권오훈</td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">보통</span></td>
+            <td><span class="badge badge-caution">요주의</span></td>
+          </tr>
+          <tr>
+            <td>8</td><td>21438</td>
+            <td class="facility-name">오산운암대동아파트(105동)</td>
+            <td>3/23</td><td>김명환</td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">요수리</span></td>
+          </tr>
+          <tr>
+            <td>9</td><td>21439</td>
+            <td class="facility-name">오산운암대동아파트(109동)</td>
+            <td>3/23</td><td>김명환</td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-bad">불량</span></td>
+            <td><span class="badge badge-caution">요주의</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="summary-box">
+      <h4>종합 분석 요약</h4>
+      <p>전체 9개 시설 중 <strong>1개소(11.1%)</strong>만 양호 판정을 받았으며, <strong>5개소(55.6%)</strong>가 요주의, <strong>3개소(33.3%)</strong>가 요수리 판정을 받았습니다. 
+      특히 동부삼환아파트와 운암대동아파트 단지 내 시설들은 합격증 미게시, 고정상태 불량, 표면 부식 등 복합적 문제가 확인되어 조기 조치가 필요합니다.</p>
+    </div>
+  </div>
+
+  <!-- ===== 3. 통계 차트 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title">점검결과 통계 분석</div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-box">
+        <h4>시설별 종합판정 분포</h4>
+        <div class="chart-container">
+          <canvas id="chartOverall"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h4>점검 항목별 불량/보통 발생 건수</h4>
+        <div class="chart-container">
+          <canvas id="chartItems"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-box">
+        <h4>안전관리 의무 이행 현황</h4>
+        <div class="chart-container">
+          <canvas id="chartCompliance"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h4>시설별 위해요소 건수</h4>
+        <div class="chart-container">
+          <canvas id="chartHazards"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 4. 안전관리 의무 이행 현황 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title">안전관리 의무 이행 상세</div>
+    </div>
+
+    <p style="margin-bottom:16px; color:var(--gray-700); font-size:13.5px;">
+      「어린이놀이시설 안전관리법」에 따른 8개 법적의무사항에 대한 시설별 이행 현황입니다.
+    </p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>시설명</th>
+            <th>시설등록</th>
+            <th>설치검사</th>
+            <th>정기검사<br>합격</th>
+            <th>합격증<br>게시</th>
+            <th>안전교육</th>
+            <th>보험가입</th>
+            <th>안전검사<br>실시</th>
+            <th>점검대장<br>보관</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="facility-name">한라그린타운 101동앞</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">한라그린타운 109동앞</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">한라그린타운 관리동앞</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">소리 어린이공원</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">동부삼환 관리소옆</td><td>○</td><td>○</td><td>○</td><td style="color:var(--red);font-weight:700;">✕</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">동부삼환 103동앞</td><td>○</td><td>○</td><td>○</td><td style="color:var(--red);font-weight:700;">✕</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">동부삼환 114동앞</td><td>○</td><td>○</td><td>○</td><td style="color:var(--red);font-weight:700;">✕</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">운암대동(105동)</td><td>○</td><td>○</td><td>○</td><td style="color:var(--red);font-weight:700;">✕</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">운암대동(109동)</td><td>○</td><td>○</td><td>○</td><td style="color:var(--red);font-weight:700;">✕</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="summary-box">
+      <h4>의무 이행 분석</h4>
+      <ul>
+        <li><strong>합격증 게시 미이행: 5개소(55.6%)</strong> — 동부삼환아파트 3개소, 운암대동아파트 2개소에서 안전검사 합격의 표시가 미부착 상태. 현장에서 즉시 조치하도록 지도 완료.</li>
+        <li>시설등록, 설치검사, 정기시설검사 합격, 안전교육, 보험가입, 안전검사 실시, 점검대장 보관은 전 시설 이행 확인.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== 5. 위해요소 및 조치사항 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title">위해요소 발견 및 조치사항</div>
+    </div>
+
+    <p style="margin-bottom:20px; color:var(--gray-700); font-size:13.5px;">
+      현장 점검 시 확인된 위해요소를 <span class="issue-tag tag-repair">요수리</span>(즉시 수리 필요)와 
+      <span class="issue-tag tag-observe">요주의</span>(경과관찰 및 주의 필요)로 구분하여 정리하였습니다.
+    </p>
+
+    <!-- 시설 1273 -->
+    <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[1273] 한라그린타운아파트 101동앞</div>
+        <span class="issue-deadline normal">5/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 플랫폼 부식 진행 (2개소 확인) — 경과관찰 및 5/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 시설 노후화에 의한 손상상태 보통 — 경과관찰
+      </div>
+    </div>
+
+    <!-- 시설 1274 -->
+    <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[1274] 한라그린타운아파트 109동앞</div>
+        <span class="issue-deadline normal">5/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 손잡이 고정상태 불량 — 현장조치 완료<br>
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 플랫폼 녹 발생 — 경과관찰<br>
+        <span class="issue-tag tag-observe">요주의</span> 볼트·나사 고정상태 보통 — 현장조치 완료
+      </div>
+    </div>
+
+    <!-- 시설 2137 -->
+    <div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[2137] 소리 어린이공원</div>
+        <span class="issue-deadline urgent">4/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-repair">요수리</span> 조합놀이대 오르는 목재 부식·파손 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 조합놀이대 건너는 손잡이 파손 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 손상상태 불량(X) 판정 — 긴급 조치 필요
+      </div>
+    </div>
+
+    <!-- 시설 3123 -->
+    <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[3123] 동부삼환아파트 관리소옆</div>
+        <span class="issue-deadline normal">4/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 미끄럼틀 시작부 얽매임방지 개구부마감 처리 필요 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 안전검사 합격증 미게시 — 현장조치 완료
+      </div>
+    </div>
+
+    <!-- 시설 3124 -->
+    <div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[3124] 동부삼환아파트 103동앞</div>
+        <span class="issue-deadline urgent">4/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-repair">요수리</span> 그네 회동구 간격 조절 필요 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 플랫폼 도장박리 금속산화 진행중 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 고무바닥재 매트 부분패임 진행중 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 고정상태(볼트·나사) 불량(X) 판정 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 안전검사 합격증 미게시 — 현장조치 완료
+      </div>
+    </div>
+
+    <!-- 시설 3125 -->
+    <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[3125] 동부삼환아파트 114동앞</div>
+        <span class="issue-deadline normal">4/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 울타리 플라스틱 파손 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 플랫폼 도장박리 금속산화 진행중 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 안전검사 합격증 미게시 — 현장조치 완료
+      </div>
+    </div>
+
+    <!-- 시설 21438 -->
+    <div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[21438] 오산운암대동아파트(105동)</div>
+        <span class="issue-deadline urgent">5/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 흔들놀이기구 손잡이 고정상태 불량 — 5/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 포설바닥재 부분 패임 진행중 (충격흡수용 표면재 불량) — 5/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 안전검사 합격증 미게시 — 현장조치 완료
+      </div>
+    </div>
+
+    <!-- 시설 21439 -->
+    <div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[21439] 오산운암대동아파트(109동)</div>
+        <span class="issue-deadline urgent">5/30 이전 조치</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-repair">요수리</span> 흔들놀이기구 손잡이 유실, 개구부 손가락 얽매임 — 5/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 조합놀이대 돌림판 파손, 날카로움 존재 — 5/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 포설바닥재 부분 패임 진행중 — 5/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 고정상태(볼트·나사) 불량(X) 판정 — 5/30 이전 조치예정<br>
+        <span class="issue-tag tag-observe">요주의</span> 손상상태 불량(X) 판정 — 4/30 이전 조치예정<br>
+        <span class="issue-tag tag-repair">요수리</span> 안전검사 합격증 미게시 — 현장조치 완료
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6. 위해 유형 분류 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title">위해 유형별 분류 및 기술기준 근거</div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>위해 유형</th>
+            <th>발생 건수</th>
+            <th>해당 시설</th>
+            <th>관련 기술기준</th>
+            <th>위험도</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>금속 부식·도장박리</strong></td>
+            <td>6건</td>
+            <td class="text-left">1273, 1274, 3124, 3125, 21439</td>
+            <td class="text-left" style="font-size:11.5px;">시설기준 제6조(내구성) — 금속재료는 부식방지 처리 필수</td>
+            <td><span class="badge badge-caution">중</span></td>
+          </tr>
+          <tr>
+            <td><strong>손잡이 파손·유실</strong></td>
+            <td>4건</td>
+            <td class="text-left">1274, 2137, 21438, 21439</td>
+            <td class="text-left" style="font-size:11.5px;">기술기준 제14조(손잡이) — 견고히 부착, 끼임 방지</td>
+            <td><span class="badge badge-bad">상</span></td>
+          </tr>
+          <tr>
+            <td><strong>목재 부식·파손</strong></td>
+            <td>2건</td>
+            <td class="text-left">2137</td>
+            <td class="text-left" style="font-size:11.5px;">시설기준 제5조(목재) — 방부처리, 균열 관리</td>
+            <td><span class="badge badge-bad">상</span></td>
+          </tr>
+          <tr>
+            <td><strong>바닥재 패임·손상</strong></td>
+            <td>4건</td>
+            <td class="text-left">3124, 21438, 21439</td>
+            <td class="text-left" style="font-size:11.5px;">기술기준 제28조(충격흡수) — 기준높이 낙하 시 충격 흡수</td>
+            <td><span class="badge badge-bad">상</span></td>
+          </tr>
+          <tr>
+            <td><strong>회동구 간격 부적합</strong></td>
+            <td>1건</td>
+            <td class="text-left">3124</td>
+            <td class="text-left" style="font-size:11.5px;">기술기준 제12조(그네) — 회동부 간격 기준 준수</td>
+            <td><span class="badge badge-bad">상</span></td>
+          </tr>
+          <tr>
+            <td><strong>얽매임·개구부 부적합</strong></td>
+            <td>2건</td>
+            <td class="text-left">3123, 21439</td>
+            <td class="text-left" style="font-size:11.5px;">기술기준 제8조(얽매임) — 머리·손가락 얽매임 방지</td>
+            <td><span class="badge badge-bad">상</span></td>
+          </tr>
+          <tr>
+            <td><strong>플라스틱 부품 파손</strong></td>
+            <td>1건</td>
+            <td class="text-left">3125</td>
+            <td class="text-left" style="font-size:11.5px;">시설기준 제7조(플라스틱) — 내후성·내구성 확보</td>
+            <td><span class="badge badge-caution">중</span></td>
+          </tr>
+          <tr>
+            <td><strong>합격증 미게시</strong></td>
+            <td>5건</td>
+            <td class="text-left">3123, 3124, 3125, 21438, 21439</td>
+            <td class="text-left" style="font-size:11.5px;">안전관리법 제12조(합격증 게시 의무)</td>
+            <td><span class="badge badge-caution">중</span></td>
+          </tr>
+          <tr>
+            <td><strong>돌림판 파손·날카로움</strong></td>
+            <td>1건</td>
+            <td class="text-left">21439</td>
+            <td class="text-left" style="font-size:11.5px;">기술기준 제9조(돌출부) — 날카로운 부분 존재 불가</td>
+            <td><span class="badge badge-bad">상</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== 7. 조치 이행 일정 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <div class="section-title">조치 이행 일정 및 관리방안</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 3. 23. ~ 3. 24. (점검 당일)</div>
+        <div class="timeline-content">
+          <strong>현장 즉시 조치 완료</strong><br>
+          · 동부삼환아파트 3개소, 운암대동아파트 2개소 — 안전검사 합격증 게시 완료<br>
+          · 한라그린타운 109동앞 — 손잡이 고정상태, 볼트 고정 현장조치 완료
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 4. 30. 이전 (1차 기한)</div>
+        <div class="timeline-content">
+          <strong>긴급 수리 대상</strong><br>
+          · 소리 어린이공원 — 오르는 목재 교체, 건너는 손잡이 보수<br>
+          · 동부삼환 103동앞 — 그네 회동구 간격 조절, 플랫폼 방청처리, 바닥재 보수<br>
+          · 동부삼환 114동앞 — 울타리 교체, 플랫폼 방청처리<br>
+          · 동부삼환 관리소옆 — 미끄럼틀 개구부마감 처리<br>
+          · 운암대동(109동) — 손상상태 긴급조치
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 5. 30. 이전 (2차 기한)</div>
+        <div class="timeline-content">
+          <strong>보수 및 경과관찰 대상</strong><br>
+          · 한라그린타운 101동앞 — 조합놀이대 플랫폼 부식 보수<br>
+          · 한라그린타운 109동앞 — 조합놀이대 플랫폼 부식 보수<br>
+          · 운암대동(105동) — 흔들놀이기구 손잡이 보수, 포설바닥재 보수<br>
+          · 운암대동(109동) — 흔들놀이기구 손잡이 교체, 돌림판 교체, 바닥재 보수, 볼트 교체
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 6월 이후 (후속 점검)</div>
+        <div class="timeline-content">
+          <strong>조치결과 확인 점검 실시</strong><br>
+          · 전체 9개 시설 조치사항 이행 여부 확인<br>
+          · 미이행 시설에 대한 시정명령 검토<br>
+          · 하반기 정기 지도·점검 계획 수립
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 8. 시설별 상세 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <div class="section-title">시설별 상세 점검 결과</div>
+    </div>
+
+    <!-- 1273 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">① [1273] 한라그린타운아파트 101동앞 놀이터</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 양영숙 (관리소장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구 1~3</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-caution">보통</span></td><td>플랫폼 부식 진행 (사진 2매 확인)</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 1274 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">② [1274] 한라그린타운아파트 109동앞 놀이터</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 양영숙 (관리소장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구 1~3</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-caution">보통</span></td><td>손잡이 고정불량(현장조치), 플랫폼 녹발생</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 1275 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">③ [1275] 한라그린타운아파트 관리동앞 놀이터</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 양영숙 (관리소장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-good">양호</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구 1~3</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2137 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">④ [2137] 소리 어린이공원 놀이터</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.24.</span>
+            <span>점검자: 신새봄 (도시공원과)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>회전놀이기구1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구 1~3</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-bad">불량</span></td><td>오르는 목재 부식파손, 건너는 손잡이 파손</td></tr>
+            <tr><td>기타1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3123 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑤ [3123] 동부삼환아파트 관리소옆 놀이터</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 권오훈 (관리과장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>흔들놀이기구 1~2</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-caution">보통</span></td><td>개구부 마감처리 필요</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3124 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑥ [3124] 동부삼환아파트 103동앞 놀이터</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 권오훈 (관리과장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-bad">불량</span></td><td>회동구 간격 조절 필요</td></tr>
+            <tr><td>흔들놀이기구 1~4</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-caution">보통</span></td><td>플랫폼 도장박리·금속산화</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-caution">보통</span></td><td>매트 부분패임</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3125 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑦ [3125] 동부삼환아파트 114동앞 놀이터</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 권오훈 (관리과장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구 1~4</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-caution">보통</span></td><td>울타리 파손, 플랫폼 도장박리·금속산화</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 21438 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑧ [21438] 오산운암대동아파트(105동)</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 김명환 (관리과장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구1</td><td><span class="badge badge-caution">보통</span></td><td>손잡이 고정상태 불량</td></tr>
+            <tr><td>흔들놀이기구 2~4</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-bad">불량</span></td><td>포설바닥재 패임 진행중</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 21439 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑨ [21439] 오산운암대동아파트(109동)</div>
+          <div class="facility-detail-meta">
+            <span>점검일: 2026.3.23.</span>
+            <span>안전관리자: 김명환 (관리과장)</span>
+          </div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구 1~2</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구3</td><td><span class="badge badge-bad">불량</span></td><td>손잡이 유실, 개구부 손가락 얽매임</td></tr>
+            <tr><td>흔들놀이기구4</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-bad">불량</span></td><td>돌림판 파손, 날카로움 존재</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-caution">보통</span></td><td>매트 부분패임</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 9. 종합 의견 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <div class="section-title">종합 의견 및 건의사항</div>
+    </div>
+
+    <div class="summary-box" style="background: linear-gradient(135deg, #FFF8E1 0%, #FFF3C4 100%); border-color: rgba(249,168,37,0.2);">
+      <h4>종합 의견</h4>
+      <p>
+        2026년 개학기 지도·점검 결과, 전체 9개 시설 중 <strong>양호 1개소(11.1%), 요주의 5개소(55.6%), 요수리 3개소(33.3%)</strong>로 확인되었습니다.
+        특히 아래 사항에 대해 관리주체의 신속한 조치와 지자체의 지속적 관리감독이 필요합니다.
+      </p>
+    </div>
+
+    <div style="margin-top:20px;">
+      <strong style="color:var(--navy); font-size:15px;">■ 주요 건의사항</strong>
+      <div style="margin-top:12px; line-height:2; font-size:13.5px; color:var(--gray-700);">
+        <strong>1. 합격증 게시 관리 강화</strong><br>
+        5개소(55.6%)에서 합격증 미게시가 확인되어 현장에서 즉시 조치하였으나, 
+        관리주체에 대한 지속적인 관리의식 교육이 필요합니다.
+        법 제12조에 따라 안전검사 합격의 표시를 이용자가 잘 볼 수 있는 곳에 게시하여야 합니다.<br><br>
+
+        <strong>2. 금속 부식·도장박리 시설의 체계적 관리</strong><br>
+        조합놀이대 플랫폼의 도장박리 및 금속산화가 6건으로 가장 빈번한 위해 유형입니다.
+        정기적 방청처리 및 도장 재시공 계획을 수립하여 구조적 열화를 예방해야 합니다.
+        철강 소재의 경우, 산화 진행 속도는 습도·온도와 비선형적 관계에 있어 방치 시 가속적으로 악화될 수 있습니다.<br><br>
+
+        <strong>3. 충격흡수용 바닥재 긴급 보수</strong><br>
+        운암대동아파트 2개소와 동부삼환 103동앞에서 바닥재 패임이 확인되었습니다.
+        충격흡수용 표면재는 어린이 낙상 시 두부 손상 예방의 최후 방어선이므로,
+        「어린이놀이시설 시설기준 및 기술기준」 제28조 기준에 따라 조속한 보수가 필요합니다.<br><br>
+
+        <strong>4. 얽매임·날카로움 위해요소 우선 조치</strong><br>
+        운암대동(109동)의 돌림판 파손으로 인한 날카로움, 흔들놀이기구 손잡이 유실 후 개구부 손가락 얽매임 등은
+        어린이 신체 상해로 직결될 수 있는 고위험 요소입니다. 
+        기술기준 제8조(얽매임 방지) 및 제9조(돌출부 및 날카로운 부분)에 따라 최우선 조치를 권고합니다.<br><br>
+
+        <strong>5. 후속 확인 점검 실시</strong><br>
+        각 시설 관리주체에 서면 통보한 조치기한(4/30, 5/30) 이후 후속 확인 점검을 실시하여
+        이행 여부를 확인하고, 미이행 시 「안전관리법」 제24조에 따른 시정명령을 검토할 것을 건의합니다.
+      </div>
+    </div>
+
+    <!-- 결재란 -->
+    <div style="margin-top:40px; text-align:center; color:var(--gray-600); font-size:13px; margin-bottom:10px;">
+      2026년 3월
+    </div>
+    <div class="sign-area">
+      <div>
+        <div class="sign-cell sign-cell-header">작성</div>
+        <div class="sign-cell"><div class="sign-space"></div></div>
+        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);">안전관리자문 이영일</div>
+      </div>
+      <div>
+        <div class="sign-cell sign-cell-header">검토</div>
+        <div class="sign-cell"><div class="sign-space"></div></div>
+        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);">점검자 배선재</div>
+      </div>
+      <div>
+        <div class="sign-cell sign-cell-header">확인</div>
+        <div class="sign-cell"><div class="sign-space"></div></div>
+        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);">안전정책과장</div>
+      </div>
+      <div>
+        <div class="sign-cell sign-cell-header">승인</div>
+        <div class="sign-cell"><div class="sign-space"></div></div>
+        <div class="sign-cell" style="font-size:12px; color:var(--gray-600);"> </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    오산시 어린이놀이시설 지도·점검 종합보고서 | 2026년 개학기 | 사회적협동조합 창의융합연구원(KICON)
+  </div>
+
+</div>
+
+<script>
+// Chart defaults
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+Chart.defaults.font.size = 12;
+
+// 1. Overall distribution (Doughnut)
+new Chart(document.getElementById('chartOverall'), {
+  type: 'doughnut',
+  data: {
+    labels: ['양호', '요주의', '요수리'],
+    datasets: [{
+      data: [1, 5, 3],
+      backgroundColor: ['#4CAF50', '#F9A825', '#EF5350'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 16, font: { size: 13, weight: '600' } } },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => `${ctx.label}: ${ctx.raw}개소 (${(ctx.raw/9*100).toFixed(1)}%)`
+        }
+      }
+    },
+    cutout: '55%'
+  }
+});
+
+// 2. Issue items bar chart
+new Chart(document.getElementById('chartItems'), {
+  type: 'bar',
+  data: {
+    labels: ['금속부식\n도장박리', '손잡이\n파손·유실', '바닥재\n패임·손상', '합격증\n미게시', '얽매임\n개구부', '목재\n부식', '회동구\n간격', '플라스틱\n파손', '돌림판\n파손'],
+    datasets: [{
+      label: '발생 건수',
+      data: [6, 4, 4, 5, 2, 2, 1, 1, 1],
+      backgroundColor: ['#EF5350','#EF5350','#EF5350','#F9A825','#EF5350','#EF5350','#EF5350','#F9A825','#EF5350'],
+      borderRadius: 6,
+      maxBarThickness: 36
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#eee' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+// 3. Compliance radar
+new Chart(document.getElementById('chartCompliance'), {
+  type: 'radar',
+  data: {
+    labels: ['시설등록', '설치검사', '정기검사', '합격증 게시', '안전교육', '보험가입', '안전검사', '점검대장'],
+    datasets: [{
+      label: '이행률 (%)',
+      data: [100, 100, 100, 44.4, 100, 100, 100, 100],
+      backgroundColor: 'rgba(59,108,180,0.15)',
+      borderColor: '#3B6CB4',
+      pointBackgroundColor: '#3B6CB4',
+      pointRadius: 5,
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      r: {
+        min: 0, max: 100,
+        ticks: { stepSize: 25, font: { size: 10 } },
+        pointLabels: { font: { size: 11, weight: '500' } }
+      }
+    }
+  }
+});
+
+// 4. Hazards per facility
+new Chart(document.getElementById('chartHazards'), {
+  type: 'bar',
+  data: {
+    labels: ['1273\n101동', '1274\n109동', '1275\n관리동', '2137\n소리공원', '3123\n관리소옆', '3124\n103동', '3125\n114동', '21438\n105동', '21439\n109동'],
+    datasets: [
+      {
+        label: '요수리',
+        data: [0, 0, 0, 2, 1, 3, 1, 2, 3],
+        backgroundColor: '#EF5350',
+        borderRadius: 4,
+        maxBarThickness: 28
+      },
+      {
+        label: '요주의',
+        data: [2, 3, 0, 1, 1, 2, 2, 1, 3],
+        backgroundColor: '#F9A825',
+        borderRadius: 4,
+        maxBarThickness: 28
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 12, weight: '600' } } } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9.5 } } },
+      y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#eee' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

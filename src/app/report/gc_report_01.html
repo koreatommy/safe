@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과천시 개학기 어린이놀이시설 지도점검 종합보고서</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Noto+Serif+KR:wght@600;700;900&display=swap');
+  :root{--navy:#1B2A4A;--navy-light:#2C3E6B;--blue:#3B6CB4;--blue-light:#5A8FD4;--sky:#E8F0FE;--sky-deep:#D0E2FC;--green:#2E7D32;--green-light:#4CAF50;--green-bg:#E8F5E9;--yellow:#F9A825;--yellow-bg:#FFF8E1;--red:#C62828;--red-light:#EF5350;--red-bg:#FFEBEE;--orange:#E65100;--gray-50:#FAFAFA;--gray-100:#F5F5F5;--gray-200:#EEEEEE;--gray-300:#E0E0E0;--gray-400:#BDBDBD;--gray-500:#9E9E9E;--gray-600:#757575;--gray-700:#616161;--gray-800:#424242;--white:#FFFFFF;--shadow:0 2px 12px rgba(27,42,74,.08);--shadow-lg:0 8px 32px rgba(27,42,74,.12)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--gray-100);color:var(--gray-800);line-height:1.7;font-size:14px}
+  .page-container{max-width:1200px;margin:0 auto;padding:20px}
+  .cover{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 40%,var(--blue) 100%);color:var(--white);border-radius:16px;padding:60px 50px;margin-bottom:30px;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+  .cover::after{content:'';position:absolute;bottom:-80px;left:30%;width:400px;height:400px;background:radial-gradient(circle,rgba(90,143,212,.15) 0%,transparent 70%);border-radius:50%}
+  .cover-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:6px 16px;font-size:13px;font-weight:500;letter-spacing:.5px;margin-bottom:20px;backdrop-filter:blur(4px)}
+  .cover h1{font-family:'Noto Serif KR',serif;font-size:36px;font-weight:900;line-height:1.3;margin-bottom:8px;position:relative;z-index:1}
+  .cover h2{font-size:20px;font-weight:400;opacity:.85;margin-bottom:30px;position:relative;z-index:1}
+  .cover-meta{display:flex;gap:30px;flex-wrap:wrap;position:relative;z-index:1}
+  .cover-meta-item{display:flex;align-items:center;gap:8px;font-size:14px;opacity:.9}
+  .cover-meta-item strong{font-weight:600;opacity:1}
+  .cover-divider{width:60px;height:3px;background:var(--yellow);border-radius:2px;margin:20px 0;position:relative;z-index:1}
+  .section{background:var(--white);border-radius:12px;box-shadow:var(--shadow);padding:36px 40px;margin-bottom:24px}
+  .section-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid var(--navy)}
+  .section-number{background:var(--navy);color:var(--white);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
+  .section-title{font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;color:var(--navy)}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+  .stat-card{background:var(--gray-50);border-radius:10px;padding:20px;text-align:center;border:1px solid var(--gray-200);transition:transform .2s}
+  .stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .stat-value{font-size:36px;font-weight:900;line-height:1.1;margin-bottom:4px}
+  .stat-label{font-size:13px;color:var(--gray-600);font-weight:500}
+  .stat-card.good .stat-value{color:var(--green)}.stat-card.caution .stat-value{color:var(--yellow)}.stat-card.bad .stat-value{color:var(--red)}.stat-card.total .stat-value{color:var(--navy)}
+  .table-wrapper{overflow-x:auto;margin:16px 0;border-radius:10px;border:1px solid var(--gray-200)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{background:var(--navy);color:var(--white);padding:12px 14px;font-weight:600;text-align:center;white-space:nowrap;font-size:12.5px}
+  tbody td{padding:10px 14px;border-bottom:1px solid var(--gray-200);text-align:center;vertical-align:middle}
+  tbody tr:nth-child(even){background:var(--gray-50)}tbody tr:hover{background:var(--sky)}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:600;letter-spacing:.3px}
+  .badge-good{background:var(--green-bg);color:var(--green)}.badge-caution{background:var(--yellow-bg);color:var(--orange)}.badge-bad{background:var(--red-bg);color:var(--red)}
+  .facility-name{text-align:left!important;font-weight:500;max-width:200px}
+  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:20px 0}
+  .chart-box{background:var(--gray-50);border-radius:10px;padding:24px;border:1px solid var(--gray-200)}
+  .chart-box h4{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:16px;text-align:center}
+  .chart-container{position:relative;height:280px}
+  .issue-card{background:var(--white);border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .issue-card.caution{border-left-color:var(--yellow)}
+  .issue-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .issue-facility{font-weight:600;color:var(--navy);font-size:14px}
+  .issue-deadline{font-size:12px;font-weight:600;padding:2px 10px;border-radius:12px}
+  .issue-deadline.normal{background:var(--yellow-bg);color:var(--orange)}
+  .issue-detail{font-size:13px;color:var(--gray-700);line-height:1.6}
+  .issue-tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:4px;margin-right:6px;font-weight:600}
+  .tag-repair{background:var(--red-bg);color:var(--red)}.tag-observe{background:var(--yellow-bg);color:var(--orange)}
+  .facility-detail{background:var(--gray-50);border-radius:10px;padding:24px;margin-bottom:16px;border:1px solid var(--gray-200)}
+  .facility-detail-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+  .facility-detail-title{font-weight:700;font-size:15px;color:var(--navy)}
+  .facility-detail-meta{display:flex;gap:16px;font-size:12px;color:var(--gray-600)}
+  .overall-badge{padding:4px 14px;border-radius:6px;font-size:12px;font-weight:700}
+  .overall-good{background:var(--green-bg);color:var(--green)}.overall-caution{background:var(--yellow-bg);color:var(--orange)}.overall-bad{background:var(--red-bg);color:var(--red)}
+  .mini-table{width:100%;font-size:12px}.mini-table th{padding:8px 10px;font-size:11.5px}.mini-table td{padding:7px 10px;font-size:12px}
+  .summary-box{background:linear-gradient(135deg,var(--sky) 0%,var(--sky-deep) 100%);border-radius:10px;padding:24px 28px;margin:20px 0;border:1px solid rgba(59,108,180,.15)}
+  .summary-box h4{color:var(--navy);font-size:15px;margin-bottom:10px}
+  .summary-box p,.summary-box li{font-size:13.5px;color:var(--navy-light);line-height:1.8}
+  .summary-box ul{padding-left:20px}
+  .legal-box{background:var(--gray-50);border:1px solid var(--gray-300);border-radius:8px;padding:20px 24px;margin:16px 0;font-size:13px;color:var(--gray-700);line-height:1.8}
+  .legal-box strong{color:var(--navy)}
+  .timeline{position:relative;padding-left:30px;margin:20px 0}
+  .timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--gray-300)}
+  .timeline-item{position:relative;margin-bottom:20px}
+  .timeline-item::before{content:'';position:absolute;left:-26px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid var(--white);box-shadow:0 0 0 2px var(--blue-light)}
+  .timeline-date{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:4px}
+  .timeline-content{font-size:13px;color:var(--gray-700)}
+  .sign-area{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;border:1px solid var(--gray-300);border-radius:8px;overflow:hidden}
+  .sign-cell{padding:14px;text-align:center;border-right:1px solid var(--gray-300);font-size:13px}
+  .sign-cell:last-child{border-right:none}
+  .sign-cell-header{background:var(--gray-200);font-weight:600;font-size:12px;color:var(--gray-700);padding:10px}
+  .sign-space{height:50px}
+  .report-footer{text-align:center;padding:30px;color:var(--gray-500);font-size:12px}
+  .text-left{text-align:left!important}
+  @media print{body{background:white}.page-container{padding:0;max-width:100%}.section{box-shadow:none;break-inside:avoid}.cover{break-after:page}}
+  @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.cover{padding:30px 24px}.cover h1{font-size:24px}.section{padding:24px 20px}.sign-area{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="page-container">
+
+  <!-- ===== COVER ===== -->
+  <div class="cover">
+    <div class="cover-badge">과천시 어린이놀이시설 안전관리</div>
+    <h1>개학기 어린이놀이시설<br>지도·점검 종합보고서</h1>
+    <h2>어린이놀이시설 안전관리법 제17조의2에 의거</h2>
+    <div class="cover-divider"></div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><strong>점검기간</strong> 2026. 2. 25.(수) ~ 3. 20.(금)</div>
+      <div class="cover-meta-item"><strong>점검기관</strong> 과천시청 안전재난과 / 아동복지과</div>
+      <div class="cover-meta-item"><strong>자문기관</strong> 사회적협동조합 창의융합연구원(KICON)</div>
+      <div class="cover-meta-item"><strong>대상시설</strong> 6개소</div>
+    </div>
+  </div>
+
+  <!-- ===== 1. 점검 개요 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">점검 개요</div>
+    </div>
+    <div class="legal-box">
+      <strong>■ 법적 근거</strong><br>
+      「어린이놀이시설 안전관리법」 제17조의2(지도·점검)<br>
+      「어린이놀이시설 시설기준 및 기술기준」(행정안전부 고시)<br>
+      「어린이놀이시설의 시설기준 및 기술기준에 관한 규칙」<br><br>
+      <strong>■ 점검 목적</strong><br>
+      2026년 1학기 개학기를 맞아 과천시 관내 어린이놀이시설의 안전관리 상태를 종합 점검하여,
+      어린이 안전사고를 사전에 예방하고 관리주체의 안전관리 의무 이행 여부를 확인한다.<br><br>
+      <strong>■ 점검 범위</strong><br>
+      안전관리 의무사항 이행 여부, 놀이기구 유지관리 상태, 개별 놀이기구 안전점검을 포함한다.
+      공원시설(관문체육공원, 문원어린이공원, 중앙공원) 3개소 및 어린이집(과천어린이집, 문원어린이집, 갈현어린이집) 3개소를 대상으로 실시하였다.
+    </div>
+    <div style="margin-top:20px;">
+      <strong style="color:var(--navy);">■ 점검 인원</strong>
+      <div class="table-wrapper" style="margin-top:10px;">
+        <table>
+          <thead><tr><th>구분</th><th>소속</th><th>성명</th><th>역할</th></tr></thead>
+          <tbody>
+            <tr><td>점검자</td><td>과천시청 안전재난과</td><td>송현승</td><td>현장점검 총괄</td></tr>
+            <tr><td>점검자</td><td>과천시청 아동복지과</td><td>이현주</td><td>어린이집 시설 점검</td></tr>
+            <tr><td>안전관리자문</td><td>사회적협동조합 창의융합연구원</td><td>이영일</td><td>안전기술자문</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2. 종합 현황 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title">종합 현황</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card total"><div class="stat-value">6</div><div class="stat-label">점검 대상 시설</div></div>
+      <div class="stat-card good"><div class="stat-value">3</div><div class="stat-label">양호 시설</div></div>
+      <div class="stat-card caution"><div class="stat-value">3</div><div class="stat-label">요주의 시설</div></div>
+      <div class="stat-card bad"><div class="stat-value">0</div><div class="stat-label">요수리 시설</div></div>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>No.</th><th>시설번호</th><th>시설명</th><th>시설유형</th><th>점검일</th><th>안전관리자</th><th>안전관리<br>의무</th><th>유지관리<br>상태</th><th>놀이기구<br>상태</th><th>종합판정</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>21633</td><td class="facility-name">관문체육공원놀이시설</td><td>공원</td><td>3/19</td><td>최성호</td>
+            <td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">보통</span></td><td><span class="badge badge-caution">보통</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+          <tr><td>2</td><td>21635</td><td class="facility-name">문원어린이공원 놀이시설</td><td>공원</td><td>3/19</td><td>문다영</td>
+            <td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">보통</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+          <tr><td>3</td><td>21639</td><td class="facility-name">중앙공원 놀이시설-2</td><td>공원</td><td>3/19</td><td>문다영</td>
+            <td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td></tr>
+          <tr><td>4</td><td>39509</td><td class="facility-name">과천어린이집 놀이터</td><td>어린이집</td><td>3/20</td><td>-</td>
+            <td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td></tr>
+          <tr><td>5</td><td>500804</td><td class="facility-name">문원어린이집 놀이터</td><td>어린이집</td><td>3/20</td><td>-</td>
+            <td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td></tr>
+          <tr><td>6</td><td>500857</td><td class="facility-name">갈현어린이집 놀이터</td><td>어린이집</td><td>2/25</td><td>-</td>
+            <td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">보통</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="summary-box">
+      <h4>종합 분석 요약</h4>
+      <p>전체 6개 시설 중 <strong>3개소(50.0%)</strong>가 양호, <strong>3개소(50.0%)</strong>가 요주의 판정을 받았으며, 요수리 판정 시설은 없습니다.
+      안전관리 의무사항은 전 시설이 100% 이행하고 있어 법적 준수 수준이 양호합니다.
+      다만 공원시설 2개소(관문체육공원, 문원어린이공원)에서 금속 부식 및 목재 갈라짐이 확인되어 경과관찰이 필요하며,
+      갈현어린이집의 그네 회동구 간격 부적합 사항도 주의가 필요합니다.</p>
+    </div>
+  </div>
+
+  <!-- ===== 3. 통계 차트 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title">점검결과 통계 분석</div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-box">
+        <h4>시설별 종합판정 분포</h4>
+        <div class="chart-container"><canvas id="chartOverall"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <h4>위해 유형별 발생 건수</h4>
+        <div class="chart-container"><canvas id="chartItems"></canvas></div>
+      </div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-box">
+        <h4>안전관리 의무 이행 현황</h4>
+        <div class="chart-container"><canvas id="chartCompliance"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <h4>시설유형별 점검결과 비교</h4>
+        <div class="chart-container"><canvas id="chartType"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 4. 안전관리 의무 이행 상세 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title">안전관리 의무 이행 상세</div>
+    </div>
+    <p style="margin-bottom:16px;color:var(--gray-700);font-size:13.5px;">
+      「어린이놀이시설 안전관리법」에 따른 8개 법적의무사항에 대한 시설별 이행 현황입니다.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>시설명</th><th>시설등록</th><th>설치검사</th><th>정기검사<br>합격</th><th>합격증<br>게시</th><th>안전교육</th><th>보험가입</th><th>안전검사<br>실시</th><th>점검대장<br>보관</th></tr></thead>
+        <tbody>
+          <tr><td class="facility-name">관문체육공원</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">문원어린이공원</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">중앙공원 놀이시설-2</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">과천어린이집</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">문원어린이집</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr><td class="facility-name">갈현어린이집</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="summary-box">
+      <h4>의무 이행 분석</h4>
+      <p><strong>전 시설 8개 항목 100% 이행</strong> — 과천시 관내 점검 대상 6개 시설 모두 시설등록, 설치검사, 정기시설검사, 합격증 게시, 안전교육, 보험가입, 안전검사, 점검대장 보관 의무를 충실히 이행하고 있습니다. 법적 준수 수준이 매우 우수합니다.</p>
+    </div>
+  </div>
+
+  <!-- ===== 5. 위해요소 발견 및 조치사항 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title">위해요소 발견 및 조치사항</div>
+    </div>
+    <p style="margin-bottom:20px;color:var(--gray-700);font-size:13.5px;">
+      현장 점검 시 확인된 위해요소를 <span class="issue-tag tag-observe">요주의</span>(경과관찰 및 주의 필요)로 구분하여 정리하였습니다.
+      요수리(즉시 수리 필요) 판정 시설은 없습니다.
+    </p>
+
+    <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[21633] 관문체육공원놀이시설</div>
+        <span class="issue-deadline normal">경과관찰</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 도장박리 및 녹 발생 (2개소 확인) — 경과관찰<br>
+        <span class="issue-tag tag-observe">요주의</span> 손상상태(노후화) 보통(△) — 부식 진행 모니터링 필요
+      </div>
+    </div>
+
+    <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[21635] 문원어린이공원 놀이시설</div>
+        <span class="issue-deadline normal">경과관찰</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 조합놀이대 목재의 갈라짐 (2개소 확인) — 경과관찰<br>
+        <span class="issue-tag tag-observe">요주의</span> 손상상태(목재 갈라짐) 보통(△) — 갈라짐 확대 여부 모니터링 필요
+      </div>
+    </div>
+
+    <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[500857] 갈현어린이집 놀이터</div>
+        <span class="issue-deadline normal">조치 권고</span>
+      </div>
+      <div class="issue-detail">
+        <span class="issue-tag tag-observe">요주의</span> 그네 회동구 간격 조절 필요 — 기술기준 제12조(그네) 간격기준 확인 후 조정 권고
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6. 위해 유형 분류 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title">위해 유형별 분류 및 기술기준 근거</div>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>위해 유형</th><th>발생 건수</th><th>해당 시설</th><th>관련 기술기준</th><th>위험도</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>금속 부식·도장박리</strong></td><td>2건</td>
+            <td class="text-left">21633 관문체육공원</td>
+            <td class="text-left" style="font-size:11.5px;">시설기준 제6조(내구성) — 금속재료는 부식방지 처리 필수</td>
+            <td><span class="badge badge-caution">중</span></td>
+          </tr>
+          <tr>
+            <td><strong>목재 갈라짐</strong></td><td>2건</td>
+            <td class="text-left">21635 문원어린이공원</td>
+            <td class="text-left" style="font-size:11.5px;">시설기준 제5조(목재) — 방부처리, 균열 관리 의무</td>
+            <td><span class="badge badge-caution">중</span></td>
+          </tr>
+          <tr>
+            <td><strong>회동구 간격 부적합</strong></td><td>1건</td>
+            <td class="text-left">500857 갈현어린이집</td>
+            <td class="text-left" style="font-size:11.5px;">기술기준 제12조(그네) — 회동부 간격 기준 준수</td>
+            <td><span class="badge badge-bad">상</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="summary-box">
+      <h4>위해 유형 분석</h4>
+      <p>과천시 관내 시설에서 발견된 위해요소는 총 3가지 유형, 5건입니다.
+      금속 부식·도장박리와 목재 갈라짐은 시간 경과에 따른 자연적 노화 현상으로, 정기적 모니터링과 적시 보수가 필요합니다.
+      갈현어린이집의 그네 회동구 간격 부적합은 어린이 안전과 직결되는 사항으로,
+      기술기준 제12조에 따른 간격 조정을 우선적으로 권고합니다.</p>
+    </div>
+  </div>
+
+  <!-- ===== 7. 조치 이행 일정 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <div class="section-title">조치 이행 일정 및 관리방안</div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 2. 25. ~ 3. 20. (점검 완료)</div>
+        <div class="timeline-content">
+          <strong>현장 점검 완료</strong><br>
+          · 공원시설 3개소 (3/19), 어린이집 2개소 (3/20), 갈현어린이집 (2/25) 점검 완료<br>
+          · 위해요소 3개 유형, 5건 확인 및 기록
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 4월 (조치 권고 이행)</div>
+        <div class="timeline-content">
+          <strong>우선 조치 대상</strong><br>
+          · 갈현어린이집 — 그네 회동구 간격 조정 (기술기준 제12조 준수)<br>
+          · 관문체육공원 — 조합놀이대 부식 부위 방청처리 검토
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 5월 ~ 6월 (경과관찰)</div>
+        <div class="timeline-content">
+          <strong>경과관찰 및 모니터링</strong><br>
+          · 관문체육공원 — 도장박리·녹 발생 진행 여부 모니터링<br>
+          · 문원어린이공원 — 목재 갈라짐 확대 여부 모니터링<br>
+          · 악화 시 보수 계획 수립
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026. 하반기 (후속 점검)</div>
+        <div class="timeline-content">
+          <strong>조치결과 확인 점검 실시</strong><br>
+          · 전체 6개 시설 경과관찰 항목 재점검<br>
+          · 하반기 정기 지도·점검 계획 수립
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 8. 시설별 상세 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <div class="section-title">시설별 상세 점검 결과</div>
+    </div>
+
+    <!-- 21633 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">① [21633] 관문체육공원놀이시설</div>
+          <div class="facility-detail-meta"><span>점검일: 2026.3.19.</span><span>안전관리자: 최성호 (도시공사)</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>흔들놀이기구 1~4</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-caution">보통</span></td><td>도장박리 녹발생 (사진 2매 확인)</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 21635 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">② [21635] 문원어린이공원 놀이시설</div>
+          <div class="facility-detail-meta"><span>점검일: 2026.3.19.</span><span>안전관리자: 문다영 (공원녹지과)</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>공중놀이기구1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td>목재 갈라짐 확인 (사진 2매)</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>포설도포 방식</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 21639 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">③ [21639] 중앙공원 놀이시설-2</div>
+          <div class="facility-detail-meta"><span>점검일: 2026.3.19.</span><span>안전관리자: 문다영 (공원녹지과)</span></div>
+        </div>
+        <span class="overall-badge overall-good">양호</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>그네</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>공중놀이기구1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>건너는기구 1~2</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>기타놀이기구1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>충격흡수용 표면재 1~2</td><td><span class="badge badge-good">양호</span></td><td>모래 + 기타 복합</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 39509 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">④ [39509] 과천어린이집 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026.3.20.</span><span>점검자: 송현승, 이현주</span></div>
+        </div>
+        <span class="overall-badge overall-good">양호</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>흔들놀이기구 1~3</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>고무포설</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 500804 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑤ [500804] 문원어린이집 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026.3.20.</span><span>점검자: 송현승, 이현주</span></div>
+        </div>
+        <span class="overall-badge overall-good">양호</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>흔들놀이기구 1~2</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>조합놀이대 1~2</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>고무매트</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 500857 -->
+    <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑥ [500857] 갈현어린이집 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026.2.25.</span><span>점검자: 송현승, 이현주</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="mini-table">
+          <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>흔들놀이기구 1~4</td><td><span class="badge badge-good">양호</span></td><td>-</td></tr>
+            <tr><td>충격흡수용 표면재</td><td><span class="badge badge-good">양호</span></td><td>고무포설</td></tr>
+            <tr><td colspan="3" style="text-align:left;color:var(--orange);font-weight:600;">※ 그네 회동구 간격 조절 필요 (현장사진 확인)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 9. 종합 의견 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <div class="section-title">종합 의견 및 건의사항</div>
+    </div>
+    <div class="summary-box" style="background:linear-gradient(135deg,#FFF8E1 0%,#FFF3C4 100%);border-color:rgba(249,168,37,.2);">
+      <h4>종합 의견</h4>
+      <p>2026년 개학기 지도·점검 결과, 과천시 관내 전체 6개 시설 중 <strong>양호 3개소(50.0%), 요주의 3개소(50.0%)</strong>로 확인되었습니다.
+      안전관리 의무사항은 전 시설이 100% 이행하여 법적 준수 수준이 우수하며,
+      요수리 판정 시설이 없어 전반적인 관리 수준이 양호한 것으로 평가됩니다.
+      아래 건의사항에 따른 후속 관리를 통해 안전 수준을 유지·향상해 나가시기 바랍니다.</p>
+    </div>
+
+    <div style="margin-top:20px;">
+      <strong style="color:var(--navy);font-size:15px;">■ 주요 건의사항</strong>
+      <div style="margin-top:12px;line-height:2;font-size:13.5px;color:var(--gray-700);">
+        <strong>1. 관문체육공원 조합놀이대 부식 관리</strong><br>
+        도장박리 및 녹 발생이 확인되었습니다. 현재는 경과관찰 단계이나,
+        금속 표면의 산화는 습도·온도 조건에 따라 가속될 수 있으므로
+        봄·여름철 이전에 방청처리 및 도장 재시공을 검토하시기 바랍니다.
+        「시설기준」 제6조(내구성)에 따라 금속재료는 부식방지 처리가 필수입니다.<br><br>
+
+        <strong>2. 문원어린이공원 목재 갈라짐 모니터링</strong><br>
+        목재 놀이시설의 갈라짐은 건조 수축에 의한 자연 현상이나,
+        갈라짐이 깊어지면 어린이 손가락 끼임이나 목재 구조 약화로 이어질 수 있습니다.
+        「시설기준」 제5조(목재)에 따라 정기적 방부처리와 균열 관리가 필요하며,
+        균열 폭이 8mm 이상으로 확대될 경우 즉시 보수를 권고합니다.<br><br>
+
+        <strong>3. 갈현어린이집 그네 회동구 간격 조정</strong><br>
+        현장사진에서 그네 회동구 간격 부적합이 확인되었습니다.
+        「기술기준」 제12조(그네)에 따라 안장판과 지지구조 사이의 간격이
+        어린이 신체 끼임을 유발하지 않도록 조정해야 합니다.
+        이는 어린이 안전에 직결되는 사항이므로 우선 조치를 권고합니다.<br><br>
+
+        <strong>4. 어린이집 시설의 우수한 관리 수준 유지</strong><br>
+        과천어린이집과 문원어린이집은 전 항목 양호 판정을 받았습니다.
+        어린이집 특성상 저연령 어린이가 주 이용자이므로,
+        현재의 우수한 안전관리 수준을 지속적으로 유지해 나가시기 바랍니다.<br><br>
+
+        <strong>5. 후속 확인 점검 실시</strong><br>
+        경과관찰 대상 3개 시설에 대해 2026년 하반기 후속 확인 점검을 실시하여
+        위해요소 진행 여부를 확인하고, 악화 시 보수 계획을 수립할 것을 건의합니다.
+      </div>
+    </div>
+
+    <div style="margin-top:40px;text-align:center;color:var(--gray-600);font-size:13px;margin-bottom:10px;">2026년 3월</div>
+    <div class="sign-area">
+      <div><div class="sign-cell sign-cell-header">작성</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);">안전관리자문 이영일</div></div>
+      <div><div class="sign-cell sign-cell-header">검토</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);">점검자 송현승</div></div>
+      <div><div class="sign-cell sign-cell-header">확인</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);">안전재난과장</div></div>
+      <div><div class="sign-cell sign-cell-header">승인</div><div class="sign-cell"><div class="sign-space"></div></div><div class="sign-cell" style="font-size:12px;color:var(--gray-600);"> </div></div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    과천시 어린이놀이시설 지도·점검 종합보고서 | 2026년 개학기 | 사회적협동조합 창의융합연구원(KICON)
+  </div>
+</div>
+
+<script>
+Chart.defaults.font.family="'Noto Sans KR',sans-serif";
+Chart.defaults.font.size=12;
+
+// 1. Overall (Doughnut)
+new Chart(document.getElementById('chartOverall'),{
+  type:'doughnut',
+  data:{labels:['양호','요주의','요수리'],datasets:[{data:[3,3,0],backgroundColor:['#4CAF50','#F9A825','#EF5350'],borderWidth:2,borderColor:'#fff'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{padding:16,font:{size:13,weight:'600'}}},tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw}개소 (${(c.raw/6*100).toFixed(1)}%)`}}},cutout:'55%'}
+});
+
+// 2. Hazard items
+new Chart(document.getElementById('chartItems'),{
+  type:'bar',
+  data:{labels:['금속 부식\n도장박리','목재\n갈라짐','회동구\n간격 부적합'],datasets:[{label:'발생 건수',data:[2,2,1],backgroundColor:['#F9A825','#F9A825','#EF5350'],borderRadius:6,maxBarThickness:50}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#eee'}},x:{grid:{display:false}}}}
+});
+
+// 3. Compliance (Radar)
+new Chart(document.getElementById('chartCompliance'),{
+  type:'radar',
+  data:{labels:['시설등록','설치검사','정기검사','합격증 게시','안전교육','보험가입','안전검사','점검대장'],datasets:[{label:'이행률 (%)',data:[100,100,100,100,100,100,100,100],backgroundColor:'rgba(59,108,180,.15)',borderColor:'#3B6CB4',pointBackgroundColor:'#3B6CB4',pointRadius:5,borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:10}},pointLabels:{font:{size:11,weight:'500'}}}}}
+});
+
+// 4. Facility type comparison
+new Chart(document.getElementById('chartType'),{
+  type:'bar',
+  data:{
+    labels:['공원시설 (3개소)','어린이집 (3개소)'],
+    datasets:[
+      {label:'양호',data:[1,2],backgroundColor:'#4CAF50',borderRadius:4,maxBarThickness:50},
+      {label:'요주의',data:[2,1],backgroundColor:'#F9A825',borderRadius:4,maxBarThickness:50},
+      {label:'요수리',data:[0,0],backgroundColor:'#EF5350',borderRadius:4,maxBarThickness:50}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:12,weight:'600'}}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:1},grid:{color:'#eee'}}}}
+});
+</script>
+</body>
+</html>
