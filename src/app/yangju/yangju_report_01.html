@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>양주시 개학기 어린이놀이시설 지도점검 종합보고서</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Noto+Serif+KR:wght@600;700;900&display=swap');
+:root {
+  --navy: #1B2A4A; --navy-light: #2C3E6B; --blue: #3B6CB4; --blue-light: #5A8FD4;
+  --sky: #E8F0FE; --sky-deep: #D0E2FC;
+  --green: #2E7D32; --green-light: #4CAF50; --green-bg: #E8F5E9;
+  --yellow: #F9A825; --yellow-bg: #FFF8E1;
+  --red: #C62828; --red-light: #EF5350; --red-bg: #FFEBEE;
+  --orange: #E65100;
+  --gray-50: #FAFAFA; --gray-100: #F5F5F5; --gray-200: #EEEEEE; --gray-300: #E0E0E0;
+  --gray-400: #BDBDBD; --gray-500: #9E9E9E; --gray-600: #757575; --gray-700: #616161; --gray-800: #424242;
+  --white: #FFFFFF;
+  --shadow: 0 2px 12px rgba(27,42,74,0.08); --shadow-lg: 0 8px 32px rgba(27,42,74,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; background: #F0F2F5; color: var(--gray-800); }
+.page-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+/* Cover */
+.cover { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 40%, var(--blue) 100%); color: var(--white); border-radius: 16px; padding: 60px 50px; margin-bottom: 30px; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%); border-radius: 50%; }
+.cover::after { content: ''; position: absolute; bottom: -80px; left: 30%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(90,143,212,0.15) 0%, transparent 70%); border-radius: 50%; }
+.cover-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 6px 16px; font-size: 13px; font-weight: 500; margin-bottom: 20px; backdrop-filter: blur(4px); }
+.cover h1 { font-family: 'Noto Serif KR', serif; font-size: 36px; font-weight: 900; line-height: 1.3; margin-bottom: 8px; position: relative; z-index: 1; }
+.cover h2 { font-size: 20px; font-weight: 400; opacity: 0.85; margin-bottom: 30px; position: relative; z-index: 1; }
+.cover-divider { width: 60px; height: 3px; background: var(--yellow); border-radius: 2px; margin: 20px 0; position: relative; z-index: 1; }
+.cover-meta { display: flex; gap: 30px; flex-wrap: wrap; position: relative; z-index: 1; }
+.cover-meta-item { display: flex; align-items: center; gap: 8px; font-size: 14px; opacity: 0.9; }
+.cover-meta-item strong { font-weight: 600; opacity: 1; }
+
+/* Section */
+.section { background: var(--white); border-radius: 12px; box-shadow: var(--shadow); padding: 36px 40px; margin-bottom: 24px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid var(--navy); }
+.section-number { background: var(--navy); color: var(--white); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+.section-title { font-family: 'Noto Serif KR', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card { background: var(--gray-50); border-radius: 10px; padding: 20px; text-align: center; border: 1px solid var(--gray-200); transition: transform 0.2s; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.stat-value { font-size: 36px; font-weight: 900; line-height: 1.1; margin-bottom: 4px; }
+.stat-label { font-size: 13px; color: var(--gray-600); font-weight: 500; }
+.stat-card.good .stat-value { color: var(--green); }
+.stat-card.caution .stat-value { color: var(--yellow); }
+.stat-card.bad .stat-value { color: var(--red); }
+.stat-card.total .stat-value { color: var(--navy); }
+
+/* Table */
+.table-wrapper { overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--gray-200); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { background: var(--navy); color: var(--white); padding: 12px 14px; font-weight: 600; text-align: center; white-space: nowrap; font-size: 12.5px; }
+tbody td { padding: 10px 14px; border-bottom: 1px solid var(--gray-200); text-align: center; vertical-align: middle; }
+tbody tr:nth-child(even) { background: var(--gray-50); }
+tbody tr:hover { background: var(--sky); }
+.facility-name { text-align: left !important; font-weight: 500; max-width: 200px; }
+
+/* Badge */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+.badge-good { background: var(--green-bg); color: var(--green); }
+.badge-caution { background: var(--yellow-bg); color: var(--orange); }
+.badge-bad { background: var(--red-bg); color: var(--red); }
+
+/* Issue Card */
+.issue-card { background: var(--white); border-left: 4px solid var(--red); border-radius: 0 8px 8px 0; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.issue-card.caution { border-left-color: var(--yellow); }
+.issue-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.issue-facility { font-weight: 600; color: var(--navy); font-size: 14px; }
+.issue-deadline { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 12px; }
+.issue-deadline.urgent { background: var(--red-bg); color: var(--red); }
+.issue-deadline.normal { background: var(--yellow-bg); color: var(--orange); }
+.issue-tag { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 4px; margin-right: 6px; font-weight: 600; }
+.tag-repair { background: var(--red-bg); color: var(--red); }
+.tag-observe { background: var(--yellow-bg); color: var(--orange); }
+.issue-detail { font-size: 13px; color: var(--gray-700); line-height: 1.8; }
+
+/* Facility Detail */
+.facility-detail { background: var(--gray-50); border-radius: 10px; padding: 24px; margin-bottom: 16px; border: 1px solid var(--gray-200); }
+.facility-detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+.facility-detail-title { font-weight: 700; font-size: 15px; color: var(--navy); }
+.facility-detail-meta { display: flex; gap: 16px; font-size: 12px; color: var(--gray-600); }
+.overall-badge { padding: 4px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.overall-good { background: var(--green-bg); color: var(--green); }
+.overall-caution { background: var(--yellow-bg); color: var(--orange); }
+.overall-bad { background: var(--red-bg); color: var(--red); }
+.mini-table { width: 100%; font-size: 12px; }
+.mini-table th { padding: 8px 10px; font-size: 11.5px; }
+.mini-table td { padding: 7px 10px; font-size: 12px; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--gray-300); }
+.timeline-item { position: relative; margin-bottom: 20px; }
+.timeline-item::before { content: ''; position: absolute; left: -26px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--blue); border: 2px solid var(--white); box-shadow: 0 0 0 2px var(--blue-light); }
+.timeline-date { font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+.timeline-content { font-size: 13px; color: var(--gray-700); line-height: 1.8; }
+
+/* Summary & Legal */
+.summary-box { background: linear-gradient(135deg, var(--sky) 0%, var(--sky-deep) 100%); border-radius: 10px; padding: 24px 28px; margin: 20px 0; border: 1px solid rgba(59,108,180,0.15); }
+.summary-box h4 { color: var(--navy); font-size: 15px; margin-bottom: 10px; }
+.summary-box p, .summary-box li { font-size: 13.5px; color: var(--navy-light); line-height: 1.8; }
+.legal-box { background: var(--gray-50); border: 1px solid var(--gray-300); border-radius: 8px; padding: 20px 24px; margin: 16px 0; font-size: 13px; color: var(--gray-700); line-height: 1.8; }
+.legal-box strong { color: var(--navy); }
+
+/* Sign Area */
+.sign-area { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 30px; border: 1px solid var(--gray-300); border-radius: 8px; overflow: hidden; }
+.sign-cell { padding: 14px; text-align: center; border-right: 1px solid var(--gray-300); font-size: 13px; }
+.sign-cell:last-child { border-right: none; }
+.sign-cell-header { background: var(--gray-200); font-weight: 600; font-size: 12px; color: var(--gray-700); padding: 10px; }
+.sign-space { height: 50px; }
+
+/* Footer */
+.footer { text-align: center; padding: 30px 0; font-size: 12px; color: var(--gray-500); }
+
+/* Responsive */
+@media print {
+  body { background: white; }
+  .page-container { padding: 0; max-width: 100%; }
+  .section { box-shadow: none; break-inside: avoid; }
+  .cover { break-after: page; }
+}
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .charts-row { grid-template-columns: 1fr !important; }
+  .cover { padding: 30px 24px; }
+  .cover h1 { font-size: 24px; }
+  .section { padding: 24px 20px; }
+  .sign-area { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+<div class="cover">
+  <div class="cover-badge">양주시 어린이놀이시설 안전관리</div>
+  <h1>개학기 어린이놀이시설<br>지도·점검 종합보고서</h1>
+  <h2>어린이놀이시설 안전관리법 제17조의2에 의거</h2>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>점검기간</strong> 2026. 3. 23. ~ 2026. 3. 26.</div>
+    <div class="cover-meta-item"><strong>점검기관</strong> 양주시청 시민안전과</div>
+    <div class="cover-meta-item"><strong>자문기관</strong> 사회적협동조합 창의융합연구원(KICON)</div>
+    <div class="cover-meta-item"><strong>대상시설</strong> 19개소</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">1</div><div class="section-title">점검 개요</div></div>
+  <div class="legal-box">
+    <strong>법적 근거</strong><br>
+    · 어린이놀이시설 안전관리법 <strong>제17조의2(지도·점검)</strong> — 지방자치단체장은 어린이놀이시설의 안전관리를 위하여 지도·점검을 실시할 수 있다.<br>
+    · 어린이놀이시설의 <strong>시설기준 및 기술기준</strong>(행정안전부 고시)에 따른 안전 상태 확인
+  </div>
+  <p style="margin:16px 0;font-size:14px;color:var(--gray-700);line-height:1.8;">
+    본 보고서는 2026년 개학기를 맞아 양주시 관내 어린이놀이시설 <strong>19개소</strong>에 대한 지도·점검 결과를 종합한 것입니다.
+    점검은 안전관리 의무 이행 여부, 놀이기구 유지관리 상태, 위해요소 존재 여부 등을 현장 확인하였으며,
+    발견된 위해요소에 대한 조치계획을 수립하여 어린이 안전사고를 예방하고자 합니다.
+  </p>
+  <h4 style="color:var(--navy);margin:20px 0 10px;font-size:15px;">점검 인원</h4>
+  <div class="table-wrapper"><table>
+    <thead><tr><th>구분</th><th>소속</th><th>성명</th><th>역할</th></tr></thead>
+    <tbody>
+      <tr><td>점검자</td><td>양주시청 시민안전과</td><td>권경용</td><td>현장 점검 총괄</td></tr>
+      <tr><td>안전관리자</td><td>공원사업과</td><td>안수민, 김민정</td><td>공원시설 안전관리</td></tr>
+      <tr><td>안전관리자</td><td>각 아파트 관리사무소</td><td>관리소장·관리과장</td><td>아파트 놀이시설 관리</td></tr>
+      <tr><td>안전관리자문</td><td>사회적협동조합 창의융합연구원</td><td>이영일</td><td>안전관리 자문</td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">2</div><div class="section-title">종합 현황</div></div>
+  <div class="stats-grid">
+    <div class="stat-card total"><div class="stat-value">19</div><div class="stat-label">점검 대상 시설</div></div>
+    <div class="stat-card good"><div class="stat-value">3</div><div class="stat-label">양호 시설</div></div>
+    <div class="stat-card caution"><div class="stat-value">7</div><div class="stat-label">요주의 시설</div></div>
+    <div class="stat-card bad"><div class="stat-value">9</div><div class="stat-label">요수리 시설</div></div>
+  </div>
+  <div class="table-wrapper"><table>
+    <thead><tr><th>No</th><th>시설번호</th><th>시설명</th><th>점검일</th><th>안전관리자</th><th>안전관리</th><th>유지관리</th><th>놀이기구</th><th>종합판정</th></tr></thead>
+    <tbody><tr><td>1</td><td>35508</td><td class="facility-name">가납제3어린이공원 놀이터</td><td>2026. 3. 25.</td><td>공원사업과 안수민</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+<tr><td>2</td><td>564335</td><td class="facility-name">덕정소공원</td><td>2026. 3. 25.</td><td>공원사업과 안수민</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+<tr><td>3</td><td>544628</td><td class="facility-name">양주서희스타힐스1단지 놀이터</td><td>2026. 3. 25.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+<tr><td>4</td><td>546791</td><td class="facility-name">은동마을주공1단지아파트(제1-1)</td><td>2026. 3. 25.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+<tr><td>5</td><td>31996</td><td class="facility-name">은동마을주공1단지아파트(제1-2)</td><td>2026. 3. 25.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td></tr>
+<tr><td>6</td><td>34467</td><td class="facility-name">청담마을주공4단지 제1놀이터</td><td>2026. 3. 23.</td><td>관리과장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td></tr>
+<tr><td>7</td><td>34468</td><td class="facility-name">청담마을주공4단지 제2놀이터</td><td>2026. 3. 25.</td><td>관리과장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td></tr>
+<tr><td>8</td><td>31619</td><td class="facility-name">청담마을주공4단지 제3놀이터</td><td>2026. 3. 25.</td><td>관리과장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>9</td><td>1912</td><td class="facility-name">회정 금용아파트 201동 놀이터</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>10</td><td>1911</td><td class="facility-name">회정 금용아파트 101동 놀이터</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>11</td><td>558140</td><td class="facility-name">독바위공원1</td><td>2026. 3. 26.</td><td>공원사업과 김민정</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>12</td><td>558141</td><td class="facility-name">독바위공원2</td><td>2026. 3. 26.</td><td>공원사업과 김민정</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>13</td><td>558147</td><td class="facility-name">참수물어린이공원</td><td>2026. 3. 26.</td><td>공원사업과 김민정</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>14</td><td>558146</td><td class="facility-name">율정어린이공원</td><td>2026. 3. 26.</td><td>공원사업과 김민정</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>15</td><td>538799</td><td class="facility-name">양주자이7단지 놀이터2</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+<tr><td>16</td><td>533405</td><td class="facility-name">양주자이7단지 놀이터1</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+<tr><td>17</td><td>1734</td><td class="facility-name">휴먼시아7단지 703동 유아놀이터</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
+<tr><td>18</td><td>1732</td><td class="facility-name">휴먼시아7단지 701동 놀이터1</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>19</td><td>1733</td><td class="facility-name">휴먼시아7단지 704동 놀이터2</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+</tbody>
+  </table></div>
+  <div class="summary-box">
+    <h4>종합 분석 요약</h4>
+    <p>전체 19개 시설 중 <strong style="color:var(--green)">3개소(15.8%)</strong>가 양호,
+    <strong style="color:var(--orange)">7개소(36.8%)</strong>가 요주의,
+    <strong style="color:var(--red)">9개소(47.4%)</strong>가 요수리로 판정되었습니다.
+    요수리 시설은 주로 <strong>목재 부식·파손</strong>이 지배적이며, 특히 공원시설과 노후 아파트 놀이터에서 집중 발생하고 있습니다.
+    안전관리 의무 이행률은 합격증 게시 항목을 제외하면 100%로 양호하나, 2개소에서 합격증 미게시가 확인되었습니다.</p>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">3</div><div class="section-title">통계 차트</div></div>
+  <div class="charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+    <div style="background:var(--gray-50);border-radius:10px;padding:20px;border:1px solid var(--gray-200);">
+      <h4 style="text-align:center;color:var(--navy);font-size:14px;margin-bottom:12px;">종합판정 분포</h4>
+      <div style="height:280px;"><canvas id="chartOverall"></canvas></div>
+    </div>
+    <div style="background:var(--gray-50);border-radius:10px;padding:20px;border:1px solid var(--gray-200);">
+      <h4 style="text-align:center;color:var(--navy);font-size:14px;margin-bottom:12px;">위해 항목별 발생 건수</h4>
+      <div style="height:280px;"><canvas id="chartItems"></canvas></div>
+    </div>
+  </div>
+  <div class="charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div style="background:var(--gray-50);border-radius:10px;padding:20px;border:1px solid var(--gray-200);">
+      <h4 style="text-align:center;color:var(--navy);font-size:14px;margin-bottom:12px;">안전관리 의무 이행률</h4>
+      <div style="height:300px;"><canvas id="chartCompliance"></canvas></div>
+    </div>
+    <div style="background:var(--gray-50);border-radius:10px;padding:20px;border:1px solid var(--gray-200);">
+      <h4 style="text-align:center;color:var(--navy);font-size:14px;margin-bottom:12px;">시설별 위해요소 건수</h4>
+      <div style="height:300px;"><canvas id="chartFacility"></canvas></div>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">4</div><div class="section-title">안전관리 의무 이행 상세</div></div>
+  <div class="table-wrapper"><table>
+    <thead><tr><th>No</th><th>시설명</th><th>시설등록</th><th>설치검사</th><th>정기검사</th><th>합격증</th><th>안전교육</th><th>보험가입</th><th>안전검사</th><th>점검대장</th></tr></thead>
+    <tbody><tr><td>1</td><td class="facility-name">가납제3어린이공원 놀이…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>2</td><td class="facility-name">덕정소공원</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>3</td><td class="facility-name">양주서희스타힐스1단지 …</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>4</td><td class="facility-name">은동마을주공1단지아파트…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>5</td><td class="facility-name">은동마을주공1단지아파트…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>6</td><td class="facility-name">청담마을주공4단지 제1…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>7</td><td class="facility-name">청담마을주공4단지 제2…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>8</td><td class="facility-name">청담마을주공4단지 제3…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>9</td><td class="facility-name">회정 금용아파트 201…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--red);font-weight:700">✕</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>10</td><td class="facility-name">회정 금용아파트 101…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--red);font-weight:700">✕</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>11</td><td class="facility-name">독바위공원1</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>12</td><td class="facility-name">독바위공원2</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>13</td><td class="facility-name">참수물어린이공원</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>14</td><td class="facility-name">율정어린이공원</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>15</td><td class="facility-name">양주자이7단지 놀이터2</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>16</td><td class="facility-name">양주자이7단지 놀이터1</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>17</td><td class="facility-name">휴먼시아7단지 703동…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>18</td><td class="facility-name">휴먼시아7단지 701동…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>19</td><td class="facility-name">휴먼시아7단지 704동…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+</tbody>
+  </table></div>
+  <div class="summary-box"><h4>미이행 항목 분석</h4><p><strong>합격증 게시</strong> 항목에서 2개소 미이행이 확인되었습니다: 회정 금용아파트 201동 놀이터, 회정 금용아파트 101동 놀이터. 안전관리법 제12조 제5항에 따라 이용자가 잘 볼 수 있는 곳에 합격증을 게시해야 하며, 해당 시설에 현장조치를 완료하였습니다.</p></div>
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">5</div><div class="section-title">위해요소 발견 및 조치사항</div></div>
+  <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;">위해요소가 발견된 시설만 표시합니다. 총 16개소에서 위해요소가 확인되었습니다.</p>
+  <div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[35508] 가납제3어린이공원 놀이터</div>
+        <span class="issue-deadline normal">경과관찰</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [그네] 도장박리 녹발생<br><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 미끄럼 출발지점 손가락 얽매임<br><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 목재 파손부 날카로움<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[564335] 덕정소공원</div>
+        <span class="issue-deadline normal">5/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [오르는기구4] 오르막 목재 파손<br><span class="issue-tag tag-observe">요주의</span> [공중놀이기구] 안장의 지면간격 주의관찰<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[544628] 양주서희스타힐스1단지 놀이터</div>
+        <span class="issue-deadline normal">경과관찰 후 조치</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 오르는 그물망 철제 와이어 노출<br><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 목재 지붕 파손 날카로움<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[546791] 은동마을주공1단지아파트(제1-1)</div>
+        <span class="issue-deadline normal">경과관찰</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [바닥재] 고무매트 부분 패임 진행<br></div>
+    </div>
+<div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[31619] 청담마을주공4단지 제3놀이터</div>
+        <span class="issue-deadline urgent">4/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [조합놀이대] 목재 부식 갈라짐<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[1912] 회정 금용아파트 201동 놀이터</div>
+        <span class="issue-deadline normal">4/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 플랫폼 도장박리 금속산화 진행<br><span class="issue-tag tag-observe">요주의</span> [흔들놀이기구] 안장 파손<br><span class="issue-tag tag-observe">요주의</span> [부대시설] 합격증 미게시 — 현장조치<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[1911] 회정 금용아파트 101동 놀이터</div>
+        <span class="issue-deadline normal">현장조치</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [부대시설] 검사 합격의 표시 미부착<br></div>
+    </div>
+<div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[558140] 독바위공원1</div>
+        <span class="issue-deadline urgent">5/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 타이어 파손<br><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 목재 부식 진행<br><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 손잡이 고정상태 불량<br></div>
+    </div>
+<div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[558141] 독바위공원2</div>
+        <span class="issue-deadline urgent">5/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 손잡이 고정상태 불량<br><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 목재 부식 진행<br><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 손가락 얽매임<br></div>
+    </div>
+<div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[558147] 참수물어린이공원</div>
+        <span class="issue-deadline urgent">5/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 고정상태 불량<br><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 목재 부식 진행<br></div>
+    </div>
+<div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[558146] 율정어린이공원</div>
+        <span class="issue-deadline urgent">5/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [그네] 목재기둥 부식 진행<br><span class="issue-tag tag-repair">요수리</span> [흔들놀이기구] 목재 부식 진행 (다수)<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[538799] 양주자이7단지 놀이터2</div>
+        <span class="issue-deadline normal">경과관찰</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [바닥재] 부분패임 진행중<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[533405] 양주자이7단지 놀이터1</div>
+        <span class="issue-deadline normal">현장조치</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [흔들놀이기구] 손잡이 고정나사 풀림<br></div>
+    </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[1734] 휴먼시아7단지 703동 유아놀이터</div>
+        <span class="issue-deadline normal">관찰후 조치</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 목재 부식 진행 관찰필요<br></div>
+    </div>
+<div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[1732] 휴먼시아7단지 701동 놀이터1</div>
+        <span class="issue-deadline urgent">4/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [조합놀이대] 목재기둥 부식 교체 필요<br></div>
+    </div>
+<div class="issue-card">
+      <div class="issue-card-header">
+        <div class="issue-facility">[1733] 휴먼시아7단지 704동 놀이터2</div>
+        <span class="issue-deadline urgent">4/30 이전</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [조합놀이대] 목재 부식진행 교체 필요<br><span class="issue-tag tag-observe">요주의</span> [그네] 안장의 갈라짐<br></div>
+    </div>
+
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">6</div><div class="section-title">위해 유형별 분류 및 기술기준 근거</div></div>
+  <div class="table-wrapper"><table>
+    <thead><tr><th>위해 유형</th><th>발생건수</th><th>해당 시설</th><th>관련 기술기준</th><th>위험도</th></tr></thead>
+    <tbody><tr><td style="font-weight:600;text-align:left">목재 부식·파손</td><td><strong>12</strong>건</td><td style="text-align:left;font-size:12px">가납제3어린이공원 , 덕정소공원, 양주서희스타힐스1단 외 8개소</td><td style="font-size:12px;text-align:left">시설기준 제5조(목재)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">손잡이·고정상태 불량</td><td><strong>4</strong>건</td><td style="text-align:left;font-size:12px">독바위공원1, 독바위공원2, 참수물어린이공원 외 1개소</td><td style="font-size:12px;text-align:left">기술기준 제14조(손잡이)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">안장 파손·갈라짐</td><td><strong>3</strong>건</td><td style="text-align:left;font-size:12px">덕정소공원, 회정 금용아파트 2, 휴먼시아7단지 70</td><td style="font-size:12px;text-align:left">기술기준 제14조(손잡이)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">금속 부식·도장박리</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">가납제3어린이공원 , 회정 금용아파트 2</td><td style="font-size:12px;text-align:left">시설기준 제6조(내구성)</td><td><span class="badge badge-caution">중</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">손가락 얽매임</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">가납제3어린이공원 , 독바위공원2</td><td style="font-size:12px;text-align:left">기술기준 제8조(얽매임)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">바닥재 패임·손상</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">은동마을주공1단지아, 양주자이7단지 놀이</td><td style="font-size:12px;text-align:left">기술기준 제28조(충격흡수)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">합격증 미게시</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">회정 금용아파트 2, 회정 금용아파트 1</td><td style="font-size:12px;text-align:left">안전관리법 제12조 제5항</td><td><span class="badge badge-caution">중</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">타이어 파손</td><td><strong>1</strong>건</td><td style="text-align:left;font-size:12px">독바위공원1</td><td style="font-size:12px;text-align:left">시설기준 제7조(플라스틱)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">와이어 노출</td><td><strong>1</strong>건</td><td style="text-align:left;font-size:12px">양주서희스타힐스1단</td><td style="font-size:12px;text-align:left">기술기준 제10조(체결부)</td><td><span class="badge badge-bad">상</span></td></tr>
+</tbody>
+  </table></div>
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">7</div><div class="section-title">조치 이행 일정</div></div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">2026. 3. 23. ~ 3. 26. (점검완료)</div>
+      <div class="timeline-content"><strong>현장 지도·점검 실시</strong><br>· 19개소 전수 점검 완료<br>· 위해요소 발견 시설 즉시 통보 및 현장조치 병행</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">~ 2026. 4. 30. (긴급조치 기한)</div>
+      <div class="timeline-content"><strong>긴급 요수리 조치</strong><br>· 청담4단지 제3놀이터 — 조합놀이대 목재 부식 교체<br>· 휴먼시아7단지 놀이터1·2 — 목재기둥 부식 교체<br>· 회정 금용아파트 201·101동 — 합격증 게시 완료</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">~ 2026. 5. 30. (경과관찰 기한)</div>
+      <div class="timeline-content"><strong>요수리 시설 조치 완료</strong><br>· 독바위공원1·2 — 흔들놀이기구 목재 부식, 손잡이 교체<br>· 참수물어린이공원 — 흔들놀이기구 교체<br>· 율정어린이공원 — 그네·흔들놀이기구 전면 보수<br>· 덕정소공원 — 오르는기구 목재 교체</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2026. 6월 중 (후속점검)</div>
+      <div class="timeline-content"><strong>후속 확인 점검 실시</strong><br>· 조치완료 시설 이행 여부 현장 확인<br>· 경과관찰 대상 시설 추적 점검<br>· 미이행 시 시정명령(제24조) 검토</div>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">8</div><div class="section-title">시설별 상세 점검 결과</div></div>
+  <div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">① [35508] 가납제3어린이공원 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 25.</span><span>안전관리자: 공원사업과 안수민</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">경과관찰 후 조치</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">② [564335] 덕정소공원</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 25.</span><span>안전관리자: 공원사업과 안수민</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">공중놀이기구</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">경과관찰</td></tr>
+<tr><td style="text-align:left">오르는기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">오르는기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">오르는기구3</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">오르는기구4</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">건너는기구</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">기타</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">미끄럼틀1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">미끄럼틀2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">③ [544628] 양주서희스타힐스1단지 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 25.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">경과관찰</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">④ [546791] 은동마을주공1단지아파트(제1-1)</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 25.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">경과관찰</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑤ [31996] 은동마을주공1단지아파트(제1-2)</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 25.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-good">양호</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑥ [34467] 청담마을주공4단지 제1놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 23.</span><span>안전관리자: 관리과장</span></div>
+        </div>
+        <span class="overall-badge overall-good">양호</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑦ [34468] 청담마을주공4단지 제2놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 25.</span><span>안전관리자: 관리과장</span></div>
+        </div>
+        <span class="overall-badge overall-good">양호</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑧ [31619] 청담마을주공4단지 제3놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 25.</span><span>안전관리자: 관리과장</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">4/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑨ [1912] 회정 금용아파트 201동 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">4/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑩ [1911] 회정 금용아파트 101동 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구3</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구4</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑪ [558140] 독바위공원1</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 공원사업과 김민정</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">기타놀이기구</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑫ [558141] 독바위공원2</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 공원사업과 김민정</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구3</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구4</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑬ [558147] 참수물어린이공원</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 공원사업과 김민정</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구3</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구4</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구5</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">기타1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">기타2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑭ [558146] 율정어린이공원</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 공원사업과 김민정</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">흔들놀이기구3</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">흔들놀이기구4</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구5</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">5/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">기타1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑮ [538799] 양주자이7단지 놀이터2</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑯ [533405] 양주자이7단지 놀이터1</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">현장조치</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑰ [1734] 휴먼시아7단지 703동 유아놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">관찰후 조치</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑱ [1732] 휴먼시아7단지 701동 놀이터1</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">4/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑲ [1733] 휴먼시아7단지 704동 놀이터2</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 관리소장</span></div>
+        </div>
+        <span class="overall-badge overall-bad">요수리</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody><tr><td style="text-align:left">그네</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">4/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대2</td><td><span class="badge badge-bad">요수리</span></td><td style="font-size:11px">4/30 이전 조치예정</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+</tbody>
+      </table></div>
+    </div>
+
+</div>
+<div class="section">
+  <div class="section-header"><div class="section-number">9</div><div class="section-title">종합 의견 및 건의사항</div></div>
+  <div class="summary-box">
+    <h4>종합 의견</h4>
+    <p style="line-height:2;">
+      2026년 개학기 양주시 관내 어린이놀이시설 <strong>19개소</strong>에 대한 지도·점검 결과,
+      <strong style="color:var(--green)">3개소(15.8%)</strong>가 양호,
+      <strong style="color:var(--orange)">7개소(36.8%)</strong>가 요주의,
+      <strong style="color:var(--red)">9개소(47.4%)</strong>가 요수리로 판정되었습니다.<br><br>
+      가장 빈번한 위해 유형은 <strong>목재 부식·파손</strong>으로, 실외 환경에 장기간 노출된 목재 놀이기구에서 구조적 열화가 광범위하게 진행되고 있습니다.
+      특히 독바위공원, 율정어린이공원, 참수물어린이공원, 휴먼시아7단지 놀이터 등에서 목재 부식이 심각한 수준으로 확인되어 즉각적인 교체·보수가 필요합니다.<br><br>
+      안전관리 의무 이행률은 합격증 게시를 제외하면 100%로 양호하며, 회정 금용아파트 2개소에서 확인된 합격증 미게시는 현장에서 즉시 조치하였습니다.
+    </p>
+  </div>
+  <h4 style="color:var(--navy);margin:24px 0 14px;font-size:15px;">건의사항</h4>
+  <div style="font-size:13.5px;color:var(--gray-700);line-height:2;">
+    <strong>1.</strong> <strong style="color:var(--red)">요수리 시설(9개소) 즉시 보수·교체 이행</strong> — 목재 부식이 심각한 시설은 구조 붕괴 위험이 있으므로, 시설기준 제5조(목재)에 따라 <strong>4/30(긴급) 또는 5/30(일반) 이전</strong> 교체를 완료할 것을 권고합니다.<br>
+    <strong>2.</strong> <strong>목재 놀이기구 체계적 관리 방안 수립</strong> — 19개 시설 중 다수에서 목재 부식이 반복 발견되고 있어, 연 2회 이상 정기적 방부처리 및 도장 관리 계획을 수립하시기 바랍니다.<br>
+    <strong>3.</strong> <strong>합격증 게시 의무 재교육</strong> — 2개소(회정 금용아파트 101·201동)에서 합격증 미게시가 확인되었으므로, 관리주체에 대한 안전관리법 제12조 제5항 관련 재교육을 실시할 것을 건의합니다.<br>
+    <strong>4.</strong> <strong>요주의 시설(7개소) 경과관찰 모니터링</strong> — 도장박리, 바닥재 패임, 얽매임 등 경과관찰 대상은 2개월 이내 추적 점검을 실시하여 악화 여부를 확인하시기 바랍니다.<br>
+    <strong>5.</strong> <strong>양호 시설 관리 수준 유지 격려</strong> — 은동마을주공1단지(제1-2), 청담마을주공4단지 제1·2놀이터 등 양호 판정 시설은 현 관리 수준을 유지할 수 있도록 관리주체에 격려를 권고합니다.<br>
+    <strong>6.</strong> <strong>후속 확인 점검 실시</strong> — 조치기한(4/30, 5/30) 이후 이행 여부를 현장 확인하고, 미이행 시 안전관리법 제24조(시정명령) 적용을 검토하시기 바랍니다.
+  </div>
+  <div class="sign-area">
+    <div>
+      <div class="sign-cell sign-cell-header">작성</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);">안전관리자문 이영일</div>
+    </div>
+    <div>
+      <div class="sign-cell sign-cell-header">검토</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);">시민안전과 권경용</div>
+    </div>
+    <div>
+      <div class="sign-cell sign-cell-header">확인</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);"></div>
+    </div>
+    <div>
+      <div class="sign-cell sign-cell-header">승인</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);"></div>
+    </div>
+  </div>
+</div>
+<div class="footer">양주시 개학기 어린이놀이시설 지도·점검 종합보고서 | 양주시청 시민안전과 | 자문: 사회적협동조합 창의융합연구원(KICON)</div>
+</div>
+<script>
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+Chart.defaults.font.size = 12;
+
+// 1. Doughnut
+new Chart(document.getElementById('chartOverall'), {
+  type: 'doughnut',
+  data: {
+    labels: ['양호', '요주의', '요수리'],
+    datasets: [{ data: [3, 7, 9], backgroundColor: ['#4CAF50', '#F9A825', '#EF5350'], borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 16, font: { size: 13, weight: '600' } } },
+      tooltip: { callbacks: { label: (ctx) => ctx.label + ': ' + ctx.raw + '개소 (' + (ctx.raw/19*100).toFixed(1) + '%)' } }
+    },
+    cutout: '55%'
+  }
+});
+
+// 2. Bar - Hazard types
+new Chart(document.getElementById('chartItems'), {
+  type: 'bar',
+  data: {
+    labels: ["목재 부식·파손", "금속 부식·도장박리", "손가락 얽매임", "바닥재 패임·손상", "손잡이·고정상태 불량", "합격증 미게시", "안장 파손·갈라짐", "타이어 파손", "와이어 노출"],
+    datasets: [{ label: '발생 건수', data: [12, 2, 2, 2, 4, 2, 3, 1, 1], backgroundColor: ['#EF5350','#F9A825','#F9A825','#F9A825','#EF5350','#F9A825','#EF5350','#EF5350','#EF5350'], borderRadius: 6, maxBarThickness: 50 }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#eee' } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } }
+  }
+});
+
+// 3. Radar - Compliance
+new Chart(document.getElementById('chartCompliance'), {
+  type: 'radar',
+  data: {
+    labels: ["시설등록", "설치검사", "정기검사", "합격증게시", "안전교육", "보험가입", "안전검사", "점검대장"],
+    datasets: [{ label: '이행률 (%)', data: [100.0, 100.0, 100.0, 89.5, 100.0, 100.0, 100.0, 100.0], backgroundColor: 'rgba(59,108,180,0.15)', borderColor: '#3B6CB4', pointBackgroundColor: '#3B6CB4', pointRadius: 5, borderWidth: 2 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 10 } }, pointLabels: { font: { size: 11, weight: '500' } } } }
+  }
+});
+
+// 4. Stacked Bar - Facility issues
+new Chart(document.getElementById('chartFacility'), {
+  type: 'bar',
+  data: {
+    labels: ["가납제3어린이공", "덕정소공원", "양주서희스타힐스", "은동마을주공1단", "청담마을주공4단", "회정 금용아파트", "회정 금용아파트", "독바위공원1", "독바위공원2", "참수물어린이공원", "율정어린이공원", "양주자이7단지 ", "양주자이7단지 ", "휴먼시아7단지 ", "휴먼시아7단지 ", "휴먼시아7단지 "],
+    datasets: [
+      { label: '요수리', data: [0, 0, 0, 0, 1, 0, 0, 3, 2, 2, 2, 0, 0, 0, 1, 1], backgroundColor: '#EF5350', borderRadius: 4 },
+      { label: '요주의', data: [3, 2, 2, 1, 0, 3, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1], backgroundColor: '#F9A825', borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+    scales: { x: { stacked: true, ticks: { font: { size: 9 }, maxRotation: 45 } }, y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } } }
+  }
+});
+</script>
+</body>
+</html>

@@ -8,11 +8,15 @@ const CHART_CDN_TAGS = [
 ];
 
 /**
- * Reads `src/app/report/<fileName>` and inlines Chart.js when a known CDN tag is present.
+ * Reads `src/app/<appSubfolder>/<fileName>` and inlines Chart.js when a known CDN tag is present.
+ * @param appSubfolder - App Router segment folder (default `"report"`).
  */
-export async function buildStandaloneReportHtml(fileName: string): Promise<string> {
+export async function buildStandaloneReportHtml(
+  fileName: string,
+  appSubfolder: string = "report",
+): Promise<string> {
   const root = process.cwd();
-  const reportPath = path.join(root, "src", "app", "report", fileName);
+  const reportPath = path.join(root, "src", "app", appSubfolder, fileName);
   const chartPath = path.join(root, "node_modules", "chart.js", "dist", "chart.umd.js");
 
   const [reportHtml, chartScript] = await Promise.all([
