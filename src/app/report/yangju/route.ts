@@ -1,7 +1,7 @@
 import { buildStandaloneReportHtml } from "@/lib/buildStandaloneReportHtml";
 
 export async function GET() {
-  const html = await buildStandaloneReportHtml("yangju_report_01.html", "yangju");
+  const html = await buildStandaloneReportHtml("yangju_report.html");
 
   return new Response(html, {
     headers: {
