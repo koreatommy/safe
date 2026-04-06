@@ -108,6 +108,13 @@ tbody tr:hover { background: var(--sky); }
 .legal-box { background: var(--gray-50); border: 1px solid var(--gray-300); border-radius: 8px; padding: 20px 24px; margin: 16px 0; font-size: 13px; color: var(--gray-700); line-height: 1.8; }
 .legal-box strong { color: var(--navy); }
 
+/* Sign Area */
+.sign-area { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 30px; border: 1px solid var(--gray-300); border-radius: 8px; overflow: hidden; }
+.sign-cell { padding: 14px; text-align: center; border-right: 1px solid var(--gray-300); font-size: 13px; }
+.sign-cell:last-child { border-right: none; }
+.sign-cell-header { background: var(--gray-200); font-weight: 600; font-size: 12px; color: var(--gray-700); padding: 10px; }
+.sign-space { height: 50px; }
+
 /* Footer */
 .footer { text-align: center; padding: 30px 0; font-size: 12px; color: var(--gray-500); }
 
@@ -124,6 +131,7 @@ tbody tr:hover { background: var(--sky); }
   .cover { padding: 30px 24px; }
   .cover h1 { font-size: 24px; }
   .section { padding: 24px 20px; }
+  .sign-area { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
@@ -138,7 +146,7 @@ tbody tr:hover { background: var(--sky); }
     <div class="cover-meta-item"><strong>점검기간</strong> 2026. 3. 23. ~ 2026. 3. 26.</div>
     <div class="cover-meta-item"><strong>점검기관</strong> 양주시청 시민안전과</div>
     <div class="cover-meta-item"><strong>자문기관</strong> 사회적협동조합 창의융합연구원(KICON)</div>
-    <div class="cover-meta-item"><strong>대상시설</strong> 19개소</div>
+    <div class="cover-meta-item"><strong>대상시설</strong> 20개소</div>
   </div>
 </div>
 <div class="section">
@@ -149,7 +157,7 @@ tbody tr:hover { background: var(--sky); }
     · 어린이놀이시설의 <strong>시설기준 및 기술기준</strong>(행정안전부 고시)에 따른 안전 상태 확인
   </div>
   <p style="margin:16px 0;font-size:14px;color:var(--gray-700);line-height:1.8;">
-    본 보고서는 2026년 개학기를 맞아 양주시 관내 어린이놀이시설 <strong>19개소</strong>에 대한 지도·점검 결과를 종합한 것입니다.
+    본 보고서는 2026년 개학기를 맞아 양주시 관내 어린이놀이시설 <strong>20개소</strong>에 대한 지도·점검 결과를 종합한 것입니다.
     점검은 안전관리 의무 이행 여부, 놀이기구 유지관리 상태, 위해요소 존재 여부 등을 현장 확인하였으며,
     발견된 위해요소에 대한 조치계획을 수립하여 어린이 안전사고를 예방하고자 합니다.
   </p>
@@ -167,9 +175,9 @@ tbody tr:hover { background: var(--sky); }
 <div class="section">
   <div class="section-header"><div class="section-number">2</div><div class="section-title">종합 현황</div></div>
   <div class="stats-grid">
-    <div class="stat-card total"><div class="stat-value">19</div><div class="stat-label">점검 대상 시설</div></div>
+    <div class="stat-card total"><div class="stat-value">20</div><div class="stat-label">점검 대상 시설</div></div>
     <div class="stat-card good"><div class="stat-value">3</div><div class="stat-label">양호 시설</div></div>
-    <div class="stat-card caution"><div class="stat-value">7</div><div class="stat-label">요주의 시설</div></div>
+    <div class="stat-card caution"><div class="stat-value">8</div><div class="stat-label">요주의 시설</div></div>
     <div class="stat-card bad"><div class="stat-value">9</div><div class="stat-label">요수리 시설</div></div>
   </div>
   <div class="table-wrapper"><table>
@@ -193,13 +201,14 @@ tbody tr:hover { background: var(--sky); }
 <tr><td>17</td><td>1734</td><td class="facility-name">휴먼시아7단지 703동 유아놀이터</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
 <tr><td>18</td><td>1732</td><td class="facility-name">휴먼시아7단지 701동 놀이터1</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
 <tr><td>19</td><td>1733</td><td class="facility-name">휴먼시아7단지 704동 놀이터2</td><td>2026. 3. 26.</td><td>관리소장</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td><td><span class="badge badge-bad">요수리</span></td></tr>
+<tr><td>20</td><td>35435</td><td class="facility-name">조은어린이공원 놀이터</td><td>2026. 3. 26.</td><td>공원사업과 안선민</td><td><span class="badge badge-good">양호</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td><td><span class="badge badge-caution">요주의</span></td></tr>
 </tbody>
   </table></div>
   <div class="summary-box">
     <h4>종합 분석 요약</h4>
-    <p>전체 19개 시설 중 <strong style="color:var(--green)">3개소(15.8%)</strong>가 양호,
-    <strong style="color:var(--orange)">7개소(36.8%)</strong>가 요주의,
-    <strong style="color:var(--red)">9개소(47.4%)</strong>가 요수리로 판정되었습니다.
+    <p>전체 20개 시설 중 <strong style="color:var(--green)">3개소(15.0%)</strong>가 양호,
+    <strong style="color:var(--orange)">8개소(40.0%)</strong>가 요주의,
+    <strong style="color:var(--red)">9개소(45.0%)</strong>가 요수리로 판정되었습니다.
     요수리 시설은 주로 <strong>목재 부식·파손</strong>이 지배적이며, 특히 공원시설과 노후 아파트 놀이터에서 집중 발생하고 있습니다.
     안전관리 의무 이행률은 합격증 게시 항목을 제외하면 100%로 양호하나, 2개소에서 합격증 미게시가 확인되었습니다.</p>
   </div>
@@ -250,13 +259,14 @@ tbody tr:hover { background: var(--sky); }
 <tr><td>17</td><td class="facility-name">휴먼시아7단지 703동…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
 <tr><td>18</td><td class="facility-name">휴먼시아7단지 701동…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
 <tr><td>19</td><td class="facility-name">휴먼시아7단지 704동…</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
+<tr><td>20</td><td class="facility-name">조은어린이공원 놀이터</td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td><td><span style="color:var(--green);font-weight:700">○</span></td></tr>
 </tbody>
   </table></div>
   <div class="summary-box"><h4>미이행 항목 분석</h4><p><strong>합격증 게시</strong> 항목에서 2개소 미이행이 확인되었습니다: 회정 금용아파트 201동 놀이터, 회정 금용아파트 101동 놀이터. 안전관리법 제12조 제5항에 따라 이용자가 잘 볼 수 있는 곳에 합격증을 게시해야 하며, 해당 시설에 현장조치를 완료하였습니다.</p></div>
 </div>
 <div class="section">
   <div class="section-header"><div class="section-number">5</div><div class="section-title">위해요소 발견 및 조치사항</div></div>
-  <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;">위해요소가 발견된 시설만 표시합니다. 총 16개소에서 위해요소가 확인되었습니다.</p>
+  <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;">위해요소가 발견된 시설만 표시합니다. 총 17개소에서 위해요소가 확인되었습니다.</p>
   <div class="issue-card caution">
       <div class="issue-card-header">
         <div class="issue-facility">[35508] 가납제3어린이공원 놀이터</div>
@@ -369,6 +379,13 @@ tbody tr:hover { background: var(--sky); }
       </div>
       <div class="issue-detail"><span class="issue-tag tag-repair">요수리</span> [조합놀이대] 목재 부식진행 교체 필요<br><span class="issue-tag tag-observe">요주의</span> [그네] 안장의 갈라짐<br></div>
     </div>
+<div class="issue-card caution">
+      <div class="issue-card-header">
+        <div class="issue-facility">[35435] 조은어린이공원 놀이터</div>
+        <span class="issue-deadline normal">경과관찰</span>
+      </div>
+      <div class="issue-detail"><span class="issue-tag tag-observe">요주의</span> [조합놀이대] 돌림판 노후로 날카로움 존재 — 경과관찰 후 필요시 교체<br><span class="issue-tag tag-observe">요주의</span> [충격흡수용표면재] 포설바닥재 갈라짐 진행 — 경과관찰 후 보수 조치 예정<br></div>
+    </div>
 
 </div>
 <div class="section">
@@ -380,10 +397,11 @@ tbody tr:hover { background: var(--sky); }
 <tr><td style="font-weight:600;text-align:left">안장 파손·갈라짐</td><td><strong>3</strong>건</td><td style="text-align:left;font-size:12px">덕정소공원, 회정 금용아파트 2, 휴먼시아7단지 70</td><td style="font-size:12px;text-align:left">기술기준 제14조(손잡이)</td><td><span class="badge badge-bad">상</span></td></tr>
 <tr><td style="font-weight:600;text-align:left">금속 부식·도장박리</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">가납제3어린이공원 , 회정 금용아파트 2</td><td style="font-size:12px;text-align:left">시설기준 제6조(내구성)</td><td><span class="badge badge-caution">중</span></td></tr>
 <tr><td style="font-weight:600;text-align:left">손가락 얽매임</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">가납제3어린이공원 , 독바위공원2</td><td style="font-size:12px;text-align:left">기술기준 제8조(얽매임)</td><td><span class="badge badge-bad">상</span></td></tr>
-<tr><td style="font-weight:600;text-align:left">바닥재 패임·손상</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">은동마을주공1단지아, 양주자이7단지 놀이</td><td style="font-size:12px;text-align:left">기술기준 제28조(충격흡수)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">바닥재 패임·손상</td><td><strong>3</strong>건</td><td style="text-align:left;font-size:12px">은동마을주공1단지아, 양주자이7단지 놀이, 조은어린이공원</td><td style="font-size:12px;text-align:left">기술기준 제28조(충격흡수)</td><td><span class="badge badge-bad">상</span></td></tr>
 <tr><td style="font-weight:600;text-align:left">합격증 미게시</td><td><strong>2</strong>건</td><td style="text-align:left;font-size:12px">회정 금용아파트 2, 회정 금용아파트 1</td><td style="font-size:12px;text-align:left">안전관리법 제12조 제5항</td><td><span class="badge badge-caution">중</span></td></tr>
 <tr><td style="font-weight:600;text-align:left">타이어 파손</td><td><strong>1</strong>건</td><td style="text-align:left;font-size:12px">독바위공원1</td><td style="font-size:12px;text-align:left">시설기준 제7조(플라스틱)</td><td><span class="badge badge-bad">상</span></td></tr>
 <tr><td style="font-weight:600;text-align:left">와이어 노출</td><td><strong>1</strong>건</td><td style="text-align:left;font-size:12px">양주서희스타힐스1단</td><td style="font-size:12px;text-align:left">기술기준 제10조(체결부)</td><td><span class="badge badge-bad">상</span></td></tr>
+<tr><td style="font-weight:600;text-align:left">돌출·날카로움</td><td><strong>1</strong>건</td><td style="text-align:left;font-size:12px">조은어린이공원 놀이터</td><td style="font-size:12px;text-align:left">기술기준 제9조(돌출부)</td><td><span class="badge badge-bad">상</span></td></tr>
 </tbody>
   </table></div>
 </div>
@@ -392,7 +410,7 @@ tbody tr:hover { background: var(--sky); }
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-date">2026. 3. 23. ~ 3. 26. (점검완료)</div>
-      <div class="timeline-content"><strong>현장 지도·점검 실시</strong><br>· 19개소 전수 점검 완료<br>· 위해요소 발견 시설 즉시 통보 및 현장조치 병행</div>
+      <div class="timeline-content"><strong>현장 지도·점검 실시</strong><br>· 20개소 전수 점검 완료<br>· 위해요소 발견 시설 즉시 통보 및 현장조치 병행</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">~ 2026. 4. 30. (긴급조치 기한)</div>
@@ -753,6 +771,25 @@ tbody tr:hover { background: var(--sky); }
 </tbody>
       </table></div>
     </div>
+<div class="facility-detail">
+      <div class="facility-detail-header">
+        <div>
+          <div class="facility-detail-title">⑳ [35435] 조은어린이공원 놀이터</div>
+          <div class="facility-detail-meta"><span>점검일: 2026. 3. 26.</span><span>안전관리자: 공원사업과 안선민</span></div>
+        </div>
+        <span class="overall-badge overall-caution">요주의</span>
+      </div>
+      <div class="table-wrapper"><table class="mini-table">
+        <thead><tr><th>놀이기구</th><th>판정</th><th>비고</th></tr></thead>
+        <tbody>
+<tr><td style="text-align:left">흔들놀이기구1</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구2</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">흔들놀이기구3</td><td><span class="badge badge-good">양호</span></td><td style="font-size:11px">-</td></tr>
+<tr><td style="text-align:left">조합놀이대1</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">돌림판 날카로움 — 경과관찰</td></tr>
+<tr><td style="text-align:left">충격흡수용표면재</td><td><span class="badge badge-caution">요주의</span></td><td style="font-size:11px">포설바닥재 갈라짐 — 경과관찰</td></tr>
+</tbody>
+      </table></div>
+    </div>
 
 </div>
 <div class="section">
@@ -760,10 +797,10 @@ tbody tr:hover { background: var(--sky); }
   <div class="summary-box">
     <h4>종합 의견</h4>
     <p style="line-height:2;">
-      2026년 개학기 양주시 관내 어린이놀이시설 <strong>19개소</strong>에 대한 지도·점검 결과,
-      <strong style="color:var(--green)">3개소(15.8%)</strong>가 양호,
-      <strong style="color:var(--orange)">7개소(36.8%)</strong>가 요주의,
-      <strong style="color:var(--red)">9개소(47.4%)</strong>가 요수리로 판정되었습니다.<br><br>
+      2026년 개학기 양주시 관내 어린이놀이시설 <strong>20개소</strong>에 대한 지도·점검 결과,
+      <strong style="color:var(--green)">3개소(15.0%)</strong>가 양호,
+      <strong style="color:var(--orange)">8개소(40.0%)</strong>가 요주의,
+      <strong style="color:var(--red)">9개소(45.0%)</strong>가 요수리로 판정되었습니다.<br><br>
       가장 빈번한 위해 유형은 <strong>목재 부식·파손</strong>으로, 실외 환경에 장기간 노출된 목재 놀이기구에서 구조적 열화가 광범위하게 진행되고 있습니다.
       특히 독바위공원, 율정어린이공원, 참수물어린이공원, 휴먼시아7단지 놀이터 등에서 목재 부식이 심각한 수준으로 확인되어 즉각적인 교체·보수가 필요합니다.<br><br>
       안전관리 의무 이행률은 합격증 게시를 제외하면 100%로 양호하며, 회정 금용아파트 2개소에서 확인된 합격증 미게시는 현장에서 즉시 조치하였습니다.
@@ -778,6 +815,28 @@ tbody tr:hover { background: var(--sky); }
     <strong>5.</strong> <strong>양호 시설 관리 수준 유지 격려</strong> — 은동마을주공1단지(제1-2), 청담마을주공4단지 제1·2놀이터 등 양호 판정 시설은 현 관리 수준을 유지할 수 있도록 관리주체에 격려를 권고합니다.<br>
     <strong>6.</strong> <strong>후속 확인 점검 실시</strong> — 조치기한(4/30, 5/30) 이후 이행 여부를 현장 확인하고, 미이행 시 안전관리법 제24조(시정명령) 적용을 검토하시기 바랍니다.
   </div>
+  <div class="sign-area">
+    <div>
+      <div class="sign-cell sign-cell-header">작성</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);">안전관리자문 이영일</div>
+    </div>
+    <div>
+      <div class="sign-cell sign-cell-header">검토</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);">시민안전과 권경용</div>
+    </div>
+    <div>
+      <div class="sign-cell sign-cell-header">확인</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);"></div>
+    </div>
+    <div>
+      <div class="sign-cell sign-cell-header">승인</div>
+      <div class="sign-cell"><div class="sign-space"></div></div>
+      <div class="sign-cell" style="font-size:12px;color:var(--gray-600);"></div>
+    </div>
+  </div>
 </div>
 <div class="footer">양주시 개학기 어린이놀이시설 지도·점검 종합보고서 | 양주시청 시민안전과 | 자문: 사회적협동조합 창의융합연구원(KICON)</div>
 </div>
@@ -790,13 +849,13 @@ new Chart(document.getElementById('chartOverall'), {
   type: 'doughnut',
   data: {
     labels: ['양호', '요주의', '요수리'],
-    datasets: [{ data: [3, 7, 9], backgroundColor: ['#4CAF50', '#F9A825', '#EF5350'], borderWidth: 2, borderColor: '#fff' }]
+    datasets: [{ data: [3, 8, 9], backgroundColor: ['#4CAF50', '#F9A825', '#EF5350'], borderWidth: 2, borderColor: '#fff' }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom', labels: { padding: 16, font: { size: 13, weight: '600' } } },
-      tooltip: { callbacks: { label: (ctx) => ctx.label + ': ' + ctx.raw + '개소 (' + (ctx.raw/19*100).toFixed(1) + '%)' } }
+      tooltip: { callbacks: { label: (ctx) => ctx.label + ': ' + ctx.raw + '개소 (' + (ctx.raw/20*100).toFixed(1) + '%)' } }
     },
     cutout: '55%'
   }
@@ -806,8 +865,8 @@ new Chart(document.getElementById('chartOverall'), {
 new Chart(document.getElementById('chartItems'), {
   type: 'bar',
   data: {
-    labels: ["목재 부식·파손", "금속 부식·도장박리", "손가락 얽매임", "바닥재 패임·손상", "손잡이·고정상태 불량", "합격증 미게시", "안장 파손·갈라짐", "타이어 파손", "와이어 노출"],
-    datasets: [{ label: '발생 건수', data: [12, 2, 2, 2, 4, 2, 3, 1, 1], backgroundColor: ['#EF5350','#F9A825','#F9A825','#F9A825','#EF5350','#F9A825','#EF5350','#EF5350','#EF5350'], borderRadius: 6, maxBarThickness: 50 }]
+    labels: ["목재 부식·파손", "금속 부식·도장박리", "손가락 얽매임", "바닥재 패임·손상", "손잡이·고정상태 불량", "합격증 미게시", "안장 파손·갈라짐", "타이어 파손", "와이어 노출", "돌출·날카로움"],
+    datasets: [{ label: '발생 건수', data: [12, 2, 2, 3, 4, 2, 3, 1, 1, 1], backgroundColor: ['#EF5350','#F9A825','#F9A825','#F9A825','#EF5350','#F9A825','#EF5350','#EF5350','#EF5350','#EF5350'], borderRadius: 6, maxBarThickness: 50 }]
   },
   options: {
     indexAxis: 'y',
@@ -822,7 +881,7 @@ new Chart(document.getElementById('chartCompliance'), {
   type: 'radar',
   data: {
     labels: ["시설등록", "설치검사", "정기검사", "합격증게시", "안전교육", "보험가입", "안전검사", "점검대장"],
-    datasets: [{ label: '이행률 (%)', data: [100.0, 100.0, 100.0, 89.5, 100.0, 100.0, 100.0, 100.0], backgroundColor: 'rgba(59,108,180,0.15)', borderColor: '#3B6CB4', pointBackgroundColor: '#3B6CB4', pointRadius: 5, borderWidth: 2 }]
+    datasets: [{ label: '이행률 (%)', data: [100.0, 100.0, 100.0, 90.0, 100.0, 100.0, 100.0, 100.0], backgroundColor: 'rgba(59,108,180,0.15)', borderColor: '#3B6CB4', pointBackgroundColor: '#3B6CB4', pointRadius: 5, borderWidth: 2 }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
@@ -835,10 +894,10 @@ new Chart(document.getElementById('chartCompliance'), {
 new Chart(document.getElementById('chartFacility'), {
   type: 'bar',
   data: {
-    labels: ["가납제3어린이공", "덕정소공원", "양주서희스타힐스", "은동마을주공1단", "청담마을주공4단", "회정 금용아파트", "회정 금용아파트", "독바위공원1", "독바위공원2", "참수물어린이공원", "율정어린이공원", "양주자이7단지 ", "양주자이7단지 ", "휴먼시아7단지 ", "휴먼시아7단지 ", "휴먼시아7단지 "],
+    labels: ["가납제3어린이공", "덕정소공원", "양주서희스타힐스", "은동마을주공1단", "청담마을주공4단", "회정 금용아파트", "회정 금용아파트", "독바위공원1", "독바위공원2", "참수물어린이공원", "율정어린이공원", "양주자이7단지 ", "양주자이7단지 ", "휴먼시아7단지 ", "휴먼시아7단지 ", "휴먼시아7단지 ", "조은어린이공원"],
     datasets: [
-      { label: '요수리', data: [0, 0, 0, 0, 1, 0, 0, 3, 2, 2, 2, 0, 0, 0, 1, 1], backgroundColor: '#EF5350', borderRadius: 4 },
-      { label: '요주의', data: [3, 2, 2, 1, 0, 3, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1], backgroundColor: '#F9A825', borderRadius: 4 }
+      { label: '요수리', data: [0, 0, 0, 0, 1, 0, 0, 3, 2, 2, 2, 0, 0, 0, 1, 1, 0], backgroundColor: '#EF5350', borderRadius: 4 },
+      { label: '요주의', data: [3, 2, 2, 1, 0, 3, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 2], backgroundColor: '#F9A825', borderRadius: 4 }
     ]
   },
   options: {
