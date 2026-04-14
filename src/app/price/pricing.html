@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>놀이시설 안전점검 SaaS · 요금제</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy:   #0B1628;
+    --navy2:  #132040;
+    --teal:   #0CC8B0;
+    --teal2:  #0AA090;
+    --sky:    #38BDF8;
+    --amber:  #F59E0B;
+    --slate:  #94A3B8;
+    --white:  #F1F5F9;
+    --card:   #141F35;
+    --card2:  #1A2B47;
+    --border: #1E3A5F;
+    --red:    #F87171;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 20%, rgba(12,200,176,.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 85% 80%, rgba(56,189,248,.10) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(245,158,11,.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* HEADER */
+  header { text-align: center; padding: 72px 0 60px; }
+  .badge {
+    display: inline-block;
+    background: rgba(12,200,176,.15); border: 1px solid rgba(12,200,176,.4);
+    color: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    padding: 5px 14px; border-radius: 100px; text-transform: uppercase; margin-bottom: 22px;
+  }
+  header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.15;
+    background: linear-gradient(135deg, #fff 0%, var(--teal) 60%, var(--sky) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  header p { color: var(--slate); font-size: 15px; line-height: 1.7; }
+
+  /* NOTICE BANNER */
+  .pricing-notice {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: rgba(12,200,176,.07); border: 1px solid rgba(12,200,176,.25);
+    border-radius: 14px; padding: 18px 24px; margin-bottom: 48px;
+    font-size: 13px; color: #CBD5E1; line-height: 1.8;
+  }
+  .pricing-notice .icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .pricing-notice strong { color: var(--teal); }
+  .formula {
+    display: inline-block; background: rgba(0,0,0,.3); border-radius: 6px;
+    padding: 4px 12px; margin-top: 6px; font-size: 13px; font-weight: 700;
+    color: #fff; letter-spacing: .02em;
+  }
+
+  /* PLAN CARDS */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 72px; }
+  .plan {
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 30px 26px 34px; position: relative;
+    transition: transform .25s, box-shadow .25s;
+  }
+  .plan:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+  .plan.featured {
+    background: linear-gradient(155deg, #162A4A 0%, #0F2038 100%);
+    border-color: var(--teal);
+    box-shadow: 0 0 0 1px var(--teal), 0 0 40px rgba(12,200,176,.15);
+  }
+  .popular-tag {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(90deg, var(--teal), var(--sky));
+    color: #000; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    padding: 4px 18px; border-radius: 100px; white-space: nowrap;
+  }
+  .plan-icon { font-size: 26px; margin-bottom: 14px; }
+  .plan-name { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .plan-desc { font-size: 12px; color: var(--slate); line-height: 1.6; margin-bottom: 20px; }
+
+  /* PRICE BOX */
+  .price-box {
+    background: rgba(255,255,255,.04); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 4px;
+  }
+  .plan.featured .price-box { background: rgba(12,200,176,.07); border-color: rgba(12,200,176,.3); }
+  .price-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--slate); text-transform: uppercase; margin-bottom: 5px; }
+  .price-row { display: flex; align-items: flex-end; gap: 3px; }
+  .price-currency { font-size: 14px; font-weight: 700; color: var(--teal); margin-bottom: 2px; }
+  .price-num { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; line-height: 1; color: #fff; }
+  .price-period { font-size: 11px; color: var(--slate); margin-bottom: 2px; }
+
+  /* UNIT PRICE TABLE INSIDE CARD */
+  .unit-price-box { margin-bottom: 20px; }
+  .unit-header { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--slate); text-transform: uppercase; margin: 10px 0 5px 2px; }
+  .unit-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 12px; border-radius: 8px; font-size: 12px;
+  }
+  .unit-row:nth-child(odd) { background: rgba(255,255,255,.03); }
+  .unit-range { color: var(--slate); }
+  .unit-val { font-weight: 700; color: var(--white); }
+  .unit-val.teal { color: var(--teal); }
+  .unit-val.sky  { color: var(--sky); }
+  .unit-val.na   { color: #2D4060; }
+  .unit-cap {
+    font-size: 10px; color: var(--amber); text-align: center;
+    margin-top: 6px; padding: 4px 10px;
+    background: rgba(245,158,11,.1); border-radius: 6px;
+  }
+
+  .plan-cta {
+    display: block; width: 100%; padding: 13px;
+    border-radius: 10px; font-size: 14px; font-weight: 700;
+    text-align: center; cursor: pointer; border: none;
+    transition: all .2s; margin-bottom: 26px; text-decoration: none;
+  }
+  .plan:not(.featured) .plan-cta { background: var(--card2); color: var(--white); border: 1px solid var(--border); }
+  .plan:not(.featured) .plan-cta:hover { background: var(--border); }
+  .plan.featured .plan-cta {
+    background: linear-gradient(135deg, var(--teal), var(--sky)); color: #000;
+    box-shadow: 0 6px 20px rgba(12,200,176,.35);
+  }
+  .plan.featured .plan-cta:hover { box-shadow: 0 8px 28px rgba(12,200,176,.5); transform: translateY(-1px); }
+
+  /* FEATURE LIST */
+  .divider-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--slate);
+    text-transform: uppercase; margin-bottom: 12px;
+    border-top: 1px solid var(--border); padding-top: 16px;
+  }
+  .feature { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; line-height: 1.5; }
+  .feature .ico {
+    flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 10px; margin-top: 1px;
+  }
+  .ico.y { background: rgba(12,200,176,.2); color: var(--teal); }
+  .ico.n { background: rgba(148,163,184,.1); color: #475569; }
+  .ico.a { background: rgba(245,158,11,.15); color: var(--amber); }
+  .feature .txt { color: #CBD5E1; }
+  .feature.dimmed .txt { color: #475569; text-decoration: line-through; }
+  .tag-opt   { font-size: 10px; background: rgba(245,158,11,.15); color: var(--amber); border-radius: 4px; padding: 1px 5px; margin-left: 4px; font-weight: 700; }
+  .tag-limit { font-size: 10px; background: rgba(56,189,248,.12); color: var(--sky);   border-radius: 4px; padding: 1px 5px; margin-left: 4px; font-weight: 700; }
+
+  /* TIER TABLE SECTION */
+  .tier-section { margin-bottom: 72px; }
+  .section-title { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+  .section-sub   { font-size: 13px; color: var(--slate); margin-bottom: 32px; }
+
+  .tier-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+  .tier-table { width: 100%; border-collapse: collapse; }
+  .tier-table th, .tier-table td { padding: 16px 22px; text-align: center; font-size: 14px; border-bottom: 1px solid var(--border); }
+  .tier-table th:first-child, .tier-table td:first-child { text-align: left; }
+  .tier-table thead tr { background: var(--card2); }
+  .tier-table thead th { font-size: 12px; font-weight: 700; letter-spacing: .06em; color: var(--slate); text-transform: uppercase; padding: 14px 22px; }
+  .tier-table thead th.col-growth { color: var(--teal); }
+  .tier-table tbody tr:last-child td { border-bottom: none; }
+  .tier-table tbody tr:hover { background: rgba(255,255,255,.02); }
+  .tier-table .base-row td { background: rgba(245,158,11,.05); }
+  .val-base  { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; }
+  .val-unit  { font-size: 14px; font-weight: 700; color: #CBD5E1; }
+  .val-unit.teal { color: var(--teal); }
+  .val-unit.sky  { color: var(--sky); }
+  .val-na    { color: #2D4060; font-size: 18px; }
+  .tier-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+  .tb-amber  { background: rgba(245,158,11,.15); color: var(--amber); }
+  .tb-teal   { background: rgba(12,200,176,.15);  color: var(--teal); }
+  .tb-sky    { background: rgba(56,189,248,.12);  color: var(--sky); }
+  .tier-note { padding: 14px 22px; font-size: 12px; color: var(--slate); background: var(--navy2); display: flex; gap: 24px; flex-wrap: wrap; }
+  .tier-note span::before { content: '※ '; }
+
+  /* CALCULATOR */
+  .calc-section { margin-bottom: 72px; }
+  .calc-box { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 36px 40px; }
+  .calc-top { display: flex; align-items: flex-start; gap: 40px; margin-bottom: 36px; flex-wrap: wrap; }
+  .calc-input-group { flex: 1; min-width: 260px; }
+  .calc-label { font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 10px; display: block; }
+  .calc-input-row { display: flex; align-items: center; gap: 12px; }
+  .calc-input {
+    flex: 1; background: var(--navy2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 16px; font-size: 20px; font-weight: 700; color: #fff;
+    font-family: 'Outfit', sans-serif; outline: none; transition: border-color .2s;
+  }
+  .calc-input:focus { border-color: var(--teal); }
+  .calc-unit-label { font-size: 14px; color: var(--slate); white-space: nowrap; }
+  .calc-slider { width: 100%; margin-top: 10px; accent-color: var(--teal); cursor: pointer; }
+  .calc-slider-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--slate); margin-top: 4px; }
+
+  .calc-result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .calc-card {
+    background: var(--navy2); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 20px 18px; transition: border-color .2s;
+  }
+  .calc-card.featured-calc { border-color: var(--teal); background: rgba(12,200,176,.06); }
+  .calc-plan-badge { font-size: 11px; font-weight: 700; color: var(--slate); margin-bottom: 8px; }
+  .calc-card.featured-calc .calc-plan-badge { color: var(--teal); }
+  .calc-total { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+  .calc-card.featured-calc .calc-total { color: var(--teal); }
+  .calc-period { font-size: 11px; color: var(--slate); margin-bottom: 12px; }
+  .calc-breakdown { font-size: 11px; color: #64748B; line-height: 1.9; border-top: 1px solid var(--border); padding-top: 10px; }
+  .calc-breakdown .line-val { color: #94A3B8; }
+  .calc-breakdown .line-total { color: #CBD5E1; font-weight: 700; }
+  .calc-unavail { font-size: 12px; color: var(--red); margin-top: 10px; line-height: 1.6; }
+
+  /* ADD-ON */
+  .addon-section { margin-bottom: 72px; }
+  .addon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .addon-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 22px 24px; display: flex; align-items: center; gap: 18px;
+    transition: border-color .2s, transform .2s;
+  }
+  .addon-card:hover { border-color: rgba(12,200,176,.5); transform: translateY(-3px); }
+  .addon-icon { font-size: 26px; flex-shrink: 0; }
+  .addon-info { flex: 1; }
+  .addon-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .addon-desc { font-size: 12px; color: var(--slate); line-height: 1.5; }
+  .addon-plan { font-size: 10px; color: var(--sky); margin-top: 4px; }
+  .addon-price { text-align: right; flex-shrink: 0; }
+  .addon-price .num { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: var(--teal); white-space: nowrap; }
+  .addon-price .unit { font-size: 10px; color: var(--slate); }
+
+  /* COMPARE TABLE */
+  .compare-section { margin-bottom: 72px; }
+  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table th, .compare-table td { padding: 14px 18px; text-align: center; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .compare-table th:first-child, .compare-table td:first-child { text-align: left; color: #CBD5E1; }
+  .compare-table thead th { background: var(--card2); font-size: 12px; font-weight: 700; letter-spacing: .05em; color: var(--slate); text-transform: uppercase; }
+  .compare-table thead th:nth-child(3) { color: var(--teal); }
+  .compare-table tbody tr:hover { background: rgba(255,255,255,.02); }
+  .compare-table .cat-row td { background: var(--navy2); font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--slate); text-transform: uppercase; padding: 10px 18px; }
+  .compare-table .cat-row td:first-child { color: var(--amber); }
+  .ck { color: var(--teal); font-size: 16px; }
+  .cx { color: #334155; font-size: 16px; }
+  .cp { font-size: 11px; color: var(--slate); }
+
+  /* FAQ */
+  .faq-section { margin-bottom: 64px; }
+  .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer; }
+  .faq-q { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; }
+  .faq-q .arr { font-size: 12px; color: var(--teal); transition: transform .3s; }
+  .faq-a { font-size: 13px; color: var(--slate); line-height: 1.7; margin-top: 12px; display: none; }
+  .faq-item.open .faq-q .arr { transform: rotate(180deg); }
+  .faq-item.open .faq-a { display: block; }
+
+  footer { text-align: center; padding: 32px 0 0; border-top: 1px solid var(--border); }
+  footer p { font-size: 12px; color: #334155; }
+  footer strong { color: var(--teal); }
+
+  @media (max-width: 900px) {
+    .plans, .calc-result-grid, .addon-grid { grid-template-columns: 1fr; }
+    .calc-box { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="badge">🛝 어린이놀이시설 안전점검 플랫폼</div>
+  <h1>안전한 놀이터를 위한<br>스마트 점검 솔루션</h1>
+  <p>행정안전부 기준 법적 의무사항 자동 반영 · PDF 보고서 자동 생성<br>현장 점검부터 이력 관리까지, 한 플랫폼에서</p>
+</header>
+
+<!-- 요금 구조 안내 -->
+<div class="pricing-notice">
+  <span class="icon">💡</span>
+  <div>
+    <strong>요금 산정 방식</strong> — 월 <strong>기본료</strong>에 관리 시설 수에 따른 <strong>개소당 단가</strong>를 합산합니다.
+    시설 수가 많을수록 구간별 단가가 낮아지는 <strong>누진 할인</strong> 구조로, 대규모 기관일수록 유리합니다.<br>
+    <span class="formula">월 청구액 = 기본료 + Σ (구간별 개소 수 × 개소당 단가)</span>
+  </div>
+</div>
+
+<!-- 플랜 카드 -->
+<div class="plans">
+
+  <!-- STARTER -->
+  <div class="plan">
+    <div class="plan-icon">🌱</div>
+    <div class="plan-name">Starter</div>
+    <div class="plan-desc">소규모 시설 또는 개인 관리자<br>최대 50개소까지 관리 가능</div>
+
+    <div class="price-box">
+      <div class="price-label">월 기본료</div>
+      <div class="price-row">
+        <span class="price-currency">₩</span>
+        <span class="price-num">50,000</span>
+        <span class="price-period">&nbsp;/ 월</span>
+      </div>
+    </div>
+
+    <div class="unit-price-box">
+      <div class="unit-header">개소당 단가</div>
+      <div class="unit-row">
+        <span class="unit-range">1 ~ 50개소</span>
+        <span class="unit-val teal">1,000원 / 개소</span>
+      </div>
+      <div class="unit-row">
+        <span class="unit-range">51개소 이상</span>
+        <span class="unit-val na">–</span>
+      </div>
+      <div class="unit-cap">⚠ 최대 50개소까지 관리 가능</div>
+    </div>
+
+    <a class="plan-cta" href="#">무료로 시작하기</a>
+
+    <div class="divider-label">기본 기능</div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">시설번호 · 시설명 검색</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">법적 의무사항 표기<br><small style="color:#64748b">(설치·정기검사, 교육, 보험, 현황)</small></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">월점검 대장 체크리스트</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">PDF 생성 및 프린트</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">안전관리자 등록 <span class="tag-limit">1명</span></span></div>
+
+    <div class="divider-label">미포함</div>
+    <div class="feature dimmed"><span class="ico n">–</span><span class="txt">사진 첨부 / 직접 위해요인 입력</span></div>
+    <div class="feature dimmed"><span class="ico n">–</span><span class="txt">수리이력 대장 · 통계 · 서명</span></div>
+  </div>
+
+  <!-- GROWTH -->
+  <div class="plan featured">
+    <div class="popular-tag">⭐ 가장 인기</div>
+    <div class="plan-icon">🚀</div>
+    <div class="plan-name">Growth</div>
+    <div class="plan-desc">지자체·복지관·학교 등<br>최대 200개소까지 관리 가능</div>
+
+    <div class="price-box">
+      <div class="price-label">월 기본료</div>
+      <div class="price-row">
+        <span class="price-currency">₩</span>
+        <span class="price-num">100,000</span>
+        <span class="price-period">&nbsp;/ 월</span>
+      </div>
+    </div>
+
+    <div class="unit-price-box">
+      <div class="unit-header">개소당 단가</div>
+      <div class="unit-row">
+        <span class="unit-range">1 ~ 50개소</span>
+        <span class="unit-val teal">1,000원 / 개소</span>
+      </div>
+      <div class="unit-row">
+        <span class="unit-range">51 ~ 200개소</span>
+        <span class="unit-val teal">800원 / 개소</span>
+      </div>
+      <div class="unit-cap">⚠ 최대 200개소까지 관리 가능</div>
+    </div>
+
+    <a class="plan-cta" href="#">14일 무료 체험</a>
+
+    <div class="divider-label">Starter 전체 +</div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">체크리스트 <b>또는</b> 직접 위해요인 입력 선택</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">기구별 위해요소 <b>사진 첨부</b></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 등록/수정/삭제 <span class="tag-limit">최대 5명</span></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 <b>휴대폰 서명</b></span></div>
+
+    <div class="divider-label">선택 부가기능</div>
+    <div class="feature"><span class="ico a">+</span><span class="txt">수리이력 관리 대장 <span class="tag-opt">ADD-ON</span></span></div>
+    <div class="feature"><span class="ico a">+</span><span class="txt">월 점검 통계 분석 <span class="tag-opt">ADD-ON</span></span></div>
+  </div>
+
+  <!-- PRO -->
+  <div class="plan">
+    <div class="plan-icon">🏆</div>
+    <div class="plan-name">Pro</div>
+    <div class="plan-desc">전문 위탁점검기관 · 대규모 시설<br>201개소 이상 추가 할인 단가 적용</div>
+
+    <div class="price-box">
+      <div class="price-label">월 기본료</div>
+      <div class="price-row">
+        <span class="price-currency">₩</span>
+        <span class="price-num">150,000</span>
+        <span class="price-period">&nbsp;/ 월</span>
+      </div>
+    </div>
+
+    <div class="unit-price-box">
+      <div class="unit-header">개소당 단가</div>
+      <div class="unit-row">
+        <span class="unit-range">1 ~ 50개소</span>
+        <span class="unit-val teal">1,000원 / 개소</span>
+      </div>
+      <div class="unit-row">
+        <span class="unit-range">51 ~ 200개소</span>
+        <span class="unit-val">800원 / 개소</span>
+      </div>
+      <div class="unit-row">
+        <span class="unit-range">201 ~ 500개소</span>
+        <span class="unit-val sky">600원 / 개소</span>
+      </div>
+      <div class="unit-row">
+        <span class="unit-range">500개소 초과</span>
+        <span class="unit-val" style="color:var(--amber);font-size:11px;font-weight:700;">📞 별도 문의</span>
+      </div>
+    </div>
+
+    <a class="plan-cta" href="#">도입 문의하기</a>
+
+    <div class="divider-label">Growth 전체 +</div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">수리이력 관리 대장 <b>기본 포함</b><br><small style="color:#64748b">(수리 전·후 사진)</small></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">월 점검 통계 분석 <b>기본 포함</b></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 <b>무제한</b> 등록</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">사진 저장 <b>100GB</b></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">전담 고객 성공 매니저</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">API 연동 지원 (나라장터 등)</span></div>
+  </div>
+
+</div><!-- /plans -->
+
+<!-- ① 요금 체계표 -->
+<div class="tier-section">
+  <div class="section-title">요금 체계 <span style="color:var(--teal)">상세표</span></div>
+  <div class="section-sub">기본료 + 개소당 단가(구간별 누진 적용) 구조로 청구됩니다.</div>
+
+  <div class="tier-table-wrap">
+    <table class="tier-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;width:35%">구분</th>
+          <th>Starter</th>
+          <th class="col-growth">Growth</th>
+          <th>Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 기본료 -->
+        <tr class="base-row">
+          <td>
+            <span style="color:var(--amber);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;">① 월 기본료</span>
+          </td>
+          <td><span class="val-base" style="color:#CBD5E1">50,000원</span></td>
+          <td><span class="val-base" style="color:var(--teal)">100,000원</span></td>
+          <td><span class="val-base" style="color:#CBD5E1">150,000원</span></td>
+        </tr>
+        <!-- 구간 서브헤더 -->
+        <tr>
+          <td colspan="4" style="background:var(--navy2);padding:10px 22px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--slate);text-align:left;">
+            ② 개소당 단가 — 구간별 누진 합산 적용
+          </td>
+        </tr>
+        <!-- 1~50 -->
+        <tr>
+          <td>
+            1 ~ 50개소
+            <span class="tier-badge tb-amber">전 플랜 공통</span>
+          </td>
+          <td><span class="val-unit">1,000원</span></td>
+          <td><span class="val-unit teal">1,000원</span></td>
+          <td><span class="val-unit">1,000원</span></td>
+        </tr>
+        <!-- 51~200 -->
+        <tr>
+          <td>
+            51 ~ 200개소
+            <span class="tier-badge tb-teal">Growth · Pro</span>
+          </td>
+          <td><span class="val-na">–</span></td>
+          <td><span class="val-unit teal">800원</span></td>
+          <td><span class="val-unit">800원</span></td>
+        </tr>
+        <!-- 201~500 -->
+        <tr>
+          <td>
+            201 ~ 500개소
+            <span class="tier-badge tb-sky">Pro 전용</span>
+          </td>
+          <td><span class="val-na">–</span></td>
+          <td><span class="val-na">–</span></td>
+          <td><span class="val-unit sky">600원</span></td>
+        </tr>
+        <!-- 500초과 -->
+        <tr>
+          <td>
+            500개소 초과
+            <span class="tier-badge tb-sky">Pro 전용</span>
+          </td>
+          <td><span class="val-na">–</span></td>
+          <td><span class="val-na">–</span></td>
+          <td><span style="color:var(--amber);font-weight:700;font-size:13px;">📞 별도 문의</span></td>
+        </tr>
+        <!-- 관리 한도 -->
+        <tr>
+          <td style="color:var(--slate);font-size:12px;font-weight:700;">최대 관리 개소</td>
+          <td style="color:var(--amber);font-weight:700;font-size:14px;">50개소</td>
+          <td style="color:var(--teal);font-weight:700;font-size:14px;">200개소</td>
+          <td style="color:var(--sky);font-weight:700;font-size:14px;">500개소<br><span style="font-size:11px;color:var(--amber);">초과 시 문의</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="tier-note">
+      <span>구간은 누진 합산 방식 — 50개소까지는 1,000원, 초과분은 800원 · 600원 적용</span>
+      <span>Pro 500개소 초과 시 별도 협의 요금 적용</span>
+      <span>부가세(VAT) 별도</span>
+      <span>Starter는 51개소 이상 등록 불가 — Growth 이상으로 전환 필요</span>
+    </div>
+  </div>
+</div>
+
+<!-- ② 요금 계산기 -->
+<div class="calc-section">
+  <div class="section-title">월 요금 <span style="color:var(--teal)">계산기</span></div>
+  <div class="section-sub">관리할 시설 수를 입력하면 플랜별 예상 월 청구액을 즉시 계산합니다. (VAT 별도)</div>
+
+  <div class="calc-box">
+    <div class="calc-top">
+      <div class="calc-input-group">
+        <label class="calc-label">관리 시설 수 입력</label>
+        <div class="calc-input-row">
+          <input class="calc-input" type="number" id="facilityInput"
+            value="30" min="1" max="600"
+            oninput="syncSlider(this.value); calcAll()" />
+          <span class="calc-unit-label">개소</span>
+        </div>
+        <input class="calc-slider" type="range" id="facilitySlider"
+          min="1" max="600" value="30"
+          oninput="syncInput(this.value); calcAll()" />
+        <div class="calc-slider-labels">
+          <span>1개소</span><span>150개소</span><span>300개소</span><span>450개소</span><span>600개소+</span>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;padding-top:4px;">
+        <div style="font-size:12px;color:var(--slate);line-height:2;">
+          <div style="color:#CBD5E1;font-weight:700;margin-bottom:4px;">🧮 계산 방식</div>
+          <div>기본료 (플랜별 고정)</div>
+          <div>+ 1~50개소 × 1,000원</div>
+          <div style="padding-left:4px;">+ 51~200개소 × 800원 <span style="color:#334155">(Growth·Pro)</span></div>
+          <div style="padding-left:4px;">+ 201~500개소 × 600원 <span style="color:#334155">(Pro 전용)</span></div>
+          <div style="padding-left:4px;">+ 500개소 초과 <span style="color:var(--amber)">→ 별도 문의</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-result-grid">
+      <div class="calc-card" id="card-starter">
+        <div class="calc-plan-badge">🌱 STARTER</div>
+        <div class="calc-total" id="res-starter">—</div>
+        <div class="calc-period">원 / 월 (VAT 별도)</div>
+        <div class="calc-breakdown" id="break-starter"></div>
+      </div>
+      <div class="calc-card featured-calc" id="card-growth">
+        <div class="calc-plan-badge">🚀 GROWTH</div>
+        <div class="calc-total" id="res-growth">—</div>
+        <div class="calc-period">원 / 월 (VAT 별도)</div>
+        <div class="calc-breakdown" id="break-growth"></div>
+      </div>
+      <div class="calc-card" id="card-pro">
+        <div class="calc-plan-badge">🏆 PRO</div>
+        <div class="calc-total" id="res-pro">—</div>
+        <div class="calc-period">원 / 월 (VAT 별도)</div>
+        <div class="calc-breakdown" id="break-pro"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 부가기능 -->
+<div class="addon-section">
+  <div class="section-title">부가기능 <span style="color:var(--teal)">Add-ons</span></div>
+  <div class="section-sub">Growth 플랜에서 필요한 기능만 선택적으로 추가하세요. Pro 플랜은 모두 기본 포함입니다.</div>
+  <div class="addon-grid">
+    <div class="addon-card">
+      <div class="addon-icon">🔧</div>
+      <div class="addon-info">
+        <div class="addon-name">수리이력 관리 대장</div>
+        <div class="addon-desc">수리 전·후 사진 첨부, 이력 기록 및 PDF 출력<br>기구별 수리 일지 자동 관리</div>
+        <div class="addon-plan">Starter · Growth 플랜에서 추가 가능</div>
+      </div>
+      <div class="addon-price">
+        <div class="num">₩15,000</div>
+        <div class="unit">/ 월</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">📊</div>
+      <div class="addon-info">
+        <div class="addon-name">월 점검 통계 분석</div>
+        <div class="addon-desc">양호 / 요주의 / 요수리 / 이용금지 현황<br>시각화 대시보드 + 월별 트렌드 분석</div>
+        <div class="addon-plan">Starter · Growth 플랜에서 추가 가능</div>
+      </div>
+      <div class="addon-price">
+        <div class="num">₩12,000</div>
+        <div class="unit">/ 월</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">👤</div>
+      <div class="addon-info">
+        <div class="addon-name">추가 점검자 등록</div>
+        <div class="addon-desc">Growth 기본 5명 초과 시 1인 단위 추가<br>위탁점검자 · 안전관리자 모두 적용</div>
+        <div class="addon-plan">Growth 플랜에서 추가 가능</div>
+      </div>
+      <div class="addon-price">
+        <div class="num">₩3,000</div>
+        <div class="unit">/ 인 · 월</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">🗄️</div>
+      <div class="addon-info">
+        <div class="addon-name">사진 저장 용량 추가</div>
+        <div class="addon-desc">기본 제공 용량 초과 시 10GB 단위 추가<br>고화질 현장 사진 장기 보관</div>
+        <div class="addon-plan">Starter · Growth 플랜에서 추가 가능</div>
+      </div>
+      <div class="addon-price">
+        <div class="num">₩5,000</div>
+        <div class="unit">/ 10GB · 월</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 상세 비교표 -->
+<div class="compare-section">
+  <div class="section-title">플랜 상세 <span style="color:var(--teal)">비교</span></div>
+  <div class="section-sub">요금 구조 및 기능별 포함 여부를 한눈에 확인하세요.</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>기능</th>
+        <th>Starter</th>
+        <th>Growth</th>
+        <th>Pro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="cat-row"><td colspan="4">💰 요금 구조</td></tr>
+      <tr>
+        <td>월 기본료</td>
+        <td><span class="cp">50,000원</span></td>
+        <td><span class="cp" style="color:var(--teal)">100,000원</span></td>
+        <td><span class="cp">150,000원</span></td>
+      </tr>
+      <tr>
+        <td>1~50개소 단가</td>
+        <td><span class="cp">1,000원/개소</span></td>
+        <td><span class="cp" style="color:var(--teal)">1,000원/개소</span></td>
+        <td><span class="cp">1,000원/개소</span></td>
+      </tr>
+      <tr>
+        <td>51~200개소 단가</td>
+        <td><span class="cx">–</span></td>
+        <td><span class="cp" style="color:var(--teal)">800원/개소</span></td>
+        <td><span class="cp">800원/개소</span></td>
+      </tr>
+      <tr>
+        <td>201 ~ 500개소 단가</td>
+        <td><span class="cx">–</span></td>
+        <td><span class="cx">–</span></td>
+        <td><span class="cp" style="color:var(--sky)">600원/개소</span></td>
+      </tr>
+      <tr>
+        <td>500개소 초과</td>
+        <td><span class="cx">–</span></td>
+        <td><span class="cx">–</span></td>
+        <td><span class="cp" style="color:var(--amber)">📞 별도 문의</span></td>
+      </tr>
+      <tr>
+        <td>최대 관리 개소</td>
+        <td><span class="cp" style="color:var(--amber)">50개소</span></td>
+        <td><span class="cp" style="color:var(--teal)">200개소</span></td>
+        <td><span class="cp" style="color:var(--sky)">500개소<br><small style="color:var(--amber)">초과 시 문의</small></span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">🔍 기본 조회 및 법적 정보</td></tr>
+      <tr>
+        <td>시설번호 · 시설명 검색</td>
+        <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>법적 의무사항 표기 (행안부 반영)</td>
+        <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">📋 점검 대장</td></tr>
+      <tr>
+        <td>월점검 체크리스트 방식</td>
+        <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>직접 위해요인 입력 방식</td>
+        <td><span class="cx">✗</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>기구별 위해요소 사진 첨부</td>
+        <td><span class="cx">✗</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>월점검 PDF 생성 · 프린트</td>
+        <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">🔧 수리이력 관리</td></tr>
+      <tr>
+        <td>수리이력 관리 대장</td>
+        <td><span class="cp">Add-on</span></td><td><span class="cp">Add-on</span></td><td><span class="ck">✓ 기본포함</span></td>
+      </tr>
+      <tr>
+        <td>수리 전·후 사진 첨부</td>
+        <td><span class="cx">✗</span></td><td><span class="cp">Add-on 포함</span></td><td><span class="ck">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">📊 통계 및 분석</td></tr>
+      <tr>
+        <td>월점검 통계 (양호·요주의·요수리·이용금지)</td>
+        <td><span class="cp">Add-on</span></td><td><span class="cp">Add-on</span></td><td><span class="ck">✓ 기본포함</span></td>
+      </tr>
+      <tr>
+        <td>월별 트렌드 대시보드</td>
+        <td><span class="cx">✗</span></td><td><span class="cp">Add-on 포함</span></td><td><span class="ck">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">👥 사용자 관리</td></tr>
+      <tr>
+        <td>안전관리자 · 위탁점검자 등록/수정/삭제</td>
+        <td><span class="cp">1명</span></td><td><span class="cp">최대 5명</span></td><td><span class="ck">무제한</span></td>
+      </tr>
+      <tr>
+        <td>점검자 휴대폰 서명</td>
+        <td><span class="cx">✗</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">⚙️ 지원 및 확장</td></tr>
+      <tr>
+        <td>기본 사진 저장 용량</td>
+        <td><span class="cp">5 GB</span></td><td><span class="cp">10 GB</span></td><td><span class="cp">100 GB</span></td>
+      </tr>
+      <tr>
+        <td>전담 고객 성공 매니저</td>
+        <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>API 연동 (나라장터 등)</td>
+        <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="ck">✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="section-title">자주 묻는 <span style="color:var(--teal)">질문</span></div>
+  <div class="section-sub" style="margin-bottom:24px">궁금한 점이 있으시면 언제든지 문의해 주세요.</div>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">개소 수는 어떻게 계산되나요? <span class="arr">▼</span></div>
+    <div class="faq-a">한 달 중 실제 등록·관리된 시설(개소) 수를 기준으로 합산합니다. 구간은 누진 방식으로, 예를 들어 Growth 플랜에서 80개소를 관리하면 기본료 100,000원 + (50개소 × 1,000원) + (30개소 × 800원) = <strong>174,000원</strong>이 청구됩니다.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Starter에서 시설이 50개소를 초과하면? <span class="arr">▼</span></div>
+    <div class="faq-a">Starter 플랜은 최대 50개소까지만 관리할 수 있습니다. 초과 시 Growth 이상 플랜으로 업그레이드 안내가 발송되며, 당월 일할 계산으로 전환됩니다.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">지자체·공공기관도 이용 가능한가요? <span class="arr">▼</span></div>
+    <div class="faq-a">네, 공공기관 세금계산서 발행 및 나라장터 기관카드 결제를 지원합니다. Pro 플랜에서는 나라장터 API 연동도 가능합니다.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">행정안전부 안전정보는 자동으로 업데이트되나요? <span class="arr">▼</span></div>
+    <div class="faq-a">네, 행정안전부 어린이놀이시설 안전정보를 주기적으로 연동하여 법적 의무사항 변경 시 자동 반영됩니다. 설치검사·정기검사·안전교육·배상책임보험 가입·현황정보 모두 포함됩니다.</div>
+  </div>
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">중간에 플랜 변경이 가능한가요? <span class="arr">▼</span></div>
+    <div class="faq-a">언제든지 업그레이드 또는 다운그레이드가 가능합니다. 변경 시 일할 계산으로 정산되며, 시설 수 변동 시 구간 단가를 자동으로 재계산합니다.</div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <strong>사회적협동조합 창의융합연구원 (KICON)</strong> · 문의: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a8cbc7c6dcc9cbdce8c3c1cbc7c686c7da86c3da">[email&#160;protected]</a></p>
+  <p style="margin-top:8px">부가세(VAT) 별도 · 표시 금액은 월 기준 · 요금은 사전 공지 후 변경될 수 있습니다.</p>
+</footer>
+
+</div><!-- /wrap -->
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const fmt = n => n.toLocaleString('ko-KR');
+
+  const PLANS = {
+    starter: { base: 50000,  max: 50  },
+    growth:  { base: 100000, max: 200 },
+    pro:     { base: 150000, max: 500 }
+  };
+
+  function calcCost(plan, cnt) {
+    if (cnt > PLANS[plan].max) return null;
+
+    const s1 = Math.min(cnt, 50);
+    const s2 = plan !== 'starter' ? Math.min(Math.max(cnt - 50, 0), 150) : 0;
+    const s3 = plan === 'pro'     ? Math.min(Math.max(cnt - 200, 0), 300) : 0;
+
+    const unitCost = s1 * 1000 + s2 * 800 + s3 * 600;
+    const total    = PLANS[plan].base + unitCost;
+
+    const lines = [];
+    lines.push({ label: '기본료', val: PLANS[plan].base });
+    lines.push({ label: `1~${s1}개소 × 1,000원`, val: s1 * 1000 });
+    if (s2 > 0) lines.push({ label: `51~${50+s2}개소 × 800원`,  val: s2 * 800  });
+    if (s3 > 0) lines.push({ label: `201~${200+s3}개소 × 600원`, val: s3 * 600  });
+
+    return { total, lines };
+  }
+
+  function calcAll() {
+    const cnt = Math.max(1, parseInt(document.getElementById('facilityInput').value) || 1);
+    ['starter', 'growth', 'pro'].forEach(plan => {
+      const r      = calcCost(plan, cnt);
+      const resEl  = document.getElementById('res-' + plan);
+      const brkEl  = document.getElementById('break-' + plan);
+
+      // Pro 500개소 초과 → 문의하기
+      if (plan === 'pro' && cnt > 500) {
+        resEl.textContent = '문의하기';
+        resEl.style.fontSize = '20px';
+        resEl.style.color = 'var(--amber)';
+        brkEl.innerHTML = `<span style="color:var(--amber);">
+          500개소 초과 시 규모별 맞춤 요금이 적용됩니다.<br>담당자에게 문의해 주세요.
+        </span>`;
+        return;
+      }
+      resEl.style.color = '';
+
+      if (!r) {
+        resEl.textContent = '이용 불가';
+        resEl.style.fontSize = '17px';
+        brkEl.innerHTML = `<span style="color:var(--red)">
+          현재 ${cnt}개소는 해당 플랜 최대(${PLANS[plan].max}개소)를 초과합니다.
+        </span>`;
+      } else {
+        resEl.textContent = fmt(r.total);
+        resEl.style.fontSize = '';
+        brkEl.innerHTML = r.lines.map((l, i) =>
+          i === 0
+            ? `<span class="line-val">${l.label}: ${fmt(l.val)}원</span>`
+            : `<span class="line-val">+${l.label}: ${fmt(l.val)}원</span>`
+        ).join('<br>') +
+        `<br><span class="line-total">= ${fmt(r.total)}원 / 월</span>`;
+      }
+    });
+  }
+
+  function syncSlider(v) {
+    const s = document.getElementById('facilitySlider');
+    if (s) s.value = v;
+  }
+  function syncInput(v) {
+    const i = document.getElementById('facilityInput');
+    if (i) i.value = v;
+  }
+
+  calcAll();
+</script>
+</body>
+</html>
