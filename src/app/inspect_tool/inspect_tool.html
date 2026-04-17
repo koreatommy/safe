@@ -75,7 +75,9 @@
     display: inline-flex; align-items: center; gap: 8px;
     padding: 9px 16px; background: var(--ink); color: white;
     border-radius: 999px; font-size: 13px; font-weight: 600;
-    text-decoration: none; transition: transform .2s, background .2s;
+    text-decoration: none;
+    transition: transform .2s, background .2s, box-shadow .2s, filter .2s;
+    will-change: transform, box-shadow;
   }
   .topbar-cta:hover { background: var(--accent); transform: translateY(-1px); }
   .topbar-cta:active { transform: translateY(0); }
@@ -198,8 +200,9 @@
     border-radius: 999px;
     font-weight: 700; font-size: 14px;
     text-decoration: none;
-    transition: transform .2s, box-shadow .2s;
+    transition: transform .2s, box-shadow .2s, filter .2s;
     white-space: nowrap;
+    will-change: transform, box-shadow;
   }
   .price-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(217,68,59,0.35); }
 
@@ -950,6 +953,114 @@
     border-radius: 50%;
     margin: 0 10px;
     vertical-align: middle;
+  }
+
+  /* ────────── 스크롤 구역별 CTA 모션 (Intersection / scroll zone) ────────── */
+  @keyframes cta-tb-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 68, 59, 0); }
+    45% { box-shadow: 0 0 0 6px rgba(217, 68, 59, 0.22); }
+  }
+  @keyframes cta-tb-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.12); }
+    50% { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2); }
+  }
+  @keyframes cta-tb-wiggle {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+  @keyframes cta-tb-breathe {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.12); }
+  }
+  @keyframes cta-tb-nudge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+  @keyframes cta-tb-tilt {
+    0%, 100% { transform: rotate(0deg); }
+    33% { transform: rotate(-1.2deg); }
+    66% { transform: rotate(1.2deg); }
+  }
+  @keyframes cta-tb-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+  @keyframes cta-arrow-bounce {
+    0%, 100% { transform: translateX(0); opacity: 1; }
+    40% { transform: translateX(5px); opacity: 0.85; }
+  }
+  @keyframes cta-price-shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  @keyframes cta-price-pulse {
+    0%, 100% { box-shadow: 0 4px 0 rgba(0, 0, 0, 0.08); }
+    50% { box-shadow: 0 10px 28px rgba(217, 68, 59, 0.45); }
+  }
+  @keyframes cta-price-glow {
+    0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+    50% { filter: drop-shadow(0 0 10px rgba(245, 197, 24, 0.55)); }
+  }
+  @keyframes cta-fab-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @keyframes cta-fab-glow {
+    0%, 100% { box-shadow: 0 10px 24px rgba(217, 68, 59, 0.32); }
+    50% { box-shadow: 0 12px 32px rgba(217, 68, 59, 0.55), 0 0 0 3px rgba(255, 255, 255, 0.12); }
+  }
+  @keyframes cta-fab-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+  @keyframes cta-fab-skew {
+    0%, 100% { transform: skewX(0deg); }
+    50% { transform: skewX(-2deg); }
+  }
+  @keyframes cta-fab-ring {
+    0%, 100% { box-shadow: 0 8px 20px rgba(217, 68, 59, 0.28); }
+    50% { box-shadow: 0 8px 20px rgba(217, 68, 59, 0.28), 0 0 0 5px rgba(245, 197, 24, 0.25); }
+  }
+
+  body[data-cta-scroll="hero"] .topbar-cta { animation: cta-tb-glow 2.4s ease-in-out infinite; }
+  body[data-cta-scroll="law-section"] .topbar-cta { animation: cta-tb-ring 2.2s ease-in-out infinite; }
+  body[data-cta-scroll="compare-section"] .topbar-cta { animation: cta-tb-wiggle 2.5s ease-in-out infinite; }
+  body[data-cta-scroll="categories-section"] .topbar-cta { animation: cta-tb-breathe 2.8s ease-in-out infinite; }
+  body[data-cta-scroll="kit-section"] .topbar-cta { animation: cta-tb-nudge 2s ease-in-out infinite; }
+  body[data-cta-scroll="portable-section"] .topbar-cta { animation: cta-tb-tilt 3s ease-in-out infinite; }
+  body[data-cta-scroll="users-section"] .topbar-cta { animation: cta-tb-scale 2.6s ease-in-out infinite; }
+  body[data-cta-scroll="gallery-section"] .topbar-cta { animation: cta-tb-glow 1.8s ease-in-out infinite; }
+  body[data-cta-scroll="order-section"] .topbar-cta { animation: cta-tb-ring 3.2s ease-in-out infinite; }
+  body[data-cta-scroll="faq-section"] .topbar-cta { animation: cta-tb-wiggle 2.2s ease-in-out infinite; }
+
+  body[data-cta-scroll="hero"] .topbar-cta span:last-child { animation: cta-arrow-bounce 1.4s ease-in-out infinite; display: inline-block; }
+  body[data-cta-scroll="kit-section"] .topbar-cta span:last-child { animation: cta-arrow-bounce 1.2s ease-in-out infinite; display: inline-block; }
+
+  body[data-cta-scroll="hero"] .price-cta {
+    background: linear-gradient(90deg, var(--accent) 0%, #E85A52 35%, var(--accent-2) 50%, #E85A52 65%, var(--accent) 100%);
+    background-size: 200% auto;
+    animation: cta-price-shimmer 3.5s linear infinite;
+  }
+  body[data-cta-scroll="compare-section"] .price-cta { animation: cta-price-pulse 2s ease-in-out infinite; }
+  body[data-cta-scroll="portable-section"] .price-cta { animation: cta-price-glow 2.4s ease-in-out infinite; }
+
+  body[data-cta-scroll="categories-section"] .mobile-fab-cta { animation: cta-fab-float 2.2s ease-in-out infinite; }
+  body[data-cta-scroll="kit-section"] .mobile-fab-cta { animation: cta-fab-glow 2s ease-in-out infinite; }
+  body[data-cta-scroll="users-section"] .mobile-fab-cta { animation: cta-fab-pulse 2.4s ease-in-out infinite; }
+  body[data-cta-scroll="gallery-section"] .mobile-fab-cta { animation: cta-fab-skew 2.8s ease-in-out infinite; }
+  body[data-cta-scroll="order-section"] .mobile-fab-cta { animation: cta-fab-ring 2.5s ease-in-out infinite; }
+  body[data-cta-scroll="faq-section"] .mobile-fab-cta { animation: cta-fab-float 1.9s ease-in-out infinite; }
+  body[data-cta-scroll="law-section"] .mobile-fab-cta { animation: cta-fab-pulse 2.2s ease-in-out infinite; }
+  body[data-cta-scroll="portable-section"] .mobile-fab-cta { animation: cta-fab-glow 2.6s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    body[data-cta-scroll] .topbar-cta,
+    body[data-cta-scroll] .topbar-cta span:last-child,
+    body[data-cta-scroll] .price-cta,
+    body[data-cta-scroll] .mobile-fab-cta {
+      animation: none !important;
+    }
   }
 
   .mobile-fab-cta {
@@ -1802,6 +1913,75 @@
         }
       });
     }
+
+    /* 스크롤 위치(뷰포트 중앙에 가까운 섹션)에 따라 CTA에 서로 다른 모션 적용 */
+    (function initCtaScrollZones() {
+      var sectionSelectors = [
+        ".hero",
+        ".law-section",
+        ".compare-section",
+        ".categories-section",
+        ".kit-section",
+        ".portable-section",
+        ".users-section",
+        ".gallery-section",
+        ".order-section",
+        ".faq-section",
+      ];
+      var zoneElements = [];
+      for (var s = 0; s < sectionSelectors.length; s++) {
+        var el = document.querySelector(sectionSelectors[s]);
+        if (el) zoneElements.push(el);
+      }
+      if (!zoneElements.length) return;
+
+      function primaryClass(node) {
+        if (!node || !node.classList || !node.classList.length) return "hero";
+        return node.classList[0];
+      }
+
+      function setCtaScrollAttr(id) {
+        if (document.body.getAttribute("data-cta-scroll") !== id) {
+          document.body.setAttribute("data-cta-scroll", id);
+        }
+      }
+
+      function updateActiveZone() {
+        var mid = window.innerHeight * 0.38;
+        var bestEl = null;
+        var bestDist = Infinity;
+        for (var i = 0; i < zoneElements.length; i++) {
+          var z = zoneElements[i];
+          var r = z.getBoundingClientRect();
+          var zoneMid = r.top + r.height * 0.35;
+          var dist = Math.abs(zoneMid - mid);
+          if (r.bottom > 72 && r.top < window.innerHeight - 32 && dist < bestDist) {
+            bestDist = dist;
+            bestEl = z;
+          }
+        }
+        setCtaScrollAttr(primaryClass(bestEl || zoneElements[0]));
+      }
+
+      var ticking = false;
+      function onScrollOrResize() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(function () {
+          ticking = false;
+          updateActiveZone();
+        });
+      }
+
+      window.addEventListener("scroll", onScrollOrResize, { passive: true });
+      window.addEventListener("resize", onScrollOrResize);
+      if (document.readyState === "complete") {
+        updateActiveZone();
+      } else {
+        window.addEventListener("load", updateActiveZone);
+      }
+      updateActiveZone();
+    })();
 
     const form = document.getElementById("orderApplicationForm");
     const quantityInput = document.getElementById("orderQuantityInput");
