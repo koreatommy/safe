@@ -184,6 +184,12 @@
     margin-top: 2px;
   }
   .price-tax { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .price-stock-note {
+    display: block;
+    margin-top: 4px;
+    color: var(--accent-3);
+    font-weight: 600;
+  }
   .price-cta {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 13px 22px;
@@ -223,6 +229,22 @@
     display: flex; align-items: center; gap: 6px;
   }
   .hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--safe); animation: pulse 2s infinite; }
+  .hero-image-note {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    z-index: 2;
+    font-size: 11px;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(14, 26, 43, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
+    padding: 5px 8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    white-space: nowrap;
+  }
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
@@ -317,6 +339,22 @@
     position: relative;
   }
   .compare-img img { width: 100%; height: 100%; object-fit: cover; }
+  .compare-image-note {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    z-index: 2;
+    font-size: 10.5px;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(14, 26, 43, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
+    padding: 4px 7px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    white-space: nowrap;
+  }
   .compare-col-label {
     position: absolute;
     top: 16px; left: 16px;
@@ -383,6 +421,12 @@
   .kit-section .section-title { color: white; }
   .kit-section .section-sub { color: rgba(255,255,255,0.7); }
   .kit-section .section-eyebrow { color: var(--accent-3); }
+  .kit-section .kit-qr-note {
+    color: var(--accent-3);
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: 10px;
+  }
   .kit-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -515,6 +559,53 @@
     line-height: 1.7;
   }
 
+  /* ────────── 갤러리 슬라이드 섹션 ────────── */
+  .gallery-section {
+    background: var(--bg);
+    padding: 48px 0 64px;
+    overflow: hidden;
+  }
+  .gallery-track {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+    animation: gallery-scroll 30s linear infinite;
+  }
+  .gallery-track:hover {
+    animation-play-state: paused;
+  }
+  .gallery-item {
+    flex-shrink: 0;
+    width: 280px;
+    height: 280px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    background: white;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
+  }
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+  @keyframes gallery-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (max-width: 960px) {
+    .gallery-section { padding: 36px 0 48px; }
+    .gallery-item { width: 220px; height: 220px; }
+  }
+  @media (max-width: 560px) {
+    .gallery-section { padding: 32px 0 40px; }
+    .gallery-item { width: 180px; height: 180px; }
+    .gallery-track { gap: 12px; }
+  }
+
   /* ────────── 구매/문의 섹션 ────────── */
   .order-section {
     background: linear-gradient(135deg, var(--ink) 0%, #1E2F4A 100%);
@@ -616,19 +707,214 @@
     font-size: 16px; font-weight: 700; margin-top: 2px;
     letter-spacing: -0.01em;
   }
+  .order-form-card {
+    margin-top: 18px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+  }
+  .order-form-head {
+    margin-bottom: 22px;
+  }
+  .order-form-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .order-form-sub {
+    margin-top: 8px;
+    color: rgba(255,255,255,0.72);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .order-form {
+    display: grid;
+    gap: 22px;
+  }
+  .order-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .order-field {
+    display: grid;
+    gap: 8px;
+  }
+  .order-field.full {
+    grid-column: 1 / -1;
+  }
+  .order-field-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.72);
+  }
+  .order-input,
+  .order-textarea {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 15px;
+    padding: 12px 14px;
+    outline: none;
+  }
+  .order-input::placeholder,
+  .order-textarea::placeholder {
+    color: rgba(255,255,255,0.45);
+  }
+  .order-input:focus,
+  .order-textarea:focus {
+    border-color: rgba(245,197,24,0.85);
+    box-shadow: 0 0 0 3px rgba(245,197,24,0.2);
+  }
+  .order-textarea {
+    min-height: 92px;
+    resize: vertical;
+  }
+  .order-field-note {
+    color: rgba(255,255,255,0.58);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .order-calc-box {
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 12px;
+    background: rgba(14,26,43,0.35);
+    padding: 16px;
+  }
+  .order-calc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .order-calc-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .order-discount-badge {
+    display: none;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f7a3e;
+    background: #eff8f2;
+    border: 1px solid #bbe4cc;
+    border-radius: 999px;
+    padding: 4px 9px;
+    white-space: nowrap;
+  }
+  .order-discount-badge.is-visible {
+    display: inline-flex;
+    align-items: center;
+  }
+  .order-calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+  }
+  .order-calc-row.total {
+    border-top: 1px dashed rgba(255,255,255,0.2);
+    margin-top: 6px;
+    padding-top: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .order-calc-value {
+    font-weight: 700;
+    color: #fff;
+  }
+  .order-agree {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.55;
+  }
+  .order-agree input {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+  }
+  .order-form-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .order-submit-btn {
+    border: none;
+    border-radius: 999px;
+    min-height: 46px;
+    padding: 0 24px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .order-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(217,68,59,0.35);
+  }
+  .order-submit-hint {
+    margin-top: 10px;
+    color: rgba(255,255,255,0.58);
+    font-size: 12px;
+    text-align: right;
+  }
+  .order-form-feedback {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--accent-3);
+    min-height: 1.2em;
+  }
 
   /* ────────── FAQ ────────── */
   .faq-section { background: white; }
   .faq-list { max-width: 820px; margin: 24px auto 0; }
   .faq-item {
     border-bottom: 1px solid var(--line);
-    padding: 22px 0;
+    padding: 0;
   }
   .faq-q {
     font-size: 16px; font-weight: 700; color: var(--ink);
-    margin-bottom: 10px;
+    margin-bottom: 0;
     letter-spacing: -0.015em;
     display: flex; gap: 10px; align-items: baseline;
+  }
+  .faq-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 22px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .faq-summary::-webkit-details-marker { display: none; }
+  .faq-toggle {
+    font-size: 18px;
+    color: var(--muted);
+    font-weight: 700;
+    line-height: 1;
+    transition: transform .2s ease, color .2s ease;
+    flex-shrink: 0;
+  }
+  .faq-item[open] .faq-toggle {
+    transform: rotate(45deg);
+    color: var(--accent);
   }
   .faq-q-mark {
     color: var(--accent);
@@ -638,7 +924,7 @@
   }
   .faq-a {
     font-size: 14.5px; color: var(--ink-soft); line-height: 1.75;
-    padding-left: 24px;
+    padding: 0 28px 22px 24px;
   }
 
   /* ────────── 푸터 ────────── */
@@ -669,6 +955,84 @@
   .mobile-fab-cta {
     display: none;
   }
+  .contact-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .contact-modal.is-open { display: flex; }
+  .contact-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 26, 43, 0.55);
+    backdrop-filter: blur(2px);
+  }
+  .contact-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 460px);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--line);
+    padding: 22px 20px 18px;
+  }
+  .contact-modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .contact-modal-sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .contact-modal-grid {
+    display: grid;
+    gap: 10px;
+  }
+  .contact-modal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg);
+    padding: 12px 14px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .contact-modal-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .contact-modal-value {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .contact-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: #f3f5f8;
+    color: var(--ink);
+    font-size: 18px;
+    cursor: pointer;
+  }
 
   /* ────────── 반응형 ────────── */
   @media (max-width: 960px) {
@@ -695,10 +1059,12 @@
     .order-contact-grid { grid-template-columns: 1fr; }
     .price-box { flex-direction: column; align-items: flex-start; }
     .order-card { padding: 28px 22px; }
+    .order-form-card { padding: 26px 20px; }
+    .order-form-grid { grid-template-columns: 1fr; }
     .order-contact-item { min-height: 56px; padding: 14px 16px; }
-    .faq-item { padding: 18px 0; }
+    .faq-summary { padding: 18px 0; }
     .faq-q { font-size: 15px; }
-    .faq-a { font-size: 14px; padding-left: 20px; }
+    .faq-a { font-size: 14px; padding: 0 24px 18px 20px; }
     .footer { padding-bottom: 88px; }
   }
   @media (max-width: 560px) {
@@ -715,16 +1081,29 @@
     .hero h1 { font-size: 28px; line-height: 1.25; margin-bottom: 12px; }
     .hero h1 em::after { height: 8px; bottom: 1px; }
     .badge { font-size: 11px; padding: 5px 10px; }
+    .hero-image-note { right: 10px; bottom: 10px; font-size: 10px; padding: 4px 6px; }
     .compare-body { padding: 18px; }
     .compare-title { font-size: 18px; margin-bottom: 12px; }
     .compare-list li { padding: 8px 0; font-size: 13.5px; }
+    .compare-image-note { right: 10px; bottom: 8px; font-size: 10px; padding: 4px 6px; }
     .order-title { font-size: 26px; }
     .order-sub { font-size: 14px; margin-bottom: 28px; }
     .order-card { padding: 20px 16px; }
+    .order-form-card { padding: 20px 16px; margin-top: 14px; }
+    .order-form-title { font-size: 20px; }
+    .order-form-sub { font-size: 13px; }
+    .order-input, .order-textarea { font-size: 14px; }
+    .order-submit-btn { width: 100%; }
+    .order-form-actions { justify-content: stretch; }
+    .order-submit-hint { text-align: left; }
     .order-price-val { font-size: 32px; }
     .order-qty-note { max-width: 100%; width: 100%; }
     .order-contact-icon { width: 34px; height: 34px; font-size: 15px; border-radius: 8px; }
     .order-contact-val { font-size: 14px; }
+    .contact-modal-panel { padding: 20px 16px 16px; border-radius: 14px; }
+    .contact-modal-title { font-size: 18px; }
+    .contact-modal-sub { font-size: 13.5px; }
+    .contact-modal-value { font-size: 14px; }
     .mobile-fab-cta {
       position: fixed;
       left: 14px;
@@ -758,7 +1137,7 @@
         <div class="brand-sub">Korea Institute for Creative Convergence</div>
       </div>
     </div>
-    <a href="#order" class="topbar-cta">
+    <a href="#order" class="topbar-cta js-open-contact-modal">
       <span>구매 문의</span>
       <span>→</span>
     </a>
@@ -776,7 +1155,7 @@
       </div>
       <h1>
         놀이시설 안전점검,<br>
-        이제 <em>관리주체가 직접</em>.
+        이제 <em>쉽고 간편하게</em>.
       </h1>
       <p class="hero-lead">
         검사기관의 규격화된 측정장비를 관리주체가 현장에서 쉽게 활용할 수 있도록 설계한
@@ -802,10 +1181,13 @@
       <div class="price-box">
         <div>
           <div class="price-label">공급가</div>
-          <div class="price-value">250,000원</div>
-          <div class="price-tax">VAT 별도 · 노트북형 가방 포함</div>
+          <div class="price-value">별도문의</div>
+          <div class="price-tax">
+            VAT 별도 · 노트북형 가방 포함
+            <span class="price-stock-note">제조수량이 소량 남은 관계로 별도문의 주세요</span>
+          </div>
         </div>
-        <a href="#order" class="price-cta">구매 상담 →</a>
+        <a href="#orderApplicationForm" class="price-cta">견적요청 →</a>
       </div>
     </div>
 
@@ -815,6 +1197,7 @@
         정식 공급 중
       </div>
       <img src="/inspect_tool/product_main.png" alt="놀이시설 안전점검 도구 전체 구성품 - HPL 소재 컬러 측정 도구 세트">
+      <div class="hero-image-note">1set 8종 구성으로 3set 구입시 사진 입니다</div>
     </div>
   </div>
 </section>
@@ -887,6 +1270,7 @@
         <div class="compare-img">
           <span class="compare-col-label">본 상품 | 안전점검용 도구</span>
           <img src="/inspect_tool/product_main.png" alt="KICON 안전점검용 HPL 도구 - 경량 컬러 구성">
+          <div class="compare-image-note">1set 8종 구성으로 3set 구입시 사진 입니다</div>
         </div>
         <div class="compare-body">
           <h3 class="compare-title">현장 점검 · 누구나 사용</h3>
@@ -973,6 +1357,7 @@
         어린이놀이시설 안전기준에 따른 규격화된 측정 장비를 정밀 재현했습니다.
         일부 항목(옷의 얽매임 측정도구)은 구성에서 제외됩니다.
       </p>
+      <p class="section-sub kit-qr-note">"자세한 사용법은 구입 후 동봉된 QR코드를 테그해 주세요"</p>
     </div>
 
     <div class="kit-grid">
@@ -1144,6 +1529,24 @@
   </div>
 </section>
 
+<!-- ═══════════ 현장 활용 갤러리 ═══════════ -->
+<section class="gallery-section">
+  <div class="gallery-track">
+    <div class="gallery-item"><img src="/inspect_tool/gallery_1.png" alt="현장 점검 활용 사례 1"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_2.png" alt="현장 점검 활용 사례 2"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_3.png" alt="현장 점검 활용 사례 3"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_4.png" alt="현장 점검 활용 사례 4"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_5.png" alt="현장 점검 활용 사례 5"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_6.png" alt="현장 점검 활용 사례 6"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_1.png" alt="현장 점검 활용 사례 1"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_2.png" alt="현장 점검 활용 사례 2"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_3.png" alt="현장 점검 활용 사례 3"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_4.png" alt="현장 점검 활용 사례 4"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_5.png" alt="현장 점검 활용 사례 5"></div>
+    <div class="gallery-item"><img src="/inspect_tool/gallery_6.png" alt="현장 점검 활용 사례 6"></div>
+  </div>
+</section>
+
 <!-- ═══════════ 구매·문의 ═══════════ -->
 <section class="order-section" id="order">
   <div class="order-inner">
@@ -1156,7 +1559,7 @@
       <div class="order-price-block">
         <div>
           <div class="order-price-label">KICON 공급가</div>
-          <div class="order-price-val">250,000원</div>
+          <div class="order-price-val">별도문의</div>
           <div class="order-price-tax">VAT 별도 · 전용 수납 가방 포함 · 개별 포장</div>
         </div>
         <div class="order-qty-note">
@@ -1165,21 +1568,88 @@
       </div>
 
       <div class="order-contact-grid">
-        <a href="tel:02-6959-4647" class="order-contact-item">
+        <a href="tel:010-2327-1730" class="order-contact-item">
           <div class="order-contact-icon">☎</div>
           <div>
             <div class="order-contact-label">전화 문의</div>
-            <div class="order-contact-val">02-6959-4647</div>
+            <div class="order-contact-val">010-2327-1730</div>
           </div>
         </a>
-        <a href="mailto:pcc3@daum.net" class="order-contact-item">
+        <a href="mailto:hieugenelee@gmail.com" class="order-contact-item">
           <div class="order-contact-icon">✉</div>
           <div>
             <div class="order-contact-label">이메일 문의</div>
-            <div class="order-contact-val">pcc3@daum.net</div>
+            <div class="order-contact-val">hieugenelee@gmail.com</div>
           </div>
         </a>
       </div>
+    </div>
+
+    <div class="order-form-card">
+      <div class="order-form-head">
+        <h3 class="order-form-title">제품 구매신청 폼</h3>
+        <p class="order-form-sub">현재는 입력 전용 화면입니다. 제출 정보는 저장되지 않으며, 확인 후 DB 스키마를 연동할 예정입니다.</p>
+      </div>
+
+      <form class="order-form" id="orderApplicationForm">
+        <div class="order-form-grid">
+          <label class="order-field">
+            <span class="order-field-label">주문자 이름</span>
+            <input class="order-input" type="text" name="customerName" placeholder="이름을 입력해 주세요" required>
+          </label>
+          <label class="order-field">
+            <span class="order-field-label">소속</span>
+            <input class="order-input" type="text" name="organization" placeholder="기관/업체명을 입력해 주세요" required>
+          </label>
+          <label class="order-field">
+            <span class="order-field-label">연락처</span>
+            <input class="order-input" type="tel" name="phone" placeholder="예: 010-1234-5678" inputmode="tel" required>
+          </label>
+          <label class="order-field">
+            <span class="order-field-label">이메일</span>
+            <input class="order-input" type="email" name="email" placeholder="예: sample@email.com" required>
+          </label>
+          <label class="order-field full">
+            <span class="order-field-label">주문 수량</span>
+            <input class="order-input" id="orderQuantityInput" type="number" name="quantity" min="1" max="9999" step="1" value="1" required>
+            <span class="order-field-note">10개 이상 주문 시 자동으로 10% 할인이 적용됩니다.</span>
+          </label>
+          <label class="order-field full">
+            <span class="order-field-label">요청사항 (선택)</span>
+            <textarea class="order-textarea" name="requestNote" placeholder="납품 일정, 세금계산서 요청사항 등을 입력해 주세요"></textarea>
+          </label>
+        </div>
+
+        <div class="order-calc-box" aria-live="polite">
+          <div class="order-calc-head">
+            <strong class="order-calc-title">예상 금액 자동 계산</strong>
+            <span class="order-discount-badge" id="discountBadge">10% 할인 적용</span>
+          </div>
+          <div class="order-calc-row">
+            <span>공급가 합계</span>
+            <span class="order-calc-value" id="calcSubtotal">별도문의</span>
+          </div>
+          <div class="order-calc-row">
+            <span>할인 금액</span>
+            <span class="order-calc-value" id="calcDiscount">0원</span>
+          </div>
+          <div class="order-calc-row total">
+            <span>할인 후 합계 (VAT 별도)</span>
+            <span class="order-calc-value" id="calcTotal">별도문의</span>
+          </div>
+        </div>
+
+        <label class="order-agree">
+          <input type="checkbox" name="privacyAgree" required>
+          <span>개인정보 수집 및 이용에 동의합니다. (문의 응대 목적)</span>
+        </label>
+
+        <div class="order-form-actions">
+          <button type="submit" class="order-submit-btn">구매신청 내용 확인</button>
+        </div>
+        <p class="order-form-feedback" id="orderFormFeedback" aria-live="polite"></p>
+        <p class="order-submit-hint">입력 폼만 제공되는 단계이며, 실제 접수는 아직 연결되지 않았습니다.</p>
+      </form>
     </div>
   </div>
 </section>
@@ -1193,47 +1663,82 @@
     </div>
 
     <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q"><span class="faq-q-mark">Q.</span>본 도구로 법정 안전검사를 대체할 수 있나요?</div>
+      <details class="faq-item">
+        <summary class="faq-summary">
+          <div class="faq-q"><span class="faq-q-mark">Q.</span>본 도구로 법정 안전검사를 대체할 수 있나요?</div>
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </summary>
         <div class="faq-a">
           아닙니다. 본 제품은 <strong>안전검사기관이 사용하는 검사용 도구가 아닌</strong>,
           관리주체·업체가 현장 안전점검을 수행할 때 사용하는 점검용 도구입니다.
           2년 주기 정기 안전검사는 행안부 지정 안전검사기관에 별도로 의뢰해야 합니다.
         </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q"><span class="faq-q-mark">Q.</span>규격 정확도는 검사기관 장비와 동일한가요?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-summary">
+          <div class="faq-q"><span class="faq-q-mark">Q.</span>규격 정확도는 검사기관 장비와 동일한가요?</div>
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </summary>
         <div class="faq-a">
           8종 측정 도구 모두 안전기준서에 따른 규격을 <strong>±0.1mm 공차</strong>로 정밀 가공합니다.
           측정 원리와 판정 방식은 검사기관 장비와 동일하며, 소재만 HPL로 경량화한 구조입니다.
         </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q"><span class="faq-q-mark">Q.</span>각도계·줄자도 포함되나요?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-summary">
+          <div class="faq-q"><span class="faq-q-mark">Q.</span>각도계·줄자도 포함되나요?</div>
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </summary>
         <div class="faq-a">
           기울기 측정용 각도계와 치수 측정용 줄자는 <strong>별도 구입</strong>이 필요합니다.
           범용 측정 도구로 시중에서 쉽게 구할 수 있습니다.
         </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q"><span class="faq-q-mark">Q.</span>검사대상이 아닌 놀이시설에도 사용할 수 있나요?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-summary">
+          <div class="faq-q"><span class="faq-q-mark">Q.</span>검사대상이 아닌 놀이시설에도 사용할 수 있나요?</div>
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </summary>
         <div class="faq-a">
           네. 법에 따른 검사대상 놀이기구가 아니더라도 <strong>어린이가 접근 가능한 모든 놀이활동 공간</strong>에
           활용할 수 있도록 설계되었습니다. 자체 안전관리 강화 목적으로 권장합니다.
+          우수놀이시설 선정을 위한 시설점검 시 유용합니다.
         </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q"><span class="faq-q-mark">Q.</span>대량 구매 또는 조달 납품이 가능한가요?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-summary">
+          <div class="faq-q"><span class="faq-q-mark">Q.</span>대량 구매 또는 조달 납품이 가능한가요?</div>
+          <span class="faq-toggle" aria-hidden="true">+</span>
+        </summary>
         <div class="faq-a">
           가능합니다. 기관·지자체·점검업체 단위 대량 구매 및 별도 견적·세금계산서 발행을 지원합니다.
-          상세 조건은 02-6959-4647 또는 pcc3@daum.net으로 문의해 주십시오.
+          010-2327-1730 으로 연락주세요.
         </div>
-      </div>
+      </details>
     </div>
   </div>
 </section>
 
 <a href="#order" class="mobile-fab-cta" aria-label="구매 문의 바로가기">구매 문의 바로가기</a>
+
+<div class="contact-modal" id="contactModal" aria-hidden="true">
+  <div class="contact-modal-backdrop js-close-contact-modal"></div>
+  <div class="contact-modal-panel" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+    <button type="button" class="contact-modal-close js-close-contact-modal" aria-label="팝업 닫기">×</button>
+    <h3 class="contact-modal-title" id="contactModalTitle">구매 문의</h3>
+    <p class="contact-modal-sub">아래 연락처로 문의를 남겨주시면 빠르게 안내드리겠습니다.</p>
+    <div class="contact-modal-grid">
+      <a href="tel:010-2327-1730" class="contact-modal-item">
+        <span class="contact-modal-label">전화</span>
+        <span class="contact-modal-value">010-2327-1730</span>
+      </a>
+      <a href="mailto:hieugenelee@gmail.com" class="contact-modal-item">
+        <span class="contact-modal-label">이메일</span>
+        <span class="contact-modal-value">hieugenelee@gmail.com</span>
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════ 푸터 ═══════════ -->
 <footer class="footer">
@@ -1242,15 +1747,105 @@
     <div class="footer-line">
       <span>어린이놀이시설 안전점검 전문기관</span>
       <span class="footer-divider"></span>
-      <span>Tel. 02-6959-4647</span>
+      <span>Tel. 010-2327-1730</span>
       <span class="footer-divider"></span>
-      <span>pcc3@daum.net</span>
+      <span>hieugenelee@gmail.com</span>
     </div>
     <div class="footer-line" style="margin-top: 10px; font-size: 11px;">
       © Korea Institute for Creative Convergence. All rights reserved.
     </div>
   </div>
 </footer>
+
+<script>
+  (function () {
+    const modal = document.getElementById("contactModal");
+    if (modal) {
+      const openButtons = document.querySelectorAll(".js-open-contact-modal");
+      const closeButtons = modal.querySelectorAll(".js-close-contact-modal");
+      let lastFocusedElement = null;
+
+      const openModal = function (trigger) {
+        lastFocusedElement = trigger || document.activeElement;
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        const closeButton = modal.querySelector(".contact-modal-close");
+        if (closeButton) closeButton.focus();
+      };
+
+      const closeModal = function () {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+          lastFocusedElement.focus();
+        }
+      };
+
+      openButtons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          openModal(button);
+        });
+      });
+
+      closeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          closeModal();
+        });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal.classList.contains("is-open")) {
+          closeModal();
+        }
+      });
+    }
+
+    const form = document.getElementById("orderApplicationForm");
+    const quantityInput = document.getElementById("orderQuantityInput");
+    const subtotalEl = document.getElementById("calcSubtotal");
+    const discountEl = document.getElementById("calcDiscount");
+    const totalEl = document.getElementById("calcTotal");
+    const discountBadge = document.getElementById("discountBadge");
+    const formFeedback = document.getElementById("orderFormFeedback");
+
+    if (form && quantityInput && subtotalEl && discountEl && totalEl && discountBadge && formFeedback) {
+      const inquiryText = "별도문의";
+
+      const getNormalizedQuantity = function () {
+        const raw = Number(quantityInput.value);
+        if (!Number.isFinite(raw)) return 1;
+        return Math.min(9999, Math.max(1, Math.floor(raw)));
+      };
+
+      const renderPrice = function () {
+        subtotalEl.textContent = inquiryText;
+        discountEl.textContent = inquiryText;
+        totalEl.textContent = inquiryText;
+        discountBadge.classList.remove("is-visible");
+      };
+
+      quantityInput.addEventListener("input", renderPrice);
+      quantityInput.addEventListener("blur", function () {
+        quantityInput.value = String(getNormalizedQuantity());
+        renderPrice();
+      });
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        formFeedback.textContent = "";
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        formFeedback.textContent = "입력 내용 확인이 완료되었습니다. 현재는 저장 기능 없이 화면 입력만 제공됩니다.";
+      });
+
+      renderPrice();
+    }
+  })();
+</script>
 
 </body>
 </html>
