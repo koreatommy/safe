@@ -19,19 +19,21 @@ function serviceClient() {
   return createClient(url, key);
 }
 
+function missingSupabaseServiceResponse() {
+  const onVercel = Boolean(process.env.VERCEL);
+  const error = onVercel
+    ? "서버에 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다. Vercel → 해당 프로젝트 → Settings → Environment Variables에서 이름 SUPABASE_SERVICE_ROLE_KEY로 Production(필요 시 Preview) 값을 넣고 재배포하세요. 값은 Supabase 대시보드 → Project Settings → API의 service_role 키입니다."
+    : "서버에 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다. .env.local에 service_role 키를 추가한 뒤 개발 서버를 재시작하세요.";
+  return NextResponse.json({ error }, { status: 503 });
+}
+
 export async function GET(request: Request) {
   if (!adminPasswordOk(request)) {
     return NextResponse.json({ error: "인증이 필요합니다." }, { status: 401 });
   }
   const supabase = serviceClient();
   if (!supabase) {
-    return NextResponse.json(
-      {
-        error:
-          "서버에 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다. .env.local에 service_role 키를 추가한 뒤 서버를 재시작하세요.",
-      },
-      { status: 503 }
-    );
+    return missingSupabaseServiceResponse();
   }
 
   const { searchParams } = new URL(request.url);
@@ -54,13 +56,7 @@ export async function PATCH(request: Request) {
   }
   const supabase = serviceClient();
   if (!supabase) {
-    return NextResponse.json(
-      {
-        error:
-          "서버에 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다. .env.local에 service_role 키를 추가한 뒤 서버를 재시작하세요.",
-      },
-      { status: 503 }
-    );
+    return missingSupabaseServiceResponse();
   }
 
   let body: { id?: unknown; status?: unknown };
@@ -90,13 +86,7 @@ export async function DELETE(request: Request) {
   }
   const supabase = serviceClient();
   if (!supabase) {
-    return NextResponse.json(
-      {
-        error:
-          "서버에 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다. .env.local에 service_role 키를 추가한 뒤 서버를 재시작하세요.",
-      },
-      { status: 503 }
-    );
+    return missingSupabaseServiceResponse();
   }
 
   let body: { id?: unknown };
