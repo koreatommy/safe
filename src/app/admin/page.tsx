@@ -8,6 +8,7 @@ import { GlassPanel } from "@/components/glass/GlassPanel";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
 import { ApplicationsTable } from "@/components/admin/ApplicationsTable";
 import { InquiriesTable } from "@/components/admin/InquiriesTable";
+import { ProductOrdersTable } from "@/components/admin/ProductOrdersTable";
 import { AdminSidebar, getMenuMeta } from "@/components/admin/AdminSidebar";
 import type { MenuItemId } from "@/components/admin/AdminSidebar";
 import { isAuthenticated, logout } from "@/lib/auth";
@@ -141,7 +142,8 @@ export default function AdminPage() {
             <GlassPanel className="min-w-0 overflow-hidden">
               {activeMenu === "applications" && <ApplicationsTable />}
               {activeMenu === "inquiries" && <InquiriesTable />}
-              {activeMenu !== "applications" && activeMenu !== "inquiries" && (
+              {activeMenu === "product_orders" && <ProductOrdersTable />}
+              {activeMenu !== "applications" && activeMenu !== "inquiries" && activeMenu !== "product_orders" && (
                 <div className="py-16 text-center text-white/50 text-sm">
                   준비 중인 기능입니다.
                 </div>

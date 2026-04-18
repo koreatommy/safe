@@ -2,10 +2,13 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+<meta name="theme-color" content="#0B1628" />
 <title>놀이시설 안전점검 SaaS · 요금제</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
 <style>
+  html { -webkit-text-size-adjust: 100%; }
   :root {
     --navy:   #0B1628;
     --navy2:  #132040;
@@ -38,7 +41,11 @@
       radial-gradient(ellipse 40% 30% at 50% 50%, rgba(245,158,11,.05) 0%, transparent 60%);
     pointer-events: none;
   }
-  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 0 24px 80px; }
+  .wrap {
+    position: relative; z-index: 1; max-width: 1180px; margin: 0 auto;
+    padding: 0 24px 80px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
 
   /* HEADER */
   header { text-align: center; padding: 72px 0 60px; }
@@ -79,7 +86,6 @@
     padding: 30px 26px 34px; position: relative;
     transition: transform .25s, box-shadow .25s;
   }
-  .plan:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,.45); }
   .plan.featured {
     background: linear-gradient(155deg, #162A4A 0%, #0F2038 100%);
     border-color: var(--teal);
@@ -127,10 +133,12 @@
   }
 
   .plan-cta {
-    display: block; width: 100%; padding: 13px;
+    display: flex; align-items: center; justify-content: center; width: 100%;
+    min-height: 48px; padding: 13px 16px;
     border-radius: 10px; font-size: 14px; font-weight: 700;
     text-align: center; cursor: pointer; border: none;
     transition: all .2s; margin-bottom: 26px; text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
   }
   .plan:not(.featured) .plan-cta { background: var(--card2); color: var(--white); border: 1px solid var(--border); }
   .plan:not(.featured) .plan-cta:hover { background: var(--border); }
@@ -138,7 +146,6 @@
     background: linear-gradient(135deg, var(--teal), var(--sky)); color: #000;
     box-shadow: 0 6px 20px rgba(12,200,176,.35);
   }
-  .plan.featured .plan-cta:hover { box-shadow: 0 8px 28px rgba(12,200,176,.5); transform: translateY(-1px); }
 
   /* FEATURE LIST */
   .divider-label {
@@ -164,8 +171,16 @@
   .section-title { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 8px; }
   .section-sub   { font-size: 13px; color: var(--slate); margin-bottom: 32px; }
 
-  .tier-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-  .tier-table { width: 100%; border-collapse: collapse; }
+  .tier-table-wrap {
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    overflow: hidden;
+  }
+  .tier-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .tier-table { width: 100%; min-width: 520px; border-collapse: collapse; }
   .tier-table th, .tier-table td { padding: 16px 22px; text-align: center; font-size: 14px; border-bottom: 1px solid var(--border); }
   .tier-table th:first-child, .tier-table td:first-child { text-align: left; }
   .tier-table thead tr { background: var(--card2); }
@@ -189,8 +204,8 @@
   /* CALCULATOR */
   .calc-section { margin-bottom: 72px; }
   .calc-box { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 36px 40px; }
-  .calc-top { display: flex; align-items: flex-start; gap: 40px; margin-bottom: 36px; flex-wrap: wrap; }
-  .calc-input-group { flex: 1; min-width: 260px; }
+  .calc-top { margin-bottom: 24px; }
+  .calc-input-group { width: 100%; max-width: 560px; }
   .calc-label { font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 10px; display: block; }
   .calc-input-row { display: flex; align-items: center; gap: 12px; }
   .calc-input {
@@ -219,27 +234,151 @@
   .calc-breakdown .line-total { color: #CBD5E1; font-weight: 700; }
   .calc-unavail { font-size: 12px; color: var(--red); margin-top: 10px; line-height: 1.6; }
 
+  /* QUOTE BOX */
+  .quote-box {
+    margin-top: 32px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; overflow: hidden;
+  }
+  .quote-header {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+    gap: 12px; margin-bottom: 20px;
+  }
+  .quote-title { font-size: 16px; font-weight: 700; color: #fff; }
+  .quote-plan-select { display: flex; gap: 8px; flex-wrap: wrap; }
+  .quote-radio {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--slate); cursor: pointer;
+    padding: 6px 14px; border-radius: 8px;
+    background: var(--navy2); border: 1px solid var(--border);
+    transition: all .2s;
+  }
+  .quote-radio:has(input:checked) {
+    background: rgba(12,200,176,.12); border-color: var(--teal); color: var(--teal);
+  }
+  .quote-radio input { accent-color: var(--teal); width: 14px; height: 14px; }
+
+  .quote-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 20px; }
+  .quote-table { width: 100%; min-width: 400px; border-collapse: collapse; }
+  .quote-table th, .quote-table td {
+    padding: 10px 12px; font-size: 13px; text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .quote-table th { font-size: 11px; font-weight: 700; color: var(--slate); text-transform: uppercase; background: var(--navy2); }
+  .quote-table th:nth-child(2), .quote-table th:nth-child(3), .quote-table th:nth-child(4),
+  .quote-table td:nth-child(2), .quote-table td:nth-child(3), .quote-table td:nth-child(4) { text-align: right; }
+  .quote-table td { color: #CBD5E1; }
+  .quote-table .addon-row td { color: var(--sky); }
+  .quote-table .addon-row.included td { color: var(--slate); }
+
+  .quote-summary {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 16px; background: var(--navy2); border-radius: 10px; margin-bottom: 12px;
+  }
+  .quote-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--slate); }
+  .quote-row span:last-child { font-weight: 600; color: #CBD5E1; }
+  .quote-row.total { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 4px; }
+  .quote-row.total span { font-size: 15px; font-weight: 700; color: var(--teal); }
+  .quote-note { font-size: 11px; color: var(--slate); text-align: center; }
+
+  /* CALC ADD-ONS (입력 아래) */
+  .calc-addon-section {
+    margin-bottom: 28px;
+    padding: 20px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  .calc-addon-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .calc-addon-sub { font-size: 11px; color: var(--slate); margin-bottom: 14px; }
+
+  /* 계산 방식 (플랜 카드 아래) */
+  .calc-formula-panel {
+    margin-top: 24px;
+    margin-bottom: 28px;
+    padding: 18px 22px;
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 2;
+  }
+  .calc-formula-panel .calc-formula-head {
+    color: #CBD5E1;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
   /* ADD-ON */
-  .addon-section { margin-bottom: 72px; }
-  .addon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .addon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .addon-card {
     background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-    padding: 22px 24px; display: flex; align-items: center; gap: 18px;
-    transition: border-color .2s, transform .2s;
+    padding: 20px 20px 20px 16px; display: flex; align-items: center; gap: 14px;
+    transition: border-color .2s, opacity .2s;
+    position: relative;
   }
-  .addon-card:hover { border-color: rgba(12,200,176,.5); transform: translateY(-3px); }
-  .addon-icon { font-size: 26px; flex-shrink: 0; }
-  .addon-info { flex: 1; }
-  .addon-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .addon-desc { font-size: 12px; color: var(--slate); line-height: 1.5; }
+  .addon-card.disabled { opacity: .5; pointer-events: none; }
+  .addon-card.pro-included { opacity: .6; }
+  .addon-card.pro-included::after {
+    content: 'Pro 기본포함';
+    position: absolute; top: 10px; right: 12px;
+    font-size: 9px; font-weight: 700; color: var(--teal);
+    background: rgba(12,200,176,.15); padding: 2px 6px; border-radius: 4px;
+  }
+  .addon-toggle {
+    flex-shrink: 0; position: relative; width: 44px; height: 24px; cursor: pointer;
+  }
+  .addon-toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0; background: var(--navy2); border: 1px solid var(--border);
+    border-radius: 12px; transition: all .2s;
+  }
+  .toggle-slider::before {
+    content: ''; position: absolute; left: 3px; top: 3px;
+    width: 16px; height: 16px; background: var(--slate);
+    border-radius: 50%; transition: all .2s;
+  }
+  .addon-toggle input:checked + .toggle-slider { background: var(--teal); border-color: var(--teal); }
+  .addon-toggle input:checked + .toggle-slider::before { transform: translateX(20px); background: #fff; }
+
+  .addon-qty-wrap {
+    display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+  }
+  .qty-btn {
+    width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 6px;
+    background: var(--navy2); color: var(--slate); font-size: 16px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+  }
+  .qty-btn:hover { background: var(--border); color: #fff; }
+  .addon-qty {
+    width: 42px; height: 28px; text-align: center; border: 1px solid var(--border);
+    border-radius: 6px; background: var(--navy2); color: #fff; font-size: 13px; font-weight: 600;
+  }
+  .addon-qty:focus { outline: none; border-color: var(--teal); }
+
+  .addon-icon { font-size: 24px; flex-shrink: 0; }
+  .addon-info { flex: 1; min-width: 0; }
+  .addon-name { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .addon-desc { font-size: 11px; color: var(--slate); line-height: 1.45; }
   .addon-plan { font-size: 10px; color: var(--sky); margin-top: 4px; }
+  .addon-included { color: var(--teal); font-weight: 600; }
   .addon-price { text-align: right; flex-shrink: 0; }
-  .addon-price .num { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: var(--teal); white-space: nowrap; }
+  .addon-price .num { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 800; color: var(--teal); white-space: nowrap; }
   .addon-price .unit { font-size: 10px; color: var(--slate); }
 
   /* COMPARE TABLE */
   .compare-section { margin-bottom: 72px; }
-  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    border-radius: 16px;
+    margin: 0 -4px;
+    padding: 2px 4px 8px;
+  }
+  .compare-table { width: 100%; min-width: 640px; border-collapse: collapse; }
   .compare-table th, .compare-table td { padding: 14px 18px; text-align: center; font-size: 13px; border-bottom: 1px solid var(--border); }
   .compare-table th:first-child, .compare-table td:first-child { text-align: left; color: #CBD5E1; }
   .compare-table thead th { background: var(--card2); font-size: 12px; font-weight: 700; letter-spacing: .05em; color: var(--slate); text-transform: uppercase; }
@@ -253,9 +392,20 @@
 
   /* FAQ */
   .faq-section { margin-bottom: 64px; }
-  .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer; }
-  .faq-q { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; }
-  .faq-q .arr { font-size: 12px; color: var(--teal); transition: transform .3s; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0 18px 4px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px;
+    font-size: 14px; font-weight: 500;
+    line-height: 1.45;
+  }
+  .faq-q .arr { flex-shrink: 0; font-size: 12px; color: var(--teal); transition: transform .3s; margin-top: 3px; }
   .faq-a { font-size: 13px; color: var(--slate); line-height: 1.7; margin-top: 12px; display: none; }
   .faq-item.open .faq-q .arr { transform: rotate(180deg); }
   .faq-item.open .faq-a { display: block; }
@@ -264,9 +414,100 @@
   footer p { font-size: 12px; color: #334155; }
   footer strong { color: var(--teal); }
 
+  @media (hover: hover) and (pointer: fine) {
+    .plan:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    }
+    .plan.featured .plan-cta:hover {
+      box-shadow: 0 8px 28px rgba(12,200,176,.5);
+      transform: translateY(-1px);
+    }
+    .addon-card:hover {
+      border-color: rgba(12,200,176,.5);
+      transform: translateY(-3px);
+    }
+  }
+
   @media (max-width: 900px) {
-    .plans, .calc-result-grid, .addon-grid { grid-template-columns: 1fr; }
-    .calc-box { padding: 24px 20px; }
+    .wrap { padding-left: 16px; padding-right: 16px; }
+    header { padding: 48px 0 40px; }
+    header p { font-size: 14px; padding: 0 4px; }
+    .pricing-notice {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 16px 18px;
+      margin-bottom: 36px;
+      font-size: 13px;
+    }
+    .pricing-notice .icon { margin-top: 0; }
+    .formula {
+      display: block;
+      width: 100%;
+      font-size: 12px;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    .plans, .calc-result-grid, .addon-grid { grid-template-columns: 1fr; gap: 16px; }
+    .plans { margin-bottom: 48px; }
+    .plan { padding: 24px 18px 28px; border-radius: 16px; }
+    .plan-name { font-size: 20px; }
+    .price-num { font-size: clamp(26px, 8vw, 32px); }
+    .tier-section, .calc-section, .compare-section { margin-bottom: 48px; }
+    .section-title { font-size: 22px; }
+    .section-sub { margin-bottom: 20px; font-size: 13px; }
+    .tier-table th, .tier-table td { padding: 12px 14px; font-size: 13px; }
+    .tier-table thead th { padding: 12px 14px; font-size: 11px; }
+    .tier-note { flex-direction: column; gap: 10px; padding: 14px 16px; }
+    .calc-box { padding: 22px 16px; border-radius: 16px; }
+    .calc-top { margin-bottom: 18px; }
+    .calc-addon-section { padding: 16px; margin-bottom: 22px; }
+    .calc-formula-panel { padding: 14px 16px; font-size: 11px; line-height: 1.85; margin-top: 18px; margin-bottom: 22px; }
+    .calc-input-group { min-width: 0; width: 100%; }
+    .calc-input { min-height: 48px; font-size: 18px; }
+    .calc-slider { height: 28px; }
+    .calc-slider-labels { font-size: 9px; }
+    .calc-total { font-size: 22px; }
+    .addon-card {
+      flex-direction: row; flex-wrap: wrap;
+      padding: 16px;
+      gap: 12px;
+    }
+    .addon-card .addon-toggle,
+    .addon-card .addon-qty-wrap { order: -1; }
+    .addon-card .addon-icon { display: none; }
+    .addon-card .addon-info { flex-basis: 100%; order: 1; }
+    .addon-price { text-align: left; display: flex; align-items: baseline; gap: 6px; }
+    .addon-price .num { font-size: 18px; }
+    .quote-box { padding: 18px; margin-top: 24px; }
+    .calc-addon-title { font-size: 13px; }
+    .quote-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .quote-plan-select { width: 100%; justify-content: space-between; }
+    .quote-radio { flex: 1; justify-content: center; padding: 8px 10px; }
+    .quote-table th, .quote-table td { padding: 8px 10px; font-size: 12px; }
+    .quote-summary { padding: 14px; }
+    .quote-row { font-size: 12px; }
+    .quote-row.total span { font-size: 14px; }
+    .compare-table th, .compare-table td { padding: 11px 10px; font-size: 12px; }
+    .compare-table .cat-row td { padding: 8px 10px; font-size: 10px; }
+    .cp { font-size: 10px; }
+  }
+
+  @media (max-width: 480px) {
+    .badge { font-size: 10px; padding: 5px 12px; letter-spacing: .08em; }
+    .plan-desc { font-size: 11px; }
+    .feature { font-size: 12px; gap: 8px; }
+    .tier-table { min-width: 440px; }
+    .tier-table th, .tier-table td { padding: 10px 10px; font-size: 12px; }
+    .tier-badge { display: block; margin: 6px 0 0; width: fit-content; }
+    .compare-table { min-width: 560px; }
+    .compare-table th, .compare-table td { padding: 9px 8px; font-size: 11px; }
+    .faq-q { font-size: 15px; }
+    .faq-a { font-size: 13px; }
+    .quote-table { min-width: 340px; }
+    .quote-radio { font-size: 12px; padding: 6px 8px; }
+    .addon-name { font-size: 12px; }
+    .addon-desc { font-size: 10px; }
   }
 </style>
 </head>
@@ -276,7 +517,7 @@
 <!-- HEADER -->
 <header>
   <div class="badge">🛝 어린이놀이시설 안전점검 플랫폼</div>
-  <h1>안전한 놀이터를 위한<br>스마트 점검 솔루션</h1>
+  <h1>안전한 놀이터를 위한<br>AI 안전점검 솔루션</h1>
   <p>행정안전부 기준 법적 의무사항 자동 반영 · PDF 보고서 자동 생성<br>현장 점검부터 이력 관리까지, 한 플랫폼에서</p>
 </header>
 
@@ -297,7 +538,7 @@
   <div class="plan">
     <div class="plan-icon">🌱</div>
     <div class="plan-name">Starter</div>
-    <div class="plan-desc">소규모 시설 또는 개인 관리자<br>최대 50개소까지 관리 가능</div>
+    <div class="plan-desc">소규모 시설 또는 개인 관리자 최대 50개소까지 관리 가능</div>
 
     <div class="price-box">
       <div class="price-label">월 기본료</div>
@@ -321,17 +562,18 @@
       <div class="unit-cap">⚠ 최대 50개소까지 관리 가능</div>
     </div>
 
-    <a class="plan-cta" href="#">무료로 시작하기</a>
+    <a class="plan-cta" href="#">Starter 시작하기</a>
 
     <div class="divider-label">기본 기능</div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">시설번호 · 시설명 검색</span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">법적 의무사항 표기<br><small style="color:#64748b">(설치·정기검사, 교육, 보험, 현황)</small></span></div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">월점검 대장 체크리스트</span></div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">PDF 생성 및 프린트</span></div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">안전관리자 등록 <span class="tag-limit">1명</span></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">월점검 대장 직접 입력</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">안전관리자, 위탁점검자 디지털 서명 기능</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">월점검 대장 pdf 생성, 미리보기, 다운로드</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">안전점검자 등록 <span class="tag-limit">1명</span></span></div>
 
     <div class="divider-label">미포함</div>
-    <div class="feature dimmed"><span class="ico n">–</span><span class="txt">사진 첨부 / 직접 위해요인 입력</span></div>
+    <div class="feature dimmed"><span class="ico n">–</span><span class="txt">사진첨부, 기구별 체크리스트 입력</span></div>
     <div class="feature dimmed"><span class="ico n">–</span><span class="txt">수리이력 대장 · 통계 · 서명</span></div>
   </div>
 
@@ -340,7 +582,7 @@
     <div class="popular-tag">⭐ 가장 인기</div>
     <div class="plan-icon">🚀</div>
     <div class="plan-name">Growth</div>
-    <div class="plan-desc">지자체·복지관·학교 등<br>최대 200개소까지 관리 가능</div>
+    <div class="plan-desc">지자체, 교육청, 학교, 유치원, 도시공원 등 최대 200개소까지 관리 기능</div>
 
     <div class="price-box">
       <div class="price-label">월 기본료</div>
@@ -364,13 +606,13 @@
       <div class="unit-cap">⚠ 최대 200개소까지 관리 가능</div>
     </div>
 
-    <a class="plan-cta" href="#">14일 무료 체험</a>
+    <a class="plan-cta" href="#">Growth 시작하기</a>
 
-    <div class="divider-label">Starter 전체 +</div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">체크리스트 <b>또는</b> 직접 위해요인 입력 선택</span></div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">기구별 위해요소 <b>사진 첨부</b></span></div>
+    <div class="divider-label">STARTER 전체 +</div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">체크리스트 또는 직접 위해요인 입력 선택</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">기구별 위해요소 사진 첨부</span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 등록/수정/삭제 <span class="tag-limit">최대 5명</span></span></div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 <b>휴대폰 서명</b></span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 휴대폰 서명</span></div>
 
     <div class="divider-label">선택 부가기능</div>
     <div class="feature"><span class="ico a">+</span><span class="txt">수리이력 관리 대장 <span class="tag-opt">ADD-ON</span></span></div>
@@ -381,7 +623,7 @@
   <div class="plan">
     <div class="plan-icon">🏆</div>
     <div class="plan-name">Pro</div>
-    <div class="plan-desc">전문 위탁점검기관 · 대규모 시설<br>201개소 이상 추가 할인 단가 적용</div>
+    <div class="plan-desc">전문 위탁점검기관 · 대규모 시설 201개소 이상 추가 할인 단가 적용</div>
 
     <div class="price-box">
       <div class="price-label">월 기본료</div>
@@ -414,13 +656,14 @@
 
     <a class="plan-cta" href="#">도입 문의하기</a>
 
-    <div class="divider-label">Growth 전체 +</div>
+    <div class="divider-label">GROWTH 전체 +</div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">수리이력 관리 대장 <b>기본 포함</b><br><small style="color:#64748b">(수리 전·후 사진)</small></span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">월 점검 통계 분석 <b>기본 포함</b></span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 <b>무제한</b> 등록</span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">사진 저장 <b>100GB</b></span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">전담 고객 성공 매니저</span></div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">API 연동 지원 (나라장터 등)</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">API 연동 지원 (행정안전부 등)</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">AI 안전점검 보고 및 지도점검 연계(별도)</span></div>
   </div>
 
 </div><!-- /plans -->
@@ -431,6 +674,7 @@
   <div class="section-sub">기본료 + 개소당 단가(구간별 누진 적용) 구조로 청구됩니다.</div>
 
   <div class="tier-table-wrap">
+    <div class="tier-table-scroll" role="region" aria-label="요금 체계 상세표 (가로 스크롤)">
     <table class="tier-table">
       <thead>
         <tr>
@@ -505,6 +749,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <div class="tier-note">
       <span>구간은 누진 합산 방식 — 50개소까지는 1,000원, 초과분은 800원 · 600원 적용</span>
       <span>Pro 500개소 초과 시 별도 협의 요금 적용</span>
@@ -536,14 +781,77 @@
           <span>1개소</span><span>150개소</span><span>300개소</span><span>450개소</span><span>600개소+</span>
         </div>
       </div>
-      <div style="flex:1;min-width:200px;padding-top:4px;">
-        <div style="font-size:12px;color:var(--slate);line-height:2;">
-          <div style="color:#CBD5E1;font-weight:700;margin-bottom:4px;">🧮 계산 방식</div>
-          <div>기본료 (플랜별 고정)</div>
-          <div>+ 1~50개소 × 1,000원</div>
-          <div style="padding-left:4px;">+ 51~200개소 × 800원 <span style="color:#334155">(Growth·Pro)</span></div>
-          <div style="padding-left:4px;">+ 201~500개소 × 600원 <span style="color:#334155">(Pro 전용)</span></div>
-          <div style="padding-left:4px;">+ 500개소 초과 <span style="color:var(--amber)">→ 별도 문의</span></div>
+    </div>
+
+    <div class="calc-addon-section">
+      <div class="calc-addon-title">부가기능 <span style="color:var(--teal)">Add-ons</span></div>
+      <div class="calc-addon-sub">Growth에서만 선택 가능 · Starter는 부가기능 미적용 · Pro는 수리이력·통계 기본포함</div>
+      <div class="addon-grid">
+        <div class="addon-card" id="addon-repair" data-price="15000" data-type="toggle" data-plans="growth">
+          <label class="addon-toggle">
+            <input type="checkbox" id="chkRepair" onchange="updateQuote()">
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="addon-icon">🔧</div>
+          <div class="addon-info">
+            <div class="addon-name">수리이력 관리 대장</div>
+            <div class="addon-desc">수리 전·후 사진 첨부, 이력 기록 및 PDF 출력</div>
+            <div class="addon-plan">Growth 선택 가능 <span class="addon-included">(Pro 포함)</span></div>
+          </div>
+          <div class="addon-price">
+            <div class="num">₩15,000</div>
+            <div class="unit">/ 월</div>
+          </div>
+        </div>
+        <div class="addon-card" id="addon-stats" data-price="12000" data-type="toggle" data-plans="growth">
+          <label class="addon-toggle">
+            <input type="checkbox" id="chkStats" onchange="updateQuote()">
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="addon-icon">📊</div>
+          <div class="addon-info">
+            <div class="addon-name">월 점검 통계 분석</div>
+            <div class="addon-desc">양호 / 요주의 / 요수리 / 이용금지 대시보드</div>
+            <div class="addon-plan">Growth 선택 가능 <span class="addon-included">(Pro 포함)</span></div>
+          </div>
+          <div class="addon-price">
+            <div class="num">₩12,000</div>
+            <div class="unit">/ 월</div>
+          </div>
+        </div>
+        <div class="addon-card" id="addon-inspector" data-price="3000" data-type="qty" data-plans="growth">
+          <div class="addon-qty-wrap">
+            <button type="button" class="qty-btn" onclick="adjQty('numInspector',-1)">−</button>
+            <input type="number" id="numInspector" class="addon-qty" value="0" min="0" max="50" onchange="updateQuote()" oninput="updateQuote()">
+            <button type="button" class="qty-btn" onclick="adjQty('numInspector',1)">+</button>
+          </div>
+          <div class="addon-icon">👤</div>
+          <div class="addon-info">
+            <div class="addon-name">추가 점검자 등록</div>
+            <div class="addon-desc">Growth 기본 5명 초과 시 1인 단위 추가</div>
+            <div class="addon-plan">Growth 전용 <span class="addon-included">(Pro 무제한)</span></div>
+          </div>
+          <div class="addon-price">
+            <div class="num">₩3,000</div>
+            <div class="unit">/ 인 · 월</div>
+          </div>
+        </div>
+        <div class="addon-card" id="addon-storage" data-price="5000" data-type="qty" data-plans="growth">
+          <div class="addon-qty-wrap">
+            <button type="button" class="qty-btn" onclick="adjQty('numStorage',-1)">−</button>
+            <input type="number" id="numStorage" class="addon-qty" value="0" min="0" max="100" onchange="updateQuote()" oninput="updateQuote()">
+            <button type="button" class="qty-btn" onclick="adjQty('numStorage',1)">+</button>
+          </div>
+          <div class="addon-icon">🗄️</div>
+          <div class="addon-info">
+            <div class="addon-name">사진 저장 용량 추가</div>
+            <div class="addon-desc">기본 제공 용량 초과 시 10GB 단위 추가</div>
+            <div class="addon-plan">Growth 선택 가능</div>
+          </div>
+          <div class="addon-price">
+            <div class="num">₩5,000</div>
+            <div class="unit">/ 10GB · 월</div>
+          </div>
         </div>
       </div>
     </div>
@@ -568,62 +876,45 @@
         <div class="calc-breakdown" id="break-pro"></div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- 부가기능 -->
-<div class="addon-section">
-  <div class="section-title">부가기능 <span style="color:var(--teal)">Add-ons</span></div>
-  <div class="section-sub">Growth 플랜에서 필요한 기능만 선택적으로 추가하세요. Pro 플랜은 모두 기본 포함입니다.</div>
-  <div class="addon-grid">
-    <div class="addon-card">
-      <div class="addon-icon">🔧</div>
-      <div class="addon-info">
-        <div class="addon-name">수리이력 관리 대장</div>
-        <div class="addon-desc">수리 전·후 사진 첨부, 이력 기록 및 PDF 출력<br>기구별 수리 일지 자동 관리</div>
-        <div class="addon-plan">Starter · Growth 플랜에서 추가 가능</div>
-      </div>
-      <div class="addon-price">
-        <div class="num">₩15,000</div>
-        <div class="unit">/ 월</div>
-      </div>
+    <div class="calc-formula-panel" aria-label="월 요금 계산 방식 안내">
+      <div class="calc-formula-head">🧮 계산 방식</div>
+      <div>기본료 (플랜별 고정)</div>
+      <div>+ 1~50개소 × 1,000원</div>
+      <div style="padding-left:4px;">+ 51~200개소 × 800원 <span style="color:#334155">(Growth·Pro)</span></div>
+      <div style="padding-left:4px;">+ 201~500개소 × 600원 <span style="color:#334155">(Pro 전용)</span></div>
+      <div style="padding-left:4px;">+ 500개소 초과 <span style="color:var(--amber)">→ 별도 문의</span></div>
     </div>
-    <div class="addon-card">
-      <div class="addon-icon">📊</div>
-      <div class="addon-info">
-        <div class="addon-name">월 점검 통계 분석</div>
-        <div class="addon-desc">양호 / 요주의 / 요수리 / 이용금지 현황<br>시각화 대시보드 + 월별 트렌드 분석</div>
-        <div class="addon-plan">Starter · Growth 플랜에서 추가 가능</div>
+
+    <!-- 견적서 -->
+    <div class="quote-box" id="quoteBox">
+      <div class="quote-header">
+        <div class="quote-title">📋 월 예상 견적서</div>
+        <div class="quote-plan-select">
+          <label class="quote-radio"><input type="radio" name="quotePlan" value="starter" onchange="updateQuote()"> Starter</label>
+          <label class="quote-radio"><input type="radio" name="quotePlan" value="growth" checked onchange="updateQuote()"> Growth</label>
+          <label class="quote-radio"><input type="radio" name="quotePlan" value="pro" onchange="updateQuote()"> Pro</label>
+        </div>
       </div>
-      <div class="addon-price">
-        <div class="num">₩12,000</div>
-        <div class="unit">/ 월</div>
+      <div class="quote-table-wrap">
+        <table class="quote-table">
+          <thead>
+            <tr><th>품목</th><th>단가</th><th>수량</th><th>소계</th></tr>
+          </thead>
+          <tbody id="quoteBody">
+            <!-- JS로 동적 생성 -->
+          </tbody>
+        </table>
       </div>
+
+      <div class="quote-summary">
+        <div class="quote-row"><span>공급가액</span><span id="quoteSupply">0원</span></div>
+        <div class="quote-row"><span>부가세 (10%)</span><span id="quoteVat">0원</span></div>
+        <div class="quote-row total"><span>합계</span><span id="quoteTotal">0원</span></div>
+      </div>
+      <div class="quote-note">※ 부가세율 10% 가정 · 실제 청구 시 세금계산서 기준 적용</div>
     </div>
-    <div class="addon-card">
-      <div class="addon-icon">👤</div>
-      <div class="addon-info">
-        <div class="addon-name">추가 점검자 등록</div>
-        <div class="addon-desc">Growth 기본 5명 초과 시 1인 단위 추가<br>위탁점검자 · 안전관리자 모두 적용</div>
-        <div class="addon-plan">Growth 플랜에서 추가 가능</div>
-      </div>
-      <div class="addon-price">
-        <div class="num">₩3,000</div>
-        <div class="unit">/ 인 · 월</div>
-      </div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-icon">🗄️</div>
-      <div class="addon-info">
-        <div class="addon-name">사진 저장 용량 추가</div>
-        <div class="addon-desc">기본 제공 용량 초과 시 10GB 단위 추가<br>고화질 현장 사진 장기 보관</div>
-        <div class="addon-plan">Starter · Growth 플랜에서 추가 가능</div>
-      </div>
-      <div class="addon-price">
-        <div class="num">₩5,000</div>
-        <div class="unit">/ 10GB · 월</div>
-      </div>
-    </div>
+
   </div>
 </div>
 
@@ -631,6 +922,7 @@
 <div class="compare-section">
   <div class="section-title">플랜 상세 <span style="color:var(--teal)">비교</span></div>
   <div class="section-sub">요금 구조 및 기능별 포함 여부를 한눈에 확인하세요.</div>
+  <div class="compare-table-wrap" role="region" aria-label="플랜 비교 표 (가로 스크롤)">
   <table class="compare-table">
     <thead>
       <tr>
@@ -691,8 +983,20 @@
 
       <tr class="cat-row"><td colspan="4">📋 점검 대장</td></tr>
       <tr>
-        <td>월점검 체크리스트 방식</td>
+        <td>월점검 대장 직접 입력</td>
         <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>안전관리자·위탁점검자 디지털 서명</td>
+        <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>월점검 대장 PDF 생성·미리보기·다운로드</td>
+        <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
+      </tr>
+      <tr>
+        <td>기구별 체크리스트 입력</td>
+        <td><span class="cx">✗</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
       </tr>
       <tr>
         <td>직접 위해요인 입력 방식</td>
@@ -701,10 +1005,6 @@
       <tr>
         <td>기구별 위해요소 사진 첨부</td>
         <td><span class="cx">✗</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
-      </tr>
-      <tr>
-        <td>월점검 PDF 생성 · 프린트</td>
-        <td><span class="ck">✓</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
       </tr>
 
       <tr class="cat-row"><td colspan="4">🔧 수리이력 관리</td></tr>
@@ -747,11 +1047,12 @@
         <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="ck">✓</span></td>
       </tr>
       <tr>
-        <td>API 연동 (나라장터 등)</td>
+        <td>API 연동 (행정안전부 등)</td>
         <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="ck">✓</span></td>
       </tr>
     </tbody>
   </table>
+  </div>
 </div>
 
 <!-- FAQ -->
@@ -769,11 +1070,11 @@
   </div>
   <div class="faq-item" onclick="this.classList.toggle('open')">
     <div class="faq-q">지자체·공공기관도 이용 가능한가요? <span class="arr">▼</span></div>
-    <div class="faq-a">네, 공공기관 세금계산서 발행 및 나라장터 기관카드 결제를 지원합니다. Pro 플랜에서는 나라장터 API 연동도 가능합니다.</div>
+    <div class="faq-a">네, 공공기관 세금계산서 발행 및 나라장터 기관카드 결제를 지원합니다. Pro 플랜에서는 행정안전부 API 연동도 가능합니다.</div>
   </div>
   <div class="faq-item" onclick="this.classList.toggle('open')">
     <div class="faq-q">행정안전부 안전정보는 자동으로 업데이트되나요? <span class="arr">▼</span></div>
-    <div class="faq-a">네, 행정안전부 어린이놀이시설 안전정보를 주기적으로 연동하여 법적 의무사항 변경 시 자동 반영됩니다. 설치검사·정기검사·안전교육·배상책임보험 가입·현황정보 모두 포함됩니다.</div>
+    <div class="faq-a">네, 행정안전부 어린이놀이시설 안전정보를 주기적으로 연동하여 법적 의무사항 변경 시 요청 또는 1주일 단위로 변경됩니다. 설치검사·정기검사·안전교육·배상책임보험 가입·현황정보 모두 포함됩니다.</div>
   </div>
   <div class="faq-item" onclick="this.classList.toggle('open')">
     <div class="faq-q">중간에 플랜 변경이 가능한가요? <span class="arr">▼</span></div>
@@ -797,6 +1098,13 @@
     pro:     { base: 150000, max: 500 }
   };
 
+  const ADDONS = {
+    repair:    { id: 'chkRepair',     price: 15000, type: 'toggle', name: '수리이력 관리 대장', unit: '월', plans: ['growth'], proIncluded: true },
+    stats:     { id: 'chkStats',      price: 12000, type: 'toggle', name: '월 점검 통계 분석', unit: '월', plans: ['growth'], proIncluded: true },
+    inspector: { id: 'numInspector',  price: 3000,  type: 'qty',    name: '추가 점검자 등록', unit: '인', plans: ['growth'], proIncluded: true },
+    storage:   { id: 'numStorage',    price: 5000,  type: 'qty',    name: '사진 저장 용량 추가 (10GB)', unit: '단위', plans: ['growth'], proIncluded: false }
+  };
+
   function calcCost(plan, cnt) {
     if (cnt > PLANS[plan].max) return null;
 
@@ -808,10 +1116,10 @@
     const total    = PLANS[plan].base + unitCost;
 
     const lines = [];
-    lines.push({ label: '기본료', val: PLANS[plan].base });
-    lines.push({ label: `1~${s1}개소 × 1,000원`, val: s1 * 1000 });
-    if (s2 > 0) lines.push({ label: `51~${50+s2}개소 × 800원`,  val: s2 * 800  });
-    if (s3 > 0) lines.push({ label: `201~${200+s3}개소 × 600원`, val: s3 * 600  });
+    lines.push({ label: '기본료', val: PLANS[plan].base, price: PLANS[plan].base, qty: 1 });
+    lines.push({ label: `1~${s1}개소 × 1,000원`, val: s1 * 1000, price: 1000, qty: s1 });
+    if (s2 > 0) lines.push({ label: `51~${50+s2}개소 × 800원`,  val: s2 * 800, price: 800, qty: s2 });
+    if (s3 > 0) lines.push({ label: `201~${200+s3}개소 × 600원`, val: s3 * 600, price: 600, qty: s3 });
 
     return { total, lines };
   }
@@ -823,14 +1131,11 @@
       const resEl  = document.getElementById('res-' + plan);
       const brkEl  = document.getElementById('break-' + plan);
 
-      // Pro 500개소 초과 → 문의하기
       if (plan === 'pro' && cnt > 500) {
         resEl.textContent = '문의하기';
         resEl.style.fontSize = '20px';
         resEl.style.color = 'var(--amber)';
-        brkEl.innerHTML = `<span style="color:var(--amber);">
-          500개소 초과 시 규모별 맞춤 요금이 적용됩니다.<br>담당자에게 문의해 주세요.
-        </span>`;
+        brkEl.innerHTML = `<span style="color:var(--amber);">500개소 초과 시 규모별 맞춤 요금이 적용됩니다.<br>담당자에게 문의해 주세요.</span>`;
         return;
       }
       resEl.style.color = '';
@@ -838,9 +1143,7 @@
       if (!r) {
         resEl.textContent = '이용 불가';
         resEl.style.fontSize = '17px';
-        brkEl.innerHTML = `<span style="color:var(--red)">
-          현재 ${cnt}개소는 해당 플랜 최대(${PLANS[plan].max}개소)를 초과합니다.
-        </span>`;
+        brkEl.innerHTML = `<span style="color:var(--red)">현재 ${cnt}개소는 해당 플랜 최대(${PLANS[plan].max}개소)를 초과합니다.</span>`;
       } else {
         resEl.textContent = fmt(r.total);
         resEl.style.fontSize = '';
@@ -848,10 +1151,117 @@
           i === 0
             ? `<span class="line-val">${l.label}: ${fmt(l.val)}원</span>`
             : `<span class="line-val">+${l.label}: ${fmt(l.val)}원</span>`
-        ).join('<br>') +
-        `<br><span class="line-total">= ${fmt(r.total)}원 / 월</span>`;
+        ).join('<br>') + `<br><span class="line-total">= ${fmt(r.total)}원 / 월</span>`;
       }
     });
+    updateQuote();
+  }
+
+  function getSelectedPlan() {
+    const radios = document.querySelectorAll('input[name="quotePlan"]');
+    for (const r of radios) if (r.checked) return r.value;
+    return 'growth';
+  }
+
+  function updateQuote() {
+    const plan = getSelectedPlan();
+    const cnt = Math.max(1, parseInt(document.getElementById('facilityInput').value) || 1);
+    const body = document.getElementById('quoteBody');
+    const supplyEl = document.getElementById('quoteSupply');
+    const vatEl = document.getElementById('quoteVat');
+    const totalEl = document.getElementById('quoteTotal');
+
+    let rows = [];
+    let supply = 0;
+
+    const r = calcCost(plan, cnt);
+    if (!r) {
+      body.innerHTML = `<tr><td colspan="4" style="color:var(--red);text-align:center;padding:20px;">선택한 플랜(${plan.toUpperCase()})은 ${cnt}개소를 지원하지 않습니다.</td></tr>`;
+      supplyEl.textContent = '—';
+      vatEl.textContent = '—';
+      totalEl.textContent = '—';
+      updateAddonStates(plan);
+      return;
+    }
+
+    r.lines.forEach(l => {
+      rows.push(`<tr><td>${l.label}</td><td>${fmt(l.price)}원</td><td>${l.qty}</td><td>${fmt(l.val)}원</td></tr>`);
+      supply += l.val;
+    });
+
+    Object.entries(ADDONS).forEach(([key, addon]) => {
+      const el = document.getElementById(addon.id);
+      if (!el) return;
+
+      let addonQty = 0;
+      let addonTotal = 0;
+
+      if (plan === 'pro' && addon.proIncluded) {
+        if (addon.type === 'toggle') {
+          rows.push(`<tr class="addon-row included"><td>${addon.name}</td><td colspan="2" style="color:var(--teal)">기본 포함</td><td>0원</td></tr>`);
+        }
+      } else if (addon.plans.includes(plan)) {
+        if (addon.type === 'toggle' && el.checked) {
+          addonQty = 1;
+          addonTotal = addon.price;
+        } else if (addon.type === 'qty') {
+          addonQty = Math.max(0, parseInt(el.value) || 0);
+          addonTotal = addon.price * addonQty;
+        }
+        if (addonQty > 0) {
+          rows.push(`<tr class="addon-row"><td>${addon.name}</td><td>${fmt(addon.price)}원/${addon.unit}</td><td>${addonQty}</td><td>${fmt(addonTotal)}원</td></tr>`);
+          supply += addonTotal;
+        }
+      }
+    });
+
+    body.innerHTML = rows.join('');
+
+    const vat = Math.round(supply * 0.1);
+    const total = supply + vat;
+
+    supplyEl.textContent = fmt(supply) + '원';
+    vatEl.textContent = fmt(vat) + '원';
+    totalEl.textContent = fmt(total) + '원';
+
+    updateAddonStates(plan);
+  }
+
+  function updateAddonStates(plan) {
+    Object.entries(ADDONS).forEach(([key, addon]) => {
+      const card = document.getElementById('addon-' + key);
+      const el = document.getElementById(addon.id);
+      if (!card || !el) return;
+
+      const isProIncluded = plan === 'pro' && addon.proIncluded;
+      const isAvailable = plan === 'starter' ? false : addon.plans.includes(plan);
+
+      if (isProIncluded) {
+        card.classList.add('disabled', 'pro-included');
+        el.disabled = true;
+        if (addon.type === 'toggle') el.checked = false;
+        if (addon.type === 'qty') el.value = 0;
+      } else if (!isAvailable) {
+        card.classList.add('disabled');
+        card.classList.remove('pro-included');
+        el.disabled = true;
+        if (addon.type === 'toggle') el.checked = false;
+        if (addon.type === 'qty') el.value = 0;
+      } else {
+        card.classList.remove('disabled', 'pro-included');
+        el.disabled = false;
+      }
+    });
+  }
+
+  function adjQty(id, delta) {
+    const el = document.getElementById(id);
+    if (!el || el.disabled) return;
+    const min = parseInt(el.min) || 0;
+    const max = parseInt(el.max) || 999;
+    let v = Math.max(min, Math.min(max, (parseInt(el.value) || 0) + delta));
+    el.value = v;
+    updateQuote();
   }
 
   function syncSlider(v) {

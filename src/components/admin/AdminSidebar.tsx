@@ -5,7 +5,7 @@ import {
   LayoutDashboard, ClipboardList, Search, CheckSquare,
   FileText, Settings, ChevronDown, Users, MessageSquare,
   CalendarDays, FolderOpen, Building2, MonitorCheck,
-  FileCheck, CheckCircle, GanttChart, Camera, X,
+  FileCheck, CheckCircle, GanttChart, Camera, X, ShoppingBag,
 } from "lucide-react";
 
 export type MenuItemId =
@@ -15,7 +15,7 @@ export type MenuItemId =
   | "result-check" | "result-gantt" | "result-photo"
   | "final-report"
   | "settings"
-  | "applications" | "inquiries";
+  | "applications" | "inquiries" | "product_orders";
 
 interface SubMenuItem {
   id: MenuItemId;
@@ -91,6 +91,7 @@ const menuSections: MenuSection[] = [
     children: [
       { id: "applications", label: "교육신청자 접수현황" },
       { id: "inquiries", label: "문의사항 현황" },
+      { id: "product_orders", label: "제품 구매신청" },
     ],
   },
 ];
@@ -263,6 +264,7 @@ export function getMenuMeta(id: MenuItemId): { label: string; description: strin
     "settings": { label: "설정 관리", description: "시스템 설정을 관리하세요", icon: <Settings className="w-5 h-5" /> },
     "applications": { label: "교육신청자 접수현황", description: "교육 신청자 목록을 확인하고 관리하세요", icon: <Users className="w-5 h-5" /> },
     "inquiries": { label: "문의사항 현황", description: "문의사항 목록을 확인하고 관리하세요", icon: <MessageSquare className="w-5 h-5" /> },
+    "product_orders": { label: "제품 구매신청", description: "안전점검 도구 구매 신청 접수를 확인하세요", icon: <ShoppingBag className="w-5 h-5" /> },
   };
   return map[id];
 }
