@@ -2,12 +2,14 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { unstable_noStore as noStore } from "next/cache";
 
-const IMAGE_CONTENT_TYPE_BY_EXT: Record<string, string> = {
+const ASSET_CONTENT_TYPE_BY_EXT: Record<string, string> = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".webp": "image/webp",
   ".gif": "image/gif",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
 };
 
 export const dynamic = "force-dynamic";
@@ -19,7 +21,7 @@ export async function GET(
   noStore();
   const { asset } = await params;
   const ext = path.extname(asset).toLowerCase();
-  const contentType = IMAGE_CONTENT_TYPE_BY_EXT[ext];
+  const contentType = ASSET_CONTENT_TYPE_BY_EXT[ext];
 
   if (!contentType) {
     return new Response("Unsupported asset type", { status: 400 });

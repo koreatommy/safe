@@ -146,3 +146,65 @@ export function useProductOrdersAdmin() {
     deleteOrder,
   };
 }
+
+/** 견적서 미리보기·발송 — `/api/admin/send-quote` */
+export type AdminSendQuoteBody = {
+  orderId: string;
+  quantity: number;
+  unitPrice: number;
+  quoteTitle?: string;
+  itemName?: string;
+  itemDetails?: string;
+  setProcessing?: boolean;
+  preview?: boolean;
+  /** false면 부가세 0원·합계는 공급가만 */
+  includeVat?: boolean;
+};
+
+export type AdminSendQuoteResult =
+  | {
+      ok: true;
+      html?: string;
+      grandTotal?: number;
+      supplySum?: number;
+      vatSum?: number;
+      sentTo?: string;
+    }
+  | { ok: false; error: string };
+
+export async function postAdminQuoteEmail(
+  password: string,
+  body: AdminSendQuoteBody,
+): Promise<AdminSendQuoteResult> {
+  try {
+    const res = await fetch("/api/admin/send-quote", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-password": password,
+      },
+      body: JSON.stringify(body),
+    });
+    const data = (await res.json().catch(() => ({}))) as {
+      error?: string;
+      html?: string;
+      grandTotal?: number;
+      supplySum?: number;
+      vatSum?: number;
+      sentTo?: string;
+    };
+    if (!res.ok) {
+      return { ok: false, error: typeof data.error === "string" ? data.error : "요청에 실패했습니다." };
+    }
+    return {
+      ok: true,
+      html: data.html,
+      grandTotal: data.grandTotal,
+      supplySum: data.supplySum,
+      vatSum: data.vatSum,
+      sentTo: data.sentTo,
+    };
+  } catch {
+    return { ok: false, error: "네트워크 오류가 발생했습니다." };
+  }
+}

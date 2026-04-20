@@ -214,10 +214,12 @@
     background: linear-gradient(135deg, #F8F5EF, #EFE9DE);
     aspect-ratio: 4 / 3;
   }
-  .hero-img-wrap img {
+  .hero-img-wrap img,
+  .hero-img-wrap video {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center;
+    display: block;
   }
   .hero-tag {
     position: absolute;
@@ -393,31 +395,30 @@
     margin-top: 32px;
   }
   .categories-img-wrap img { border-radius: 8px; }
-  .categories-legend {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+  .categories-photo-gallery {
     margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
-  .cat-item {
-    text-align: center;
-    padding: 16px 12px;
-    border: 1px solid var(--line);
+  .categories-photo-item {
+    position: relative;
+    overflow: hidden;
     border-radius: var(--radius);
+    border: 1px solid var(--line);
     background: white;
-    transition: transform .2s, box-shadow .2s, border-color .2s;
+    box-shadow: var(--shadow-sm);
+    aspect-ratio: 4 / 3;
   }
-  .cat-item:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow-sm); }
-  .cat-icon {
-    width: 36px; height: 36px; margin: 0 auto 10px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #F8FAF5, #E8F1E0);
-    color: var(--safe);
-    font-size: 16px;
+  .categories-photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
   }
-  .cat-name { font-size: 13.5px; font-weight: 700; color: var(--ink); }
-  .cat-desc { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  .categories-photo-item:hover img {
+    transform: scale(1.04);
+  }
 
   /* ────────── 구성품 섹션 ────────── */
   .kit-section { background: #0E1A2B; color: white; }
@@ -1246,8 +1247,7 @@
     .section-sub { font-size: 14.5px; line-height: 1.65; }
     .law-grid, .compare-grid, .portable-grid { grid-template-columns: 1fr; }
     .kit-grid, .users-grid { grid-template-columns: 1fr; }
-    .categories-legend { grid-template-columns: repeat(2, 1fr); }
-    .cat-item { padding: 14px 10px; }
+    .categories-photo-gallery { grid-template-columns: 1fr; }
     .kit-card, .law-card, .user-card { padding: 20px 18px; }
     .portable-feature { padding: 18px 18px; }
     .order-price-block { flex-direction: column; align-items: flex-start; }
@@ -1270,7 +1270,6 @@
     .brand-sub { display: none; }
     .brand-mark { width: 24px; height: 24px; font-size: 11px; }
     .spec-row { grid-template-columns: 1fr; gap: 10px; }
-    .categories-legend { grid-template-columns: 1fr; }
     .topbar-cta { padding: 8px 12px; font-size: 12px; }
     .topbar-cta span:first-child { display: none; }
     .hero h1 { font-size: 28px; line-height: 1.25; margin-bottom: 12px; }
@@ -1394,7 +1393,14 @@
         <span class="hero-tag-dot"></span>
         정식 공급 중
       </div>
-      <img src="/inspect_tool/product_main.png" alt="놀이시설 안전점검 도구 전체 구성품 - HPL 소재 컬러 측정 도구 세트">
+      <video
+        src="/inspect_tool/ins.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-label="놀이시설 안전점검 도구 전체 구성품 - HPL 소재 컬러 측정 도구 세트"
+      ></video>
       <div class="hero-image-note">1set 8종 구성으로 3set 구입시 사진 입니다</div>
     </div>
   </div>
@@ -1500,46 +1506,18 @@
       <img src="/inspect_tool/inspection_categories.png" alt="8가지 점검 카테고리 - 시설일반, 고정상태, 작동상태, 손상상태, 마감상태, 마모상태, 얽매임상태, 바닥상태">
     </div>
 
-    <div class="categories-legend">
-      <div class="cat-item">
-        <div class="cat-icon">🏞</div>
-        <div class="cat-name">시설 일반</div>
-        <div class="cat-desc">전반 환경</div>
+    <div class="categories-photo-gallery" aria-label="점검 도구 포토 갤러리">
+      <div class="categories-photo-item">
+        <img src="/inspect_tool/ss1.jpeg" alt="놀이시설 구조물에서 점검 도구를 활용하는 모습 1">
       </div>
-      <div class="cat-item">
-        <div class="cat-icon">⚓</div>
-        <div class="cat-name">고정 상태</div>
-        <div class="cat-desc">결합부 체결</div>
+      <div class="categories-photo-item">
+        <img src="/inspect_tool/ss2.jpeg" alt="로프 구조물에서 점검 도구를 활용하는 모습 2">
       </div>
-      <div class="cat-item">
-        <div class="cat-icon">⚙</div>
-        <div class="cat-name">작동 상태</div>
-        <div class="cat-desc">구동부 점검</div>
+      <div class="categories-photo-item">
+        <img src="/inspect_tool/ss3.jpeg" alt="그물 놀이시설에서 점검 도구를 활용하는 모습 3">
       </div>
-      <div class="cat-item">
-        <div class="cat-icon">💥</div>
-        <div class="cat-name">손상 상태</div>
-        <div class="cat-desc">균열·파손</div>
-      </div>
-      <div class="cat-item">
-        <div class="cat-icon">🪵</div>
-        <div class="cat-name">마감 상태</div>
-        <div class="cat-desc">표면 처리</div>
-      </div>
-      <div class="cat-item">
-        <div class="cat-icon">⚡</div>
-        <div class="cat-name">마모 상태</div>
-        <div class="cat-desc">사용 마모도</div>
-      </div>
-      <div class="cat-item">
-        <div class="cat-icon">🔗</div>
-        <div class="cat-name">얽매임 상태</div>
-        <div class="cat-desc">개구부·끼임</div>
-      </div>
-      <div class="cat-item">
-        <div class="cat-icon">🟫</div>
-        <div class="cat-name">바닥 상태</div>
-        <div class="cat-desc">충격 흡수재</div>
+      <div class="categories-photo-item">
+        <img src="/inspect_tool/ss4.jpeg" alt="원형 구조물에서 점검 도구를 활용하는 모습 4">
       </div>
     </div>
   </div>
