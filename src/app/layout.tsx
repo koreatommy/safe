@@ -33,11 +33,9 @@ export const metadata: Metadata = {
 
 type LayoutProps = Readonly<{
   children: React.ReactNode;
-  params?: Promise<Record<string, string | string[]>>;
 }>;
 
-export default async function RootLayout({ children, params }: LayoutProps) {
-  await params;
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="ko">
       <body
