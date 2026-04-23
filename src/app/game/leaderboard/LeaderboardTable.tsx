@@ -48,7 +48,7 @@ export default function LeaderboardTable() {
         `)
         .order('total_score', { ascending: false })
         .order('total_time_ms', { ascending: true })
-        .order('submitted_at', { ascending: true });
+        .order('submission_rank', { ascending: true });
 
       if (fetchError) throw fetchError;
 
@@ -107,6 +107,20 @@ export default function LeaderboardTable() {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
+  };
+
+  const formatSubmittedAt = (value: string) => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return '-';
+    }
+
+    return date.toLocaleTimeString('ko-KR', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
   };
 
   const getRankStyle = (rank: number) => {
@@ -231,6 +245,9 @@ export default function LeaderboardTable() {
                   #{entry.submissionRank}
                 </span>
               </div>
+              <div className="mt-2 text-xs text-black/80">
+                참여자 제출시간: {formatSubmittedAt(entry.submittedAt)}
+              </div>
             </div>
           );
         })}
@@ -247,6 +264,7 @@ export default function LeaderboardTable() {
               <th className="px-3 lg:px-4 py-3 text-center text-sm font-bold text-black">점수</th>
               <th className="px-3 lg:px-4 py-3 text-center text-sm font-bold text-black">정답</th>
               <th className="px-3 lg:px-4 py-3 text-center text-sm font-bold text-black">소요시간</th>
+              <th className="px-3 lg:px-4 py-3 text-center text-sm font-bold text-black">참여자 제출시간</th>
               <th className="px-3 lg:px-4 py-3 text-center text-sm font-bold text-black">제출순서</th>
             </tr>
           </thead>
@@ -289,6 +307,9 @@ export default function LeaderboardTable() {
                   </td>
                   <td className="px-3 lg:px-4 py-3 lg:py-4 text-center">
                     <span className="text-black font-mono text-sm">{formatTime(entry.totalTimeMs)}</span>
+                  </td>
+                  <td className="px-3 lg:px-4 py-3 lg:py-4 text-center">
+                    <span className="text-black font-mono text-sm">{formatSubmittedAt(entry.submittedAt)}</span>
                   </td>
                   <td className="px-3 lg:px-4 py-3 lg:py-4 text-center">
                     <span className="px-2 py-1 bg-yellow-300 text-black rounded-full text-xs sm:text-sm font-medium">

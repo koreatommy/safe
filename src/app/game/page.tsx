@@ -47,6 +47,8 @@ export default function GamePage() {
           </h1>
           
           <p className="text-white text-base sm:text-lg max-w-md mx-auto leading-relaxed">
+            오늘 강의는 도움이 되셨나요?
+            <br />
             대전교육청 어린이놀이시설 안전관리 실무 능력을
             <span className="hidden sm:inline"><br /></span>
             <span className="sm:hidden"> </span>
@@ -71,7 +73,7 @@ export default function GamePage() {
                 </li>
                 <li className="flex items-start gap-2.5 sm:gap-3">
                   <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-yellow-300 rounded-full flex items-center justify-center text-black font-bold text-xs sm:text-sm" aria-hidden="true">3</span>
-                  <span>제출 순서에 따라 순위가 결정됩니다</span>
+                  <span>순위: 점수 높은 순 &gt; 시간 빠른 순 &gt; 제출 빠른 순</span>
                 </li>
                 <li className="flex items-start gap-2.5 sm:gap-3">
                   <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-yellow-300 rounded-full flex items-center justify-center text-black font-bold text-xs sm:text-sm" aria-hidden="true">4</span>
