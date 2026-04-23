@@ -60,11 +60,12 @@
   }
 
   .avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: var(--dark-card);
-    border: 2px solid rgba(255,255,255,0.08);
+    width: 108px;
+    height: 108px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,6 +75,14 @@
     font-weight: 700;
     color: var(--orange);
     letter-spacing: -1px;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
 
   .name {
@@ -224,7 +233,9 @@
   <div class="top-bar"></div>
 
   <div class="header">
-    <div class="avatar">YJ</div>
+    <div class="avatar">
+      <img src="/card/qr-code-dark.png" alt="QR 코드" />
+    </div>
     <div class="name">이유진</div>
     <div class="title-line">창의융합연구원 <span class="role">원장</span></div>
     <div class="divider"></div>
