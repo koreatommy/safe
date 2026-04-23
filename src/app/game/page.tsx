@@ -54,6 +54,9 @@ export default function GamePage() {
             <span className="sm:hidden"> </span>
             10문항으로 테스트해보세요!
           </p>
+          <p className="text-yellow-300 text-sm sm:text-base max-w-md mx-auto mt-3">
+            강사의 지시전까지는 참가자 등록 불가
+          </p>
           </motion.header>
 
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-start max-w-5xl mx-auto">
