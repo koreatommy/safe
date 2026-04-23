@@ -1,6 +1,7 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 let supabaseClient: SupabaseClient | null = null;
+let gameSupabaseClient: SupabaseClient | null = null;
 
 function extractProjectId(url: string): string | null {
   try {
@@ -46,6 +47,20 @@ export function getSupabaseClient(): SupabaseClient {
     supabaseClient = createSupabaseClient();
   }
   return supabaseClient;
+}
+
+export function getGameSupabaseClient(): SupabaseClient {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+
+  if (typeof window === 'undefined') {
+    return createClient(supabaseUrl, supabaseAnonKey, { db: { schema: 'game' } });
+  }
+
+  if (!gameSupabaseClient) {
+    gameSupabaseClient = createClient(supabaseUrl, supabaseAnonKey, { db: { schema: 'game' } });
+  }
+  return gameSupabaseClient;
 }
 
 // 클라이언트 사이드에서만 실제 클라이언트 사용, 서버 사이드에서는 더미 클라이언트

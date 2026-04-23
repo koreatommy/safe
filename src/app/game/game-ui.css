@@ -1,0 +1,283 @@
+/* Game UI Scoped Styles */
+/* Override global h1-h6 font-weight: 300 and clamp sizes within game scope */
+
+[data-game] {
+  /* Design Tokens */
+  --game-primary: #16a34a;
+  --game-primary-light: #22c55e;
+  --game-primary-dark: #15803d;
+  --game-accent: #f59e0b;
+  --game-accent-light: #fbbf24;
+  --game-surface: rgba(255, 255, 255, 0.52);
+  --game-surface-hover: rgba(255, 255, 255, 0.68);
+  --game-glass-border: rgba(255, 255, 255, 0.32);
+  --game-radius-sm: 0.5rem;
+  --game-radius: 0.75rem;
+  --game-radius-lg: 1rem;
+  --game-radius-xl: 1.5rem;
+  --game-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --game-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --game-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography Reset - Override global clamp/font-weight */
+[data-game] h1,
+[data-game] h2,
+[data-game] h3,
+[data-game] h4,
+[data-game] h5,
+[data-game] h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+[data-game] h1 {
+  font-size: 1.875rem; /* 30px base */
+}
+
+[data-game] h2 {
+  font-size: 1.5rem; /* 24px base */
+}
+
+[data-game] h3 {
+  font-size: 1.25rem; /* 20px base */
+}
+
+/* Quiz question title should be smaller than generic h2 scale */
+[data-game] .game-question-title {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+[data-game] p {
+  font-size: 1rem;
+  line-height: 1.625;
+}
+
+/* Responsive Typography */
+@media (min-width: 640px) {
+  [data-game] h1 {
+    font-size: 2.25rem; /* 36px */
+  }
+  [data-game] h2 {
+    font-size: 1.875rem; /* 30px */
+  }
+  [data-game] h3 {
+    font-size: 1.5rem; /* 24px */
+  }
+
+  [data-game] .game-question-title {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  [data-game] h1 {
+    font-size: 3rem; /* 48px */
+  }
+  [data-game] h2 {
+    font-size: 2.25rem; /* 36px */
+  }
+  [data-game] h3 {
+    font-size: 1.875rem; /* 30px */
+  }
+
+  [data-game] .game-question-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Card Component — frosted glass so video/gradient shows through slightly */
+[data-game] .game-card {
+  background: var(--game-surface);
+  border: 1px solid var(--game-glass-border);
+  border-radius: var(--game-radius-xl);
+  box-shadow: var(--game-shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 1.5rem;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+[data-game] .game-card:hover {
+  border-color: rgba(74, 222, 128, 0.75);
+  box-shadow:
+    var(--game-shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 0 0 1px rgba(52, 211, 153, 0.55),
+    0 0 24px rgba(34, 197, 94, 0.65),
+    0 0 48px rgba(34, 197, 94, 0.4),
+    0 0 80px rgba(16, 185, 129, 0.28);
+}
+
+@media (min-width: 768px) {
+  [data-game] .game-card {
+    padding: 2rem;
+  }
+}
+
+/* Landing promo panel — amber/yellow neon on hover */
+[data-game] .game-card-promo {
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+[data-game] .game-card-promo:hover {
+  border-color: rgba(253, 224, 71, 0.7);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(252, 211, 77, 0.55),
+    0 0 26px rgba(250, 204, 21, 0.65),
+    0 0 52px rgba(245, 158, 11, 0.42),
+    0 0 88px rgba(234, 179, 8, 0.25);
+}
+
+/* Button Base */
+[data-game] .game-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: var(--game-radius-lg);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+[data-game] .game-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+[data-game] .game-btn-primary {
+  background: linear-gradient(to right, var(--game-primary), var(--game-primary-light));
+  color: white;
+  box-shadow: var(--game-shadow);
+}
+
+[data-game] .game-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(to right, var(--game-primary-dark), var(--game-primary));
+  box-shadow: var(--game-shadow-lg);
+}
+
+[data-game] .game-btn-secondary {
+  background: rgba(243, 244, 246, 0.48);
+  color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.3s ease;
+}
+
+[data-game] .game-btn-secondary:hover:not(:disabled) {
+  background: rgba(229, 231, 235, 0.62);
+  border-color: rgba(74, 222, 128, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    0 0 0 1px rgba(52, 211, 153, 0.35),
+    0 0 20px rgba(34, 197, 94, 0.55),
+    0 0 44px rgba(34, 197, 94, 0.25);
+}
+
+/* Input Fields */
+[data-game] .game-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--game-radius);
+  border: 1px solid rgba(209, 213, 219, 0.85);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+[data-game] .game-input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+[data-game] .game-input:focus {
+  outline: none;
+  border-color: var(--game-primary);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+[data-game] .game-input[aria-invalid="true"] {
+  border-color: #ef4444;
+}
+
+[data-game] .game-input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+/* Badge */
+[data-game] .game-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 9999px;
+}
+
+/* Progress Bar */
+[data-game] .game-progress {
+  width: 100%;
+  height: 0.5rem;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+[data-game] .game-progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, var(--game-primary), var(--game-primary-light));
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-game] *,
+  [data-game] *::before,
+  [data-game] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus Visible - Consistent focus ring */
+[data-game] :focus-visible {
+  outline: 2px solid var(--game-primary);
+  outline-offset: 2px;
+}
+
+[data-game] button:focus-visible,
+[data-game] a:focus-visible,
+[data-game] input:focus-visible {
+  outline: 2px solid var(--game-primary);
+  outline-offset: 2px;
+}
+
+/* Touch Target Minimum */
+[data-game] button,
+[data-game] a,
+[data-game] [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Small interactive elements exception */
+[data-game] .game-touch-sm {
+  min-height: 36px;
+  min-width: 36px;
+}
