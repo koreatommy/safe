@@ -2,12 +2,14 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useState } from 'react';
 import GameRegistrationForm from './GameRegistrationForm';
 import GameLandingVideoBackground from './components/GameLandingVideoBackground';
 import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
 
 export default function GamePage() {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
   const fadeIn = prefersReducedMotion
     ? {}
@@ -47,8 +49,6 @@ export default function GamePage() {
           </h1>
           
           <p className="text-white text-base sm:text-lg max-w-md mx-auto leading-relaxed">
-            오늘 강의는 도움이 되셨나요?
-            <br />
             대전교육청 어린이놀이시설 안전관리 실무 능력을
             <span className="hidden sm:inline"><br /></span>
             <span className="sm:hidden"> </span>
@@ -90,6 +90,24 @@ export default function GamePage() {
                 같은 점수일 경우 빨리 제출한 참가자가 더 높은 순위를 얻습니다.
                 신속하고 정확하게 풀어보세요!
               </p>
+              <div className="mt-4 text-center">
+                <p className="text-yellow-400 text-xs sm:text-sm font-bold mb-2">
+                  모바일 접속은 아래 QR 코드를 이용해 주세요.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsQrModalOpen(true)}
+                  className="inline-block mx-auto rounded-lg overflow-hidden ring-1 ring-black/10 hover:ring-yellow-500 transition"
+                  aria-label="QR 코드 크게 보기"
+                >
+                  <img
+                    src="/safeplay_qr.png"
+                    alt="모바일 접속 링크 QR 코드"
+                    className="w-28 h-28 sm:w-32 sm:h-32 object-cover bg-white"
+                    loading="lazy"
+                  />
+                </button>
+              </div>
             </div>
 
             <Link
@@ -110,6 +128,35 @@ export default function GamePage() {
           <p className="text-white/50 text-xs sm:text-sm">© 한국창의융합연구원</p>
         </footer>
       </div>
+
+      {isQrModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="QR 코드 확대 보기"
+          onClick={() => setIsQrModalOpen(false)}
+        >
+          <div
+            className="relative bg-white rounded-xl p-3 sm:p-4 max-w-[90vw] max-h-[90vh]"
+            onClick={event => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setIsQrModalOpen(false)}
+              className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-black text-white text-sm hover:bg-neutral-800"
+              aria-label="QR 코드 확대 보기 닫기"
+            >
+              ✕
+            </button>
+            <img
+              src="/safeplay_qr.png"
+              alt="모바일 접속 링크 QR 코드 확대 이미지"
+              className="w-[320px] max-w-[80vw] h-auto"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

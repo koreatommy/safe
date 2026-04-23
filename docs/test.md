@@ -81,3 +81,61 @@ complete.mp3 - 게임 완료 팡파레
 결과 페이지: 점수별 폭죽 효과, 도넛 차트, 문제별 상세 결과
 순위보드: 실시간 갱신, 점수/시간/제출순서 정렬
 관리자: 통계, 참가자 목록, 문제별 정답률 차트, CSV 내보내기, 게임 초기화
+
+
+`/game` 기능은 Supabase의 **`game` 스키마**를 사용합니다 (`db: { schema: 'game' }`).
+
+## 사용 중인 테이블
+
+- `game.participants` (참가자)
+  - `id` UUID PK, default `gen_random_uuid()`
+  - `school_name` TEXT NOT NULL
+  - `name` TEXT NOT NULL
+  - `email` TEXT NOT NULL UNIQUE
+  - `created_at` TIMESTAMPTZ default `now()`
+
+- `game.results` (퀴즈 결과)
+  - `id` UUID PK
+  - `participant_id` UUID FK → `game.participants(id)` (`ON DELETE CASCADE`)
+  - `total_score` INT NOT NULL
+  - `correct_count` INT NOT NULL
+  - `total_time_ms` INT NOT NULL
+  - `submitted_at` TIMESTAMPTZ default `now()`
+  - `submission_rank` INT
+
+- `game.answers` (문항별 답안)
+  - `id` UUID PK
+  - `result_id` UUID FK → `game.results(id)` (`ON DELETE CASCADE`)
+  - `question_number` INT NOT NULL
+  - `selected_answer` TEXT NOT NULL
+  - `is_correct` BOOLEAN NOT NULL
+  - `time_spent_ms` INT NOT NULL
+
+## 관계 요약
+
+- 참가자 1명(`participants`) → 결과 1개 이상(`results`)
+- 결과 1개(`results`) → 답안 여러 개(`answers`)
+- `CASCADE`라 참가자/결과 삭제 시 하위 데이터도 함께 삭제됩니다.
+
+## 인덱스
+
+- `game.results(participant_id)`
+- `game.results(submitted_at)`
+- `game.results(total_score DESC)`
+- `game.answers(result_id)`
+
+## RLS 정책(현재 구성)
+
+- 세 테이블 모두 RLS 활성화
+- `SELECT`, `INSERT`는 `Anyone can ...` 정책으로 허용
+- `DELETE`는 `service_role` 정책으로 허용 (초기화 API에서 서비스 키 사용)
+
+## 코드에서 실제 사용하는 정렬/조회
+
+- 리더보드 정렬:
+  1. `total_score` 내림차순
+  2. `total_time_ms` 오름차순
+  3. `submission_rank` 오름차순
+- 제출시간은 `submitted_at`으로 저장/표시
+
+원하면 제가 바로 **ERD 형태(관계도)**로도 간단히 그려드릴게요.
