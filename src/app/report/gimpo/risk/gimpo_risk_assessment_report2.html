@@ -61,7 +61,7 @@ tbody tr:hover { background:var(--sky); }
 .cc { margin:24px 0;padding:24px;background:var(--gray-100);border-radius:var(--radius); }
 .ct { font-size:14px;font-weight:700;color:var(--navy);margin-bottom:16px;text-align:center; }
 .bar-chart { display:flex;flex-direction:column;gap:10px; }
-.br { display:grid;grid-template-columns:110px 1fr 40px;align-items:center;gap:10px; }
+.br { display:grid;grid-template-columns:100px 1fr 40px;align-items:center;gap:10px; }
 .bl { font-size:13px;font-weight:500;text-align:right;color:var(--gray-700); }
 .bt { height:28px;background:var(--gray-200);border-radius:6px;overflow:hidden; }
 .bf { height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:white;font-weight:600; }
@@ -221,35 +221,40 @@ tbody tr:hover { background:var(--sky); }
     <div class="sc"><div class="sc-n" style="color:var(--accent-green)">3</div><div class="sc-l">양호</div></div>
   </div>
 
-  <h3>항목별 분포 시각화</h3>
   <div class="cc">
-    <div class="ct">평가 결과 분포 및 사고유형별 위험요소 현황</div>
+    <div class="ct">평가항목별 위험요소 식별 현황</div>
     <div class="dw">
-      <!-- Donut chart -->
-      <div>
-        <div class="dc">
-          <svg width="180" height="180" viewBox="0 0 180 180">
-            <circle cx="90" cy="90" r="70" fill="none" stroke="#eee" stroke-width="20"/>
-            <circle cx="90" cy="90" r="70" fill="none" stroke="#e74c3c" stroke-width="20"
-              stroke-dasharray="122.2 440" stroke-linecap="round"/>
-            <circle cx="90" cy="90" r="70" fill="none" stroke="#d1d5db" stroke-width="20"
-              stroke-dasharray="244.4 440" stroke-dashoffset="-122.2" stroke-linecap="round"/>
-            <circle cx="90" cy="90" r="70" fill="none" stroke="#27ae60" stroke-width="20"
-              stroke-dasharray="73.3 440" stroke-dashoffset="-366.6" stroke-linecap="round"/>
-          </svg>
-          <div class="dcr"><div class="num">18</div><div class="lbl">총 항목</div></div>
-        </div>
-        <div class="dl" style="margin-top:12px">
-          <div class="dli"><div class="dld" style="background:#e74c3c"></div><span>위험식별 5건 (27.8%)</span></div>
-          <div class="dli"><div class="dld" style="background:#d1d5db"></div><span>해당없음 10건 (55.6%)</span></div>
-          <div class="dli"><div class="dld" style="background:#27ae60"></div><span>양호 3건 (16.7%)</span></div>
-        </div>
+      <div class="dc">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="70" fill="none" stroke="#eee" stroke-width="20"/>
+          <circle cx="90" cy="90" r="70" fill="none" stroke="#e74c3c" stroke-width="20"
+            stroke-dasharray="122.2 440" stroke-linecap="round"/>
+          <circle cx="90" cy="90" r="70" fill="none" stroke="#d1d5db" stroke-width="20"
+            stroke-dasharray="244.4 440" stroke-dashoffset="-122.2" stroke-linecap="round"/>
+          <circle cx="90" cy="90" r="70" fill="none" stroke="#27ae60" stroke-width="20"
+            stroke-dasharray="73.3 440" stroke-dashoffset="-366.6" stroke-linecap="round"/>
+        </svg>
+        <div class="dcr"><div class="num">18</div><div class="lbl">총 항목</div></div>
       </div>
-      <!-- Bar chart by type -->
-      <div style="flex:1;min-width:280px">
-        <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px">사고유형별 위험요소 분포</div>
-        <div class="bar-chart"><div class="br"><div class="bl">💧 익수</div><div class="bt"><div class="bf" style="width:100%;background:#e74c3c">1건</div></div><div class="bc">1</div></div><div class="br"><div class="bl">⬇️ 추락</div><div class="bt"><div class="bf" style="width:100%;background:#e67e22">2건</div></div><div class="bc">2</div></div><div class="br"><div class="bl">💥 충돌</div><div class="bt"><div class="bf" style="width:100%;background:#f39c12">1건</div></div><div class="bc">1</div></div><div class="br"><div class="bl">🔪 찔림·긁힘</div><div class="bt"><div class="bf" style="width:100%;background:#9b59b6">1건</div></div><div class="bc">1</div></div></div>
+      <div class="dl">
+        <div class="dli"><div class="dld" style="background:#e74c3c"></div> 위험요소 식별 · 5건 (27.8%)</div>
+        <div class="dli"><div class="dld" style="background:#d1d5db"></div> 해당없음 · 10건 (55.6%)</div>
+        <div class="dli"><div class="dld" style="background:#27ae60"></div> 양호 · 3건 (16.7%)</div>
       </div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="ct">사고유형별 위험요소 분포</div>
+    <div class="bar-chart">
+      <div class="br"><div class="bl">익수</div><div class="bt"><div class="bf" style="width:33%;background:#e74c3c">1건</div></div><div class="bc">1</div></div>
+      <div class="br"><div class="bl">추락</div><div class="bt"><div class="bf" style="width:33%;background:#e67e22">1건</div></div><div class="bc">1</div></div>
+      <div class="br"><div class="bl">감전</div><div class="bt"><div class="bf" style="width:0%;background:#95a5a6"></div></div><div class="bc">0</div></div>
+      <div class="br"><div class="bl">충돌</div><div class="bt"><div class="bf" style="width:66%;background:#e74c3c">2건</div></div><div class="bc">2</div></div>
+      <div class="br"><div class="bl">미끄러짐</div><div class="bt"><div class="bf" style="width:0%;background:#95a5a6"></div></div><div class="bc">0</div></div>
+      <div class="br"><div class="bl">얽매임·짓눌림</div><div class="bt"><div class="bf" style="width:0%;background:#95a5a6"></div></div><div class="bc">0</div></div>
+      <div class="br"><div class="bl">찔림·긁힘</div><div class="bt"><div class="bf" style="width:33%;background:#f39c12">1건</div></div><div class="bc">1</div></div>
+      <div class="br"><div class="bl">비상탈출</div><div class="bt"><div class="bf" style="width:33%;background:#e74c3c">1건</div></div><div class="bc">1</div></div>
     </div>
   </div>
 
