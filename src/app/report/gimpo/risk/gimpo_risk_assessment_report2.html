@@ -20,7 +20,9 @@ body { font-family:'Noto Sans KR',sans-serif;background:var(--gray-100);color:va
 .cover::before { content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.04); }
 .cover-label { font-size:13px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px;font-weight:500; }
 .cover h1 { font-family:'Noto Serif KR',serif;font-size:32px;font-weight:700;line-height:1.4;margin-bottom:8px; }
-.cover-sub { font-size:18px;font-weight:300;color:rgba(255,255,255,.8);margin-bottom:40px; }
+.cover-sub { font-size:18px;font-weight:300;color:rgba(255,255,255,.8);margin-bottom:12px; }
+.cover-note { font-size:13px;line-height:1.75;color:#ffeb3b;margin-bottom:36px;font-weight:400;position:relative;z-index:1;max-width:920px; }
+.cover-note .cover-copy { display:block;margin-top:10px;font-size:12px;font-weight:500; }
 .cover-meta { display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;position:relative;z-index:1; }
 .cm-item { background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border-radius:10px;padding:16px 20px;border:1px solid rgba(255,255,255,.1); }
 .cm-item dt { font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;margin-bottom:4px; }
@@ -80,6 +82,8 @@ tbody tr:hover { background:var(--sky); }
 .ch { background:#f8d7da;color:#721c24; }
 .ccr { background:#c0392b;color:white; }
 .chd { background:var(--navy-light)!important;color:white!important; }
+.rm { overflow-x:auto;margin-top:4px; }
+.rm table { width:100%;min-width:560px; }
 .pg { display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:12px 0; }
 .pc { border-radius:10px;overflow:hidden;border:1px solid var(--gray-200);background:#fff; }
 .pc img { width:100%;height:260px;object-fit:cover;display:block; }
@@ -129,6 +133,7 @@ tbody tr:hover { background:var(--sky); }
   <div class="cover-label">Risk Assessment Report · 신종·유사 어린이놀이시설</div>
   <h1>위험성평가 보고서</h1>
   <div class="cover-sub">경기도 김포시 · 안녕 오아시스 키즈풀 — 어린이놀이시설 안전성평가 결과 기반</div>
+  <div class="cover-note">아래 보고서는 현장평가 결과 및 사진자료를 기반으로 작성되었습니다. 정확한 현장 평가는 도면자료 및 안전관리 수립 계획서 등 추가 자료가 필요합니다.<span class="cover-copy">저작권 © 창의융합연구원</span></div>
   <dl class="cover-meta">
     <div class="cm-item"><dt>평가 대상</dt><dd>안녕 오아시스 키즈풀</dd></div>
     <div class="cm-item"><dt>평가 일자</dt><dd>2026년 04월 28일</dd></div>
@@ -175,22 +180,21 @@ tbody tr:hover { background:var(--sky); }
 <div class="sec">
   <div class="sh"><div class="sn">2</div><div class="st">시설 현황</div></div>
   
-  <h3>관리자 및 시설 기본 정보</h3>
-  <div class="info-grid">
-    <div class="ic"><div class="ic-l">시설 명칭</div><div class="ic-v">안녕 오아시스 키즈풀</div></div>
-    <div class="ic"><div class="ic-l">등록 형태</div><div class="ic-v">서비스, 공간임대·파티룸</div></div>
-    <div class="ic"><div class="ic-l">대표자</div><div class="ic-v">윤 자 춘</div></div>
-    <div class="ic"><div class="ic-l">연락처</div><div class="ic-v">010-4448-2893</div></div>
-    <div class="ic" style="grid-column:span 2"><div class="ic-l">소재지</div><div class="ic-v">경기도 김포시 김포한강4로 212번길 109, 1층 1호</div></div>
-  </div>
-
-  <h3>기구 및 놀이 활동 현황</h3>
-  <div class="info-grid">
-    <div class="ic" style="grid-column:span 2"><div class="ic-l">기구 설명</div><div class="ic-v">어린이가 물놀이를 할 수 있는 직사각형태 수영조 및 계단이 있는 미끄럼 형태</div></div>
-    <div class="ic" style="grid-column:span 2"><div class="ic-l">놀이 활동</div><div class="ic-v">수영·다이빙을 제외한 물놀이 및 미끄럼 놀이, 완구 등</div></div>
-    <div class="ic"><div class="ic-l">설치일</div><div class="ic-v">2025년 02월 21일</div></div>
-    <div class="ic"><div class="ic-l">안전관리 현황</div><div class="ic-v">이용수칙 안내문 부착, 사전 메시지 발송, 보호자 안전수칙 게시</div></div>
-  </div>
+  <h3>2.1 대상 시설 정보</h3>
+  <table>
+    <thead><tr><th style="width:160px">구분</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>상호(명칭)</td><td>안녕 오아시스 키즈풀</td></tr>
+      <tr><td>등록형태</td><td>서비스, 공간임대·파티룸</td></tr>
+      <tr><td>대표자</td><td>윤 자 춘</td></tr>
+      <tr><td>연락처</td><td>010-4448-xxxx</td></tr>
+      <tr><td>소재지</td><td>경기도 김포시 김포한강4로 212번길 109, 1층 1호</td></tr>
+      <tr><td>설치일</td><td>2025년 02월 21일</td></tr>
+      <tr><td>기구 설명</td><td>어린이가 물놀이를 할 수 있는 직사각형태 수영조 및 계단이 있는 미끄럼 형태</td></tr>
+      <tr><td>놀이 활동</td><td>수영·다이빙을 제외한 물놀이 및 미끄럼 놀이, 완구 등</td></tr>
+      <tr><td>안전관리 현황</td><td>이용수칙 안내문 부착, 사전 메시지 발송, 보호자 안전수칙 게시</td></tr>
+    </tbody>
+  </table>
 
   <h3>시설 전경</h3>
   <div class="pg">
@@ -410,106 +414,36 @@ tbody tr:hover { background:var(--sky); }
   <h3>위험가치 평가 매트릭스</h3>
   <div class="cc">
     <div class="ct">위험가치평가 매트릭스 – 위험요인 위치 표시</div>
-    <p style="text-align:center;font-size:13px;color:var(--gray-500);margin-bottom:16px;">행정안전부 부상 가능성·심각성 매트릭스 기준을 적용하여 5건의 위험요인 위치를 표시하였습니다.</p>
-    <div style="overflow-x:auto">
-      <table class="rm" style="min-width:560px">
-        <thead>
-          <tr>
-            <th style="background:var(--navy-light);color:white;font-size:12px;white-space:nowrap">심각성→<br>가능성↓</th>
-            <th style="background:var(--navy-light);color:white">①경미함</th>
-            <th style="background:var(--navy-light);color:white">②응급처치</th>
-            <th style="background:var(--navy-light);color:white">③통원치료</th>
-            <th style="background:var(--navy-light);color:white">④병원입원</th>
-            <th style="background:var(--navy-light);color:white">⑤사망 등</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th class="chd">①거의 없음</th>
-            <td class="cl" style="position:relative">1</td>
-            <td class="cl" style="position:relative">2</td>
-            <td class="cl" style="position:relative">3</td>
-            <td class="cl" style="position:relative">4</td>
-            <td class="cl" style="position:relative">5</td>
-          </tr>
-          <tr>
-            <th class="chd">②경미한 가능성</th>
-            <td class="cl" style="position:relative">2</td>
-            <td class="cl" style="position:relative">4</td>
-            <td class="cl" style="position:relative">6</td>
-            <td class="cl" style="position:relative">8</td>
-            <td class="cm" style="position:relative">10</td>
-          </tr>
-          <tr>
-            <th class="chd">③가능성 있음</th>
-            <td class="cl" style="position:relative">3</td>
-            <td class="cl" style="position:relative">6</td>
-            <td class="cl" style="position:relative">9
-              <div style="position:absolute;top:2px;right:4px;background:#27ae60;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">④</div>
-            </td>
-            <td class="cm" style="position:relative">12
-              <div style="position:absolute;top:2px;right:4px;background:#3772b8;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">①</div>
-            </td>
-            <td class="cm" style="position:relative">15</td>
-          </tr>
-          <tr>
-            <th class="chd">④종종 발생됨</th>
-            <td class="cl" style="position:relative">4</td>
-            <td class="cl" style="position:relative">8</td>
-            <td class="cm" style="position:relative">12
-              <div style="position:absolute;top:2px;right:28px;background:#9b59b6;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">③</div>
-              <div style="position:absolute;top:2px;right:4px;background:#e67e22;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">⑤</div>
-            </td>
-            <td class="ch" style="position:relative">16
-              <div style="position:absolute;top:2px;right:4px;background:#e74c3c;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">②</div>
-            </td>
-            <td class="ch" style="position:relative">20</td>
-          </tr>
-          <tr>
-            <th class="chd">⑤매우 높음</th>
-            <td class="cl" style="position:relative">5</td>
-            <td class="cm" style="position:relative">10</td>
-            <td class="cm" style="position:relative">15</td>
-            <td class="ch" style="position:relative">20</td>
-            <td class="ccr" style="position:relative">25</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <p style="font-size:13px;color:var(--gray-500);text-align:center;margin-bottom:12px;">행정안전부 부상 가능성·심각성 매트릭스 기준을 적용하여 5건의 위험요인 위치를 표시하였습니다.</p>
+    <div class="rm"><table>
+      <thead><tr><th class="chd">심각성→ / 가능성↓</th><th class="chd">①경미함</th><th class="chd">②응급처치</th><th class="chd">③통원치료</th><th class="chd">④병원입원</th><th class="chd">⑤사망 등</th></tr></thead>
+      <tbody>
+        <tr><td class="chd">①거의 없음</td><td class="cl">1</td><td class="cl">2</td><td class="cl">3</td><td class="cl">4</td><td class="cl">5</td></tr>
+        <tr><td class="chd">②경미한 가능성</td><td class="cl">2</td><td class="cl">4</td><td class="cl">6</td><td class="cl">8</td><td class="cm">10</td></tr>
+        <tr><td class="chd">③가능성 있음</td><td class="cl">3</td><td class="cl">6</td><td class="cl" style="position:relative"><div style="font-size:20px">9</div><div style="position:absolute;top:2px;right:4px;background:#27ae60;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">④</div></td><td class="cm" style="position:relative"><div style="font-size:20px">12</div><div style="position:absolute;top:2px;right:4px;background:#3772b8;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">①</div></td><td class="cm">15</td></tr>
+        <tr><td class="chd">④종종 발생됨</td><td class="cl">4</td><td class="cl">8</td><td class="cm" style="position:relative"><div style="font-size:20px">12</div><div style="position:absolute;top:2px;right:28px;background:#9b59b6;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">③</div><div style="position:absolute;top:2px;right:4px;background:#e67e22;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">⑤</div></td><td class="ch" style="position:relative"><div style="font-size:20px">16</div><div style="position:absolute;top:2px;right:4px;background:#e74c3c;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;">②</div></td><td class="ch">20</td></tr>
+        <tr><td class="chd">⑤매우 높음</td><td class="cl">5</td><td class="cm">10</td><td class="cm">15</td><td class="ch">20</td><td class="ccr">25</td></tr>
+      </tbody>
+    </table></div>
 
     <!-- 위험요인 범례 -->
-    <div style="margin-top:20px;padding:18px 20px;background:white;border-radius:8px;border:1px solid var(--gray-200)">
-      <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:14px;">● 위험요인 범례</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="background:#3772b8;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0">①</div>
-          <span>수심표기 미흡 — <strong>③×④ = 12점 (중간)</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="background:#e74c3c;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0">②</div>
-          <span>수영조 울타리 간격 — <strong>④×④ = 16점 (높음)</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="background:#9b59b6;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0">③</div>
-          <span>2층 계단 난간 미설치 — <strong>④×③ = 12점 (중간)</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="background:#27ae60;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0">④</div>
-          <span>놀이방 1층 CCTV 사각지대 — <strong>③×③ = 9점 (낮음)</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="background:#e67e22;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0">⑤</div>
-          <span>식탁·유리 모서리 보호 미처리 — <strong>④×③ = 12점 (중간)</strong></span>
-        </div>
+    <div style="margin-top:16px;padding:16px;background:white;border-radius:8px;border:1px solid #eee;">
+      <div style="font-size:13px;font-weight:700;color:#1a2744;margin-bottom:10px;">● 위험요인 범례</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:8px;font-size:13px;">
+        <div style="display:flex;align-items:center;gap:6px;"><div style="background:#3772b8;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">①</div> 수심표기 미흡 — <strong>③×④ = 12점 (중간)</strong></div>
+        <div style="display:flex;align-items:center;gap:6px;"><div style="background:#e74c3c;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">②</div> 수영조 울타리 간격 — <strong>④×④ = 16점 (높음)</strong></div>
+        <div style="display:flex;align-items:center;gap:6px;"><div style="background:#9b59b6;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">③</div> 2층 계단 난간 미설치 — <strong>④×③ = 12점 (중간)</strong></div>
+        <div style="display:flex;align-items:center;gap:6px;"><div style="background:#27ae60;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">④</div> 놀이방 1층 CCTV 사각지대 — <strong>③×③ = 9점 (낮음)</strong></div>
+        <div style="display:flex;align-items:center;gap:6px;"><div style="background:#e67e22;color:white;border-radius:50%;width:22px;height:22px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">⑤</div> 식탁·유리 모서리 보호 미처리 — <strong>④×③ = 12점 (중간)</strong></div>
       </div>
     </div>
 
     <!-- 위험수준 범례 -->
-    <div style="display:flex;justify-content:center;gap:24px;margin-top:16px;font-size:13px;flex-wrap:wrap;">
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:#d4edda;border-radius:3px;display:inline-block"></span>낮음 (1~9)</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:#fff3cd;border-radius:3px;display:inline-block"></span>중간 (10~15)</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:#f8d7da;border-radius:3px;display:inline-block"></span>높음 (16~24)</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:#c0392b;border-radius:3px;display:inline-block"></span>치명적 (25)</span>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+      <div class="dli"><div class="dld" style="background:#d4edda"></div><span style="font-size:13px">낮음 (1~9)</span></div>
+      <div class="dli"><div class="dld" style="background:#fff3cd"></div><span style="font-size:13px">중간 (10~15)</span></div>
+      <div class="dli"><div class="dld" style="background:#f8d7da"></div><span style="font-size:13px">높음 (16~24)</span></div>
+      <div class="dli"><div class="dld" style="background:#c0392b"></div><span style="font-size:13px">치명적 (25)</span></div>
     </div>
   </div>
 
