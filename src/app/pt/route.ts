@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-const PRESENTATION_FILE_NAME = "객관주의_구성주의_30장_프레젠테이션.html";
+const PRESENTATION_FILE_NAME = "pt.html";
 
 export async function GET() {
   const filePath = path.join(
