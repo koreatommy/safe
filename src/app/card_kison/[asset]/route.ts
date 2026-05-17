@@ -1,5 +1,4 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { getCardQrPng } from "../qr";
 
 type RouteContext = {
   params: Promise<{
@@ -7,26 +6,21 @@ type RouteContext = {
   }>;
 };
 
-const ASSET_MIME_TYPES: Record<string, string> = {
-  "qr-code.png": "image/png",
-  "qr-code-dark.png": "image/png",
-};
+const QR_ASSETS = new Set(["qr-code.png", "qr-code-dark.png"]);
 
 export async function GET(_: Request, context: RouteContext) {
   const { asset } = await context.params;
-  const contentType = ASSET_MIME_TYPES[asset];
 
-  if (!contentType) {
+  if (!QR_ASSETS.has(asset)) {
     return new Response("Not Found", { status: 404 });
   }
 
-  const filePath = join(process.cwd(), "src/app/card_kison", asset);
-  const fileBuffer = await readFile(filePath);
+  const fileBuffer = await getCardQrPng();
 
-  return new Response(fileBuffer, {
+  return new Response(new Uint8Array(fileBuffer), {
     headers: {
-      "Content-Type": contentType,
-      "Cache-Control": "public, max-age=3600, s-maxage=3600",
+      "Content-Type": "image/png",
+      "Cache-Control": "no-cache, no-store, must-revalidate",
     },
   });
 }
