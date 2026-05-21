@@ -26,6 +26,14 @@ export default function GimpoRiskReportsPage() {
             위험성평가 보고서 — 안녕 오아시스 키즈풀
           </Link>
         </li>
+        <li>
+          <Link
+            className="text-blue-700 underline underline-offset-2 hover:text-blue-900"
+            href="/report/gimpo/risk/report3"
+          >
+            위험성평가 보고서 — 리버풀(River Pool)
+          </Link>
+        </li>
       </ul>
     </main>
   );
