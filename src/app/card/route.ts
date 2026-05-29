@@ -1,13 +1,13 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { listCards } from "@/lib/digital-card/registry";
+import { renderDigitalCardIndexHtml } from "@/lib/digital-card/render";
 
 export async function GET() {
-  const htmlPath = join(process.cwd(), "src/app/card/digital-card.html");
-  const html = await readFile(htmlPath, "utf-8");
+  const html = renderDigitalCardIndexHtml(listCards());
+
   return new Response(html, {
     headers: {
       "Content-Type": "text/html; charset=utf-8",
-      "Cache-Control": "public, max-age=3600, s-maxage=3600",
+      "Cache-Control": "no-cache, no-store, must-revalidate",
     },
   });
 }
