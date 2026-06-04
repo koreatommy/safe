@@ -104,9 +104,9 @@ export function GimpoRiskReportList() {
                 <p className="text-xs font-medium tracking-wide text-[#3772b8]">
                   {report.subtitle}
                 </p>
-                <h2 className="mt-1 text-lg font-bold leading-snug text-[#1a2744] group-hover:text-[#3772b8]">
+                <p className="mt-1 text-lg font-bold leading-snug text-[#1a2744] group-hover:text-[#3772b8]">
                   {report.facility}
-                </h2>
+                </p>
 
                 <div className="mt-4 flex items-center justify-between border-t border-[#ebedf0] pt-4 text-sm text-[#6b7280]">
                   <span className="inline-flex items-center gap-1.5">

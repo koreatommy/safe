@@ -3,7 +3,7 @@ import { GIMPO_RISK_REPORTS } from "./gimpo-risk-reports";
 
 export default function GimpoRiskReportsPage() {
   return (
-    <div className="relative min-h-screen bg-[#f7f8fa]">
+    <div className="gimpo-risk-reports relative min-h-screen bg-[#f7f8fa]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-[#e8f0fa] to-transparent"
@@ -12,13 +12,13 @@ export default function GimpoRiskReportsPage() {
       <main className="relative mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
         <header className="mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a2744] via-[#2d3f5e] to-[#3772b8] px-6 py-8 text-white shadow-[0_8px_32px_rgba(26,39,68,0.2)] sm:px-8 sm:py-10">
           <p className="text-xs font-medium tracking-[0.2em] text-white/60 uppercase">
-            Gimpo · Risk Assessment
+            Gimpo · Safety Assessment
           </p>
-          <h1 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
-            김포 위험성평가 보고서
+          <h1 className="gimpo-risk-reports-hero-title mt-3">
+            김포시 신종유사놀이시설 안전성 평가 보고서
           </h1>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/85 sm:text-[15px]">
-            김포시 신종·유사 어린이놀이시설 대상 위험성평가 결과를 시설별로
+          <p className="gimpo-risk-reports-hero-desc mt-3 max-w-xl text-white/85">
+            김포시 신종·유사 어린이놀이시설 대상 안전성 평가 결과를 시설별로
             확인할 수 있습니다. 카드를 선택하면 전체 보고서가 열립니다.
           </p>
           <dl className="mt-6 grid grid-cols-2 gap-3 sm:max-w-sm">

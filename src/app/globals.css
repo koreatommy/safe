@@ -259,6 +259,14 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
+/* Report index: global heading/body clamp must not override Tailwind utilities */
+.gimpo-risk-reports :where(h1, h2, h3, h4, h5, h6, p) {
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+  letter-spacing: unset;
+}
+
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-noto-sans-kr), var(--font-geist-sans), sans-serif;
@@ -372,4 +380,31 @@ html {
 nav a {
   text-decoration: none;
   position: relative;
+}
+
+/* Gimpo risk report index – global h1/p clamp overrides Tailwind; use explicit sizes */
+.gimpo-risk-reports .gimpo-risk-reports-hero-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 640px) {
+  .gimpo-risk-reports .gimpo-risk-reports-hero-title {
+    font-size: 1.5rem !important;
+    line-height: 1.35 !important;
+  }
+}
+
+.gimpo-risk-reports .gimpo-risk-reports-hero-desc {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+}
+
+@media (min-width: 640px) {
+  .gimpo-risk-reports .gimpo-risk-reports-hero-desc {
+    font-size: 0.9375rem !important;
+  }
 }
