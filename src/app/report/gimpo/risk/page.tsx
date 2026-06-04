@@ -1,40 +1,44 @@
-import Link from "next/link";
+import { GimpoRiskReportList } from "./GimpoRiskReportList";
+import { GIMPO_RISK_REPORTS } from "./gimpo-risk-reports";
 
 export default function GimpoRiskReportsPage() {
   return (
-    <main className="mx-auto max-w-xl px-6 py-16">
-      <h1 className="mb-2 text-xl font-semibold text-neutral-900">
-        김포 위험성평가 보고서
-      </h1>
-      <p className="mb-8 text-sm text-neutral-600">
-        아래 링크에서 각 보고서를 열 수 있습니다.
-      </p>
-      <ul className="space-y-3 text-neutral-800">
-        <li>
-          <Link
-            className="text-blue-700 underline underline-offset-2 hover:text-blue-900"
-            href="/report/gimpo/risk/report1"
-          >
-            신종·유사 어린이놀이시설 위험성평가 보고서 – 하이채채 키즈풀
-          </Link>
-        </li>
-        <li>
-          <Link
-            className="text-blue-700 underline underline-offset-2 hover:text-blue-900"
-            href="/report/gimpo/risk/report2"
-          >
-            위험성평가 보고서 — 안녕 오아시스 키즈풀
-          </Link>
-        </li>
-        <li>
-          <Link
-            className="text-blue-700 underline underline-offset-2 hover:text-blue-900"
-            href="/report/gimpo/risk/report3"
-          >
-            위험성평가 보고서 — 리버풀(River Pool)
-          </Link>
-        </li>
-      </ul>
-    </main>
+    <div className="relative min-h-screen bg-[#f7f8fa]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-[#e8f0fa] to-transparent"
+      />
+
+      <main className="relative mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
+        <header className="mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a2744] via-[#2d3f5e] to-[#3772b8] px-6 py-8 text-white shadow-[0_8px_32px_rgba(26,39,68,0.2)] sm:px-8 sm:py-10">
+          <p className="text-xs font-medium tracking-[0.2em] text-white/60 uppercase">
+            Gimpo · Risk Assessment
+          </p>
+          <h1 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
+            김포 위험성평가 보고서
+          </h1>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/85 sm:text-[15px]">
+            김포시 신종·유사 어린이놀이시설 대상 위험성평가 결과를 시설별로
+            확인할 수 있습니다. 카드를 선택하면 전체 보고서가 열립니다.
+          </p>
+          <dl className="mt-6 grid grid-cols-2 gap-3 sm:max-w-sm">
+            <div className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-sm">
+              <dt className="text-[11px] text-white/55">등록 보고서</dt>
+              <dd className="mt-0.5 text-xl font-bold">{GIMPO_RISK_REPORTS.length}건</dd>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-sm">
+              <dt className="text-[11px] text-white/55">지역</dt>
+              <dd className="mt-0.5 text-xl font-bold">김포시</dd>
+            </div>
+          </dl>
+        </header>
+
+        <GimpoRiskReportList />
+
+        <footer className="mt-10 text-center text-xs text-[#6b7280]">
+          보고서는 인쇄·PDF 저장이 가능한 독립 HTML 형식으로 제공됩니다.
+        </footer>
+      </main>
+    </div>
   );
 }

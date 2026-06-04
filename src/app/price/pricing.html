@@ -221,9 +221,12 @@
   .calc-result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .calc-card {
     background: var(--navy2); border: 1px solid var(--border); border-radius: 14px;
-    padding: 20px 20px 18px; transition: border-color .2s;
+    padding: 20px 20px 18px; transition: border-color .2s, box-shadow .2s;
+    cursor: pointer;
   }
   .calc-card.featured-calc { border-color: var(--teal); background: rgba(12,200,176,.06); }
+  .calc-card.quote-active { box-shadow: 0 0 0 2px var(--sky); }
+  .calc-card.featured-calc.quote-active { box-shadow: 0 0 0 1px var(--teal), 0 0 0 3px var(--sky); }
   .calc-plan-badge { font-size: 11px; font-weight: 700; color: var(--slate); margin-bottom: 8px; }
   .calc-card.featured-calc .calc-plan-badge { color: var(--teal); }
   .calc-total { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 2px; }
@@ -538,7 +541,7 @@
   <div class="plan">
     <div class="plan-icon">🌱</div>
     <div class="plan-name">Starter</div>
-    <div class="plan-desc">소규모 시설 또는 개인 관리자 최대 50개소까지 관리 가능</div>
+    <div class="plan-desc">소규모 시설 또는 개인 관리자 최대 100개소까지 관리 가능</div>
 
     <div class="price-box">
       <div class="price-label">월 기본료</div>
@@ -556,10 +559,10 @@
         <span class="unit-val teal">1,000원 / 개소</span>
       </div>
       <div class="unit-row">
-        <span class="unit-range">51개소 이상</span>
-        <span class="unit-val na">–</span>
+        <span class="unit-range">51 ~ 100개소</span>
+        <span class="unit-val teal">800원 / 개소</span>
       </div>
-      <div class="unit-cap">⚠ 최대 50개소까지 관리 가능</div>
+      <div class="unit-cap">⚠ 최대 100개소까지 관리 가능</div>
     </div>
 
     <a class="plan-cta" href="#">Starter 시작하기</a>
@@ -582,7 +585,7 @@
     <div class="popular-tag">⭐ 가장 인기</div>
     <div class="plan-icon">🚀</div>
     <div class="plan-name">Growth</div>
-    <div class="plan-desc">지자체, 교육청, 학교, 유치원, 도시공원 등 최대 200개소까지 관리 기능</div>
+    <div class="plan-desc">지자체, 교육청, 학교, 유치원, 도시공원 등 최대 300개소까지 관리 기능</div>
 
     <div class="price-box">
       <div class="price-label">월 기본료</div>
@@ -603,7 +606,11 @@
         <span class="unit-range">51 ~ 200개소</span>
         <span class="unit-val teal">800원 / 개소</span>
       </div>
-      <div class="unit-cap">⚠ 최대 200개소까지 관리 가능</div>
+      <div class="unit-row">
+        <span class="unit-range">201 ~ 300개소</span>
+        <span class="unit-val sky">600원 / 개소</span>
+      </div>
+      <div class="unit-cap">⚠ 최대 300개소까지 관리 가능</div>
     </div>
 
     <a class="plan-cta" href="#">Growth 시작하기</a>
@@ -612,7 +619,7 @@
     <div class="feature"><span class="ico y">✓</span><span class="txt">체크리스트 또는 직접 위해요인 입력 선택</span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">기구별 위해요소 사진 첨부</span></div>
     <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 등록/수정/삭제 <span class="tag-limit">최대 5명</span></span></div>
-    <div class="feature"><span class="ico y">✓</span><span class="txt">점검자 휴대폰 서명</span></div>
+    <div class="feature"><span class="ico y">✓</span><span class="txt">안전관리자, 위탁점검자 디지털 서명 기능</span></div>
 
     <div class="divider-label">선택 부가기능</div>
     <div class="feature"><span class="ico a">+</span><span class="txt">수리이력 관리 대장 <span class="tag-opt">ADD-ON</span></span></div>
@@ -623,7 +630,7 @@
   <div class="plan">
     <div class="plan-icon">🏆</div>
     <div class="plan-name">Pro</div>
-    <div class="plan-desc">전문 위탁점검기관 · 대규모 시설 201개소 이상 추가 할인 단가 적용</div>
+    <div class="plan-desc">전문 위탁점검기관 · 대규모 시설 201개소 이상(최대 600개소) 할인 단가 적용</div>
 
     <div class="price-box">
       <div class="price-label">월 기본료</div>
@@ -645,11 +652,11 @@
         <span class="unit-val">800원 / 개소</span>
       </div>
       <div class="unit-row">
-        <span class="unit-range">201 ~ 500개소</span>
+        <span class="unit-range">201 ~ 600개소</span>
         <span class="unit-val sky">600원 / 개소</span>
       </div>
       <div class="unit-row">
-        <span class="unit-range">500개소 초과</span>
+        <span class="unit-range">600개소 초과</span>
         <span class="unit-val" style="color:var(--amber);font-size:11px;font-weight:700;">📞 별도 문의</span>
       </div>
     </div>
@@ -714,27 +721,27 @@
         <tr>
           <td>
             51 ~ 200개소
-            <span class="tier-badge tb-teal">Growth · Pro</span>
+            <span class="tier-badge tb-teal">Starter · Growth · Pro</span>
           </td>
-          <td><span class="val-na">–</span></td>
+          <td><span class="val-unit">800원</span></td>
           <td><span class="val-unit teal">800원</span></td>
           <td><span class="val-unit">800원</span></td>
         </tr>
-        <!-- 201~500 -->
+        <!-- 201+ -->
         <tr>
           <td>
-            201 ~ 500개소
-            <span class="tier-badge tb-sky">Pro 전용</span>
+            201개소 이상
+            <span class="tier-badge tb-sky">Growth · Pro</span>
           </td>
           <td><span class="val-na">–</span></td>
-          <td><span class="val-na">–</span></td>
+          <td><span class="val-unit sky">600원</span></td>
           <td><span class="val-unit sky">600원</span></td>
         </tr>
-        <!-- 500초과 -->
+        <!-- 600초과 -->
         <tr>
           <td>
-            500개소 초과
-            <span class="tier-badge tb-sky">Pro 전용</span>
+            600개소 초과
+            <span class="tier-badge tb-sky">Pro</span>
           </td>
           <td><span class="val-na">–</span></td>
           <td><span class="val-na">–</span></td>
@@ -743,18 +750,18 @@
         <!-- 관리 한도 -->
         <tr>
           <td style="color:var(--slate);font-size:12px;font-weight:700;">최대 관리 개소</td>
-          <td style="color:var(--amber);font-weight:700;font-size:14px;">50개소</td>
-          <td style="color:var(--teal);font-weight:700;font-size:14px;">200개소</td>
-          <td style="color:var(--sky);font-weight:700;font-size:14px;">500개소<br><span style="font-size:11px;color:var(--amber);">초과 시 문의</span></td>
+          <td style="color:var(--amber);font-weight:700;font-size:14px;">100개소</td>
+          <td style="color:var(--teal);font-weight:700;font-size:14px;">300개소</td>
+          <td style="color:var(--sky);font-weight:700;font-size:14px;">600개소<br><span style="font-size:11px;color:var(--amber);">초과 시 문의</span></td>
         </tr>
       </tbody>
     </table>
     </div>
     <div class="tier-note">
       <span>구간은 누진 합산 방식 — 50개소까지는 1,000원, 초과분은 800원 · 600원 적용</span>
-      <span>Pro 500개소 초과 시 별도 협의 요금 적용</span>
+      <span>Pro 600개소 초과 시 별도 협의 요금 적용</span>
       <span>부가세(VAT) 별도</span>
-      <span>Starter는 51개소 이상 등록 불가 — Growth 이상으로 전환 필요</span>
+      <span>Starter는 101개소 이상 등록 불가 — Growth 이상으로 전환 필요</span>
     </div>
   </div>
 </div>
@@ -785,7 +792,7 @@
 
     <div class="calc-addon-section">
       <div class="calc-addon-title">부가기능 <span style="color:var(--teal)">Add-ons</span></div>
-      <div class="calc-addon-sub">Growth에서만 선택 가능 · Starter는 부가기능 미적용 · Pro는 수리이력·통계 기본포함</div>
+      <div class="calc-addon-sub" id="calcAddonSub">Growth·Pro 플랜 카드를 선택하면 Add-on을 설정할 수 있습니다 · Starter는 부가기능 미적용</div>
       <div class="addon-grid">
         <div class="addon-card" id="addon-repair" data-price="15000" data-type="toggle" data-plans="growth">
           <label class="addon-toggle">
@@ -863,7 +870,7 @@
         <div class="calc-period">원 / 월 (VAT 별도)</div>
         <div class="calc-breakdown" id="break-starter"></div>
       </div>
-      <div class="calc-card featured-calc" id="card-growth">
+      <div class="calc-card" id="card-growth">
         <div class="calc-plan-badge">🚀 GROWTH</div>
         <div class="calc-total" id="res-growth">—</div>
         <div class="calc-period">원 / 월 (VAT 별도)</div>
@@ -881,9 +888,9 @@
       <div class="calc-formula-head">🧮 계산 방식</div>
       <div>기본료 (플랜별 고정)</div>
       <div>+ 1~50개소 × 1,000원</div>
-      <div style="padding-left:4px;">+ 51~200개소 × 800원 <span style="color:#334155">(Growth·Pro)</span></div>
-      <div style="padding-left:4px;">+ 201~500개소 × 600원 <span style="color:#334155">(Pro 전용)</span></div>
-      <div style="padding-left:4px;">+ 500개소 초과 <span style="color:var(--amber)">→ 별도 문의</span></div>
+      <div style="padding-left:4px;">+ 51~200개소 × 800원 <span style="color:#334155">(Starter 51~100 · Growth·Pro)</span></div>
+      <div style="padding-left:4px;">+ 201개소 이상 × 600원 <span style="color:#334155">(Growth 201~300 · Pro 201~600)</span></div>
+      <div style="padding-left:4px;">+ 600개소 초과 <span style="color:var(--amber)">→ 별도 문의</span></div>
     </div>
 
     <!-- 견적서 -->
@@ -948,27 +955,27 @@
       </tr>
       <tr>
         <td>51~200개소 단가</td>
-        <td><span class="cx">–</span></td>
+        <td><span class="cp">800원/개소<br><small style="color:var(--amber)">(51~100)</small></span></td>
         <td><span class="cp" style="color:var(--teal)">800원/개소</span></td>
         <td><span class="cp">800원/개소</span></td>
       </tr>
       <tr>
-        <td>201 ~ 500개소 단가</td>
+        <td>201개소 이상 단가</td>
         <td><span class="cx">–</span></td>
-        <td><span class="cx">–</span></td>
-        <td><span class="cp" style="color:var(--sky)">600원/개소</span></td>
+        <td><span class="cp" style="color:var(--sky)">600원/개소<br><small style="color:var(--amber)">(201~300)</small></span></td>
+        <td><span class="cp" style="color:var(--sky)">600원/개소<br><small style="color:var(--amber)">(201~600)</small></span></td>
       </tr>
       <tr>
-        <td>500개소 초과</td>
+        <td>600개소 초과</td>
         <td><span class="cx">–</span></td>
         <td><span class="cx">–</span></td>
         <td><span class="cp" style="color:var(--amber)">📞 별도 문의</span></td>
       </tr>
       <tr>
         <td>최대 관리 개소</td>
-        <td><span class="cp" style="color:var(--amber)">50개소</span></td>
-        <td><span class="cp" style="color:var(--teal)">200개소</span></td>
-        <td><span class="cp" style="color:var(--sky)">500개소<br><small style="color:var(--amber)">초과 시 문의</small></span></td>
+        <td><span class="cp" style="color:var(--amber)">100개소</span></td>
+        <td><span class="cp" style="color:var(--teal)">300개소</span></td>
+        <td><span class="cp" style="color:var(--sky)">600개소<br><small style="color:var(--amber)">초과 시 문의</small></span></td>
       </tr>
 
       <tr class="cat-row"><td colspan="4">🔍 기본 조회 및 법적 정보</td></tr>
@@ -1033,7 +1040,7 @@
         <td><span class="cp">1명</span></td><td><span class="cp">최대 5명</span></td><td><span class="ck">무제한</span></td>
       </tr>
       <tr>
-        <td>점검자 휴대폰 서명</td>
+        <td>안전관리자, 위탁점검자 디지털 서명 기능</td>
         <td><span class="cx">✗</span></td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td>
       </tr>
 
@@ -1065,8 +1072,8 @@
     <div class="faq-a">한 달 중 실제 등록·관리된 시설(개소) 수를 기준으로 합산합니다. 구간은 누진 방식으로, 예를 들어 Growth 플랜에서 80개소를 관리하면 기본료 100,000원 + (50개소 × 1,000원) + (30개소 × 800원) = <strong>174,000원</strong>이 청구됩니다.</div>
   </div>
   <div class="faq-item" onclick="this.classList.toggle('open')">
-    <div class="faq-q">Starter에서 시설이 50개소를 초과하면? <span class="arr">▼</span></div>
-    <div class="faq-a">Starter 플랜은 최대 50개소까지만 관리할 수 있습니다. 초과 시 Growth 이상 플랜으로 업그레이드 안내가 발송되며, 당월 일할 계산으로 전환됩니다.</div>
+    <div class="faq-q">Starter에서 시설이 100개소를 초과하면? <span class="arr">▼</span></div>
+    <div class="faq-a">Starter 플랜은 최대 100개소까지만 관리할 수 있습니다. 초과 시 Growth 이상 플랜으로 업그레이드 안내가 발송되며, 당월 일할 계산으로 전환됩니다.</div>
   </div>
   <div class="faq-item" onclick="this.classList.toggle('open')">
     <div class="faq-q">지자체·공공기관도 이용 가능한가요? <span class="arr">▼</span></div>
@@ -1093,10 +1100,14 @@
   const fmt = n => n.toLocaleString('ko-KR');
 
   const PLANS = {
-    starter: { base: 50000,  max: 50  },
-    growth:  { base: 100000, max: 200 },
-    pro:     { base: 150000, max: 500 }
+    starter: { base: 50000,  max: 100 },
+    growth:  { base: 100000, max: 300 },
+    pro:     { base: 150000, max: 600 }
   };
+
+  const TIER1_END = 50;
+  const TIER2_END = 200;
+  const TIER2_SPAN = TIER2_END - TIER1_END;
 
   const ADDONS = {
     repair:    { id: 'chkRepair',     price: 15000, type: 'toggle', name: '수리이력 관리 대장', unit: '월', plans: ['growth'], proIncluded: true },
@@ -1108,9 +1119,21 @@
   function calcCost(plan, cnt) {
     if (cnt > PLANS[plan].max) return null;
 
-    const s1 = Math.min(cnt, 50);
-    const s2 = plan !== 'starter' ? Math.min(Math.max(cnt - 50, 0), 150) : 0;
-    const s3 = plan === 'pro'     ? Math.min(Math.max(cnt - 200, 0), 300) : 0;
+    const s1 = Math.min(cnt, TIER1_END);
+
+    let s2 = 0;
+    if (plan === 'starter') {
+      s2 = Math.min(Math.max(cnt - TIER1_END, 0), PLANS.starter.max - TIER1_END);
+    } else {
+      s2 = Math.min(Math.max(cnt - TIER1_END, 0), TIER2_SPAN);
+    }
+
+    let s3 = 0;
+    if (plan === 'growth') {
+      s3 = Math.min(Math.max(cnt - TIER2_END, 0), PLANS.growth.max - TIER2_END);
+    } else if (plan === 'pro') {
+      s3 = Math.min(Math.max(cnt - TIER2_END, 0), PLANS.pro.max - TIER2_END);
+    }
 
     const unitCost = s1 * 1000 + s2 * 800 + s3 * 600;
     const total    = PLANS[plan].base + unitCost;
@@ -1118,24 +1141,64 @@
     const lines = [];
     lines.push({ label: '기본료', val: PLANS[plan].base, price: PLANS[plan].base, qty: 1 });
     lines.push({ label: `1~${s1}개소 × 1,000원`, val: s1 * 1000, price: 1000, qty: s1 });
-    if (s2 > 0) lines.push({ label: `51~${50+s2}개소 × 800원`,  val: s2 * 800, price: 800, qty: s2 });
-    if (s3 > 0) lines.push({ label: `201~${200+s3}개소 × 600원`, val: s3 * 600, price: 600, qty: s3 });
+    if (s2 > 0) lines.push({ label: `51~${TIER1_END + s2}개소 × 800원`, val: s2 * 800, price: 800, qty: s2 });
+    if (s3 > 0) lines.push({ label: `201~${TIER2_END + s3}개소 × 600원`, val: s3 * 600, price: 600, qty: s3 });
 
     return { total, lines };
   }
 
+  /** 시설 수 기준 권장 플랜 (Starter ≤100 · Growth ≤300 · Pro ≤600+) */
+  function getRecommendedPlan(cnt) {
+    if (cnt > PLANS.growth.max) return 'pro';
+    if (cnt > PLANS.starter.max) return 'growth';
+    return 'starter';
+  }
+
+  function updateActiveCalcCard(cnt) {
+    const active = getRecommendedPlan(cnt);
+    ['starter', 'growth', 'pro'].forEach(plan => {
+      const card = document.getElementById('card-' + plan);
+      if (card) card.classList.toggle('featured-calc', plan === active);
+    });
+  }
+
+  function selectQuotePlan(plan) {
+    const radio = document.querySelector(`input[name="quotePlan"][value="${plan}"]`);
+    if (radio) radio.checked = true;
+    document.querySelectorAll('.calc-card').forEach(card => {
+      card.classList.toggle('quote-active', card.id === 'card-' + plan);
+    });
+    const cnt = Math.max(1, parseInt(document.getElementById('facilityInput').value) || 1);
+    updateAddonStates(plan, cnt);
+    updateAddonSub(plan);
+    updateQuote();
+  }
+
+  function updateAddonSub(plan) {
+    const el = document.getElementById('calcAddonSub');
+    if (!el) return;
+    if (plan === 'starter') {
+      el.textContent = 'Starter는 Add-on 미적용입니다. Growth 또는 Pro 카드를 클릭해 Add-on을 선택하세요.';
+    } else if (plan === 'pro') {
+      el.textContent = 'Pro는 수리이력·통계·추가 점검자가 기본 포함입니다. 사진 저장 용량만 추가 선택 가능합니다.';
+    } else {
+      el.textContent = 'Growth 플랜 기준으로 Add-on을 선택할 수 있습니다. (견적서·부가기능에 반영)';
+    }
+  }
+
   function calcAll() {
     const cnt = Math.max(1, parseInt(document.getElementById('facilityInput').value) || 1);
+    updateActiveCalcCard(cnt);
     ['starter', 'growth', 'pro'].forEach(plan => {
       const r      = calcCost(plan, cnt);
       const resEl  = document.getElementById('res-' + plan);
       const brkEl  = document.getElementById('break-' + plan);
 
-      if (plan === 'pro' && cnt > 500) {
+      if (plan === 'pro' && cnt > 600) {
         resEl.textContent = '문의하기';
         resEl.style.fontSize = '20px';
         resEl.style.color = 'var(--amber)';
-        brkEl.innerHTML = `<span style="color:var(--amber);">500개소 초과 시 규모별 맞춤 요금이 적용됩니다.<br>담당자에게 문의해 주세요.</span>`;
+        brkEl.innerHTML = `<span style="color:var(--amber);">600개소 초과 시 규모별 맞춤 요금이 적용됩니다.<br>담당자에게 문의해 주세요.</span>`;
         return;
       }
       resEl.style.color = '';
@@ -1154,13 +1217,14 @@
         ).join('<br>') + `<br><span class="line-total">= ${fmt(r.total)}원 / 월</span>`;
       }
     });
-    updateQuote();
+    selectQuotePlan(getRecommendedPlan(cnt));
   }
 
   function getSelectedPlan() {
     const radios = document.querySelectorAll('input[name="quotePlan"]');
     for (const r of radios) if (r.checked) return r.value;
-    return 'growth';
+    const cnt = Math.max(1, parseInt(document.getElementById('facilityInput').value) || 1);
+    return getRecommendedPlan(cnt);
   }
 
   function updateQuote() {
@@ -1227,14 +1291,16 @@
     updateAddonStates(plan);
   }
 
-  function updateAddonStates(plan) {
+  function updateAddonStates(plan, cnt) {
     Object.entries(ADDONS).forEach(([key, addon]) => {
       const card = document.getElementById('addon-' + key);
       const el = document.getElementById(addon.id);
       if (!card || !el) return;
 
       const isProIncluded = plan === 'pro' && addon.proIncluded;
-      const isAvailable = plan === 'starter' ? false : addon.plans.includes(plan);
+      const isAvailable =
+        plan === 'growth' && addon.plans.includes('growth') ||
+        plan === 'pro' && !isProIncluded && addon.plans.includes('growth');
 
       if (isProIncluded) {
         card.classList.add('disabled', 'pro-included');
@@ -1272,6 +1338,30 @@
     const i = document.getElementById('facilityInput');
     if (i) i.value = v;
   }
+
+  ['starter', 'growth', 'pro'].forEach(plan => {
+    const card = document.getElementById('card-' + plan);
+    if (!card) return;
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('click', () => {
+      const cnt = Math.max(1, parseInt(document.getElementById('facilityInput').value) || 1);
+      if (plan !== 'pro' && !calcCost(plan, cnt)) return;
+      selectQuotePlan(plan);
+    });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  document.querySelectorAll('input[name="quotePlan"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.checked) selectQuotePlan(radio.value);
+    });
+  });
 
   calcAll();
 </script>
