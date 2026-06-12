@@ -408,3 +408,32 @@ nav a {
     font-size: 0.9375rem !important;
   }
 }
+
+/* Yangju info landing – readable public-sector typography */
+.info-landing :where(h1, h2, h3, h4, h5, h6, p) {
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+  letter-spacing: unset;
+}
+
+.info-landing h1 {
+  font-size: clamp(1.5rem, 4vw, 2.75rem);
+  line-height: 1.25;
+}
+
+.info-landing h2 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  line-height: 1.35;
+}
+
+.info-landing h3 {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.4;
+}
+
+.info-landing p,
+.info-landing li {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+}

@@ -13,6 +13,9 @@ interface GlowCapsuleButtonProps {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   style?: CSSProperties;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
 }
 
 export function GlowCapsuleButton({
@@ -24,6 +27,9 @@ export function GlowCapsuleButton({
   type = "button",
   disabled = false,
   style,
+  target,
+  rel,
+  download,
 }: GlowCapsuleButtonProps) {
   const baseClasses = cn(
     "relative px-8 py-4 rounded-full",
@@ -58,7 +64,13 @@ export function GlowCapsuleButton({
 
   if (href) {
     return (
-      <motion.a href={href} {...motionProps}>
+      <motion.a
+        href={href}
+        target={target}
+        rel={rel}
+        download={download}
+        {...motionProps}
+      >
         <span className="relative z-10">{children}</span>
         {glowEffect}
       </motion.a>
