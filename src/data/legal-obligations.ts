@@ -167,6 +167,13 @@ export const INFO_NAV_ITEMS = [
   { id: "cpf-manual", label: "CPF 사용자 매뉴얼" },
 ] as const;
 
+export const INFO_EXTERNAL_NAV_ITEMS = [
+  {
+    label: "지도점검 보고서",
+    href: "/report/yangju",
+  },
+] as const;
+
 export const HERO_BADGES = [
   "법정의무교육",
   "2년 1회",

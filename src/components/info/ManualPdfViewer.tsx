@@ -55,7 +55,7 @@ export function ManualPdfViewer({
         >
           <GlassPanel className="p-6 md:p-10 border-[#1e3a5f]/30 space-y-6">
             <div>
-              <p className="text-[#2d8a4e] text-sm font-medium mb-3">매뉴얼</p>
+              <p className="text-[#00ff88] text-sm font-medium mb-3">매뉴얼</p>
               <h2 className="text-white text-xl md:text-2xl font-medium mb-3">{title}</h2>
               <p className="text-white/80 text-sm md:text-base leading-relaxed mb-2">
                 {description}

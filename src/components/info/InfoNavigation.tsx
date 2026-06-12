@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { INFO_NAV_ITEMS } from "@/data/legal-obligations";
+import { INFO_EXTERNAL_NAV_ITEMS, INFO_NAV_ITEMS } from "@/data/legal-obligations";
 
 const NAV_OFFSET = 88;
 
@@ -80,7 +80,7 @@ export function InfoNavigation() {
             onClick={(e) => handleClick(e, "hero")}
             className="text-white font-medium text-sm md:text-base shrink-0"
           >
-            <span className="text-[#2d8a4e]">양주시</span>{" "}
+            <span className="text-neon-green">양주시</span>{" "}
             <span className="hidden sm:inline">어린이놀이시설 안전관리자 교육</span>
             <span className="sm:hidden">안전관리자 교육</span>
           </a>
@@ -95,26 +95,45 @@ export function InfoNavigation() {
                   onClick={(e) => handleClick(e, item.id)}
                   className={cn(
                     "relative px-3 py-2 rounded-full text-sm font-light transition-all duration-300",
-                    isActive ? "text-[#2d8a4e]" : "text-white/70 hover:text-[#2d8a4e]"
+                    isActive ? "text-neon-green" : "text-white/70 hover:text-[#00ff88]"
                   )}
                 >
                   {item.label}
                   {isActive && (
                     <motion.div
                       layoutId="infoActiveIndicator"
-                      className="absolute inset-0 rounded-full bg-[#2d8a4e]/10 border border-[#2d8a4e]/50"
+                      className="absolute inset-0 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/50"
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
                   )}
                 </a>
               );
             })}
+            {INFO_EXTERNAL_NAV_ITEMS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-2 rounded-full text-sm font-light text-white/70 hover:text-[#00ff88] transition-all duration-300"
+              >
+                {item.label}
+              </a>
+            ))}
           </div>
 
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center gap-2">
             <select
               value={activeSection}
-              onChange={(e) => scrollToSection(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value.startsWith("external:")) {
+                  const href = value.replace("external:", "");
+                  window.open(href, "_blank", "noopener,noreferrer");
+                  return;
+                }
+                scrollToSection(value);
+              }}
               className="glass-panel bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-full appearance-none cursor-pointer max-w-[180px] sm:max-w-none"
               aria-label="섹션 이동"
               style={{
@@ -127,6 +146,11 @@ export function InfoNavigation() {
               {INFO_NAV_ITEMS.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.label}
+                </option>
+              ))}
+              {INFO_EXTERNAL_NAV_ITEMS.map((item) => (
+                <option key={item.href} value={`external:${item.href}`}>
+                  {item.label} (새 창)
                 </option>
               ))}
             </select>

@@ -45,7 +45,7 @@ export function LegalObligationCard({ obligation, defaultOpen = false }: LegalOb
         </div>
         <ChevronDown
           className={cn(
-            "w-5 h-5 text-[#2d8a4e] shrink-0 transition-transform duration-300 mt-1",
+            "w-5 h-5 text-[#00ff88] shrink-0 transition-transform duration-300 mt-1",
             isOpen && "rotate-180"
           )}
           aria-hidden
@@ -71,7 +71,7 @@ export function LegalObligationCard({ obligation, defaultOpen = false }: LegalOb
                   {item.content.map((line) => (
                     <li
                       key={line}
-                      className="text-white/75 text-sm md:text-base leading-relaxed pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-[#2d8a4e]"
+                      className="text-white/75 text-sm md:text-base leading-relaxed pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-[#00ff88]"
                     >
                       {line}
                     </li>

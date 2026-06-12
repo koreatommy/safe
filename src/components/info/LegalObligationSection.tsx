@@ -22,7 +22,7 @@ export function LegalObligationSection() {
           transition={{ duration: 0.6 }}
         >
           <GlassPanel className="p-6 md:p-10 border-[#1e3a5f]/30">
-            <p className="text-[#2d8a4e] text-sm font-medium mb-3">Section 1</p>
+            <p className="text-[#00ff88] text-sm font-medium mb-3">Section 1</p>
             <h2 className="text-white text-xl md:text-2xl font-medium mb-4">
               법적의무사항 알림
             </h2>
@@ -73,9 +73,9 @@ export function LegalObligationSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <GlassPanel className="p-6 md:p-8 border-[#2d8a4e]/30">
+          <GlassPanel className="p-6 md:p-8 border-[#00ff88]/30">
             <div className="flex gap-3 items-center mb-5">
-              <CheckSquare className="w-5 h-5 text-[#2d8a4e]" aria-hidden />
+              <CheckSquare className="w-5 h-5 text-[#00ff88]" aria-hidden />
               <h3 className="text-white font-medium text-base md:text-lg">
                 관리주체 필수 체크리스트
               </h3>
@@ -87,7 +87,7 @@ export function LegalObligationSection() {
                   className="flex items-start gap-3 text-white/80 text-sm md:text-base"
                 >
                   <span
-                    className="mt-0.5 w-4 h-4 rounded border border-[#2d8a4e]/60 shrink-0"
+                    className="mt-0.5 w-4 h-4 rounded border border-[#00ff88]/60 shrink-0"
                     aria-hidden
                   />
                   {item}
