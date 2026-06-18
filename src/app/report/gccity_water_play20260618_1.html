@@ -148,6 +148,205 @@ tr:nth-child(even) td { background: #f8f9fb; }
   text-align: center; font-size: 11px; color: #999;
 }
 
+/* ── 모바일 최적화 ── */
+@media screen and (max-width: 768px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  .report {
+    max-width: 100%;
+    padding: 20px 14px;
+    overflow-x: hidden;
+  }
+  .report-header {
+    margin: -20px -14px 24px -14px;
+    padding: 16px 14px;
+  }
+  .report-header h1 {
+    font-size: 18px;
+    line-height: 1.45;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .report-header .sub {
+    font-size: 12px;
+    line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  h2 {
+    font-size: 15px;
+    line-height: 1.45;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  h3 {
+    font-size: 14px;
+    line-height: 1.45;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .stat-card {
+    padding: 12px 10px;
+  }
+  .stat-card .num {
+    font-size: 24px;
+  }
+  .stat-card .label {
+    font-size: 11px;
+    line-height: 1.35;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .report table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 11px;
+  }
+  .report table thead,
+  .report table tbody,
+  .report table tr {
+    display: table;
+    table-layout: auto;
+    width: max-content;
+    min-width: 100%;
+  }
+  .report table th,
+  .report table td {
+    padding: 7px 8px;
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    vertical-align: middle;
+  }
+  .report table td.left,
+  .report table th.left {
+    white-space: normal;
+    min-width: 96px;
+    max-width: 180px;
+    line-height: 1.45;
+    overflow-wrap: break-word;
+  }
+  .issue-type-chart {
+    gap: 12px;
+  }
+  .bar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+  .bar-label {
+    width: auto;
+    text-align: left;
+    font-size: 11.5px;
+    line-height: 1.45;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .bar-track {
+    width: 100%;
+    min-height: 24px;
+  }
+  .bar-fill {
+    white-space: nowrap;
+    min-width: 56px;
+  }
+  .facility-card {
+    overflow: visible;
+  }
+  .facility-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .facility-header .fname {
+    margin-left: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+  .finding {
+    flex-direction: column;
+    padding: 12px;
+    gap: 10px;
+  }
+  .finding .photo-wrap {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+  }
+  .finding .info {
+    width: 100%;
+    min-width: 0;
+  }
+  .finding .desc,
+  .finding .detail,
+  .finding .standard,
+  .finding .action {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.55;
+  }
+  .note {
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 12px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .total-assessment {
+    padding: 14px 12px;
+  }
+  .total-assessment p {
+    font-size: 12.5px;
+    line-height: 1.65;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .footer {
+    font-size: 10.5px;
+    line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  body {
+    padding: 8px;
+  }
+  .report {
+    padding: 16px 12px;
+  }
+  .report-header {
+    margin: -16px -12px 20px -12px;
+    padding: 14px 12px;
+  }
+  .report-header h1 {
+    font-size: 16px;
+  }
+  .stat-card .num {
+    font-size: 22px;
+  }
+}
+
 @media print {
   body { background: #fff; padding: 0; }
   .report { box-shadow: none; padding: 20px; }
