@@ -1,7 +1,7 @@
 import { buildStandaloneReportHtml } from "@/lib/buildStandaloneReportHtml";
 
 export async function GET() {
-  const html = await buildStandaloneReportHtml("gccity_water_play20260618.html");
+  const html = await buildStandaloneReportHtml("gccity_water_play20260618_1.html");
 
   return new Response(html, {
     headers: {
