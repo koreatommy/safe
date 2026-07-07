@@ -92,7 +92,13 @@ body:has(.yangju-report-toolbar){padding-top:72px;}
   div[style*="height:280px"],div[style*="height:300px"]{
     height:auto!important;min-height:180px!important;page-break-inside:avoid;
   }
-  canvas,.yangju-chart-print-img{
+  canvas.yangju-chart-frozen-for-print{
+    display:none!important;
+    visibility:hidden!important;
+    height:0!important;
+    overflow:hidden!important;
+  }
+  .yangju-chart-print-img{
     display:block!important;
     visibility:visible!important;
     opacity:1!important;
@@ -102,8 +108,18 @@ body:has(.yangju-report-toolbar){padding-top:72px;}
     page-break-inside:avoid;
     object-fit:contain;
   }
-  div[style*="height:300px"] canvas,
-  div[style*="height:300px"] .yangju-chart-print-img{height:300px!important;}
+  canvas:not(.yangju-chart-frozen-for-print){
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    max-width:100%!important;
+    width:100%!important;
+    height:280px!important;
+    page-break-inside:avoid;
+    object-fit:contain;
+  }
+  div[style*="height:300px"] .yangju-chart-print-img,
+  div[style*="height:300px"] canvas:not(.yangju-chart-frozen-for-print){height:300px!important;}
   .mini-table{font-size:8px!important;}
   .mini-table th,.mini-table td{padding:2px 3px!important;font-size:7.5px!important;}
   thead{display:table-header-group!important;}
@@ -190,16 +206,16 @@ const CHROME_SCRIPT = `
           chart.resize();
           chart.update("none");
         }
-        var rect = canvas.getBoundingClientRect();
+        if (!canvas.width || !canvas.height) return;
+        var dataUrl = canvas.toDataURL("image/png", 1);
+        if (!dataUrl || dataUrl === "data:,") return;
         var img = document.createElement("img");
-        img.src = canvas.toDataURL("image/png");
+        img.src = dataUrl;
         img.className = "yangju-chart-print-img";
         img.alt = "";
-        img.style.width = rect.width + "px";
-        img.style.height = rect.height + "px";
         img.setAttribute("data-yangju-chart-snapshot", "1");
+        canvas.classList.add("yangju-chart-frozen-for-print");
         canvas.insertAdjacentElement("afterend", img);
-        canvas.style.display = "none";
         chartSnapshots.push({ canvas: canvas, img: img });
       } catch (e) {}
     });
@@ -209,7 +225,7 @@ const CHROME_SCRIPT = `
   function restoreChartsAfterPrint() {
     if (!chartsFrozen) return;
     chartSnapshots.forEach(function (snap) {
-      snap.canvas.style.display = "";
+      snap.canvas.classList.remove("yangju-chart-frozen-for-print");
       if (snap.img && snap.img.parentNode) {
         snap.img.parentNode.removeChild(snap.img);
       }
@@ -220,10 +236,15 @@ const CHROME_SCRIPT = `
   }
 
   function printReport() {
-    freezeChartsForPrint();
-    setTimeout(function () {
-      window.print();
-    }, 150);
+    refreshCharts();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        freezeChartsForPrint();
+        setTimeout(function () {
+          window.print();
+        }, 150);
+      });
+    });
   }
 
   window.addEventListener("beforeprint", freezeChartsForPrint);
