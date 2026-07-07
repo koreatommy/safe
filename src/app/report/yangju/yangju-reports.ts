@@ -25,8 +25,8 @@ export const YANGJU_REPORTS: YangjuReport[] = [
   {
     id: "report2",
     href: "/report/yangju/report2",
-    title: "개학기 지도·점검 종합보고서 (상세)",
-    subtitle: "시설별 상세 점검 결과 포함",
+    title: "어린이 놀이시설 지도·점검 종합보고서 (상세)",
+    subtitle: "2026년 상반기 지도점검",
     fileName: "yanju_report2.html",
     isNew: true,
   },

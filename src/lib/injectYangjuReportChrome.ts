@@ -3,8 +3,11 @@ const CHROME_MARKER = "yangju-report-chrome";
 
 const TOOLBAR_HTML = `
 <div class="yangju-report-toolbar" role="toolbar" aria-label="보고서 도구">
-  <a class="yangju-toolbar-btn yangju-toolbar-btn-index" href="${YANGJU_INDEX_PATH}">목록으로</a>
-  <button type="button" class="yangju-toolbar-btn yangju-toolbar-btn-print" id="yangju-print-btn">PDF 인쇄</button>
+  <p class="yangju-print-hint">각 보고서에서 「PDF 인쇄」 버튼으로 미리보기할 때 배경 그래픽을 켜 주세요.</p>
+  <div class="yangju-toolbar-actions">
+    <a class="yangju-toolbar-btn yangju-toolbar-btn-index" href="${YANGJU_INDEX_PATH}">목록으로</a>
+    <button type="button" class="yangju-toolbar-btn yangju-toolbar-btn-print" id="yangju-print-btn">PDF 인쇄</button>
+  </div>
 </div>
 `.trim();
 
@@ -12,14 +15,20 @@ const CHROME_STYLE = `
 <style id="${CHROME_MARKER}-style">
 .yangju-report-toolbar{
   position:fixed;top:0;left:0;right:0;z-index:9999;
-  display:flex;justify-content:flex-end;align-items:center;gap:8px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
   padding:10px 16px;
   background:rgba(26,39,68,0.96);
   border-bottom:1px solid rgba(255,255,255,0.12);
   box-shadow:0 4px 20px rgba(26,39,68,0.25);
   backdrop-filter:blur(8px);
 }
-body:has(.yangju-report-toolbar){padding-top:56px;}
+body:has(.yangju-report-toolbar){padding-top:72px;}
+.yangju-print-hint{
+  flex:1;min-width:0;margin:0;padding-right:8px;
+  font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:400;
+  line-height:1.45;color:rgba(255,255,255,0.82);
+}
+.yangju-toolbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .yangju-toolbar-btn{
   display:inline-flex;align-items:center;justify-content:center;
   min-height:36px;padding:0 14px;border-radius:8px;
@@ -45,6 +54,7 @@ body:has(.yangju-report-toolbar){padding-top:56px;}
   }
 
   .yangju-report-toolbar,
+  .yangju-print-hint,
   .toc{display:none!important;}
 
   body{padding:0!important;}
@@ -96,8 +106,13 @@ body:has(.yangju-report-toolbar){padding-top:56px;}
   div[style*="height:300px"] .yangju-chart-print-img{height:300px!important;}
   .mini-table{font-size:8px!important;}
   .mini-table th,.mini-table td{padding:2px 3px!important;font-size:7.5px!important;}
-  .facility-detail,.issue-card,.facility-card{page-break-inside:avoid;}
-  .good-summary-box,.good-chips,.rate-grid{page-break-inside:avoid;}
+  thead{display:table-header-group!important;}
+  .issue-card{break-inside:avoid;page-break-inside:avoid;}
+  .facility-detail{break-inside:auto;page-break-inside:auto;}
+  .facility-card{break-inside:auto!important;page-break-inside:auto!important;}
+  .facility-header{break-after:avoid;page-break-after:avoid;}
+  .good-summary-box,.rate-grid{break-inside:avoid;page-break-inside:avoid;}
+  .good-chips{break-inside:auto;page-break-inside:auto;}
   .good-chip{font-size:8px!important;padding:1px 5px!important;}
   .issue-chip{font-size:7.5px!important;padding:1px 5px!important;}
   .stats-grid{gap:8px!important;}
@@ -105,6 +120,13 @@ body:has(.yangju-report-toolbar){padding-top:56px;}
   .stat-value,.stat-card .num{font-size:22px!important;}
 
   #sec4 .duty-compliance-table{font-size:9px!important;}
+  #sec4 .duty-compliance-table tbody tr:not(.issue-desc-row){
+    break-after:avoid;page-break-after:avoid;
+  }
+  #sec4 .duty-compliance-table tbody tr.issue-desc-row{
+    break-before:avoid;page-break-before:avoid;
+    break-inside:avoid;page-break-inside:avoid;
+  }
   #sec4 .duty-compliance-table .issue-desc-row td{padding:2px 6px 4px 8px!important;}
 
   .report{
@@ -115,9 +137,21 @@ body:has(.yangju-report-toolbar){padding-top:56px;}
     margin:0 0 16px 0!important;padding:16px 18px!important;
     background:#1a3a6c!important;color:#fff!important;
   }
-  .finding{flex-direction:column!important;page-break-inside:avoid;gap:8px!important;}
-  .finding .photo-wrap{flex:none!important;width:100%!important;max-width:100%!important;}
-  .finding .photo{max-width:100%!important;height:auto!important;}
+  .finding{
+    flex-direction:column!important;
+    break-inside:auto!important;page-break-inside:auto!important;
+    gap:8px!important;
+  }
+  .finding .photo-wrap{
+    flex:none!important;width:100%!important;max-width:100%!important;
+    break-inside:avoid;page-break-inside:avoid;
+  }
+  .finding .photo{
+    display:block!important;margin:0 auto!important;
+    max-width:100%!important;width:auto!important;height:auto!important;
+    max-height:95mm!important;object-fit:contain!important;
+  }
+  .finding .info{break-inside:avoid;page-break-inside:avoid;}
   .bar-label{width:130px!important;font-size:9px!important;}
   .bar-fill{font-size:9px!important;}
   .stat-cards{grid-template-columns:repeat(4,1fr)!important;gap:6px!important;}

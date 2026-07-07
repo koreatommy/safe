@@ -259,8 +259,8 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Report index: global heading/body clamp must not override Tailwind utilities */
-.gimpo-risk-reports :where(h1, h2, h3, h4, h5, h6, p) {
+/* Report index: global heading clamp must not override Tailwind utilities */
+.gimpo-risk-reports :where(h1, h2, h3, h4, h5, h6) {
   font-size: unset;
   font-weight: unset;
   line-height: unset;
@@ -474,4 +474,143 @@ nav a {
 .info-landing li {
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   line-height: 1.6;
+}
+
+/* Yangju summary dashboard – override global heading clamp inside gimpo-risk-reports */
+.yangju-summary-dashboard :where(h2, h3, h4, p) {
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+  letter-spacing: unset;
+}
+
+.yangju-summary-dashboard .yangju-summary-eyebrow {
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.yangju-summary-dashboard .yangju-summary-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 640px) {
+  .yangju-summary-dashboard .yangju-summary-title {
+    font-size: 1.375rem !important;
+  }
+}
+
+.yangju-summary-dashboard .yangju-summary-desc {
+  font-size: 0.8125rem !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+}
+
+@media (min-width: 640px) {
+  .yangju-summary-dashboard .yangju-summary-desc {
+    font-size: 0.875rem !important;
+  }
+}
+
+.yangju-summary-dashboard .yangju-summary-card-title {
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.yangju-summary-dashboard .yangju-summary-chart-title {
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.yangju-summary-dashboard .yangju-summary-chart-desc {
+  font-size: 0.75rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+}
+
+.yangju-summary-dashboard .yangju-summary-stat-value {
+  font-size: 1.375rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 640px) {
+  .yangju-summary-dashboard .yangju-summary-stat-value {
+    font-size: 1.5rem !important;
+  }
+}
+
+.yangju-summary-dashboard .yangju-summary-stat-label {
+  font-size: 0.6875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+}
+
+.yangju-summary-dashboard .yangju-summary-total-label {
+  font-size: 0.6875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+}
+
+.yangju-summary-dashboard .yangju-summary-total-value {
+  font-size: 1.75rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em !important;
+}
+
+@media (min-width: 640px) {
+  .yangju-summary-dashboard .yangju-summary-total-value {
+    font-size: 2rem !important;
+  }
+}
+
+/* Yangju report list – explicit sizes so global p clamp does not win */
+.gimpo-risk-reports .yangju-report-list-subtitle {
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.gimpo-risk-reports .yangju-report-list-title {
+  font-size: 1.0625rem !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  letter-spacing: -0.01em !important;
+}
+
+@media (min-width: 1024px) {
+  .gimpo-risk-reports .yangju-report-list-title {
+    font-size: 1.125rem !important;
+  }
+}
+
+.gimpo-risk-reports .yangju-report-list-meta {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+}
+
+.gimpo-risk-reports .yangju-report-list-section-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 1024px) {
+  .gimpo-risk-reports .yangju-report-list-section-title {
+    font-size: 1.25rem !important;
+  }
 }

@@ -4,7 +4,24 @@ import { YANGJU_REPORTS } from "./yangju-reports";
 
 export function YangjuReportList() {
   return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section aria-labelledby="yangju-report-list-heading" className="mt-10">
+      <div className="mb-5 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold tracking-[0.12em] text-[#3772b8] uppercase">
+            Reports
+          </p>
+          <h2
+            className="yangju-report-list-section-title mt-1 text-[#1a2744]"
+            id="yangju-report-list-heading"
+          >
+            보고서 바로가기
+          </h2>
+        </div>
+        <p className="yangju-report-list-meta hidden text-[#6b7280] sm:block">
+          전체 HTML 보고서를 바로 열어볼 수 있습니다.
+        </p>
+      </div>
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {YANGJU_REPORTS.map((report, index) => (
         <li key={report.id}>
           <Link
@@ -27,14 +44,14 @@ export function YangjuReportList() {
               </div>
             </div>
 
-            <p className="text-xs font-medium tracking-wide text-[#3772b8]">
+            <p className="yangju-report-list-subtitle text-[#3772b8]">
               {report.subtitle}
             </p>
-            <p className="mt-1 text-lg font-bold leading-snug text-[#1a2744] group-hover:text-[#3772b8]">
+            <p className="yangju-report-list-title mt-1 text-[#1a2744] group-hover:text-[#3772b8]">
               {report.title}
             </p>
 
-            <div className="mt-4 flex items-center justify-between border-t border-[#ebedf0] pt-4 text-sm text-[#6b7280]">
+            <div className="yangju-report-list-meta mt-4 flex items-center justify-between border-t border-[#ebedf0] pt-4 text-[#6b7280]">
               <span className="inline-flex items-center gap-1.5">
                 <MapPin aria-hidden className="size-4 shrink-0" />
                 양주시
@@ -47,6 +64,7 @@ export function YangjuReportList() {
           </Link>
         </li>
       ))}
-    </ul>
+      </ul>
+    </section>
   );
 }
