@@ -301,7 +301,7 @@ function ChartPanel({
 
 export function YangjuSummaryDashboard() {
   const facilityCounts = YANGJU_REPORT_SUMMARIES.map(
-    (r) => r.judgment?.total ?? r.waterPlay?.facilities ?? 0,
+    (r) => r.judgment?.total ?? r.waterPlay?.facilities ?? r.riskFacilities ?? 0,
   );
   const facilityYMax = chartYMax(facilityCounts);
 
@@ -314,7 +314,7 @@ export function YangjuSummaryDashboard() {
           {
             label: "점검 대상 시설 (개소)",
             data: facilityCounts,
-            backgroundColor: [COLORS.blue, COLORS.blueLight, COLORS.navy],
+            backgroundColor: [COLORS.blue, COLORS.blueLight, COLORS.navy, COLORS.repair],
             borderRadius: 10,
             borderSkipped: false,
             maxBarThickness: 72,
@@ -352,7 +352,7 @@ export function YangjuSummaryDashboard() {
         },
       },
     }),
-    [facilityYMax],
+    [facilityYMax, ...facilityCounts],
   );
 
   const judgmentChartRef = useChart(
@@ -473,7 +473,7 @@ export function YangjuSummaryDashboard() {
       <div className="space-y-6 px-4 py-5 sm:space-y-8 sm:px-6 sm:py-6">
         <div className="grid gap-4 sm:gap-5 lg:grid-cols-2">
           <ChartPanel
-            description="개학기 · 물놀이형 · 상반기 비교"
+            description="개학기 · 물놀이형 · 상반기 · 위험성평가 비교"
             title="보고서별 점검 시설 수"
           >
             <div className="relative h-48 sm:h-56 lg:h-60">
@@ -482,7 +482,7 @@ export function YangjuSummaryDashboard() {
           </ChartPanel>
 
           <ChartPanel
-            description={`총 ${YANGJU_COMBINED_JUDGMENT.total}개소 · 3개 보고서 통합`}
+            description={`총 ${YANGJU_COMBINED_JUDGMENT.total}개소 · 3개 보고서 통합 · 위험성 평가 대상개소 제외`}
             title="종합 판정 분포 (전체)"
           >
             <div className="relative mx-auto h-52 max-w-sm sm:h-60 sm:max-w-md lg:h-64">

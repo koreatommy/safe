@@ -110,7 +110,10 @@ export const YANGJU_RISK_FACILITY_SUMMARIES: YangjuRiskFacilitySummary[] = [
 ];
 
 export const YANGJU_TOTAL_FACILITIES = YANGJU_REPORT_SUMMARIES.reduce((sum, report) => {
-  return sum + (report.judgment?.total ?? report.waterPlay?.facilities ?? 0);
+  return (
+    sum +
+    (report.judgment?.total ?? report.waterPlay?.facilities ?? report.riskFacilities ?? 0)
+  );
 }, 0);
 
 export const YANGJU_COMBINED_JUDGMENT = YANGJU_REPORT_SUMMARIES.reduce(
