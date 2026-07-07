@@ -8,14 +8,17 @@ import {
   Droplets,
   FileBarChart2,
   GraduationCap,
+  ShieldAlert,
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
 import {
   YANGJU_COMBINED_JUDGMENT,
   YANGJU_REPORT_SUMMARIES,
+  YANGJU_RISK_FACILITY_SUMMARIES,
   YANGJU_TOTAL_FACILITIES,
   type YangjuReportSummary,
+  type YangjuRiskFacilitySummary,
 } from "./yangju-summary-data";
 
 Chart.register(...registerables);
@@ -36,12 +39,14 @@ const REPORT_ICONS: Record<string, LucideIcon> = {
   "school-opening": GraduationCap,
   "water-play202607": Droplets,
   report2: FileBarChart2,
+  risk: ShieldAlert,
 };
 
 const REPORT_ACCENT: Record<string, string> = {
   "school-opening": "border-l-[#3772b8] bg-[#f4f8fd]",
   "water-play202607": "border-l-[#5a8fd4] bg-[#f3f9fc]",
   report2: "border-l-[#1a2744] bg-[#f6f7fa]",
+  risk: "border-l-[#c62828] bg-[#fff8f8]",
 };
 
 function useChart(
@@ -172,10 +177,31 @@ function ReportSummaryCard({ report }: { report: YangjuReportSummary }) {
 
         {report.waterPlay ? (
           <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
-            <StatCard label="점검 시설" tone="default" value={report.waterPlay.facilities} />
+            <StatCard label="점검대상" tone="default" value={report.waterPlay.facilities} />
             <StatCard label="지적사항" tone="alert" value={report.waterPlay.issues} />
             <StatCard label="시정완료" tone="default" value={report.waterPlay.corrected} />
             <StatCard label="조치예정" tone="good" value={report.waterPlay.scheduled} />
+          </div>
+        ) : null}
+
+        {report.riskAssessment ? (
+          <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+            <StatCard
+              label="전체 평가항목"
+              tone="default"
+              value={report.riskAssessment.totalItems}
+            />
+            <StatCard
+              label="위험요소 식별"
+              tone="alert"
+              value={report.riskAssessment.riskIdentified}
+            />
+            <StatCard
+              label="해당없음"
+              tone="default"
+              value={report.riskAssessment.notApplicable}
+            />
+            <StatCard label="양호" tone="good" value={report.riskAssessment.good} />
           </div>
         ) : null}
 
@@ -188,6 +214,64 @@ function ReportSummaryCard({ report }: { report: YangjuReportSummary }) {
         </Link>
       </div>
     </article>
+  );
+}
+
+function ListStat({
+  label,
+  value,
+  tone = "default",
+}: {
+  label: string;
+  value: number;
+  tone?: "default" | "good" | "alert";
+}) {
+  const valueColor = {
+    default: "text-[#1a2744]",
+    good: "text-[#2e7d32]",
+    alert: "text-[#c62828]",
+  }[tone];
+
+  return (
+    <div className="flex flex-col items-center rounded-lg bg-[#f8fafc] px-2 py-2 text-center sm:min-w-[4.25rem] sm:px-3">
+      <span className="text-[10px] leading-tight text-[#6b7280]">{label}</span>
+      <span className={`mt-0.5 text-base font-bold tabular-nums sm:text-lg ${valueColor}`}>
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function RiskFacilityListItem({ facility }: { facility: YangjuRiskFacilitySummary }) {
+  return (
+    <li>
+      <Link
+        className="group flex flex-col gap-3 px-4 py-4 transition hover:bg-[#f8fafc] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#3772b8] sm:grid sm:grid-cols-[minmax(0,1fr)_repeat(4,4.5rem)_5.5rem] sm:items-center sm:gap-4 sm:px-5 sm:py-4"
+        href={facility.href}
+      >
+        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <span className="shrink-0 rounded-full bg-[#1a2744] px-2.5 py-0.5 text-[10px] font-bold tracking-wide text-white">
+            {facility.shortLabel}
+          </span>
+          <span className="yangju-summary-card-title truncate text-[#1a2744] transition group-hover:text-[#3772b8]">
+            {facility.facility}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-4 gap-2 sm:contents">
+          <ListStat label="전체" tone="default" value={facility.stats.totalItems} />
+          <ListStat label="위험" tone="alert" value={facility.stats.riskIdentified} />
+          <ListStat label="해당없음" tone="default" value={facility.stats.notApplicable} />
+          <ListStat label="양호" tone="good" value={facility.stats.good} />
+        </div>
+
+        <span className="inline-flex shrink-0 items-center justify-end gap-1 text-[13px] font-semibold text-[#3772b8] sm:justify-center">
+          <span className="sm:hidden">보고서 열기</span>
+          <span className="hidden sm:inline">열기</span>
+          <ChevronRight aria-hidden className="size-4" />
+        </span>
+      </Link>
+    </li>
   );
 }
 
@@ -329,8 +413,8 @@ export function YangjuSummaryDashboard() {
       className="yangju-summary-dashboard mb-8 rounded-2xl border border-[#e3e8ef] bg-gradient-to-b from-white to-[#f8fafc] shadow-[0_4px_24px_rgba(26,39,68,0.07)] sm:mb-10"
     >
       <div className="border-b border-[#e8ecf2] bg-white px-4 py-5 sm:px-6 sm:py-6">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
-          <div className="min-w-0 flex-1">
+        <div className="flex flex-col gap-5">
+          <div className="min-w-0">
             <p className="yangju-summary-eyebrow uppercase text-[#3772b8]">종합 현황</p>
             <h2
               className="yangju-summary-title mt-1.5 text-[#1a2744]"
@@ -339,17 +423,18 @@ export function YangjuSummaryDashboard() {
               양주시 점검 보고서 통합 요약
             </h2>
             <p className="yangju-summary-desc mt-2 max-w-2xl text-[#6b7280]">
-              3개 보고서의 점검 대상 시설 및 판정·지적 현황을 한눈에 확인할 수 있습니다.
+              점검 보고서 3종과 신종유사놀이시설 위험성평가 4개소 현황을 한눈에 확인할 수
+              있습니다.
             </p>
           </div>
 
-          <div className="relative w-full shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a2744] via-[#2d3f5e] to-[#3772b8] text-white shadow-[0_8px_24px_rgba(26,39,68,0.22)] lg:w-[min(100%,26rem)] xl:w-[28rem]">
+          <div className="relative w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a2744] via-[#2d3f5e] to-[#3772b8] text-white shadow-[0_8px_24px_rgba(26,39,68,0.22)]">
             <div
               aria-hidden
               className="pointer-events-none absolute -right-6 -top-6 size-24 rounded-full bg-white/10 blur-2xl"
             />
             <div className="relative flex flex-col sm:flex-row sm:items-stretch">
-              <div className="px-5 py-4 sm:flex sm:items-center sm:px-6 sm:py-5">
+              <div className="shrink-0 px-5 py-4 sm:flex sm:items-center sm:px-6 sm:py-5">
                 <div>
                   <p className="yangju-summary-total-label text-white/75">
                     전체 점검 대상 시설 합계
@@ -362,17 +447,20 @@ export function YangjuSummaryDashboard() {
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-3 divide-x divide-white/15 border-t border-white/15 sm:flex sm:flex-1 sm:border-l sm:border-t-0">
+              <div className="grid grid-cols-2 divide-x divide-y divide-white/15 border-t border-white/15 sm:grid-cols-4 sm:divide-y-0 sm:border-l sm:border-t-0">
                 {YANGJU_REPORT_SUMMARIES.map((r) => (
                   <div
-                    className="flex min-w-0 flex-col items-center justify-center px-3 py-3 text-center sm:px-4 sm:py-5"
+                    className="flex min-w-0 flex-col items-center justify-center px-2 py-3 text-center sm:px-3 sm:py-5"
                     key={r.id}
                   >
-                    <p className="whitespace-nowrap text-[11px] text-white/65 sm:text-xs">
+                    <p className="text-[10px] leading-tight text-white/65 sm:text-[11px]">
                       {r.shortLabel}
                     </p>
                     <p className="mt-1 text-base font-bold tabular-nums text-white sm:text-lg">
-                      {r.judgment?.total ?? r.waterPlay?.facilities ?? 0}
+                      {r.judgment?.total ??
+                        r.waterPlay?.facilities ??
+                        r.riskFacilities ??
+                        0}
                     </p>
                   </div>
                 ))}
@@ -403,10 +491,35 @@ export function YangjuSummaryDashboard() {
           </ChartPanel>
         </div>
 
-        <div className="grid items-stretch gap-4 sm:gap-5 lg:grid-cols-3">
+        <div className="grid items-stretch gap-4 sm:gap-5 lg:grid-cols-2 xl:grid-cols-4">
           {YANGJU_REPORT_SUMMARIES.map((report) => (
             <ReportSummaryCard key={report.id} report={report} />
           ))}
+        </div>
+
+        <div>
+          <div className="mb-4">
+            <h3 className="yangju-summary-chart-title text-[#1a2744]">시설별 위험성평가</h3>
+            <p className="yangju-summary-chart-desc mt-1 text-[#6b7280]">
+              4개 시설 체크리스트 18항목 평가 결과 (전체 평가항목 · 위험요소 식별 · 해당없음 ·
+              양호)
+            </p>
+          </div>
+          <div className="overflow-hidden rounded-2xl border border-[#e8ecf2] bg-white shadow-[0_1px_8px_rgba(26,39,68,0.04)]">
+            <div className="hidden border-b border-[#e8ecf2] bg-gradient-to-r from-[#f8fafc] to-white px-5 py-3 text-[11px] font-medium text-[#6b7280] sm:grid sm:grid-cols-[minmax(0,1fr)_repeat(4,4.5rem)_5.5rem] sm:items-center sm:gap-4">
+              <span>시설명</span>
+              <span className="text-center">전체</span>
+              <span className="text-center">위험</span>
+              <span className="text-center">해당없음</span>
+              <span className="text-center">양호</span>
+              <span className="text-center">보고서</span>
+            </div>
+            <ul className="divide-y divide-[#e8ecf2]">
+              {YANGJU_RISK_FACILITY_SUMMARIES.map((facility) => (
+                <RiskFacilityListItem facility={facility} key={facility.id} />
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

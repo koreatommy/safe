@@ -7,7 +7,7 @@ import { YANGJU_TOTAL_FACILITIES } from "./yangju-summary-data";
 export const metadata: Metadata = {
   title: "양주시 어린이놀이시설 점검 보고서",
   description:
-    "양주시 개학기 지도·점검 종합보고서 및 물놀이형 어린이놀이시설 점검 결과 보고서를 확인할 수 있습니다.",
+    "양주시 개학기 지도·점검 종합보고서, 물놀이형 어린이놀이시설 점검 결과 및 신종유사놀이시설 위험성 평가 보고서를 확인할 수 있습니다.",
 };
 
 export default function YangjuReportsPage() {

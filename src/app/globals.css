@@ -602,6 +602,19 @@ nav a {
   line-height: 1.5 !important;
 }
 
+.gimpo-risk-reports .yangju-report-list-shortcut-text {
+  font-size: 0.875rem !important;
+  line-height: 1.375 !important;
+}
+
+.gimpo-risk-reports p.yangju-report-list-shortcut-text {
+  font-weight: 400 !important;
+}
+
+.gimpo-risk-reports a.yangju-report-list-shortcut-text {
+  font-weight: 500 !important;
+}
+
 .gimpo-risk-reports .yangju-report-list-section-title {
   font-size: 1.125rem !important;
   font-weight: 700 !important;

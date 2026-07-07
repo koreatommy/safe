@@ -3,7 +3,7 @@ export type YangjuReport = {
   href: string;
   title: string;
   subtitle: string;
-  fileName: string;
+  fileName?: string;
   isNew?: boolean;
 };
 
@@ -29,6 +29,12 @@ export const YANGJU_REPORTS: YangjuReport[] = [
     subtitle: "2026년 상반기 지도점검",
     fileName: "yanju_report2.html",
     isNew: true,
+  },
+  {
+    id: "risk",
+    href: "/report/yangju/risk",
+    title: "위험성 평가 보고서",
+    subtitle: "신종유사놀이시설 위험성평가",
   },
 ];
 
