@@ -34,13 +34,13 @@ const COLORS = {
 
 const REPORT_ICONS: Record<string, LucideIcon> = {
   "school-opening": GraduationCap,
-  "water-play202606": Droplets,
+  "water-play202607": Droplets,
   report2: FileBarChart2,
 };
 
 const REPORT_ACCENT: Record<string, string> = {
   "school-opening": "border-l-[#3772b8] bg-[#f4f8fd]",
-  "water-play202606": "border-l-[#5a8fd4] bg-[#f3f9fc]",
+  "water-play202607": "border-l-[#5a8fd4] bg-[#f3f9fc]",
   report2: "border-l-[#1a2744] bg-[#f6f7fa]",
 };
 

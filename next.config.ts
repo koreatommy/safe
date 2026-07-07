@@ -10,8 +10,18 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/yangju/water-play202607",
+        destination: "/report/yangju/water-play202607",
+        permanent: true,
+      },
+      {
         source: "/yangju/water-play202606",
-        destination: "/report/yangju/water-play202606",
+        destination: "/report/yangju/water-play202607",
+        permanent: true,
+      },
+      {
+        source: "/report/yangju/water-play202606",
+        destination: "/report/yangju/water-play202607",
         permanent: true,
       },
     ];

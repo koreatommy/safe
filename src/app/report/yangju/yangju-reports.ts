@@ -16,11 +16,11 @@ export const YANGJU_REPORTS: YangjuReport[] = [
     fileName: "yangju_report.html",
   },
   {
-    id: "water-play202606",
-    href: "/report/yangju/water-play202606",
+    id: "water-play202607",
+    href: "/report/yangju/water-play202607",
     title: "물놀이형 어린이놀이시설 점검 결과 보고서",
     subtitle: "2026년 여름철 물가동 전 전수점검",
-    fileName: "yangju_water_play202606.html",
+    fileName: "yangju_water_play202607.html",
   },
   {
     id: "report2",

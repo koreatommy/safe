@@ -18,7 +18,7 @@ export function YangjuReportList() {
           </h2>
         </div>
         <p className="yangju-report-list-meta hidden text-[#6b7280] sm:block">
-          전체 HTML 보고서를 바로 열어볼 수 있습니다.
+          전체 PDF 보고서를 바로 열어볼 수 있습니다.
         </p>
       </div>
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

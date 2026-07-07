@@ -31,12 +31,12 @@ export const YANGJU_REPORT_SUMMARIES: YangjuReportSummary[] = [
     judgment: { total: 20, good: 3, caution: 8, repair: 9 },
   },
   {
-    id: "water-play202606",
+    id: "water-play202607",
     shortLabel: "물놀이형",
     title: "물놀이형 어린이놀이시설 점검 결과 보고서",
-    href: "/report/yangju/water-play202606",
-    judgment: { total: 13, good: 0, caution: 7, repair: 6 },
-    waterPlay: { facilities: 13, issues: 16, corrected: 0, scheduled: 16 },
+    href: "/report/yangju/water-play202607",
+    judgment: { total: 20, good: 7, caution: 0, repair: 13 },
+    waterPlay: { facilities: 20, issues: 16, corrected: 0, scheduled: 16 },
   },
   {
     id: "report2",
