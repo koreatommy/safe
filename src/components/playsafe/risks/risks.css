@@ -1,0 +1,23 @@
+.risk-layout { display: grid; grid-template-columns: 225px 1fr; gap: 25px; }
+
+.risk-nav { display: flex; flex-direction: column; gap: 8px; }
+.risk-nav button { border: 0; background: transparent; text-align: left; padding: 14px 18px; border-radius: 12px; font-size: 14px; color: var(--muted); }
+.risk-nav button[aria-selected="true"] { background: var(--green); color: white; }
+
+.risk-panel {
+  background: white; border: 1px solid var(--line); border-radius: 22px; padding: 32px;
+  display: grid; grid-template-columns: 1fr 190px; gap: 22px;
+}
+
+.notice { font-size: 13px; padding: 16px 20px; background: #fff7e6; border-radius: 12px; margin-top: 24px; color: #785b2d; }
+
+@media (max-width: 1000px) {
+  .risk-panel { grid-template-columns: 1fr 130px; }
+}
+
+@media (max-width: 720px) {
+  .risk-layout { grid-template-columns: 1fr; }
+  .risk-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
+  .risk-nav button { padding: 10px 12px; font-size: 12px; }
+  .risk-panel { padding: 23px; grid-template-columns: 1fr; }
+}

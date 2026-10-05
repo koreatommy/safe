@@ -1,16 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { isAdminRequest } from "@/lib/server/adminSession";
 
 const TABLE = "safe_inspect_tool_product_orders";
 const STATUSES = ["pending", "processing", "completed"] as const;
 type OrderStatus = (typeof STATUSES)[number];
-
-function adminPasswordOk(request: Request): boolean {
-  const expected = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? "";
-  if (!expected) return false;
-  const sent = request.headers.get("x-admin-password") ?? "";
-  return sent === expected;
-}
 
 function serviceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -28,7 +22,7 @@ function missingSupabaseServiceResponse() {
 }
 
 export async function GET(request: Request) {
-  if (!adminPasswordOk(request)) {
+  if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "인증이 필요합니다." }, { status: 401 });
   }
   const supabase = serviceClient();
@@ -51,7 +45,7 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  if (!adminPasswordOk(request)) {
+  if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "인증이 필요합니다." }, { status: 401 });
   }
   const supabase = serviceClient();
@@ -81,7 +75,7 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  if (!adminPasswordOk(request)) {
+  if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "인증이 필요합니다." }, { status: 401 });
   }
   const supabase = serviceClient();

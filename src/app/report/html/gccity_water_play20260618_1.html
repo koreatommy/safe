@@ -348,10 +348,70 @@ tr:nth-child(even) td { background: #f8f9fb; }
 }
 
 @media print {
+  @page { size: A4; margin: 12mm; }
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
   body { background: #fff; padding: 0; }
-  .report { box-shadow: none; padding: 20px; }
-  .report-header { margin: -20px -20px 20px -20px; }
-  .facility-card { page-break-inside: avoid; }
+  .report {
+    max-width: 100%;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+  .report-header {
+    margin: 0 0 16px 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  .stat-cards,
+  .stat-card,
+  .issue-type-chart,
+  .bar-row,
+  .note,
+  .total-assessment {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  table { page-break-inside: auto; }
+  thead { display: table-header-group; }
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .facility-card {
+    page-break-inside: auto;
+    break-inside: auto;
+    overflow: visible;
+  }
+  .facility-header {
+    page-break-after: avoid;
+    break-after: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .finding {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    page-break-before: auto;
+  }
+  .finding .photo-wrap,
+  .finding .photo,
+  img.photo {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    max-width: 100%;
+    height: auto;
+    max-height: 85mm;
+    object-fit: contain;
+  }
 }
   </style>
 </head>

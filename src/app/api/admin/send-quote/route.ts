@@ -8,15 +8,9 @@ import {
   isQuoteCompanyConfigured,
   quoteCompanyWithPlaceholders,
 } from "@/lib/quote-company-server";
+import { isAdminRequest } from "@/lib/server/adminSession";
 
 const TABLE = "safe_inspect_tool_product_orders";
-
-function adminPasswordOk(request: Request): boolean {
-  const expected = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? "";
-  if (!expected) return false;
-  const sent = request.headers.get("x-admin-password") ?? "";
-  return sent === expected;
-}
 
 function serviceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -49,7 +43,7 @@ type Body = {
 };
 
 export async function POST(request: Request) {
-  if (!adminPasswordOk(request)) {
+  if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "인증이 필요합니다." }, { status: 401 });
   }
 

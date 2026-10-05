@@ -1,0 +1,37 @@
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+.facility { border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: white; transition: transform .25s; }
+.facility:hover { transform: translateY(-6px); }
+.facility img { display: block; width: 100%; height: 180px; object-fit: cover; }
+.facility div { padding: 23px; }
+.facility p { font-size: 14px; }
+
+.target-scope { margin-top: 25px; background: #f1f7ed; border: 1px solid #d9e8d7; border-radius: 22px; padding: 28px; }
+.target-scope-heading h3 { font-size: 23px; margin: 7px 0; }
+.target-scope-heading > p { font-size: 14px; }
+.target-scope-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+.target-scope-grid article { background: #fff; border: 1px solid #e1eadf; border-radius: 15px; padding: 20px; }
+.scope-index { font-size: 11px; letter-spacing: .12em; color: var(--green); font-weight: 800; }
+.target-scope-grid h4 { font-size: 16px; line-height: 1.4; letter-spacing: -.025em; margin: 7px 0 9px; }
+.target-scope-grid p { font-size: 13px; line-height: 1.6; }
+.target-scope-note { font-size: 12px; line-height: 1.65; color: #587064; margin-top: 17px; }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.about-split { margin-top: 28px; }
+.panel { padding: 30px; border: 1px solid var(--line); background: white; border-radius: 20px; }
+.panel.soft { background: #f0f5e7; }
+.panel ul { padding-left: 20px; color: var(--muted); font-size: 15px; }
+.panel li { margin: 10px 0; }
+
+@media (max-width: 720px) {
+  .grid3, .split { grid-template-columns: 1fr; }
+  .facility { display: grid; grid-template-columns: 125px 1fr; }
+  .facility img { height: 100%; min-height: 140px; }
+  .facility div { padding: 18px; }
+  .facility h3 { font-size: 18px; }
+  .facility p { font-size: 12px; }
+  .target-scope { padding: 20px; }
+  .target-scope-heading h3 { font-size: 20px; }
+  .target-scope-grid { grid-template-columns: 1fr; gap: 9px; }
+  .target-scope-grid article { padding: 15px; }
+}

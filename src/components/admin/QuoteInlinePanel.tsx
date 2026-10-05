@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { X } from "lucide-react";
 import { GlowCapsuleButton } from "@/components/glass/GlowCapsuleButton";
-import { getAdminApiPassword } from "@/lib/auth";
 import { computeQuoteLine, computeQuoteTotals, formatKRW } from "@/lib/quote";
 import type { InspectToolProductOrder } from "@/hooks/useProductOrdersAdmin";
 import { postAdminQuoteEmail } from "@/hooks/useProductOrdersAdmin";
@@ -68,11 +67,6 @@ export function QuoteInlinePanel({ order, onClose, onSent }: QuoteInlinePanelPro
   }, [quantity, unitPrice, itemName, itemDetails, includeVat]);
 
   const runPreview = useCallback(async () => {
-    const pwd = getAdminApiPassword();
-    if (!pwd) {
-      setPreviewError("관리자 세션이 없습니다.");
-      return;
-    }
     if (quantity === null || unitPrice === null) {
       setPreviewHtml(null);
       setPreviewError(null);
@@ -80,7 +74,7 @@ export function QuoteInlinePanel({ order, onClose, onSent }: QuoteInlinePanelPro
     }
     setPreviewLoading(true);
     setPreviewError(null);
-    const res = await postAdminQuoteEmail(pwd, {
+    const res = await postAdminQuoteEmail({
       orderId: order.id,
       quantity,
       unitPrice,
@@ -108,14 +102,9 @@ export function QuoteInlinePanel({ order, onClose, onSent }: QuoteInlinePanelPro
 
   const handleSend = async () => {
     if (quantity === null || unitPrice === null) return;
-    const pwd = getAdminApiPassword();
-    if (!pwd) {
-      setSendError("관리자 세션이 없습니다.");
-      return;
-    }
     setSendLoading(true);
     setSendError(null);
-    const res = await postAdminQuoteEmail(pwd, {
+    const res = await postAdminQuoteEmail({
       orderId: order.id,
       quantity,
       unitPrice,

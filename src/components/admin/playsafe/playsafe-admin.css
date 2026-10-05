@@ -1,0 +1,14 @@
+/* 전역 h1~h4·p clamp 타이포(legacy globals.css, 레이어 밖)가 Tailwind 유틸리티를 이기므로 레이어 값으로 되돌린다. */
+.playsafe-admin :where(h1, h2, h3, h4, p) {
+  font-size: revert-layer;
+  font-weight: revert-layer;
+  line-height: revert-layer;
+  letter-spacing: revert-layer;
+}
+
+.playsafe-admin {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,156 @@
+.facility-steps {
+  --step-arrow: 18px;
+  position: sticky;
+  top: 81px;
+  z-index: 5;
+  margin: -8px 0 36px;
+  padding: 10px 0;
+  background: white;
+}
+
+.facility-steps ol {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  filter: drop-shadow(0 1px 0 var(--line));
+}
+
+.facility-step {
+  flex: 1;
+  min-width: 0;
+}
+
+.facility-step + .facility-step {
+  margin-left: calc(var(--step-arrow) * -1 + 4px);
+}
+
+.facility-step a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 calc(var(--step-arrow) + 12px);
+  background: var(--cream);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--step-arrow)) 0,
+    100% 50%,
+    calc(100% - var(--step-arrow)) 100%,
+    0 100%,
+    var(--step-arrow) 50%
+  );
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.facility-step:first-child a {
+  border-radius: 10px 0 0 10px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--step-arrow)) 0,
+    100% 50%,
+    calc(100% - var(--step-arrow)) 100%,
+    0 100%
+  );
+}
+
+.facility-step:last-child a {
+  border-radius: 0 10px 10px 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, var(--step-arrow) 50%);
+}
+
+.facility-step-badge {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.facility-step-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.facility-step.is-done a {
+  background: #e3f0e8;
+  color: var(--green);
+}
+
+.facility-step.is-done .facility-step-badge {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+
+.facility-step.is-current a {
+  background: var(--green);
+  color: white;
+}
+
+.facility-step.is-current .facility-step-badge {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: var(--ink);
+}
+
+.facility-step.is-upcoming a:hover,
+.facility-step.is-upcoming a:focus-visible {
+  background: #eef2ea;
+  color: var(--ink);
+}
+
+.facility-step a:focus-visible {
+  outline: none;
+  text-decoration: underline;
+}
+
+.facility-step-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .facility-steps {
+    --step-arrow: 12px;
+    top: 67px;
+  }
+
+  .facility-step a {
+    flex-direction: column;
+    gap: 2px;
+    height: 58px;
+    font-size: 11px;
+  }
+
+  .facility-step-badge {
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .facility-step a,
+  .facility-step-badge {
+    transition: none;
+  }
+}

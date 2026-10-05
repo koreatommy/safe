@@ -5,7 +5,7 @@ import {
   LayoutDashboard, ClipboardList, Search, CheckSquare,
   FileText, Settings, ChevronDown, Users, MessageSquare,
   CalendarDays, FolderOpen, Building2, MonitorCheck,
-  FileCheck, CheckCircle, GanttChart, Camera, X, ShoppingBag,
+  FileCheck, CheckCircle, GanttChart, Camera, X, ShoppingBag, CircleQuestionMark,
 } from "lucide-react";
 
 export type MenuItemId =
@@ -15,7 +15,7 @@ export type MenuItemId =
   | "result-check" | "result-gantt" | "result-photo"
   | "final-report"
   | "settings"
-  | "applications" | "inquiries" | "product_orders";
+  | "applications" | "inquiries" | "product_orders" | "eligibility_inquiries";
 
 interface SubMenuItem {
   id: MenuItemId;
@@ -92,6 +92,7 @@ const menuSections: MenuSection[] = [
       { id: "applications", label: "교육신청자 접수현황" },
       { id: "inquiries", label: "문의사항 현황" },
       { id: "product_orders", label: "제품 구매신청" },
+      { id: "eligibility_inquiries", label: "대상여부 문의" },
     ],
   },
 ];
@@ -254,8 +255,8 @@ export function getMenuMeta(id: MenuItemId): { label: string; description: strin
     "plan-register": { label: "계획 등록", description: "지도점검 계획을 등록하세요", icon: <CalendarDays className="w-5 h-5" /> },
     "plan-calendar": { label: "점검 캘린더", description: "점검 일정을 캘린더로 확인하세요", icon: <CalendarDays className="w-5 h-5" /> },
     "plan-manage": { label: "계획 관리", description: "등록된 계획을 관리하세요", icon: <ClipboardList className="w-5 h-5" /> },
-    "inspect-facility": { label: "대상시설 확인", description: "점검 대상 시설을 확인하세요", icon: <Building2 className="w-5 h-5" /> },
-    "inspect-monitor": { label: "평가 모니터링", description: "안전성 평가 현황을 모니터링하세요", icon: <MonitorCheck className="w-5 h-5" /> },
+    "inspect-facility": { label: "대상시설 확인", description: "신규설치 등록신청으로 입력된 시설정보·판단 기준·기구정보를 확인하세요", icon: <Building2 className="w-5 h-5" /> },
+    "inspect-monitor": { label: "평가 모니터링", description: "안전성평가 진행 현황과 결과를 확인하세요", icon: <MonitorCheck className="w-5 h-5" /> },
     "inspect-report-pre": { label: "평가보고서(이행전)", description: "이행 전 평가보고서를 확인하세요", icon: <FileCheck className="w-5 h-5" /> },
     "result-check": { label: "이행 확인", description: "이행 결과를 확인하세요", icon: <CheckCircle className="w-5 h-5" /> },
     "result-gantt": { label: "이행 일정(간트)", description: "이행 일정을 간트 차트로 확인하세요", icon: <GanttChart className="w-5 h-5" /> },
@@ -265,6 +266,7 @@ export function getMenuMeta(id: MenuItemId): { label: string; description: strin
     "applications": { label: "교육신청자 접수현황", description: "교육 신청자 목록을 확인하고 관리하세요", icon: <Users className="w-5 h-5" /> },
     "inquiries": { label: "문의사항 현황", description: "문의사항 목록을 확인하고 관리하세요", icon: <MessageSquare className="w-5 h-5" /> },
     "product_orders": { label: "제품 구매신청", description: "안전점검 도구 구매 신청 접수를 확인하세요", icon: <ShoppingBag className="w-5 h-5" /> },
+    "eligibility_inquiries": { label: "대상여부 문의", description: "신종·유사놀이시설 대상여부 문의를 확인하고 관리하세요", icon: <CircleQuestionMark className="w-5 h-5" /> },
   };
   return map[id];
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { getAdminApiPassword } from "@/lib/auth";
 
 export type ProductOrderStatus = "pending" | "processing" | "completed";
 
@@ -30,20 +29,11 @@ export function useProductOrdersAdmin() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchOrders = useCallback(async (opts?: { quiet?: boolean }) => {
-    const pwd = getAdminApiPassword();
-    if (!pwd) {
-      setError("관리자 세션이 없습니다. 로그아웃 후 다시 로그인해 주세요.");
-      setOrders([]);
-      setIsLoading(false);
-      return;
-    }
     if (!opts?.quiet) setIsLoading(true);
     setError(null);
     try {
       const q = filter === "all" ? "all" : filter;
-      const res = await fetch(`/api/admin/inspect-tool-product-orders?status=${encodeURIComponent(q)}`, {
-        headers: { "x-admin-password": pwd },
-      });
+      const res = await fetch(`/api/admin/inspect-tool-product-orders?status=${encodeURIComponent(q)}`);
       const data = (await res.json().catch(() => ({}))) as { orders?: InspectToolProductOrder[]; error?: string };
       if (!res.ok) {
         setError(data.error ?? "목록을 불러오지 못했습니다.");
@@ -65,20 +55,12 @@ export function useProductOrdersAdmin() {
 
   const updateStatus = useCallback(
     async (id: string, status: ProductOrderStatus) => {
-      const pwd = getAdminApiPassword();
-      if (!pwd) {
-        setError("관리자 세션이 없습니다. 다시 로그인해 주세요.");
-        return false;
-      }
       setUpdatingId(id);
       setError(null);
       try {
         const res = await fetch("/api/admin/inspect-tool-product-orders", {
           method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "x-admin-password": pwd,
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id, status }),
         });
         const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -100,20 +82,12 @@ export function useProductOrdersAdmin() {
 
   const deleteOrder = useCallback(
     async (id: string) => {
-      const pwd = getAdminApiPassword();
-      if (!pwd) {
-        setError("관리자 세션이 없습니다. 다시 로그인해 주세요.");
-        return false;
-      }
       setDeletingId(id);
       setError(null);
       try {
         const res = await fetch("/api/admin/inspect-tool-product-orders", {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            "x-admin-password": pwd,
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id }),
         });
         const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -172,17 +146,11 @@ export type AdminSendQuoteResult =
     }
   | { ok: false; error: string };
 
-export async function postAdminQuoteEmail(
-  password: string,
-  body: AdminSendQuoteBody,
-): Promise<AdminSendQuoteResult> {
+export async function postAdminQuoteEmail(body: AdminSendQuoteBody): Promise<AdminSendQuoteResult> {
   try {
     const res = await fetch("/api/admin/send-quote", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-admin-password": password,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     const data = (await res.json().catch(() => ({}))) as {

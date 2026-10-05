@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 test('수료증 파일 업로드 테스트', async ({ page }) => {
-  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? '';
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? '';
   // 콘솔 에러 수집
   const consoleErrors: string[] = [];
   page.on('console', msg => {
@@ -96,7 +96,7 @@ test('수료증 파일 업로드 테스트', async ({ page }) => {
         }
       }
     }
-    test.skip('미등록 상태인 행이 없습니다.');
+    test.skip(true, '미등록 상태인 행이 없습니다.');
     return;
   }
 

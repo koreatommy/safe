@@ -1,0 +1,7 @@
+.faq-layout { display: grid; grid-template-columns: .65fr 1fr; gap: 70px; }
+.faq-intro .tag { margin-top: 20px; }
+.faq-layout details p a { color: var(--green); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 720px) {
+  .faq-layout { grid-template-columns: 1fr; gap: 16px; }
+}

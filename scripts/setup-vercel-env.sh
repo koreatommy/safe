@@ -38,7 +38,7 @@ echo "$SUPABASE_ANON_KEY" | vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY develop
 echo ""
 echo "⚠️  관리자 로그인용 비밀번호는 보안상 스크립트에서 설정하지 않습니다."
 echo "    Vercel 대시보드 → Project → Settings → Environment Variables에서"
-echo "    NEXT_PUBLIC_ADMIN_PASSWORD 를 수동으로 추가한 뒤 재배포하세요."
+echo "    ADMIN_PASSWORD 를 수동으로 추가한 뒤 재배포하세요. (NEXT_PUBLIC_ 접두사 금지)"
 echo ""
 echo "환경 변수 설정이 완료되었습니다!"
 echo "Vercel 대시보드에서 확인하거나 'vercel env ls'로 확인할 수 있습니다."

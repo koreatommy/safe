@@ -1,0 +1,63 @@
+.skip-link { position: fixed; top: 92px; left: -9999px; }
+/* :focus-visible because the App Router focuses the page's first element after every navigation. */
+.skip-link:focus-visible { left: 12px; z-index: 30; }
+
+.nav {
+  position: sticky; top: 0; z-index: 20;
+  background: #f8f9f3f2; backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner { height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+
+.brand { font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 10px; line-height: 1.25; }
+.brand-icon {
+  background: var(--green); color: var(--lime); width: 36px; height: 38px;
+  border-radius: 12px 12px 18px 18px; display: grid; place-items: center; font-size: 23px;
+}
+.brand small { display: block; font-size: 10px; letter-spacing: .1em; font-weight: 500; margin-top: 4px; }
+
+.links { display: flex; align-items: center; gap: 25px; font-size: 14px; font-weight: 600; }
+.links a:hover, .links a.active { color: var(--green); text-decoration: underline; text-underline-offset: 7px; }
+
+.nav-dropdown { position: relative; }
+.nav-submenu {
+  position: absolute; top: 100%; left: 50%; z-index: 25;
+  min-width: 140px; margin: 0; padding: 18px 0 0; list-style: none;
+  opacity: 0; visibility: hidden; transform: translate(-50%, -4px);
+  transition: opacity .15s ease, transform .15s ease, visibility .15s;
+}
+.nav-submenu li { background: white; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+.nav-submenu li:first-child { border-top: 1px solid var(--line); border-radius: 12px 12px 0 0; padding-top: 6px; }
+.nav-submenu li:last-child { border-bottom: 1px solid var(--line); border-radius: 0 0 12px 12px; padding-bottom: 6px; box-shadow: 0 12px 20px #183b3610; }
+.nav-submenu a { display: block; padding: 9px 18px; white-space: nowrap; }
+.nav-dropdown:hover .nav-submenu,
+.nav-dropdown:focus-within .nav-submenu { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+.menu-toggle { display: none; }
+.reading { position: absolute; bottom: -1px; left: 0; height: 3px; background: var(--green); width: 0; }
+
+@media (max-width: 1000px) {
+  .links { gap: 14px; font-size: 12px; }
+  .nav .primary { display: none; }
+}
+
+@media (max-width: 720px) {
+  .nav-inner { height: 66px; }
+  .skip-link { top: 76px; }
+  .brand { font-size: 15px; }
+  .menu-toggle { display: block; padding: 6px 12px; min-height: 38px; }
+  .links {
+    display: none; position: absolute; left: 0; right: 0; top: 66px;
+    background: white; padding: 20px; flex-wrap: wrap; box-shadow: 0 12px 20px #183b3610;
+  }
+  .links.open { display: flex; gap: 22px; }
+  .nav-dropdown { width: 100%; }
+  .nav-submenu {
+    position: static; opacity: 1; visibility: visible; transform: none;
+    display: flex; gap: 16px; padding: 10px 0 0 12px;
+  }
+  .nav-submenu li,
+  .nav-submenu li:first-child,
+  .nav-submenu li:last-child { border: 0; border-radius: 0; padding: 0; box-shadow: none; background: none; }
+  .nav-submenu a { padding: 0; font-weight: 500; }
+}

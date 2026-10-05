@@ -1,0 +1,166 @@
+.check-notice {
+  margin-bottom: 20px; padding: 18px 22px; border-radius: 16px;
+  background: #fff8e8; border: 1px solid #f1dfb5; font-size: 13px;
+}
+.check-notice-title { display: block; font-size: 14px; color: #8a5300; margin-bottom: 8px; }
+.check-notice ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; line-height: 1.6; }
+
+.check-app { border: 1px solid var(--line); background: white; border-radius: 22px; overflow: hidden; }
+.check-app-loading { min-height: 640px; }
+
+.check-top {
+  padding: 28px; background: #eff5e6;
+  display: flex; gap: 24px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+.check-top strong { font-size: 25px; }
+.check-top p { font-size: 12px; }
+
+.meter { height: 6px; background: #d9e4d0; border-radius: 4px; margin-top: 9px; width: 220px; overflow: hidden; }
+.meter span { display: block; height: 100%; background: var(--green); width: 0; transition: width .3s; }
+
+.check-fields { padding: 22px 28px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; border-bottom: 1px solid var(--line); }
+.check-fields label { font-size: 12px; font-weight: bold; }
+.check-fields input { width: 100%; margin-top: 5px; }
+
+.check-bulk { padding: 16px 28px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.check-bulk-toggle {
+  display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 10px 18px; border: 1px solid var(--line); border-radius: 12px;
+  font-size: 14px; font-weight: 700; background: white; transition: background .2s, border-color .2s;
+}
+.check-bulk-toggle:hover { border-color: var(--green); }
+.check-bulk-toggle[data-checked="true"] { background: var(--green); border-color: var(--green); color: white; }
+.check-bulk-toggle input { width: 18px; height: 18px; accent-color: var(--lime); margin: 0; }
+.check-bulk-hint { font-size: 12px; color: var(--muted); }
+
+.check-group { border-top: 1px solid var(--line); }
+.check-group-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 28px; background: #f6f9f1; border-left: 4px solid var(--green);
+}
+.check-group-no {
+  display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px;
+  background: var(--green); color: var(--lime); font-size: 12px; font-weight: 800;
+}
+.check-group-head h3 { font-size: 17px; margin: 0; }
+.check-group-alert {
+  font-size: 11px; font-weight: 700; color: #9a5b00; background: #fff1d6; padding: 3px 9px; border-radius: 999px;
+}
+.check-group-count {
+  margin-left: auto; font-size: 12px; font-weight: 700; color: var(--muted);
+  background: white; border: 1px solid var(--line); padding: 4px 11px; border-radius: 999px;
+}
+.check-group-count[data-done="true"] { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+.check-group-head + .check-row, .check-guide + .check-row { border-top: 0; }
+
+.check-group-head { position: relative; }
+.check-group-head:hover { background: #eef5e4; }
+.check-group-toggle {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 0; padding: 0; background: transparent; font: inherit; color: inherit; cursor: pointer;
+}
+.check-group-toggle::after { content: ""; position: absolute; inset: 0; }
+.check-group-toggle:focus-visible { outline: none; }
+.check-group-head:has(.check-group-toggle:focus-visible) { outline: 2px solid var(--green); outline-offset: -2px; }
+.check-group-guide-label {
+  font-size: 11px; font-weight: 700; color: var(--green);
+  border: 1px solid var(--line); background: white; padding: 3px 9px; border-radius: 999px;
+}
+.check-group-head[data-open="true"] .check-group-guide-label { background: var(--green); border-color: var(--green); color: white; }
+.check-group-alert, .check-group-count { position: relative; z-index: 1; pointer-events: none; }
+
+.check-guide {
+  display: grid; grid-template-columns: 1fr 190px; gap: 22px;
+  padding: 24px 28px; background: white; border-bottom: 1px solid #eaf0e5;
+}
+.check-guide[hidden] { display: none; }
+.check-guide .risk-copy h4 { font-size: 20px; margin: 6px 0 8px; }
+.check-guide .risk-copy p, .check-guide .risk-copy ul { font-size: 14px; }
+.check-guide .risk-copy li { margin: 6px 0; }
+
+.check-row { display: grid; grid-template-columns: 34px 1fr 155px; gap: 14px; padding: 20px 28px; border-top: 1px solid #eaf0e5; align-items: center; }
+.check-no { color: #8d9c84; font-size: 13px; }
+.check-label { font-size: 14px; }
+.check-row textarea { grid-column: 2 / 4; width: 100%; font-size: 13px; min-height: 56px; }
+.check-row select { font-size: 13px; width: 100%; }
+.check-row[data-status="위험요소 있음"] { background: #fff9ed; }
+.check-row[data-status="해당 없음"] .check-label { color: var(--muted); }
+
+.check-photos { grid-column: 2 / 4; display: grid; gap: 10px; position: relative; }
+.check-photos-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.check-photos-count { font-size: 12px; color: var(--muted); }
+.check-photos-error { margin: 0; font-size: 12px; color: #b3261e; }
+.check-photos-list { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; }
+.check-photos-list li {
+  position: relative; width: 112px; height: 112px; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--line); background: #f3f5ef;
+}
+.check-photos-list img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.check-photos-missing { display: grid; place-items: center; height: 100%; font-size: 11px; color: var(--muted); }
+.check-photos-size {
+  position: absolute; left: 6px; bottom: 6px; font-size: 10px; font-weight: 700;
+  color: white; background: rgba(0, 0, 0, .55); padding: 2px 6px; border-radius: 999px;
+}
+.check-photos-remove {
+  position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border: 0; border-radius: 50%;
+  background: rgba(0, 0, 0, .6); color: white; font-size: 16px; line-height: 1; cursor: pointer;
+}
+
+.check-footnote { font-size: 12px; margin-top: 15px; }
+.check-source-link {
+  border: 0; padding: 0; background: transparent; font: inherit;
+  color: var(--green); text-decoration: underline; cursor: pointer;
+}
+
+.check-footer {
+  padding: 20px 28px; border-top: 1px solid var(--line); font-size: 12px;
+  display: flex; gap: 20px; justify-content: space-between; align-items: center;
+}
+.check-submit { flex: none; }
+.check-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+.check-complete {
+  display: grid; gap: 12px; justify-items: start;
+  padding: 32px 28px; border-radius: 22px; background: #eff5e6; border: 1px solid var(--line);
+}
+.check-complete strong { font-size: 20px; }
+.check-complete p { margin: 0; font-size: 14px; line-height: 1.7; }
+
+.print-head { display: none; }
+
+@media (max-width: 720px) {
+  .check-top { padding: 22px; }
+  .check-fields { grid-template-columns: 1fr; padding: 20px; }
+  .check-bulk { padding: 14px 20px; }
+  .check-group-head { padding: 14px 18px; }
+  .check-guide { grid-template-columns: 1fr; padding: 18px; }
+  .check-row { grid-template-columns: 24px 1fr; padding: 18px; gap: 10px; }
+  .check-row select, .check-row textarea, .check-photos { grid-column: 2; }
+  .check-photos-list li { width: calc((100% - 20px) / 3); height: auto; aspect-ratio: 1; }
+  .check-footer { display: block; padding: 20px; }
+  .check-submit { margin-top: 12px; }
+}
+
+/* Printing outputs only the checklist as a paper record. */
+@media print {
+  body { background: white; color: black; font-size: 11px; }
+  .nav, .site-footer, .top-link, .check-top .row, .check-bulk, .check-footer, .check-footnote,
+  .source-dialog, .toast, .check-notice, .check-guide, .check-group-guide-label, #assessment-record .section-head {
+    display: none !important;
+  }
+  .section { padding: 0; }
+  .wrap { width: 100%; }
+  .print-head { display: block; padding: 15px 0; }
+  .check-app { border: 0; }
+  .check-row { break-inside: avoid; padding: 9px 4px; grid-template-columns: 24px 1fr 125px; }
+  .check-group { break-inside: avoid-page; }
+  .check-group-head { padding: 8px 4px; background: none; break-after: avoid; }
+  .check-group-alert { display: none; }
+  .check-photos-head, .check-photos-error, .check-photos-remove, .check-photos-size { display: none; }
+  .check-photos-list li { width: 90px; height: 90px; }
+  .check-row textarea { min-height: 40px; }
+  .check-fields { padding: 12px 0; }
+  .check-top { padding: 12px; }
+  .field, select, textarea { color: black; border: 1px solid #aaa; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

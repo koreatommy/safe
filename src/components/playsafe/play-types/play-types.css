@@ -1,0 +1,22 @@
+.type-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.type-card {
+  border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: white;
+  transition: box-shadow .25s, transform .25s;
+}
+.type-card:hover { box-shadow: 0 14px 35px #153a3110; transform: translateY(-5px); }
+.type-pics { display: flex; height: 120px; background: #eaf0e6; }
+.type-pics img { width: 50%; height: 100%; object-fit: cover; }
+.type-body { padding: 20px; }
+.type-body h3 { font-size: 18px; }
+.type-body p { font-size: 13px; }
+
+@media (max-width: 1000px) {
+  .type-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .type-grid { gap: 12px; }
+  .type-body { padding: 14px; }
+  .type-body h3 { font-size: 17px; }
+  .type-pics { height: 100px; }
+}

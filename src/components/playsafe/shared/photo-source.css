@@ -1,0 +1,14 @@
+.photo-source { display: flex; flex-wrap: wrap; gap: 8px; position: relative; }
+.photo-source-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.photo-source-btn { cursor: pointer; font-size: 13px; }
+.photo-source-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
+.photo-source-input:focus-visible + .photo-source-btn { outline: 2px solid var(--green); outline-offset: 2px; }
+
+.photo-source-camera.photo-source-btn,
+.photo-source-label-touch { display: none; }
+
+@media (hover: none) and (pointer: coarse) {
+  .photo-source-camera.photo-source-btn { display: inline-flex; }
+  .photo-source-label-touch { display: inline; }
+  .photo-source-label-desktop { display: none; }
+}

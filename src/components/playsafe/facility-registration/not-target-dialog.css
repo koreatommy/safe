@@ -1,0 +1,58 @@
+.not-target-dialog {
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  border: none;
+  border-radius: 20px;
+  background: white;
+  color: var(--ink);
+  box-shadow: 0 24px 60px #0f2a2133;
+}
+
+.not-target-dialog::backdrop {
+  background: #0f2a2166;
+  backdrop-filter: blur(2px);
+}
+
+.not-target-body {
+  padding: 28px 28px 20px;
+  overflow: auto;
+}
+
+.not-target-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #fbe3da;
+  color: #b9472a;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+
+.not-target-body h2 {
+  margin: 0 0 8px;
+  font-size: 21px;
+}
+
+.not-target-body > p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.not-target-sub {
+  margin-top: 14px !important;
+  font-weight: 700;
+}
+
+.not-target-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 28px 22px;
+  border-top: 1px solid var(--line);
+}

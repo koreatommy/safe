@@ -1,0 +1,27 @@
+.source-dialog {
+  border: 0; border-radius: 18px; padding: 0;
+  width: min(1000px, 95vw); height: 92vh;
+  background: #edf1e8; color: var(--ink);
+}
+.source-dialog::backdrop { background: #15362bba; backdrop-filter: blur(5px); }
+
+.modal-head {
+  position: sticky; top: 0; z-index: 2;
+  padding: 12px 18px; background: #fff;
+  display: flex; align-items: center; gap: 12px; justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+.modal-head .btn { min-height: 38px; padding: 5px 12px; font-size: 13px; }
+
+.viewer { padding: 20px; min-height: 70vh; }
+.viewer img { display: block; width: min(780px, 100%); height: auto; margin: auto; box-shadow: 0 6px 24px #173d3415; }
+
+.viewer-tools { display: flex; gap: 10px; align-items: center; }
+.viewer-tools select { padding: 5px; font-size: 13px; }
+
+@media (max-width: 720px) {
+  .modal-head { flex-wrap: wrap; padding: 10px; }
+  .viewer { padding: 8px; }
+  .viewer-tools { gap: 5px; }
+  .viewer-tools select { max-width: 145px; }
+}

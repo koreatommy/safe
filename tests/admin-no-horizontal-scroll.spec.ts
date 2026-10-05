@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? '';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? '';
 
 test.describe('Admin layout - no horizontal scroll on narrow viewport', () => {
   test.use({ viewport: { width: 400, height: 800 } });

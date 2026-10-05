@@ -1,0 +1,17 @@
+.toast {
+  --toast-offset: 25px;
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(var(--toast-offset) + env(safe-area-inset-bottom));
+  z-index: 100;
+  width: fit-content;
+  max-width: min(90vw, 480px);
+  margin-inline: auto;
+  padding: 12px 22px;
+  border-radius: 12px;
+  background: #183b36;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  text-wrap: balance;
+}

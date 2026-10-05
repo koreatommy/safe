@@ -1,0 +1,51 @@
+.assessment-required {
+  display: grid; gap: 12px; justify-items: start;
+  padding: 32px 28px; border-radius: 22px;
+  background: #fff8e8; border: 1px solid #f1dfb5;
+}
+.assessment-required strong { font-size: 20px; color: #8a5300; }
+.assessment-required p { margin: 0; font-size: 14px; line-height: 1.7; }
+
+.assessment-registration {
+  margin-bottom: 20px; padding: 22px 28px; border-radius: 22px;
+  border: 1px solid var(--line); background: white;
+}
+.assessment-registration header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.assessment-registration header strong { font-size: 17px; }
+.assessment-registration dl {
+  margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 20px;
+}
+.assessment-registration dt { font-size: 12px; color: var(--muted, #6b7280); }
+.assessment-registration dd { margin: 2px 0 0; font-size: 14px; font-weight: 700; word-break: keep-all; }
+
+.assessment-equipment {
+  list-style: none; margin: 18px 0 0; padding: 16px 0 0; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 12px;
+}
+.assessment-equipment li {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px 8px 8px; border: 1px solid var(--line); border-radius: 14px;
+}
+.assessment-equipment img,
+.assessment-equipment-empty {
+  width: 48px; height: 48px; border-radius: 10px; object-fit: cover; flex: none;
+}
+.assessment-equipment-empty {
+  display: grid; place-items: center; background: #f3f4f6; font-size: 10px; color: #6b7280;
+}
+.assessment-equipment li div { display: grid; gap: 2px; }
+.assessment-equipment li strong { font-size: 14px; }
+.assessment-equipment li span { font-size: 12px; }
+
+.check-field-hint { display: block; margin-top: 4px; font-size: 11px; font-weight: normal; color: #6b7280; }
+
+@media (max-width: 760px) {
+  .assessment-registration dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media print {
+  .assessment-registration header .btn { display: none; }
+}
