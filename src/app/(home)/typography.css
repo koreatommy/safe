@@ -1,0 +1,20 @@
+:root {
+  --fs-label: 11px;
+  --fs-caption: 12px;
+  --fs-small: 13px;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --fs-label: 12px;
+    --fs-caption: 13px;
+    --fs-small: 14px;
+  }
+
+  /* iOS Safari zooms the page when a focused field is below 16px. */
+  input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}

@@ -1,6 +1,6 @@
 .photo-source { display: flex; flex-wrap: wrap; gap: 8px; position: relative; }
 .photo-source-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.photo-source-btn { cursor: pointer; font-size: 13px; }
+.photo-source-btn { cursor: pointer; font-size: var(--fs-small); }
 .photo-source-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
 .photo-source-input:focus-visible + .photo-source-btn { outline: 2px solid var(--green); outline-offset: 2px; }
 

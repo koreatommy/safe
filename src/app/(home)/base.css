@@ -44,7 +44,7 @@ h3 { font-size: 21px; margin: 9px 0 12px; }
 .section { padding: 92px 0; scroll-margin-top: 15px; }
 .white { background: white; }
 
-.eyebrow, .micro { font-size: 12px; letter-spacing: .14em; font-weight: 700; color: var(--green); }
+.eyebrow, .micro { font-size: var(--fs-caption); letter-spacing: .14em; font-weight: 700; color: var(--green); }
 .eyebrow { display: flex; align-items: center; gap: 10px; }
 .eyebrow::before { content: ""; width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
 
@@ -61,7 +61,7 @@ h3 { font-size: 21px; margin: 9px 0 12px; }
 .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .sub { max-width: 660px; }
 
-.tag { display: inline-block; font-size: 12px; background: #edf4e8; border-radius: 50px; padding: 4px 11px; color: #356853; }
+.tag { display: inline-block; font-size: var(--fs-caption); background: #edf4e8; border-radius: 50px; padding: 4px 11px; color: #356853; }
 .tag.amber { background: #fff0d2; color: #815916; }
 
 .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 34px; }

@@ -2,7 +2,7 @@
 .risk-copy p { font-size: 15px; }
 .risk-copy ul { padding-left: 20px; color: var(--muted); font-size: 15px; }
 .risk-copy li { margin: 10px 0; }
-.risk-source { font-size: 12px; color: var(--muted); margin-top: 20px; }
+.risk-source { font-size: var(--fs-caption); color: var(--muted); margin-top: 20px; }
 
 .risk-images { display: flex; gap: 8px; align-items: start; }
 .risk-images button { padding: 0; border: 1px solid var(--line); background: white; border-radius: 8px; overflow: hidden; width: 100%; }

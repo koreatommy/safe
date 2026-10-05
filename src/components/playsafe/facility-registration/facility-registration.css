@@ -146,7 +146,7 @@
 
 .facility-hint {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--fs-caption);
   font-weight: 500;
 }
 
@@ -207,7 +207,7 @@
   background: #edf4e8;
   color: #356853;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: var(--fs-small);
 }
 
 .facility-toolbar {
@@ -236,7 +236,7 @@
   background: var(--cream);
   padding: 12px;
   text-align: left;
-  font-size: 13px;
+  font-size: var(--fs-small);
 }
 
 .facility-table td {
@@ -264,7 +264,7 @@
 }
 
 .facility-status {
-  font-size: 13px;
+  font-size: var(--fs-small);
   padding: 0 26px 22px;
 }
 

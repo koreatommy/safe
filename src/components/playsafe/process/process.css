@@ -8,7 +8,7 @@
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 25px; padding: 25px;
   background: var(--green); color: white; border-radius: 16px;
 }
-.schedule p { font-size: 13px; color: #d4e7dc; }
+.schedule p { font-size: var(--fs-small); color: #d4e7dc; }
 .schedule strong { display: block; margin-bottom: 4px; }
 
 .process-extra { margin-top: 24px; }

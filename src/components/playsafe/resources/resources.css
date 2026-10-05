@@ -12,9 +12,9 @@
   background: white; color: var(--ink);
 }
 .resource strong { display: block; font-size: 16px; }
-.resource span { font-size: 12px; color: var(--muted); }
+.resource span { font-size: var(--fs-caption); color: var(--muted); }
 
-.resources-note { font-size: 12px; margin-top: 22px; }
+.resources-note { font-size: var(--fs-small); margin-top: 22px; }
 .resources-note a { text-decoration: underline; }
 
 @media (max-width: 720px) {

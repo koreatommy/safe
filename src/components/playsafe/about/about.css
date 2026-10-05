@@ -11,10 +11,10 @@
 .target-scope-heading > p { font-size: 14px; }
 .target-scope-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
 .target-scope-grid article { background: #fff; border: 1px solid #e1eadf; border-radius: 15px; padding: 20px; }
-.scope-index { font-size: 11px; letter-spacing: .12em; color: var(--green); font-weight: 800; }
+.scope-index { font-size: var(--fs-label); letter-spacing: .12em; color: var(--green); font-weight: 800; }
 .target-scope-grid h4 { font-size: 16px; line-height: 1.4; letter-spacing: -.025em; margin: 7px 0 9px; }
-.target-scope-grid p { font-size: 13px; line-height: 1.6; }
-.target-scope-note { font-size: 12px; line-height: 1.65; color: #587064; margin-top: 17px; }
+.target-scope-grid p { font-size: var(--fs-small); line-height: 1.6; }
+.target-scope-note { font-size: var(--fs-small); line-height: 1.65; color: #587064; margin-top: 17px; }
 
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
 .about-split { margin-top: 28px; }
@@ -29,7 +29,7 @@
   .facility img { height: 100%; min-height: 140px; }
   .facility div { padding: 18px; }
   .facility h3 { font-size: 18px; }
-  .facility p { font-size: 12px; }
+  .facility p { font-size: var(--fs-small); }
   .target-scope { padding: 20px; }
   .target-scope-heading h3 { font-size: 20px; }
   .target-scope-grid { grid-template-columns: 1fr; gap: 9px; }

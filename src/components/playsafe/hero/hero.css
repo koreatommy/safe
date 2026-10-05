@@ -3,7 +3,7 @@
 .hero h1 { font-size: clamp(40px, 4.8vw, 64px); line-height: 1.22; margin: 24px 0; }
 .hero h1 em { font-style: normal; color: var(--green); position: relative; }
 .hero p { font-size: 17px; max-width: 480px; margin-bottom: 28px; }
-.hero .note { font-size: 12px; margin: 18px 0 0; }
+.hero .note { font-size: var(--fs-caption); margin: 18px 0 0; }
 .hero .note a { text-decoration: underline; text-underline-offset: 3px; }
 
 .hero-lawline {
@@ -41,10 +41,10 @@
 .float-card.top { right: -10px; top: 0; }
 .float-card.bottom { bottom: 12px; left: -28px; display: flex; gap: 15px; align-items: center; }
 .float-card strong { font-size: 16px; }
-.float-card p { font-size: 12px; margin: 2px 0 0; }
+.float-card p { font-size: var(--fs-caption); margin: 2px 0 0; }
 
 .circle { width: 43px; height: 43px; border-radius: 50%; background: var(--lime); display: grid; place-items: center; font-weight: 800; font-size: 22px; }
-.tiny-badge { font-size: 11px; color: var(--green); font-weight: bold; }
+.tiny-badge { font-size: var(--fs-label); color: var(--green); font-weight: bold; }
 
 .hero-bottom {
   margin-top: 40px; padding: 24px 0; border-top: 1px solid var(--line);
@@ -53,7 +53,7 @@
 .hero-bottom b { color: var(--ink); }
 .stat { border-left: 1px solid var(--line); padding-left: 30px; }
 .stat strong { font-size: 28px; line-height: 1.2; }
-.stat span { display: block; font-size: 12px; color: var(--muted); margin-top: 5px; }
+.stat span { display: block; font-size: var(--fs-caption); color: var(--muted); margin-top: 5px; }
 .stat .stat-unit { display: inline; font-size: 15px; color: var(--ink); margin: 0; }
 
 @keyframes float {
@@ -70,7 +70,7 @@
   .hero-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 43px; }
   .hero p { font-size: 15px; }
-  .hero-lawline { margin-top: 15px; gap: 8px; font-size: 13px; }
+  .hero-lawline { margin-top: 15px; gap: 8px; font-size: var(--fs-small); }
   .hero-visual { margin: 5px 18px 0; }
   .photo-frame { height: 290px; border-radius: 60px 22px 60px 22px; }
   .float-card.bottom { left: -13px; }

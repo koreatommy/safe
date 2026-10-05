@@ -138,7 +138,7 @@
     flex-direction: column;
     gap: 2px;
     height: 58px;
-    font-size: 11px;
+    font-size: var(--fs-label);
   }
 
   .facility-step-badge {
