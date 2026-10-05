@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { NAV_LINKS } from "@/data/playsafe/navigation";
 import { playsafeRoutes } from "@/lib/playsafe/routes";
 import { NavDropdown } from "./NavDropdown";
+import { useMobileMenu } from "./useMobileMenu";
 import "./nav.css";
 
 export function SiteNav() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const menu = useMobileMenu();
   const readingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,14 +28,14 @@ export function SiteNav() {
   return (
     <header className="nav">
       <div className="wrap nav-inner">
-        <Link className="brand" href={playsafeRoutes.home}>
+        <Link className="brand" href={playsafeRoutes.home} onClick={menu.close}>
           <span className="brand-icon">✓</span>
           <span>
             신종유사놀이시설 안내
             <small>PLAY SAFE · SAFETY GUIDELINE</small>
           </span>
         </Link>
-        <nav className={`links${menuOpen ? " open" : ""}`} id="navlinks" aria-label="주 메뉴">
+        <nav className={`links${menu.open ? " open" : ""}`} id="navlinks" aria-label="주 메뉴">
           {NAV_LINKS.map((link) => {
             if (link.children) {
               return (
@@ -42,7 +43,7 @@ export function SiteNav() {
                   key={link.label}
                   item={link}
                   pathname={pathname}
-                  onNavigate={() => setMenuOpen(false)}
+                  onNavigate={menu.close}
                 />
               );
             }
@@ -53,26 +54,28 @@ export function SiteNav() {
                 href={link.href}
                 className={active ? "active" : undefined}
                 aria-current={active ? "page" : undefined}
-                onClick={() => setMenuOpen(false)}
+                onClick={menu.close}
               >
                 {link.label}
               </Link>
             );
           })}
         </nav>
-        <Link href={playsafeRoutes.facilityInfo} className="btn primary">
+        <Link href={playsafeRoutes.facilityInfo} className="btn primary nav-cta">
           안전성평가 시작 ↗
         </Link>
         <button
           type="button"
           className="btn menu-toggle"
-          aria-expanded={menuOpen}
+          aria-expanded={menu.open}
           aria-controls="navlinks"
-          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menu.open ? "메뉴 닫기" : "메뉴 열기"}
+          onClick={menu.toggle}
         >
-          메뉴 ☰
+          {menu.open ? "닫기 ✕" : "메뉴 ☰"}
         </button>
       </div>
+      {menu.open && <div className="nav-backdrop" onClick={menu.close} aria-hidden="true" />}
       <div className="reading" ref={readingRef} aria-hidden="true" />
     </header>
   );

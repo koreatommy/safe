@@ -2,7 +2,7 @@
   --toast-offset: 25px;
   position: fixed;
   inset-inline: 0;
-  bottom: calc(var(--toast-offset) + env(safe-area-inset-bottom));
+  bottom: calc(var(--toast-offset) + var(--bottom-tab-height, env(safe-area-inset-bottom)));
   z-index: 100;
   width: fit-content;
   max-width: min(90vw, 480px);

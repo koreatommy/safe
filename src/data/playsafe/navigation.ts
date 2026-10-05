@@ -5,6 +5,8 @@ export type NavLinkItem = {
   label: string;
   /** Pathname prefix that marks this item active when a child page is open. */
   matchPrefix?: string;
+  /** Covered by the mobile bottom tab bar, so omitted from the mobile menu. */
+  hideOnMobile?: boolean;
   children?: readonly NavLinkItem[];
 };
 
@@ -17,6 +19,7 @@ export const NAV_LINKS: readonly NavLinkItem[] = [
     href: playsafeRoutes.facilityInfo,
     label: "안전성평가",
     matchPrefix: playsafeRoutes.assessment,
+    hideOnMobile: true,
     children: [
       { href: playsafeRoutes.facilityInfo, label: "시설정보입력" },
       { href: playsafeRoutes.assessment, label: "안전성평가" },

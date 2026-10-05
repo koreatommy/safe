@@ -12,7 +12,7 @@ export function NavDropdown({ item, pathname, onNavigate }: NavDropdownProps) {
   const sectionActive = pathname === prefix || pathname.startsWith(`${prefix}/`);
 
   return (
-    <div className="nav-dropdown">
+    <div className={`nav-dropdown${item.hideOnMobile ? " hide-mobile" : ""}`}>
       <Link
         href={item.href}
         className={sectionActive ? "active" : undefined}

@@ -36,12 +36,12 @@
 
 .equipment-panel-foot {
   position: sticky;
-  bottom: 0;
+  bottom: var(--bottom-tab-height, 0px);
   display: flex;
   justify-content: flex-end;
   gap: 8px;
   margin: 18px -22px -22px;
-  padding: 14px 22px calc(14px + env(safe-area-inset-bottom));
+  padding: 14px 22px;
   background: white;
   border-top: 1px solid var(--line);
   border-radius: 0 0 14px 14px;
@@ -138,7 +138,7 @@
 }
 
 .facility-type-desc {
-  font-size: 12px;
+  font-size: var(--fs-caption);
   font-weight: 500;
   color: var(--muted);
 }
@@ -148,7 +148,7 @@
   padding: 10px 12px;
   background: #edf4e8;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: var(--fs-small);
   font-weight: 700;
   color: #356853;
 }
@@ -191,7 +191,7 @@
   color: #c93636;
   padding: 12px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: var(--fs-small);
 }
 
 @media (max-width: 720px) {
@@ -227,7 +227,7 @@
   }
 
   .facility-type-heading strong {
-    font-size: 13px;
+    font-size: var(--fs-small);
     line-height: 1.3;
   }
 
@@ -247,7 +247,7 @@
   }
 
   .facility-type-desc {
-    font-size: 11px;
+    font-size: var(--fs-caption);
     line-height: 1.4;
   }
 
