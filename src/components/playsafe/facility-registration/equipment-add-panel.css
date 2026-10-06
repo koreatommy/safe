@@ -98,6 +98,22 @@
   border-color: var(--green);
 }
 
+.facility-type-card.separate {
+  border-style: dashed;
+}
+
+.facility-type-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #fff3df;
+  color: #a35b00;
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  vertical-align: middle;
+}
+
 .facility-type-heading {
   display: flex;
   justify-content: space-between;

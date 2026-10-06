@@ -44,10 +44,14 @@ export type Facility = {
   description: string;
 };
 
+/** `unregistered`는 신종유사 놀이형태에 속하지 않고 별도 관리되는 기구다. */
+export type PlayTypeGroup = "new_similar" | "unregistered";
+
 export type PlayType = {
   slug: string;
   title: string;
   description: string;
+  group: PlayTypeGroup;
 };
 
 export type FaqItem = {

@@ -118,7 +118,7 @@ erDiagram
 | --- | --- | --- | --- | --- |
 | (클라이언트 생성) | `id` | `id` | `uuid` PK | `crypto.randomUUID()` |
 | 기구유형 | `type` | `type_label` | `text not null` | 예: `오르는놀이형` |
-| (유형에서 파생) | `typeCode` | `type_code` | `text`, `''` | `climb`, `cross`, `swing`, `slide`, `rock`, `water`, `etc`, `combo` |
+| (유형에서 파생) | `typeCode` | `type_code` | `text not null`, FK → `playsafe_equipment_types.code` | 신종유사: `climb`, `cross`, `swing`, `slide`, `rock`, `water`, `etc`, `combo` / 별도관리: `unregistered`(미등록 놀이기구, 안전인증서 없는 제품) |
 | 등록수량 | — | — | — | 행 개수로 표현, 미입력 시 1개 |
 | 설치일자 | `date` | `installed_on` | `date`, null 허용 | 빈 값이면 `null` |
 | 메모 | `memo` | `memo` | `text`, `''` | 화면에서 최대 500자 |

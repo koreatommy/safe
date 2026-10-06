@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { playTypes } from "@/data/playsafe/play-types";
+import { newSimilarPlayTypes } from "@/data/playsafe/play-types";
 import { imagePath } from "@/lib/playsafe/assets";
 import { SectionHead } from "../shared/SectionHead";
 import "./play-types.css";
@@ -15,7 +15,7 @@ export function PlayTypesSection() {
           tag="원문 PDF 10쪽 · 실제 수록 이미지"
         />
         <div className="type-grid">
-          {playTypes.map((type, i) => (
+          {newSimilarPlayTypes.map((type, i) => (
             <article className="type-card reveal" key={type.slug}>
               <div className="type-pics">
                 {[1, 2].map((n) => (

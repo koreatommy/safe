@@ -20,8 +20,12 @@ export function EquipmentTypePicker({ selectedTypes, onToggle, onLimit }: Equipm
       <div className="facility-type-grid">
         {playTypes.map((type, index) => {
           const checked = selectedTypes.includes(type.title);
+          const separate = type.group === "unregistered";
           return (
-            <label key={type.slug} className={`facility-type-card${checked ? " selected" : ""}`}>
+            <label
+              key={type.slug}
+              className={`facility-type-card${checked ? " selected" : ""}${separate ? " separate" : ""}`}
+            >
               <input
                 type="checkbox"
                 name="equipmentTypeChoice"
@@ -38,6 +42,7 @@ export function EquipmentTypePicker({ selectedTypes, onToggle, onLimit }: Equipm
               <span className="facility-type-heading">
                 <strong>
                   {index + 1}. {type.title}
+                  {separate ? <span className="facility-type-badge">별도관리</span> : null}
                 </strong>
                 <span className="facility-type-check" aria-hidden="true">
                   ✓

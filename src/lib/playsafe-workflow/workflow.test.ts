@@ -114,6 +114,16 @@ describe("single submission", () => {
     expect(parsed).toBeNull();
   });
 
+  it("maps the separately managed unregistered type and rejects unknown type codes", () => {
+    const source = registration();
+    source.equipment = [{ ...source.equipment[0], type: "미등록 놀이기구" }];
+    const input = build(completedSnapshot(), source);
+    expect(input.equipment[0].typeCode).toBe("unregistered");
+    expect(validateSubmissionInput(input)).toBeNull();
+    const unknown = { ...input.equipment[0], typeCode: "unknown" };
+    expect(validateSubmissionInput({ ...input, equipment: [unknown] })).toContain("기구 유형");
+  });
+
   it("requires a valid submission id", () => {
     expect(validateSubmissionInput({ ...build(), submissionId: "nope" })).toContain("등록 요청");
   });

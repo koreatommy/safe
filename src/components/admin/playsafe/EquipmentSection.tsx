@@ -1,4 +1,5 @@
 import { AttachmentPreview } from "@/components/admin/AttachmentPreview";
+import { isUnregisteredTypeCode } from "@/data/playsafe/play-types";
 import type { AdminRegistrationDetail } from "@/lib/playsafe-workflow/adminTypes";
 import { DetailSection } from "./DetailSection";
 import { orDash } from "./format";
@@ -26,6 +27,11 @@ export function EquipmentSection({ equipment, closed }: { equipment: Equipment; 
               <div className="min-w-0 space-y-0.5">
                 <p className="text-white font-medium">
                   {index + 1}. {row.type}
+                  {isUnregisteredTypeCode(row.typeCode) ? (
+                    <span className="ml-2 rounded-full bg-amber-400/15 px-2 py-0.5 text-[11px] text-amber-300">
+                      별도관리
+                    </span>
+                  ) : null}
                 </p>
                 <p className="text-white/60 text-xs">설치일자 {orDash(row.date)}</p>
                 {row.memo ? <p className="text-white/70 text-xs whitespace-pre-wrap break-words">{row.memo}</p> : null}

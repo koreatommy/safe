@@ -1,5 +1,5 @@
 import { MAX_EQUIPMENT_QUANTITY } from "@/data/playsafe/facility-registration";
-import { playTypes } from "@/data/playsafe/play-types";
+import { PLAY_TYPE_SLUGS, playTypes } from "@/data/playsafe/play-types";
 import { quizQuestions } from "@/data/playsafe/quiz";
 import type { FacilityManagerInfo } from "@/data/playsafe/types";
 import { ELIGIBILITY_VERSION, MAX_EQUIPMENT } from "../constants";
@@ -39,7 +39,7 @@ export function validateEquipment(equipment: EquipmentInput[]): string | null {
     if (!isUuid(row.id)) return "기구 식별자가 올바르지 않습니다.";
     if (seen.has(row.id)) return "기구 식별자가 중복되었습니다.";
     seen.add(row.id);
-    if (!row.type.trim()) return "기구 유형을 확인해 주세요.";
+    if (!row.type.trim() || !PLAY_TYPE_SLUGS.has(row.typeCode)) return "기구 유형을 확인해 주세요.";
   }
   return null;
 }
