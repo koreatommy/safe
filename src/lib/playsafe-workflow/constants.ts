@@ -1,6 +1,7 @@
 export const PLAYSAFE_TABLES = {
   registrations: "playsafe_registrations",
   equipment: "playsafe_registration_equipment",
+  facilityPhotos: "playsafe_registration_photos",
   templates: "playsafe_checklist_templates",
   templateItems: "playsafe_checklist_template_items",
   assessments: "playsafe_assessments",
@@ -11,6 +12,7 @@ export const PLAYSAFE_TABLES = {
 export const PLAYSAFE_BUCKETS = {
   equipment: "playsafe-equipment-photos",
   checklist: "playsafe-checklist-photos",
+  facility: "playsafe-facility-photos",
 } as const;
 
 export const SUBMITTER_HEADERS = {
@@ -23,6 +25,7 @@ export const ELIGIBILITY_VERSION = "v1";
 export const MAX_EQUIPMENT = 5;
 export const MAX_PHOTOS_PER_ITEM = 3;
 export const EQUIPMENT_PHOTO_MAX_BYTES = 2 * 1024 * 1024;
+export const FACILITY_PHOTO_MAX_BYTES = 2 * 1024 * 1024;
 export const CHECKLIST_PHOTO_MAX_BYTES = 300 * 1024;
 export const THUMBNAIL_MAX_BYTES = 100 * 1024;
 export const THUMBNAIL_MAX_EDGE = 320;

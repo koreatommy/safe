@@ -50,9 +50,11 @@ export function FacilityRegistrationSection() {
           </header>
           <ManagerFacilityForm
             info={state.info}
+            photos={state.facilityPhotos}
             consented={Boolean(state.consentAt)}
             onConsent={(checked) => state.setConsentAt(checked ? new Date().toISOString() : null)}
             onChange={state.updateInfo}
+            onPhotosChange={state.setFacilityPhotos}
             onNext={() => scrollToStep("step2")}
             onToast={toast.show}
           />

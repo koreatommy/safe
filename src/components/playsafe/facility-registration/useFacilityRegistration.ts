@@ -8,6 +8,7 @@ import type {
   EquipmentDraft,
   EquipmentRow,
   FacilityManagerInfo,
+  FacilityPhoto,
   FailedCriterion,
 } from "@/data/playsafe/types";
 import {
@@ -30,6 +31,7 @@ export function useFacilityRegistration() {
   const [registrationId, setRegistrationId] = useState<string | undefined>();
   const [consentAt, setConsentAt] = useState<string | null>(null);
   const [info, setInfo] = useState<FacilityManagerInfo>({ ...emptyFacilityInfo });
+  const [facilityPhotos, setFacilityPhotos] = useState<FacilityPhoto[]>([]);
   const [answers, setAnswers] = useState<EligibilityAnswer[]>(defaultAnswers);
   const [rows, setRows] = useState<EquipmentRow[]>([]);
   const [sequence, setSequence] = useState(0);
@@ -113,6 +115,7 @@ export function useFacilityRegistration() {
     submitter?: Submitter;
     consentAt: string | null;
     information: FacilityManagerInfo;
+    facilityPhotos: FacilityPhoto[];
     answers: EligibilityAnswer[];
     equipment: EquipmentRow[];
   }) => {
@@ -120,6 +123,7 @@ export function useFacilityRegistration() {
     if (payload.submitter) submitterDraft.setSubmitter(payload.submitter);
     setConsentAt(payload.consentAt);
     setInfo(payload.information);
+    setFacilityPhotos(payload.facilityPhotos);
     setAnswers(payload.answers.length === quizQuestions.length ? payload.answers : defaultAnswers());
     setRows(payload.equipment);
   };
@@ -128,6 +132,7 @@ export function useFacilityRegistration() {
     saveRegistrationDraft({
       id: registrationId,
       information: info,
+      facilityPhotos,
       eligibility: quizQuestions.map((question, index) => ({ code: question.code, answer: answers[index] })),
       equipment: rows,
       completedAt: new Date().toISOString(),
@@ -145,6 +150,8 @@ export function useFacilityRegistration() {
     eligibilityCodes: quizQuestions.map((question) => question.code),
     info,
     updateInfo,
+    facilityPhotos,
+    setFacilityPhotos,
     answers,
     setAnswer,
     allEligible,

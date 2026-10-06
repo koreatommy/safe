@@ -118,3 +118,40 @@ describe("single submission", () => {
     expect(validateSubmissionInput({ ...build(), submissionId: "nope" })).toContain("등록 요청");
   });
 });
+
+describe("facility photos", () => {
+  const FACILITY_IDS = [
+    "44444444-4444-4444-8444-444444444444",
+    "55555555-5555-4555-8555-555555555555",
+    "66666666-6666-4666-8666-666666666666",
+  ];
+  const withFacilityPhotos = (count: number) =>
+    toSubmissionInput({
+      submissionId: SUBMISSION_ID,
+      registration: {
+        ...registration(),
+        facilityPhotos: FACILITY_IDS.slice(0, count).map((id) => ({ id, photo: "" })),
+      },
+      snapshot: completedSnapshot(),
+      photoMeta: new Map([[PHOTO_ID, PHOTO_META], ...FACILITY_IDS.map((id) => [id, PHOTO_META] as const)]),
+    });
+
+  it("maps up to two photos into ordered slots and survives a JSON round trip", () => {
+    const input = withFacilityPhotos(2);
+    expect(input.facilityPhotos.map((photo) => photo.slot)).toEqual([1, 2]);
+    const parsed = parseSubmissionInput(JSON.parse(JSON.stringify(input)));
+    expect(parsed?.facilityPhotos).toHaveLength(2);
+    expect(validateSubmissionInput(parsed!)).toBeNull();
+  });
+
+  it("treats missing facility photos as none", () => {
+    const legacy = JSON.parse(JSON.stringify(build()));
+    delete legacy.facilityPhotos;
+    const parsed = parseSubmissionInput(legacy);
+    expect(parsed?.facilityPhotos).toEqual([]);
+  });
+
+  it("rejects more than two photos", () => {
+    expect(validateSubmissionInput(withFacilityPhotos(3))).toContain("최대 2장");
+  });
+});

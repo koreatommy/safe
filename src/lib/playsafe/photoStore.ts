@@ -1,6 +1,6 @@
 const DB_NAME = "playsafe-photos";
-const DB_VERSION = 2;
-const STORE_NAMES = ["checklist", "equipment"] as const;
+const DB_VERSION = 3;
+const STORE_NAMES = ["checklist", "equipment", "facility"] as const;
 
 type StoreName = (typeof STORE_NAMES)[number];
 
@@ -62,3 +62,4 @@ function createPhotoStore(storeName: StoreName) {
 
 export const checklistPhotoStore = createPhotoStore("checklist");
 export const equipmentPhotoStore = createPhotoStore("equipment");
+export const facilityPhotoStore = createPhotoStore("facility");

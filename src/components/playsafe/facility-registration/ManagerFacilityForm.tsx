@@ -2,22 +2,34 @@
 
 import { useRef } from "react";
 import { FACILITY_NO_LENGTH, indoorOptions, waterOptions } from "@/data/playsafe/facility-registration";
-import type { FacilityManagerInfo } from "@/data/playsafe/types";
+import type { FacilityManagerInfo, FacilityPhoto } from "@/data/playsafe/types";
 import { DAUM_POSTCODE_UNAVAILABLE, openPostcode } from "@/lib/playsafe/daumPostcode";
+import { FacilityPhotoField } from "./FacilityPhotoField";
 import { PlaceSelectField } from "./PlaceSelectField";
 
 export const FACILITY_FORM_ID = "facility-manager-form";
 
 type ManagerFacilityFormProps = {
   info: FacilityManagerInfo;
+  photos: FacilityPhoto[];
   consented: boolean;
   onConsent: (checked: boolean) => void;
   onChange: <K extends keyof FacilityManagerInfo>(field: K, value: FacilityManagerInfo[K]) => void;
+  onPhotosChange: (photos: FacilityPhoto[]) => void;
   onNext: () => void;
   onToast: (message: string) => void;
 };
 
-export function ManagerFacilityForm({ info, consented, onConsent, onChange, onNext, onToast }: ManagerFacilityFormProps) {
+export function ManagerFacilityForm({
+  info,
+  photos,
+  consented,
+  onConsent,
+  onChange,
+  onPhotosChange,
+  onNext,
+  onToast,
+}: ManagerFacilityFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const detailRef = useRef<HTMLInputElement>(null);
 
@@ -73,6 +85,7 @@ export function ManagerFacilityForm({ info, consented, onConsent, onChange, onNe
             onPlaceChange={(value) => onChange("place", value)}
             onPlaceEtcChange={(value) => onChange("placeEtc", value)}
           />
+          <FacilityPhotoField photos={photos} onChange={onPhotosChange} />
           <div className="facility-field facility-field-full">
             <span>주소</span>
             <div className="facility-address">

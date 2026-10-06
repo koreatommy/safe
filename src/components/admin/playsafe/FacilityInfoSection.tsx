@@ -1,5 +1,6 @@
 import type { AdminRegistrationDetail } from "@/lib/playsafe-workflow/adminTypes";
 import { DetailSection, InfoGrid } from "./DetailSection";
+import { FacilityPhotoThumbs } from "./FacilityPhotoThumbs";
 import { formatDateTime, orDash } from "./format";
 
 export function FacilityInfoSection({ registration }: { registration: AdminRegistrationDetail["registration"] }) {
@@ -24,6 +25,7 @@ export function FacilityInfoSection({ registration }: { registration: AdminRegis
           ["개인정보 동의", formatDateTime(registration.consentAt)],
         ]}
       />
+      <FacilityPhotoThumbs photos={registration.facilityPhotos} />
     </DetailSection>
   );
 }

@@ -16,7 +16,11 @@ type SubmitAssessmentOptions = {
 };
 
 function uploadJobs(uploads: SubmissionUploads, blobs: Map<string, PhotoBlobs>) {
-  return [...Object.entries(uploads.equipment), ...Object.entries(uploads.checklist)].flatMap(([id, tickets]) => {
+  return [
+    ...Object.entries(uploads.facility),
+    ...Object.entries(uploads.equipment),
+    ...Object.entries(uploads.checklist),
+  ].flatMap(([id, tickets]) => {
     const photo = blobs.get(id)!;
     return [
       { ticket: tickets.main, blob: photo.main },

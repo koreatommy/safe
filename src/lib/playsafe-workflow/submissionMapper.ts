@@ -10,7 +10,7 @@ type SubmissionSource = {
   submissionId: string;
   registration: CompletedRegistration;
   snapshot: ChecklistSnapshot;
-  /** 브라우저에 저장된 사진 Blob의 실제 크기·형식. key는 기구 id 또는 평가 사진 id. */
+  /** 브라우저에 저장된 사진 Blob의 실제 크기·형식. key는 시설 전경사진·기구·평가 사진 id. */
   photoMeta: ReadonlyMap<string, PhotoMeta>;
 };
 
@@ -34,6 +34,10 @@ export function toSubmissionInput({ submissionId, registration, snapshot, photoM
     consentAt: registration.consentAt ?? "",
     eligibilityVersion: ELIGIBILITY_VERSION,
     information: registration.information,
+    facilityPhotos: (registration.facilityPhotos ?? []).flatMap((photo, index) => {
+      const meta = photoMeta.get(photo.id);
+      return meta ? [{ id: photo.id, slot: index + 1, ...meta }] : [];
+    }),
     answers: registration.eligibility ?? [],
     equipment: registration.equipment.map((row) => ({
       id: row.id,

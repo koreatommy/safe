@@ -1,5 +1,5 @@
 import { emptyFacilityInfo } from "@/data/playsafe/facility-registration";
-import type { CompletedRegistration, EquipmentRow, FacilityManagerInfo } from "@/data/playsafe/types";
+import type { CompletedRegistration, EquipmentRow, FacilityManagerInfo, FacilityPhoto } from "@/data/playsafe/types";
 
 const STORAGE_KEY = "playsafe-facility-registration-v1";
 
@@ -21,6 +21,14 @@ function toRow(value: unknown): EquipmentRow {
   return { id: toText(raw.id), type: toText(raw.type), date: toText(raw.date), memo: toText(raw.memo), photo: "" };
 }
 
+function toFacilityPhotos(value: unknown): FacilityPhoto[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    const id = toText(((item ?? {}) as Record<string, unknown>).id);
+    return id ? [{ id, photo: "" }] : [];
+  });
+}
+
 function toEligibility(value: unknown): Eligibility | undefined {
   if (!Array.isArray(value)) return undefined;
   return value.flatMap((item) => {
@@ -30,7 +38,7 @@ function toEligibility(value: unknown): Eligibility | undefined {
   });
 }
 
-/** Equipment photos are not part of this JSON; they live in IndexedDB keyed by equipment id. */
+/** Equipment and facility photos are not part of this JSON; they live in IndexedDB keyed by id. */
 export function loadRegistration(): CompletedRegistration | null {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
@@ -38,6 +46,7 @@ export function loadRegistration(): CompletedRegistration | null {
     const registration: CompletedRegistration = {
       id: toText(saved.id) || undefined,
       information: toInformation(saved.information),
+      facilityPhotos: toFacilityPhotos(saved.facilityPhotos),
       eligibility: toEligibility(saved.eligibility),
       equipment: saved.equipment.map(toRow),
       completedAt: toText(saved.completedAt),
@@ -51,7 +60,11 @@ export function loadRegistration(): CompletedRegistration | null {
 }
 
 export function saveRegistration(registration: CompletedRegistration): boolean {
-  const withoutPhotos = { ...registration, equipment: registration.equipment.map((row) => ({ ...row, photo: "" })) };
+  const withoutPhotos = {
+    ...registration,
+    facilityPhotos: (registration.facilityPhotos ?? []).map(({ id }) => ({ id, photo: "" })),
+    equipment: registration.equipment.map((row) => ({ ...row, photo: "" })),
+  };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(withoutPhotos));
     return true;

@@ -13,6 +13,7 @@
 - 사진 버킷: `supabase/migrations/20261005114302_playsafe_storage.sql`
 - 입력자 키·무인증 전환: `supabase/migrations/20261005144200_playsafe_submitter_identity.sql`
 - 단일 최종 등록: `supabase/migrations/20261005155621_playsafe_single_submission.sql`
+- 시설 전경사진(최대 2장): `supabase/migrations/20261005231414_playsafe_facility_photos.sql`, 종결 포함 `20261005233258_playsafe_close_facility_photos.sql`
 - API: `src/app/api/playsafe/**`
 
 모든 테이블은 `public` 스키마이며 RLS가 켜져 있습니다. 회원가입·로그인·이메일 인증은 없습니다. 사용자는 **입력자 이름 + 입력자 이메일**을 입력하고, 브라우저는 이를 요청 헤더(`x-playsafe-submitter-name`, `x-playsafe-submitter-email`)로 보냅니다. 서버 라우트는 service_role로 RPC를 호출합니다. `authenticated` 역할에는 관리자 열람(SELECT)만 남아 있습니다.
@@ -28,6 +29,7 @@
 ```mermaid
 erDiagram
   playsafe_registrations ||--o{ playsafe_registration_equipment : "registration_id"
+  playsafe_registrations ||--o{ playsafe_registration_photos : "registration_id (slot 1~2)"
   playsafe_registrations ||--|| playsafe_assessments : "registration_id (unique)"
   playsafe_assessments ||--o{ playsafe_assessment_answers : "assessment_id"
   playsafe_assessments ||--o{ playsafe_assessment_photos : "assessment_id"
@@ -38,12 +40,13 @@ erDiagram
 | 화면 | 저장 테이블 | 저장 경로 |
 | --- | --- | --- |
 | `/assessment/facility` 시설·관리주체 정보, 자격 문항 | `playsafe_registrations` | 최종 등록 RPC `submit_playsafe_registration` |
+| `/assessment/facility` 시설 전경사진(최대 2장) | `playsafe_registration_photos` + Storage `playsafe-facility-photos` | 최종 등록 시 서명 URL로 업로드(원본 + 썸네일) |
 | `/assessment/facility` 기구정보 | `playsafe_registration_equipment` | 같은 RPC |
 | `/assessment/facility` 기구사진 | Storage `playsafe-equipment-photos` + `equipment.photo_path` | 최종 등록 시 서명 URL로 업로드 |
 | `/assessment` 평가자·평가일 | `playsafe_assessments` | 같은 RPC |
 | `/assessment` 18개 항목 상태·메모 | `playsafe_assessment_answers` | 같은 RPC |
 | `/assessment` 항목별 사진 | `playsafe_assessment_photos` + Storage `playsafe-checklist-photos` | 최종 등록 시 서명 URL로 업로드 |
-| 부적격 종결 | `playsafe_registrations` (`not_target`) | `POST /api/playsafe/close` → RPC `close_playsafe_registration` |
+| 부적격 종결 | `playsafe_registrations` (`not_target`) + `playsafe_registration_photos` | 사진이 있으면 `POST /api/playsafe/close/upload-urls`로 먼저 업로드 → `POST /api/playsafe/close` → RPC `close_playsafe_registration` |
 
 최종 등록 순서 (`src/lib/playsafe-workflow/client/submitAssessment.ts`)
 

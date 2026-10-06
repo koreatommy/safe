@@ -10,6 +10,11 @@ export type PhotoMeta = FileMeta & { thumb: FileMeta };
 
 export type SubmissionEquipment = EquipmentInput & { photo: PhotoMeta | null };
 
+export type SubmissionFacilityPhoto = PhotoMeta & {
+  id: string;
+  slot: number;
+};
+
 export type SubmissionChecklistPhoto = PhotoMeta & {
   id: string;
   itemCode: string;
@@ -31,6 +36,7 @@ export type SubmissionInput = {
   consentAt: string;
   eligibilityVersion: string;
   information: FacilityManagerInfo;
+  facilityPhotos: SubmissionFacilityPhoto[];
   answers: EligibilityPair[];
   equipment: SubmissionEquipment[];
   checklist: SubmissionChecklist;
@@ -43,6 +49,7 @@ export type PhotoUploads = { main: SignedUpload; thumb: SignedUpload };
 export type SubmissionUploads = {
   equipment: Record<string, PhotoUploads>;
   checklist: Record<string, PhotoUploads>;
+  facility: Record<string, PhotoUploads>;
 };
 
 export type SubmissionResult = {

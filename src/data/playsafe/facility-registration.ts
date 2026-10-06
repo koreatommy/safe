@@ -6,6 +6,7 @@ export const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 export const PHOTO_MAX_EDGE = 1600;
 export const PHOTO_QUALITY = 0.8;
 export const MAX_MEMO_LENGTH = 500;
+export const MAX_FACILITY_PHOTOS = 2;
 
 export const registrationSteps = [
   { id: "step1", label: "관리주체·시설정보" },

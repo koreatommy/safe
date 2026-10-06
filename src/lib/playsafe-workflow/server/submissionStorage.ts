@@ -2,11 +2,18 @@ import "server-only";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { PLAYSAFE_BUCKETS } from "../constants";
-import type { PhotoMeta, PhotoUploads, SignedUpload, SubmissionInput, SubmissionUploads } from "../submissionTypes";
+import type {
+  PhotoMeta,
+  PhotoUploads,
+  SignedUpload,
+  SubmissionFacilityPhoto,
+  SubmissionInput,
+  SubmissionUploads,
+} from "../submissionTypes";
 
-type FileKind = "equipment" | "checklist";
+type FileKind = "facility" | "equipment" | "checklist";
 type FileVariant = "main" | "thumb";
-type StoredFile = { kind: FileKind; variant: FileVariant; key: string; bucket: string; path: string };
+export type StoredFile = { kind: FileKind; variant: FileVariant; key: string; bucket: string; path: string };
 
 const extFor = (mime: string) => (mime === "image/jpeg" ? "jpg" : "webp");
 
@@ -17,8 +24,16 @@ function photoFiles(kind: FileKind, key: string, bucket: string, base: string, m
   ];
 }
 
+/** 최종 등록과 대상 아님 종결이 함께 쓴다. `requestId`는 요청마다 새로 만든 uuid. */
+export function facilityPhotoFiles(requestId: string, photos: SubmissionFacilityPhoto[]): StoredFile[] {
+  return photos.flatMap((photo) =>
+    photoFiles("facility", photo.id, PLAYSAFE_BUCKETS.facility, `${requestId}/${photo.id}`, photo),
+  );
+}
+
 /** 저장 경로는 클라이언트 값이 아니라 등록 요청 id와 사진 메타데이터로 서버가 정한다. */
 export function submissionFiles(input: SubmissionInput): StoredFile[] {
+  const facility = facilityPhotoFiles(input.submissionId, input.facilityPhotos);
   const equipment = input.equipment.flatMap((row) =>
     row.photo
       ? photoFiles("equipment", row.id, PLAYSAFE_BUCKETS.equipment, `${input.submissionId}/${row.id}`, row.photo)
@@ -33,7 +48,7 @@ export function submissionFiles(input: SubmissionInput): StoredFile[] {
       photo,
     ),
   );
-  return [...equipment, ...checklist];
+  return [...facility, ...equipment, ...checklist];
 }
 
 export function pathFor(files: StoredFile[], kind: FileKind, key: string, variant: FileVariant = "main"): string | null {
@@ -54,7 +69,7 @@ export async function createSubmissionUploads(
   );
   if (tickets.some((ticket) => ticket === null)) return null;
 
-  const uploads: SubmissionUploads = { equipment: {}, checklist: {} };
+  const uploads: SubmissionUploads = { facility: {}, equipment: {}, checklist: {} };
   for (const ticket of tickets) {
     const { file, upload } = ticket!;
     const pair = (uploads[file.kind][file.key] ??= {} as PhotoUploads);

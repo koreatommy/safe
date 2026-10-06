@@ -21,6 +21,7 @@ export function useRegistrationDraftRestore(
           submitter: loadSubmitter() ?? undefined,
           consentAt: draft.consentAt ?? null,
           information: draft.information,
+          facilityPhotos: draft.facilityPhotos ?? [],
           answers: quizQuestions.map(
             (question) => draft.eligibility?.find((item) => item.code === question.code)?.answer ?? "yes",
           ),

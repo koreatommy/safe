@@ -21,6 +21,15 @@
 .assessment-registration dt { font-size: var(--fs-caption); color: var(--muted, #6b7280); }
 .assessment-registration dd { margin: 2px 0 0; font-size: 14px; font-weight: 700; word-break: keep-all; }
 
+.assessment-facility-photos {
+  margin-top: 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.assessment-facility-photos > span { font-size: var(--fs-caption); color: var(--muted, #6b7280); }
+.assessment-facility-photos ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; }
+.assessment-facility-photos img {
+  width: 96px; height: 72px; border-radius: 10px; object-fit: cover; border: 1px solid var(--line); display: block;
+}
+
 .assessment-equipment {
   list-style: none; margin: 18px 0 0; padding: 16px 0 0; border-top: 1px solid var(--line);
   display: flex; flex-wrap: wrap; gap: 12px;

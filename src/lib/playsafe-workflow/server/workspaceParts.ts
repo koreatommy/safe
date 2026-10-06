@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { EligibilityAnswer, FacilityManagerInfo } from "@/data/playsafe/types";
 import { PLAYSAFE_BUCKETS, PLAYSAFE_TABLES } from "../constants";
 import type { AnswerStatus, AssessmentWorkspace, EligibilityPair } from "../types";
+import { loadFacilityPhotoView } from "./facilityPhotoView";
 import { signStoragePaths } from "./signStoragePaths";
 
 export type RegistrationView = AssessmentWorkspace["registration"];
@@ -40,9 +41,10 @@ export async function loadRegistrationView(
   supabase: SupabaseClient,
   registrationId: string,
 ): Promise<RegistrationView | null> {
-  const [{ data: registration }, { data: equipment }] = await Promise.all([
+  const [{ data: registration }, { data: equipment }, facilityPhotos] = await Promise.all([
     supabase.from(PLAYSAFE_TABLES.registrations).select("*").eq("id", registrationId).maybeSingle(),
     supabase.from(PLAYSAFE_TABLES.equipment).select("*").eq("registration_id", registrationId).order("sort_order"),
+    loadFacilityPhotoView(supabase, registrationId),
   ]);
   if (!registration) return null;
 
@@ -74,6 +76,7 @@ export async function loadRegistrationView(
     },
     status: registration.status,
     information: infoFromRow(registration as Record<string, unknown>),
+    facilityPhotos,
     answers: eligibilityFromJson(registration.eligibility_answers),
     equipment: equipmentRows,
     consentAt: registration.consent_at as string,

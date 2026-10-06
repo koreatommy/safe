@@ -14,7 +14,7 @@ function display(value: string) {
 }
 
 export function RegistrationSummary({ registration, submitter }: RegistrationSummaryProps) {
-  const { information: info, equipment } = registration;
+  const { information: info, equipment, facilityPhotos = [] } = registration;
   const place = info.place === PLACE_ETC && info.placeEtc ? `${PLACE_ETC} (${info.placeEtc})` : info.place;
   const address = [info.postcode && `(${info.postcode})`, info.address, info.detailAddress].filter(Boolean).join(" ");
 
@@ -46,6 +46,19 @@ export function RegistrationSummary({ registration, submitter }: RegistrationSum
           </div>
         ))}
       </dl>
+      {facilityPhotos.length > 0 && (
+        <div className="assessment-facility-photos">
+          <span>시설 전경사진</span>
+          <ul>
+            {facilityPhotos.map((photo, index) => (
+              <li key={photo.id}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- data URL preview */}
+                <img src={photo.photo} alt={`시설 전경사진 ${index + 1}`} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <ul className="assessment-equipment">
         {equipment.map((row) => (
           <li key={row.id}>

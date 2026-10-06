@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ELIGIBILITY_VERSION } from "@/lib/playsafe-workflow/constants";
-import { closeRegistration } from "@/lib/playsafe-workflow/client/api";
+import { closeWithPhotos } from "@/lib/playsafe-workflow/client/closeWithPhotos";
 import { saveSubmitter } from "@/lib/playsafe-workflow/client/submitterStore";
 import type { useFacilityRegistration } from "./useFacilityRegistration";
 
@@ -14,11 +14,12 @@ export function useRegistrationClose(state: ReturnType<typeof useFacilityRegistr
     setBusy(true);
     try {
       saveSubmitter(state.submitter);
-      const result = await closeRegistration({
+      const result = await closeWithPhotos({
         id: state.registrationId,
         consentAt: state.consentAt ?? new Date().toISOString(),
         eligibilityVersion: ELIGIBILITY_VERSION,
         information: state.info,
+        facilityPhotos: state.facilityPhotos,
         answers: state.answers.map((answer, index) => ({
           code: state.eligibilityCodes[index],
           answer,

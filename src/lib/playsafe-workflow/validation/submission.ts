@@ -11,6 +11,7 @@ import {
   validateEquipment,
   validateFacilityInformation,
 } from "./facility";
+import { parseFacilityPhotos, validateFacilityPhotos } from "./facilityPhotos";
 import { parsePhotoMeta, validatePhotoMeta } from "./photo";
 
 function parseEquipment(item: unknown): SubmissionEquipment | null {
@@ -31,14 +32,16 @@ export function parseSubmissionInput(value: unknown): SubmissionInput | null {
     return null;
   }
   const parsedEquipment = equipment.map(parseEquipment);
+  const facilityPhotos = parseFacilityPhotos(raw.facilityPhotos);
   const checklist = parseChecklist(raw.checklist);
-  if (!checklist || parsedEquipment.some((row) => row === null)) return null;
+  if (!checklist || !facilityPhotos || parsedEquipment.some((row) => row === null)) return null;
   return {
     submissionId: typeof raw.submissionId === "string" ? raw.submissionId : "",
     id: typeof raw.id === "string" && raw.id ? raw.id : undefined,
     consentAt: typeof raw.consentAt === "string" ? raw.consentAt : "",
     eligibilityVersion: typeof raw.eligibilityVersion === "string" ? raw.eligibilityVersion : "",
     information: parseFacilityInformation(information),
+    facilityPhotos,
     answers: parseEligibilityAnswers(answers),
     equipment: parsedEquipment as SubmissionEquipment[],
     checklist,
@@ -60,6 +63,7 @@ export function validateSubmissionInput(input: SubmissionInput): string | null {
   if (input.id && !isUuid(input.id)) return "등록 식별자가 올바르지 않습니다.";
   return (
     validateFacilityInformation(input.information) ??
+    validateFacilityPhotos(input.facilityPhotos) ??
     validateEligibility(input.answers, input.eligibilityVersion) ??
     (allEligible(input.answers) ? null : "판단 기준을 모두 충족해야 안전성평가를 등록할 수 있습니다.") ??
     validateEquipment(input.equipment) ??

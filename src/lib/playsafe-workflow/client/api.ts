@@ -19,6 +19,13 @@ export function closeRegistration(input: CloseRegistrationInput) {
   });
 }
 
+export function requestCloseUploads(input: CloseRegistrationInput) {
+  return requestJson<SubmissionUploads>("/api/playsafe/close/upload-urls", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
 export function requestSubmissionUploads(input: SubmissionInput) {
   return requestJson<SubmissionUploads>("/api/playsafe/submissions/upload-urls", {
     method: "POST",

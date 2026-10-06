@@ -1,18 +1,20 @@
 import { NextResponse } from "next/server";
-import { jsonError, readJson } from "@/lib/server/http";
-import { requireSubmitter } from "@/lib/playsafe-workflow/server/requireSubmitter";
+import { jsonError } from "@/lib/server/http";
+import { facilityPhotoPayload } from "@/lib/playsafe-workflow/server/facilityPhotoPayload";
+import { readClose } from "@/lib/playsafe-workflow/server/readClose";
 import { rpcErrorMessage } from "@/lib/playsafe-workflow/server/rpcErrors";
-import { parseCloseInput, validateCloseInput } from "@/lib/playsafe-workflow/validation/closeRegistration";
+import { allUploaded, facilityPhotoFiles, removeSubmissionFiles } from "@/lib/playsafe-workflow/server/submissionStorage";
 
 export async function POST(request: Request) {
-  const auth = requireSubmitter(request);
-  if (!auth.ok) return auth.response;
-  const { admin, submitter } = auth.context;
+  const read = await readClose(request);
+  if (!read.ok) return read.response;
+  const { admin, submitter } = read.context;
+  const { input } = read;
 
-  const input = parseCloseInput(await readJson(request));
-  if (!input) return jsonError("등록 정보가 올바르지 않습니다.", 400);
-  const problem = validateCloseInput(input);
-  if (problem) return jsonError(problem, 400);
+  const files = facilityPhotoFiles(input.requestId, input.facilityPhotos);
+  if (!(await allUploaded(admin, files))) {
+    return jsonError("사진 업로드가 끝나지 않았습니다. 다시 저장해 주세요.", 409);
+  }
 
   const { data, error } = await admin.rpc("close_playsafe_registration", {
     payload: {
@@ -21,9 +23,13 @@ export async function POST(request: Request) {
       consentAt: input.consentAt,
       eligibilityVersion: input.eligibilityVersion,
       information: input.information,
+      facilityPhotos: facilityPhotoPayload(input.facilityPhotos, files),
       answers: input.answers,
     },
   });
-  if (error) return jsonError(rpcErrorMessage(error), 409);
+  if (error) {
+    await removeSubmissionFiles(admin, files);
+    return jsonError(rpcErrorMessage(error), 409);
+  }
   return NextResponse.json(data);
 }

@@ -8,6 +8,8 @@ const RPC_MESSAGES: Record<string, string> = {
   not_eligible: "판단 기준을 모두 충족해야 안전성평가를 등록할 수 있습니다.",
   equipment_count_invalid: "놀이기구는 1~5대까지 등록할 수 있습니다.",
   equipment_id_conflict: "기구 정보가 올바르지 않습니다. 시설정보입력에서 기구를 다시 추가해 주세요.",
+  facility_photo_count_invalid: "시설 전경사진은 최대 2장까지 등록할 수 있습니다.",
+  facility_photo_conflict: "시설 전경사진 정보가 올바르지 않습니다. 사진을 지우고 다시 추가해 주세요.",
   unrecorded_items: "모든 항목을 확인한 뒤 등록해 주세요.",
   photo_item_invalid: "사진은 '위험요소 있음' 항목에만 첨부할 수 있습니다.",
   registration_not_editable: "이미 안전성평가 등록이 완료된 시설입니다. 같은 입력자·시설명으로 다시 등록할 수 없습니다.",

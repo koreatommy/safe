@@ -122,9 +122,16 @@ export type EquipmentRow = {
   photo: string;
 };
 
+/** 시설 전경사진. `photo`는 압축된 data URL이며, 임시 저장 시 이미지는 IndexedDB에 `id`로 보관한다. */
+export type FacilityPhoto = {
+  id: string;
+  photo: string;
+};
+
 export type CompletedRegistration = {
   id?: string;
   information: FacilityManagerInfo;
+  facilityPhotos?: FacilityPhoto[];
   eligibility?: { code: string; answer: EligibilityAnswer }[];
   equipment: EquipmentRow[];
   completedAt: string;
