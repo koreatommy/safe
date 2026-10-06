@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { InsightChatWidget } from "@/components/embeds/InsightChatWidget";
 import { BottomTabBar } from "@/components/playsafe/navigation/BottomTabBar";
 import { fontVariables } from "@/lib/fonts";
 import { landingMetadata } from "@/lib/playsafe/metadata";
@@ -19,6 +20,7 @@ export default function HomeRootLayout({ children }: LayoutProps) {
       <body id="top" className={fontVariables}>
         {children}
         <BottomTabBar />
+        <InsightChatWidget />
       </body>
     </html>
   );
