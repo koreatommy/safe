@@ -1,5 +1,6 @@
 import { MAX_EQUIPMENT_QUANTITY, NOT_ELIGIBLE_MESSAGE } from "@/data/playsafe/facility-registration";
 import type { EquipmentDraft, EquipmentRow, FacilityManagerInfo, RegistrationProblem } from "@/data/playsafe/types";
+import { resizeDraftPhotos } from "./equipmentDraftPhotos";
 
 export function registrationProblem(
   information: FacilityManagerInfo,
@@ -27,7 +28,7 @@ export function validateDrafts(records: readonly EquipmentDraft[]): string {
       return !Number.isInteger(quantity) || quantity < 1 || quantity > MAX_EQUIPMENT_QUANTITY;
     })
   ) {
-    return "각 유형의 등록수량은 1~5개여야 합니다.";
+    return `각 유형의 등록수량은 1~${MAX_EQUIPMENT_QUANTITY}개여야 합니다.`;
   }
 
   const total = totalQuantity(records);
@@ -35,15 +36,22 @@ export function validateDrafts(records: readonly EquipmentDraft[]): string {
     return `총 등록수량이 ${total}개입니다. 유형별 수량 합계가 최대 ${MAX_EQUIPMENT_QUANTITY}개가 되도록 조정해 주세요.`;
   }
 
-  if (records.some((record) => record.photoBusy)) {
+  const photos = records.flatMap((record) => record.photos);
+  if (photos.some((slot) => slot.busy)) {
     return "사진을 불러오는 중입니다. 완료 후 확인해 주세요.";
   }
 
-  if (records.some((record) => record.photoError)) {
-    return "사진 오류가 있는 유형의 사진을 다시 선택하거나 삭제해 주세요.";
+  if (photos.some((slot) => slot.error)) {
+    return "사진 오류가 있는 기구의 사진을 다시 선택하거나 삭제해 주세요.";
   }
 
   return "";
+}
+
+/** 사진 칸 수로 쓸 수 있도록 1~최대 수량 범위로 맞춘 등록수량. */
+export function photoSlotCount(value: EquipmentDraft["quantity"]): number {
+  const quantity = registrationQuantity(value);
+  return Number.isInteger(quantity) ? Math.min(Math.max(quantity, 1), MAX_EQUIPMENT_QUANTITY) : 1;
 }
 
 export function createEquipmentDraft(type: string): EquipmentDraft {
@@ -52,10 +60,7 @@ export function createEquipmentDraft(type: string): EquipmentDraft {
     quantity: "",
     date: "",
     memo: "",
-    photo: "",
-    photoName: "",
-    photoBusy: false,
-    photoError: "",
+    photos: resizeDraftPhotos([], 1),
   };
 }
 
@@ -72,7 +77,7 @@ export function buildRows(records: readonly EquipmentDraft[], startSequence: num
         type: record.type,
         date: record.date,
         memo: record.memo,
-        photo: record.photo,
+        photo: record.photos[index]?.photo ?? "",
       });
     }
   }

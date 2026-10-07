@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MAX_EQUIPMENT_TYPES } from "@/data/playsafe/facility-registration";
+import { MAX_EQUIPMENT_QUANTITY, MAX_EQUIPMENT_TYPES } from "@/data/playsafe/facility-registration";
 import { playTypes } from "@/data/playsafe/play-types";
 import { imagePath } from "@/lib/playsafe/assets";
 
@@ -15,7 +15,7 @@ export function EquipmentTypePicker({ selectedTypes, onToggle, onLimit }: Equipm
       <legend>기구유형</legend>
       <p className="facility-hint">
         예시 사진과 설명을 참고해 기구유형을 여러 개 선택할 수 있습니다. 선택한 유형별로 등록수량과 정보를
-        입력합니다. 총 등록수량은 최대 {MAX_EQUIPMENT_TYPES}개입니다.
+        입력합니다. 유형은 최대 {MAX_EQUIPMENT_TYPES}개, 총 등록수량은 최대 {MAX_EQUIPMENT_QUANTITY}개입니다.
       </p>
       <div className="facility-type-grid">
         {playTypes.map((type, index) => {

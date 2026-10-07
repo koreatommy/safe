@@ -107,16 +107,33 @@ export type FacilityManagerInfo = {
 
 export type EligibilityAnswer = "yes" | "no";
 
+/** 등록수량 1개당 사진 칸 1개. `photo`는 압축된 data URL이다. */
+export type EquipmentDraftPhoto = {
+  photo: string;
+  name: string;
+  busy: boolean;
+  error: string;
+};
+
 export type EquipmentDraft = {
   type: string;
   quantity: number | "";
   date: string;
   memo: string;
-  photo: string;
-  photoName: string;
-  photoBusy: boolean;
-  photoError: string;
+  /** 길이는 항상 등록수량과 같다. */
+  photos: EquipmentDraftPhoto[];
 };
+
+/** 사진 칸은 칸 단위 갱신으로만 바꾼다. */
+export type EquipmentDraftField = Exclude<keyof EquipmentDraft, "type" | "photos">;
+
+export type EquipmentDraftChange = <K extends EquipmentDraftField>(
+  type: string,
+  field: K,
+  value: EquipmentDraft[K],
+) => void;
+
+export type EquipmentDraftPhotoChange = (type: string, index: number, patch: Partial<EquipmentDraftPhoto>) => void;
 
 export type EquipmentRow = {
   id: string;

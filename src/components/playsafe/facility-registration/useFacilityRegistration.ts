@@ -6,16 +6,20 @@ import { quizQuestions } from "@/data/playsafe/quiz";
 import type {
   EligibilityAnswer,
   EquipmentDraft,
+  EquipmentDraftField,
+  EquipmentDraftPhoto,
   EquipmentRow,
   FacilityManagerInfo,
   FacilityPhoto,
   FailedCriterion,
 } from "@/data/playsafe/types";
+import { patchDraftPhoto, resizeDraftPhotos } from "@/lib/playsafe/equipmentDraftPhotos";
 import {
   buildExportPayload,
   buildRows,
   createEquipmentDraft,
   downloadRegistrationJson,
+  photoSlotCount,
   registrationProblem,
   totalQuantity,
   validateDrafts,
@@ -78,10 +82,20 @@ export function useFacilityRegistration() {
     return true;
   };
 
-  const updateDraft = <K extends keyof EquipmentDraft>(type: string, field: K, value: EquipmentDraft[K]) => {
+  const updateDraft = <K extends EquipmentDraftField>(type: string, field: K, value: EquipmentDraft[K]) => {
     setDrafts((current) => {
       const draft = current[type] ?? createEquipmentDraft(type);
-      return { ...current, [type]: { ...draft, [field]: value } };
+      const next = { ...draft, [field]: value };
+      if (field === "quantity") next.photos = resizeDraftPhotos(draft.photos, photoSlotCount(next.quantity));
+      return { ...current, [type]: next };
+    });
+  };
+
+  const updateDraftPhoto = (type: string, index: number, patch: Partial<EquipmentDraftPhoto>) => {
+    setDrafts((current) => {
+      const draft = current[type];
+      if (!draft) return current;
+      return { ...current, [type]: { ...draft, photos: patchDraftPhoto(draft.photos, index, patch) } };
     });
   };
 
@@ -165,6 +179,7 @@ export function useFacilityRegistration() {
     toggleType,
     drafts,
     updateDraft,
+    updateDraftPhoto,
     activeDrafts,
     draftProblem,
     draftTotal,

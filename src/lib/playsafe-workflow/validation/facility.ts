@@ -1,4 +1,3 @@
-import { MAX_EQUIPMENT_QUANTITY } from "@/data/playsafe/facility-registration";
 import { PLAY_TYPE_SLUGS, playTypes } from "@/data/playsafe/play-types";
 import { quizQuestions } from "@/data/playsafe/quiz";
 import type { FacilityManagerInfo } from "@/data/playsafe/types";
@@ -33,7 +32,7 @@ export function allEligible(answers: EligibilityPair[]): boolean {
 
 export function validateEquipment(equipment: EquipmentInput[]): string | null {
   if (equipment.length < 1) return "놀이기구를 1개 이상 등록해 주세요.";
-  if (equipment.length > MAX_EQUIPMENT) return `놀이기구는 최대 ${MAX_EQUIPMENT_QUANTITY}대까지 등록할 수 있습니다.`;
+  if (equipment.length > MAX_EQUIPMENT) return `놀이기구는 최대 ${MAX_EQUIPMENT}대까지 등록할 수 있습니다.`;
   const seen = new Set<string>();
   for (const row of equipment) {
     if (!isUuid(row.id)) return "기구 식별자가 올바르지 않습니다.";

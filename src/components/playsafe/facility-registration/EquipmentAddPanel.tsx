@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { EquipmentDraft } from "@/data/playsafe/types";
+import type { EquipmentDraft, EquipmentDraftChange, EquipmentDraftPhotoChange } from "@/data/playsafe/types";
 import { EquipmentDraftFields } from "./EquipmentDraftFields";
 import { EquipmentTypePicker } from "./EquipmentTypePicker";
 import "./equipment-add-panel.css";
@@ -15,7 +15,8 @@ type EquipmentAddPanelProps = {
   draftProblem: string;
   onToggleType: (type: string, checked: boolean) => boolean;
   onLimit: () => void;
-  onChangeDraft: <K extends keyof EquipmentDraft>(type: string, field: K, value: EquipmentDraft[K]) => void;
+  onChangeDraft: EquipmentDraftChange;
+  onChangeDraftPhoto: EquipmentDraftPhotoChange;
   onClose: () => void;
   onSave: () => void;
 };
@@ -28,6 +29,7 @@ export function EquipmentAddPanel({
   onToggleType,
   onLimit,
   onChangeDraft,
+  onChangeDraftPhoto,
   onClose,
   onSave,
 }: EquipmentAddPanelProps) {
@@ -57,7 +59,7 @@ export function EquipmentAddPanel({
         <p className="facility-type-summary">
           선택 {selectedTypes.length}개 유형 / 총 등록수량 {draftTotal}개 (유형별 수량 합계)
         </p>
-        <EquipmentDraftFields drafts={drafts} onChange={onChangeDraft} />
+        <EquipmentDraftFields drafts={drafts} onChange={onChangeDraft} onChangePhoto={onChangeDraftPhoto} />
         {draftProblem ? <p className="facility-error">{draftProblem}</p> : null}
         <div className="equipment-panel-foot">
           <button type="button" className="btn" onClick={onClose}>

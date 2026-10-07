@@ -1,0 +1,45 @@
+.equipment-photo-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.equipment-photo-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border: 1px dashed #ccd9cc;
+  border-radius: 10px;
+  background: var(--cream);
+}
+
+.equipment-photo-slot.filled {
+  border-style: solid;
+  border-color: #9cc2a6;
+  background: #f4f9f1;
+}
+
+.equipment-photo-slot-label {
+  font-size: var(--fs-small);
+  color: var(--green);
+}
+
+.equipment-photo-slot .facility-photo-preview {
+  margin-top: 0;
+}
+
+.equipment-photo-slot-status {
+  margin: 0;
+  word-break: break-all;
+}
+
+@media (max-width: 720px) {
+  .equipment-photo-slots {
+    grid-template-columns: 1fr;
+  }
+}

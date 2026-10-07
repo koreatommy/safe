@@ -129,6 +129,7 @@ export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentSte
               onToggleType={state.toggleType}
               onLimit={() => onToast("선택 가능한 유형은 최대 5개입니다.")}
               onChangeDraft={state.updateDraft}
+              onChangeDraftPhoto={state.updateDraftPhoto}
               onClose={closePanel}
               onSave={savePanel}
             />
