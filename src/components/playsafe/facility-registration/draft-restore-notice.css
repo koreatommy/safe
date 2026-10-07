@@ -1,0 +1,28 @@
+.draft-restore-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 22px 26px 0;
+  padding: 12px 16px;
+  background: #edf4e8;
+  color: #356853;
+  border-radius: 10px;
+  font-size: var(--fs-small);
+}
+
+.draft-restore-notice p {
+  margin: 0;
+}
+
+.draft-restore-notice .btn {
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .draft-restore-notice {
+    flex-direction: column;
+    align-items: stretch;
+    margin: 18px 18px 0;
+  }
+}

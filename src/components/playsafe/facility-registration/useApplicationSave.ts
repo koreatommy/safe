@@ -43,5 +43,5 @@ export function useApplicationSave(state: ReturnType<typeof useFacilityRegistrat
     }
   };
 
-  return { busy, registered, save };
+  return { busy, registered, save, reset: () => setSaved(null) };
 }

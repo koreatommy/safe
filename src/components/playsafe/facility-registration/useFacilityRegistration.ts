@@ -142,6 +142,18 @@ export function useFacilityRegistration() {
     setRows(payload.equipment);
   };
 
+  /** 입력자 정보는 유지하고 시설·판단·기구 입력을 처음 상태로 되돌린다. */
+  const reset = () => {
+    setRegistrationId(undefined);
+    setConsentAt(null);
+    setInfo({ ...emptyFacilityInfo });
+    setFacilityPhotos([]);
+    setAnswers(defaultAnswers());
+    setRows([]);
+    setSequence(0);
+    closeAddPanel();
+  };
+
   const saveForAssessment = () =>
     saveRegistrationDraft({
       id: registrationId,
@@ -161,6 +173,7 @@ export function useFacilityRegistration() {
     consentAt,
     setConsentAt,
     hydrate,
+    reset,
     eligibilityCodes: quizQuestions.map((question) => question.code),
     info,
     updateInfo,

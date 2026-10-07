@@ -9,7 +9,7 @@ import type { useFacilityRegistration } from "./useFacilityRegistration";
 /** 등록 전 이 브라우저에 임시 저장된 시설정보가 있으면 처음 한 번 복원한다. */
 export function useRegistrationDraftRestore(
   hydrate: ReturnType<typeof useFacilityRegistration>["hydrate"],
-  onRestored: () => void,
+  onRestored: (facilityName: string) => void,
 ) {
   useEffect(() => {
     let cancelled = false;
@@ -27,7 +27,7 @@ export function useRegistrationDraftRestore(
           ),
           equipment: draft.equipment,
         });
-        onRestored();
+        onRestored(draft.information.facilityName);
       })
       .catch(() => undefined);
     return () => {

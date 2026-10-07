@@ -6,6 +6,7 @@ import { DAUM_POSTCODE_SRC } from "@/lib/playsafe/daumPostcode";
 import { scrollToStep } from "@/lib/playsafe/scrollToStep";
 import { SectionHead } from "../shared/SectionHead";
 import { Toast } from "../shared/Toast";
+import { DraftRestoreNotice } from "./DraftRestoreNotice";
 import { EligibilityStep } from "./EligibilityStep";
 import { EquipmentStep } from "./EquipmentStep";
 import { FacilitySteps } from "./FacilitySteps";
@@ -13,7 +14,7 @@ import { FACILITY_FORM_ID, ManagerFacilityForm } from "./ManagerFacilityForm";
 import { SubmitterFields } from "./SubmitterFields";
 import { useApplicationSave } from "./useApplicationSave";
 import { useFacilityRegistration } from "./useFacilityRegistration";
-import { useRegistrationDraftRestore } from "./useRegistrationDraftRestore";
+import { useNewRegistration } from "./useNewRegistration";
 import "./facility-registration.css";
 import "./eligibility.css";
 
@@ -21,7 +22,7 @@ export function FacilityRegistrationSection() {
   const state = useFacilityRegistration();
   const application = useApplicationSave(state);
   const toast = useToast();
-  useRegistrationDraftRestore(state.hydrate, () => toast.show("이 브라우저에 임시 저장된 시설정보를 불러왔습니다."));
+  const draft = useNewRegistration(state, application, toast.show);
 
   return (
     <section className="section white" id="facility-registration">
@@ -49,6 +50,9 @@ export function FacilityRegistrationSection() {
               onChange={state.updateSubmitter}
             />
           </header>
+          {draft.restoredName !== null && (
+            <DraftRestoreNotice facilityName={draft.restoredName} onStartNew={() => void draft.startNew()} />
+          )}
           <ManagerFacilityForm
             info={state.info}
             photos={state.facilityPhotos}
