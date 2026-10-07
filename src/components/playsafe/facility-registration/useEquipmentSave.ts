@@ -9,16 +9,23 @@ import { applicationSource, registrationChangeKey } from "./applicationSource";
 import { facilityInputsReady } from "./facilityInputsReady";
 import type { useFacilityRegistration } from "./useFacilityRegistration";
 
+const NO_STORED_PHOTOS: ReadonlySet<string> = new Set();
+
 /** 3단계 '저장': 시설정보·등록신청·기구정보를 한 번에 DB에 저장하고, 이후 변경 여부를 추적한다. */
 export function useEquipmentSave(
   state: ReturnType<typeof useFacilityRegistration>,
   applicationSaved: boolean,
+  equipmentEpoch: number,
   onToast: (message: string) => void,
 ) {
   const [busy, setBusy] = useState(false);
   const [savedKey, setSavedKey] = useState<string | null>(null);
-  const [storedPhotoIds, setStoredPhotoIds] = useState<ReadonlySet<string>>(() => new Set());
-  const changeKey = registrationChangeKey(state);
+  const [stored, setStored] = useState<{ epoch: number; ids: ReadonlySet<string> }>(() => ({
+    epoch: equipmentEpoch,
+    ids: new Set(),
+  }));
+  const storedPhotoIds = stored.epoch === equipmentEpoch ? stored.ids : NO_STORED_PHOTOS;
+  const changeKey = `${equipmentEpoch}:${registrationChangeKey(state)}`;
   const saved = Boolean(state.registrationId) && savedKey === changeKey;
 
   const ready = () => {
@@ -49,7 +56,7 @@ export function useEquipmentSave(
       });
       state.setRegistrationId(result.registrationId);
       if (result.facilityNo) state.updateInfo("facilityNo", result.facilityNo);
-      setStoredPhotoIds(new Set(state.rows.map((row) => row.id)));
+      setStored({ epoch: equipmentEpoch, ids: new Set(state.rows.map((row) => row.id)) });
       setSavedKey(changeKey);
       void state.saveLocalDraft();
       onToast(EQUIPMENT_SAVED_MESSAGE);

@@ -12,6 +12,8 @@ type SavedApplication = { status: ApplicationResult["status"]; answersKey: strin
 export function useApplicationSave(state: ReturnType<typeof useFacilityRegistration>) {
   const [busy, setBusy] = useState(false);
   const [saved, setSaved] = useState<SavedApplication | null>(null);
+  /** 대상 아님으로 저장되면 DB 기구가 삭제되므로, 3단계가 이전 저장 상태를 버리도록 올린다. */
+  const [equipmentEpoch, setEquipmentEpoch] = useState(0);
   const answersKey = state.answers.join(",");
 
   /** 2단계에서 대상으로 저장한 뒤 답을 바꾸지 않았거나, 저장된 등록을 브라우저 임시 저장에서 불러온 경우. */
@@ -27,11 +29,12 @@ export function useApplicationSave(state: ReturnType<typeof useFacilityRegistrat
       state.setRegistrationId(result.registrationId);
       if (result.facilityNo) state.updateInfo("facilityNo", result.facilityNo);
       setSaved({ status: result.status, answersKey });
+      if (result.status === "not_target") setEquipmentEpoch((epoch) => epoch + 1);
       return result;
     } finally {
       setBusy(false);
     }
   };
 
-  return { busy, registered, save, reset: () => setSaved(null) };
+  return { busy, registered, equipmentEpoch, save, reset: () => setSaved(null) };
 }

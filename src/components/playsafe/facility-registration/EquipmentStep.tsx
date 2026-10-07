@@ -14,13 +14,15 @@ type EquipmentStepProps = {
   state: ReturnType<typeof useFacilityRegistration>;
   /** 2단계에서 대상으로 저장되어야 기구를 추가하고 저장할 수 있다. */
   applicationSaved: boolean;
+  /** 2단계에서 대상 아님으로 저장될 때마다 바뀌며, 이전 기구 저장 상태를 무효로 만든다. */
+  equipmentEpoch: number;
   onToast: (message: string) => void;
 };
 
-export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentStepProps) {
+export function EquipmentStep({ state, applicationSaved, equipmentEpoch, onToast }: EquipmentStepProps) {
   const addButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-  const equipmentSave = useEquipmentSave(state, applicationSaved, onToast);
+  const equipmentSave = useEquipmentSave(state, applicationSaved, equipmentEpoch, onToast);
   const closed = !state.allEligible;
 
   const returnToToolbar = () => {

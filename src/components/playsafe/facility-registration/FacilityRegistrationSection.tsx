@@ -67,7 +67,12 @@ export function FacilityRegistrationSection() {
 
         <EligibilityStep state={state} application={application} onToast={toast.show} />
 
-        <EquipmentStep state={state} applicationSaved={application.registered} onToast={toast.show} />
+        <EquipmentStep
+          state={state}
+          applicationSaved={application.registered}
+          equipmentEpoch={application.equipmentEpoch}
+          onToast={toast.show}
+        />
       </div>
 
       <Toast message={toast.message} />
