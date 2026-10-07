@@ -35,6 +35,7 @@ export function useApplicationSave(state: ReturnType<typeof useFacilityRegistrat
         })),
       });
       state.setRegistrationId(result.registrationId);
+      if (result.facilityNo) state.updateInfo("facilityNo", result.facilityNo);
       setSaved({ status: result.status, answersKey });
       return result;
     } finally {

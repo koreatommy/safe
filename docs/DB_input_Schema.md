@@ -74,7 +74,7 @@ erDiagram
 | 정보 입력자 이름 (Step 1 제목 영역) | text, 필수, 최대 50자 | 헤더 `x-playsafe-submitter-name` (URI 인코딩) | `submitter_name` | `text not null` | 등록 키. 없으면 401 / `submitter_required`. 저장 후에는 화면에서 수정 불가 |
 | 정보 입력자 이메일 (Step 1 제목 영역) | email, 필수 | 헤더 `x-playsafe-submitter-email` | `submitter_email` | `text not null` | 등록 키. 소문자로 저장, 형식 check 제약 |
 | 시설명 | text, 필수 | `facilityName` | `facility_name` | `text not null` | 빈 값이면 `facility_name_required` |
-| 임시시설번호 | 숫자만, 최대 5자 | `facilityNo` | `facility_no` | `text`, `''` | |
+| 임시시설번호 | 입력 없음(읽기 전용) | 응답 `facilityNo` | `facility_no` | `text`, 고유(빈 값 제외) | 최초 저장 시 트리거 `playsafe_registrations_facility_no`가 8자리 난수를 중복 없이 부여하고, 이후 저장에서는 바뀌지 않음. 요청 본문의 값은 무시 |
 | 설치장소 | select | `place` | `place` | `text`, `''` | 선택지: 신종유사, 무인키즈카페, 무인키즈풀, 키즈펜션·풀빌라, 인증대상 기구가 아닌 놀이용 구조물, 놀이공간의 부가적 활용 구조물, 물놀이·현장 시공 설치물, 기타 |
 | 기타 설치장소 | text (설치장소=기타일 때만) | `placeEtc` | `place_etc` | `text`, `''` | 기타가 아니면 `''`로 비움 |
 | 우편번호 | 읽기 전용 (주소검색) | `postcode` | `postcode` | `text`, `''` | Daum 우편번호 서비스 결과 |
@@ -117,7 +117,7 @@ erDiagram
 
 ### 2-3. Step 3 기구정보 등록 → `playsafe_registration_equipment`
 
-기구유형을 고르고 유형별로 수량·설치일자·메모·사진을 입력합니다. **등록수량 N은 DB에 별도 컬럼이 없고, 같은 내용의 행 N개로 펼쳐 저장됩니다.** 전체 기구는 1~5개여야 합니다(`equipment_count_invalid`). 최종 등록 시 해당 등록의 기구 행을 모두 새로 씁니다. 다른 등록과 기구 `id`가 겹치면 `equipment_id_conflict`입니다.
+기구유형을 고르고 유형별로 수량·설치일자·메모·사진을 입력합니다. **등록수량 N은 DB에 별도 컬럼이 없고, 같은 내용의 행 N개로 펼쳐 저장됩니다.** 사진은 수량만큼 칸이 생기고 k번째 칸 사진이 k번째 행의 사진이 됩니다. 전체 기구는 1~10개여야 합니다(`equipment_count_invalid`). 최종 등록 시 해당 등록의 기구 행을 모두 새로 씁니다. 다른 등록과 기구 `id`가 겹치면 `equipment_id_conflict`입니다.
 
 | 화면 라벨 | 요청 키 (`equipment[]`) | DB 컬럼 | 타입 / 기본값 | 비고 |
 | --- | --- | --- | --- | --- |
@@ -127,7 +127,7 @@ erDiagram
 | 등록수량 | — | — | — | 행 개수로 표현, 미입력 시 1개 |
 | 설치일자 | `date` | `installed_on` | `date`, null 허용 | 빈 값이면 `null` |
 | 메모 | `memo` | `memo` | `text`, `''` | 화면에서 최대 500자 |
-| 기구사진등록 | 별도 업로드 | `photo_path` | `text`, null 허용 | 2-4 참고 |
+| 기구사진등록 | 별도 업로드 | `photo_path` | `text`, null 허용 | 기구(행)마다 1장, 2-4 참고 |
 | (입력 순서) | — | `sort_order` | `integer`, `0` | 배열 순서(1부터) |
 | (관리자 매칭) | — | `matched_equipment_id` | `bigint` → `playapi.equipment(id)` | 사용자 입력 아님 |
 

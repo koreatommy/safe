@@ -40,6 +40,8 @@ export type ApplicationResult = {
   registrationId: string;
   registrationRevision: number;
   status: Extract<RegistrationStatus, "registered" | "not_target">;
+  /** DB 트리거가 부여한 임시시설번호. */
+  facilityNo: string;
 };
 
 export type AssessmentAnswerDto = {

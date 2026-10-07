@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { jsonError } from "@/lib/server/http";
+import { PLAYSAFE_TABLES } from "@/lib/playsafe-workflow/constants";
+import type { ApplicationResult } from "@/lib/playsafe-workflow/types";
 import { facilityPhotoPayload } from "@/lib/playsafe-workflow/server/facilityPhotoPayload";
 import { readApplication } from "@/lib/playsafe-workflow/server/readApplication";
 import { rpcErrorMessage } from "@/lib/playsafe-workflow/server/rpcErrors";
@@ -31,5 +33,11 @@ export async function POST(request: Request) {
     await removeSubmissionFiles(admin, files);
     return jsonError(rpcErrorMessage(error), 409);
   }
-  return NextResponse.json(data);
+  const result = data as Omit<ApplicationResult, "facilityNo">;
+  const { data: row } = await admin
+    .from(PLAYSAFE_TABLES.registrations)
+    .select("facility_no")
+    .eq("id", result.registrationId)
+    .maybeSingle();
+  return NextResponse.json({ ...result, facilityNo: (row?.facility_no as string | undefined) ?? "" });
 }

@@ -1,7 +1,7 @@
 import { facilities } from "./facilities";
 
 export const MAX_EQUIPMENT_TYPES = 5;
-export const MAX_EQUIPMENT_QUANTITY = 5;
+export const MAX_EQUIPMENT_QUANTITY = 10;
 export const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 export const PHOTO_MAX_EDGE = 1600;
 export const PHOTO_QUALITY = 0.8;
@@ -28,8 +28,6 @@ export const NOT_TARGET_SUMMARY =
   "신규설치 등록신청 판단 기준을 모두 만족하지 않아 신종·유사 놀이시설 등록 및 안전성평가 대상에 해당하지 않습니다.";
 
 export const EQUIPMENT_CLOSED_MESSAGE = "놀이기구 없음 · 등록신청 판단 기준 미충족으로 기구정보 등록이 종결되었습니다.";
-
-export const FACILITY_NO_LENGTH = 5;
 
 export const PLACE_ETC = "기타";
 

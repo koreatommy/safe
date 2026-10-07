@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { FACILITY_NO_LENGTH, indoorOptions, waterOptions } from "@/data/playsafe/facility-registration";
+import { indoorOptions, waterOptions } from "@/data/playsafe/facility-registration";
 import type { FacilityManagerInfo, FacilityPhoto } from "@/data/playsafe/types";
 import { DAUM_POSTCODE_UNAVAILABLE, openPostcode } from "@/lib/playsafe/daumPostcode";
 import { FacilityPhotoField } from "./FacilityPhotoField";
@@ -67,17 +67,8 @@ export function ManagerFacilityForm({
           </label>
           <label className="facility-field">
             임시시설번호
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={FACILITY_NO_LENGTH}
-              value={info.facilityNo}
-              placeholder="예: 00001"
-              onChange={(event) =>
-                onChange("facilityNo", event.target.value.replace(/[^0-9]/g, "").slice(0, FACILITY_NO_LENGTH))
-              }
-            />
+            <input type="text" value={info.facilityNo} placeholder="저장 시 자동 부여" readOnly tabIndex={-1} />
+            <p className="facility-hint">신규설치 등록신청을 저장하면 고유번호가 자동으로 부여됩니다.</p>
           </label>
           <PlaceSelectField
             place={info.place}
