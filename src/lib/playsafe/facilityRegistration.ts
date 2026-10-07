@@ -31,11 +31,6 @@ export function validateDrafts(records: readonly EquipmentDraft[]): string {
     return `각 유형의 등록수량은 1~${MAX_EQUIPMENT_QUANTITY}개여야 합니다.`;
   }
 
-  const total = totalQuantity(records);
-  if (total > MAX_EQUIPMENT_QUANTITY) {
-    return `총 등록수량이 ${total}개입니다. 유형별 수량 합계가 최대 ${MAX_EQUIPMENT_QUANTITY}개가 되도록 조정해 주세요.`;
-  }
-
   const photos = records.flatMap((record) => record.photos);
   if (photos.some((slot) => slot.busy)) {
     return "사진을 불러오는 중입니다. 완료 후 확인해 주세요.";

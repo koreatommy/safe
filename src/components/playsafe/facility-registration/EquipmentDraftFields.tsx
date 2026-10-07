@@ -37,7 +37,8 @@ export function EquipmentDraftFields({ drafts, onChange, onChangePhoto }: Equipm
                 ))}
               </select>
               <p className="facility-hint">
-                선택사항입니다. 미입력 시 이 유형은 1개로 등록됩니다. 총 수량은 최대 {MAX_EQUIPMENT_QUANTITY}개입니다.
+                선택사항입니다. 미입력 시 이 유형은 1개로 등록됩니다. 유형당 최대 {MAX_EQUIPMENT_QUANTITY}개이며, 수량만큼 기구사진
+                칸이 표시됩니다.
               </p>
             </label>
             <label className="facility-field">

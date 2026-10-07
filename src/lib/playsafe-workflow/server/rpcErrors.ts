@@ -6,7 +6,7 @@ const RPC_MESSAGES: Record<string, string> = {
   checklist_version_mismatch: "안전성평가 항목 버전이 오래되었습니다. 페이지를 새로고침해 주세요.",
   facility_name_required: "시설명을 입력해 주세요.",
   not_eligible: "판단 기준을 모두 충족해야 안전성평가를 등록할 수 있습니다.",
-  equipment_count_invalid: "놀이기구는 1~10대까지 등록할 수 있습니다.",
+  equipment_count_invalid: "놀이기구를 1대 이상 등록해 주세요.",
   equipment_id_conflict: "기구 정보가 올바르지 않습니다. 시설정보입력에서 기구를 다시 추가해 주세요.",
   facility_photo_count_invalid: "시설 전경사진은 최대 2장까지 등록할 수 있습니다.",
   facility_photo_conflict: "시설 전경사진 정보가 올바르지 않습니다. 사진을 지우고 다시 추가해 주세요.",

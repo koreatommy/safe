@@ -22,7 +22,6 @@ export const SUBMITTER_HEADERS = {
 
 export const CHECKLIST_VERSION = "v1";
 export const ELIGIBILITY_VERSION = "v1";
-export const MAX_EQUIPMENT = 10;
 export const MAX_PHOTOS_PER_ITEM = 3;
 export const EQUIPMENT_PHOTO_MAX_BYTES = 2 * 1024 * 1024;
 export const FACILITY_PHOTO_MAX_BYTES = 2 * 1024 * 1024;
