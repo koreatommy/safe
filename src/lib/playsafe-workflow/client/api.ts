@@ -1,5 +1,5 @@
 import type { SubmissionInput, SubmissionResult, SubmissionUploads } from "../submissionTypes";
-import type { CloseRegistrationInput, CloseRegistrationResult } from "../types";
+import type { ApplicationInput, ApplicationResult } from "../types";
 import { submitterHeaders } from "./submitterStore";
 
 async function requestJson<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
@@ -12,15 +12,15 @@ async function requestJson<T>(input: RequestInfo, init?: RequestInit): Promise<T
   return data;
 }
 
-export function closeRegistration(input: CloseRegistrationInput) {
-  return requestJson<CloseRegistrationResult>("/api/playsafe/close", {
+export function postApplication(input: ApplicationInput) {
+  return requestJson<ApplicationResult>("/api/playsafe/applications", {
     method: "POST",
     body: JSON.stringify(input),
   });
 }
 
-export function requestCloseUploads(input: CloseRegistrationInput) {
-  return requestJson<SubmissionUploads>("/api/playsafe/close/upload-urls", {
+export function requestApplicationUploads(input: ApplicationInput) {
+  return requestJson<SubmissionUploads>("/api/playsafe/applications/upload-urls", {
     method: "POST",
     body: JSON.stringify(input),
   });

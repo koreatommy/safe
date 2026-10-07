@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { jsonError } from "@/lib/server/http";
 import { facilityPhotoPayload } from "@/lib/playsafe-workflow/server/facilityPhotoPayload";
-import { readClose } from "@/lib/playsafe-workflow/server/readClose";
+import { readApplication } from "@/lib/playsafe-workflow/server/readApplication";
 import { rpcErrorMessage } from "@/lib/playsafe-workflow/server/rpcErrors";
 import { allUploaded, facilityPhotoFiles, removeSubmissionFiles } from "@/lib/playsafe-workflow/server/submissionStorage";
 
 export async function POST(request: Request) {
-  const read = await readClose(request);
+  const read = await readApplication(request);
   if (!read.ok) return read.response;
   const { admin, submitter } = read.context;
   const { input } = read;
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     return jsonError("사진 업로드가 끝나지 않았습니다. 다시 저장해 주세요.", 409);
   }
 
-  const { data, error } = await admin.rpc("close_playsafe_registration", {
+  const { data, error } = await admin.rpc("save_playsafe_application", {
     payload: {
       id: input.id,
       submitter,

@@ -36,7 +36,8 @@ export const MAX_ASSESSOR_LENGTH = 100;
 export const MAX_MEMO_LENGTH = 2000;
 export const SIGNED_URL_TTL_SECONDS = 60 * 60;
 
-export const REGISTRATION_STATUSES = ["submitted", "not_target"] as const;
+/** registered: 시설정보·등록신청만 저장(기구·안전성평가 전), submitted: 안전성평가 등록 완료, not_target: 대상 아님 종결 */
+export const REGISTRATION_STATUSES = ["registered", "submitted", "not_target"] as const;
 
 export const ASSESSMENT_STATUSES = ["submitted"] as const;
 

@@ -1,6 +1,5 @@
-import type { CloseRegistrationInput } from "../types";
+import type { ApplicationInput } from "../types";
 import {
-  allEligible,
   isUuid,
   parseEligibilityAnswers,
   parseFacilityInformation,
@@ -9,7 +8,7 @@ import {
 } from "./facility";
 import { parseFacilityPhotos, validateFacilityPhotos } from "./facilityPhotos";
 
-export function parseCloseInput(value: unknown): CloseRegistrationInput | null {
+export function parseApplicationInput(value: unknown): ApplicationInput | null {
   if (!value || typeof value !== "object") return null;
   const raw = value as Record<string, unknown>;
   const { information, answers } = raw;
@@ -27,7 +26,7 @@ export function parseCloseInput(value: unknown): CloseRegistrationInput | null {
   };
 }
 
-export function validateCloseInput(input: CloseRegistrationInput): string | null {
+export function validateApplicationInput(input: ApplicationInput): string | null {
   if (!input.consentAt) return "개인정보 수집 동의 후 저장할 수 있습니다.";
   if (input.id && !isUuid(input.id)) return "등록 식별자가 올바르지 않습니다.";
   if (input.facilityPhotos.length > 0 && !isUuid(input.requestId)) {
@@ -36,7 +35,6 @@ export function validateCloseInput(input: CloseRegistrationInput): string | null
   return (
     validateFacilityInformation(input.information) ??
     validateFacilityPhotos(input.facilityPhotos) ??
-    validateEligibility(input.answers, input.eligibilityVersion) ??
-    (allEligible(input.answers) ? "판단 기준을 모두 충족한 등록은 종결할 수 없습니다." : null)
+    validateEligibility(input.answers, input.eligibilityVersion)
   );
 }

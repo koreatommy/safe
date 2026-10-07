@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { jsonError } from "@/lib/server/http";
-import { readClose } from "@/lib/playsafe-workflow/server/readClose";
+import { readApplication } from "@/lib/playsafe-workflow/server/readApplication";
 import { createSubmissionUploads, facilityPhotoFiles } from "@/lib/playsafe-workflow/server/submissionStorage";
 
 export async function POST(request: Request) {
-  const read = await readClose(request);
+  const read = await readApplication(request);
   if (!read.ok) return read.response;
 
   const files = facilityPhotoFiles(read.input.requestId, read.input.facilityPhotos);

@@ -14,9 +14,9 @@ const RPC_MESSAGES: Record<string, string> = {
   photo_item_invalid: "사진은 '위험요소 있음' 항목에만 첨부할 수 있습니다.",
   registration_not_editable: "이미 안전성평가 등록이 완료된 시설입니다. 같은 입력자·시설명으로 다시 등록할 수 없습니다.",
   registration_not_found: "등록 정보를 찾을 수 없습니다.",
-  eligible_not_closable: "판단 기준을 모두 충족한 등록은 종결할 수 없습니다. 기구를 등록해 안전성평가를 진행해 주세요.",
-  registration_has_assessment: "이미 안전성평가를 등록한 시설은 대상 아님으로 종결할 수 없습니다.",
-  too_many_closed_registrations: "대상 아님으로 종결한 등록이 너무 많습니다. 관리자에게 문의해 주세요.",
+  eligibility_required: "신규설치 등록신청 문항에 모두 답해 주세요.",
+  registration_has_assessment: "이미 안전성평가를 등록한 시설은 등록신청 내용을 다시 저장할 수 없습니다.",
+  too_many_pending_registrations: "안전성평가 전 저장된 등록이 너무 많습니다. 관리자에게 문의해 주세요.",
 };
 
 export function rpcErrorMessage(error: { message?: string; code?: string } | null): string {

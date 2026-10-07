@@ -18,7 +18,12 @@
 
 모든 테이블은 `public` 스키마이며 RLS가 켜져 있습니다. 회원가입·로그인·이메일 인증은 없습니다. 사용자는 **입력자 이름 + 입력자 이메일**을 입력하고, 브라우저는 이를 요청 헤더(`x-playsafe-submitter-name`, `x-playsafe-submitter-email`)로 보냅니다. 서버 라우트는 service_role로 RPC를 호출합니다. `authenticated` 역할에는 관리자 열람(SELECT)만 남아 있습니다.
 
-**저장 시점**: 시설정보와 안전성평가는 작성 중에 DB에 저장되지 않습니다. 브라우저(localStorage + IndexedDB `playsafe-photos`)에 임시 저장했다가, 안전성평가 화면의 **안전성평가 완료 후 등록** 버튼을 누를 때 시설정보·기구·평가·사진을 한 번에 등록합니다. 서버에는 "평가 진행 중" 상태가 없습니다. 예외는 부적격 종결 저장(2-2)뿐입니다.
+**저장 시점**: 두 번 저장됩니다.
+
+1. 2단계 **선택 확인 · 기구정보 등록** 버튼: 시설정보·등록신청(자격 답변)·시설 전경사진을 `save_playsafe_application`으로 저장합니다. 모두 `네`면 `registered`(기구·안전성평가 전), 하나라도 `아니요`면 `not_target`(대상 아님 종결)입니다.
+2. 안전성평가 화면의 **안전성평가 완료 후 등록** 버튼: 시설정보·기구·평가·사진을 `submit_playsafe_registration`으로 한 번에 등록하고 상태를 `submitted`로 바꿉니다.
+
+기구정보와 안전성평가는 작성 중에 브라우저(localStorage + IndexedDB `playsafe-photos`)에만 임시 저장됩니다.
 
 **등록 고유 키**: `(submitter_email, submitter_name, facility_name)` unique. 같은 입력자는 시설명을 달리해 여러 시설을 등록할 수 있습니다. 이메일은 소문자·공백 제거, 이름은 앞뒤 공백을 제거해 저장합니다.
 
@@ -46,7 +51,7 @@ erDiagram
 | `/assessment` 평가자·평가일 | `playsafe_assessments` | 같은 RPC |
 | `/assessment` 18개 항목 상태·메모 | `playsafe_assessment_answers` | 같은 RPC |
 | `/assessment` 항목별 사진 | `playsafe_assessment_photos` + Storage `playsafe-checklist-photos` | 최종 등록 시 서명 URL로 업로드 |
-| 부적격 종결 | `playsafe_registrations` (`not_target`) + `playsafe_registration_photos` | 사진이 있으면 `POST /api/playsafe/close/upload-urls`로 먼저 업로드 → `POST /api/playsafe/close` → RPC `close_playsafe_registration` |
+| 2단계 선택 확인 (대상·대상 아님 모두) | `playsafe_registrations` (`registered` / `not_target`) + `playsafe_registration_photos` | 사진이 있으면 `POST /api/playsafe/applications/upload-urls`로 먼저 업로드 → `POST /api/playsafe/applications` → RPC `save_playsafe_application` |
 
 최종 등록 순서 (`src/lib/playsafe-workflow/client/submitAssessment.ts`)
 
@@ -60,7 +65,7 @@ erDiagram
 
 ## 2. `/assessment/facility` — 시설정보 입력
 
-3단계(관리주체·시설정보 → 신규설치 등록신청 → 기구정보 등록)를 마치고 **안전성평가 시작**을 누르면 입력값을 브라우저에 임시 저장하고 `/assessment`로 이동합니다. 이 시점에는 DB에 저장되지 않습니다. 같은 브라우저로 다시 들어오면 임시 저장된 시설정보를 불러옵니다. 자격 문항에 `아니요`가 있으면 3단계 없이 `close_playsafe_registration`으로 1·2단계만 저장합니다(2-2 참고).
+2단계 **선택 확인 · 기구정보 등록**을 누르면 1·2단계 내용을 `save_playsafe_application`으로 DB에 저장합니다(2-2 참고). 대상이면 "시설정보와 등록신청정보가 DB에 저장되었습니다. 놀이기구 추가를 진행해 주세요." 안내 후 3단계로 이동하고, 대상 아님이면 대상 아님 팝업과 함께 기구정보 없이 종결됩니다. 3단계에서 **안전성평가 시작**을 누르면 기구정보를 포함한 입력값을 브라우저에 임시 저장하고 `/assessment`로 이동합니다. 같은 브라우저로 다시 들어오면 임시 저장된 시설정보를 불러옵니다.
 
 ### 2-1. Step 1 관리주체·시설정보 → `playsafe_registrations`
 
@@ -84,21 +89,21 @@ erDiagram
 
 ### 2-2. Step 2 신규설치 등록신청(자격 문항) → `playsafe_registrations`
 
-5개 문항에 `네(yes)` / `아니요(no)`로 답합니다. 하나라도 `no`면 기구정보 등록이 종결되고 `submit_playsafe_registration`은 `not_eligible`로 거부합니다. 대신 "대상 아님" 팝업의 **종결 정보 저장**으로 시설정보와 자격 답변만 저장합니다.
+5개 문항에 `네(yes)` / `아니요(no)`로 답합니다. **선택 확인 · 기구정보 등록**을 누르면 답과 관계없이 시설정보와 자격 답변을 저장합니다. 하나라도 `no`면 기구정보 등록이 종결되고 `submit_playsafe_registration`은 `not_eligible`로 거부합니다.
 
 | 요청 키 | DB 컬럼 | 타입 / 기본값 | 저장 형태 |
 | --- | --- | --- | --- |
 | `answers` | `eligibility_answers` | `jsonb`, `'[]'` | `[{ "code": "...", "answer": "yes" }, ...]` |
 | `eligibilityVersion` | `eligibility_version` | `text`, `'v1'` | 현재 `v1` |
-| (서버 판정) | `all_eligible` | `boolean`, `false` | 최종 등록 시 `true`, 종결 저장 시 `false` |
+| (서버 판정) | `all_eligible` | `boolean`, `false` | 모두 `yes`면 `true`, 아니면 `false` |
 
-#### 부적격 종결 저장 (`POST /api/playsafe/close` → RPC `close_playsafe_registration`)
+#### 등록신청 저장 (`POST /api/playsafe/applications` → RPC `save_playsafe_application`)
 
-- 저장 대상: Step 1 시설·관리주체 정보 + Step 2 답변만. `playsafe_registration_equipment`, `playsafe_assessments`, `playsafe_assessment_answers`는 만들지 않습니다.
-- `status='not_target'`, `all_eligible=false`. 입력자 이메일당 종결 등록은 최대 10건입니다(`too_many_closed_registrations`).
-- 모든 답이 `yes`면 거부합니다(`eligible_not_closable`). 이미 안전성평가가 등록된 시설은 종결할 수 없습니다(`registration_has_assessment`).
-- 같은 등록 키로 다시 저장하면 기존 `not_target` 행을 갱신합니다. 이후 답을 모두 `yes`로 바꿔 안전성평가까지 최종 등록하면 같은 행이 `submitted`로 전환됩니다.
-- 마이그레이션: `20261005150205_playsafe_not_target_registration.sql`, `20261005150218_playsafe_begin_reopens_not_target.sql`
+- 저장 대상: Step 1 시설·관리주체 정보 + 시설 전경사진 + Step 2 답변. `playsafe_registration_equipment`, `playsafe_assessments`, `playsafe_assessment_answers`는 만들지 않습니다.
+- 모두 `yes`면 `status='registered'`, `all_eligible=true`. 하나라도 `no`면 `status='not_target'`, `all_eligible=false`.
+- 입력자 이메일당 `registered`·`not_target` 등록은 최대 10건입니다(`too_many_pending_registrations`). 이미 안전성평가가 등록된(`submitted`) 시설은 다시 저장할 수 없습니다(`registration_has_assessment`).
+- 같은 등록 키(또는 `id`)로 다시 저장하면 기존 행을 갱신하며, 답에 따라 `registered` ↔ `not_target`이 바뀝니다. 이후 안전성평가까지 최종 등록하면 같은 행이 `submitted`로 전환됩니다.
+- 마이그레이션: `20261007044557_playsafe_save_application.sql` (이전 `close_playsafe_registration`은 구버전 호환용으로 DB에 남아 있으며 앱에서는 호출하지 않습니다)
 
 문항 코드 (`src/data/playsafe/quiz.ts`)
 
@@ -144,12 +149,12 @@ erDiagram
 | --- | --- |
 | `id` | `gen_random_uuid()`. 재저장 시 요청의 `id`(입력자 일치 필요) 또는 등록 키로 기존 행을 찾아 갱신 |
 | `owner_id` | 사용하지 않음(`null`). 이전 인증 방식의 잔여 컬럼 |
-| `status` | 최종 등록 시 `submitted`, 부적격 종결 시 `not_target` (두 값만 허용) |
+| `status` | 2단계 저장 시 `registered`(대상, 평가 전) 또는 `not_target`(대상 아님 종결), 최종 등록 시 `submitted` (세 값만 허용) |
 | `revision` | update마다 트리거로 +1 (화면에서는 사용하지 않음) |
 | `created_at`, `updated_at` | `now()` |
 | `submitted_at` | 최종 등록 시 |
 
-같은 키로 이미 등록된 시설이 있으면 `registration_not_editable`, 다른 등록과 키가 겹치면 `submitter_key_conflict`로 거부됩니다. 기존 `not_target` 행은 갱신해 `submitted`로 바꿉니다.
+같은 키로 이미 등록된 시설이 있으면 `registration_not_editable`, 다른 등록과 키가 겹치면 `submitter_key_conflict`로 거부됩니다. 기존 `registered`·`not_target` 행은 갱신해 `submitted`로 바꿉니다.
 
 ---
 

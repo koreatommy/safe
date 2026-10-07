@@ -24,9 +24,10 @@ export type EquipmentInput = {
   memo: string;
 };
 
-export type CloseRegistrationInput = {
+/** 2단계 '선택 확인'에서 저장하는 시설정보·등록신청(자격 답변)·시설 전경사진. */
+export type ApplicationInput = {
   id?: string;
-  /** 종결 요청마다 새로 만드는 id. 시설 전경사진 저장 경로의 첫 폴더가 된다. */
+  /** 저장 요청마다 새로 만드는 id. 시설 전경사진 저장 경로의 첫 폴더가 된다. */
   requestId: string;
   consentAt: string;
   eligibilityVersion: string;
@@ -35,9 +36,10 @@ export type CloseRegistrationInput = {
   answers: EligibilityPair[];
 };
 
-export type CloseRegistrationResult = {
+export type ApplicationResult = {
   registrationId: string;
   registrationRevision: number;
+  status: Extract<RegistrationStatus, "registered" | "not_target">;
 };
 
 export type AssessmentAnswerDto = {

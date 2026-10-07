@@ -9,14 +9,12 @@ import "./not-target-dialog.css";
 type NotTargetDialogProps = {
   open: boolean;
   criteria: readonly FailedCriterion[];
-  saving: boolean;
-  saved: boolean;
   onClose: () => void;
+  onConfirm: () => void;
   onReview: () => void;
-  onSave: () => void;
 };
 
-export function NotTargetDialog({ open, criteria, saving, saved, onClose, onReview, onSave }: NotTargetDialogProps) {
+export function NotTargetDialog({ open, criteria, onClose, onConfirm, onReview }: NotTargetDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -43,19 +41,14 @@ export function NotTargetDialog({ open, criteria, saving, saved, onClose, onRevi
         <p className="not-target-sub">아래 기준을 만족하지 않아 안전성평가를 시작할 수 없습니다.</p>
         <FailedCriteriaList criteria={criteria} />
         <p className="not-target-sub">
-          {saved
-            ? "시설정보와 판단 기준 답변이 대상 아님으로 저장되었습니다."
-            : "종결 정보를 저장하면 기구정보 없이 시설정보와 판단 기준 답변만 저장됩니다."}
+          시설정보와 등록신청 답변이 ‘대상 아님’으로 저장되었으며, 기구정보 등록 없이 종결되었습니다.
         </p>
       </div>
       <div className="not-target-actions">
         <button type="button" className="btn" onClick={onReview}>
           판단 기준 다시 확인
         </button>
-        <button type="button" className="btn" onClick={onSave} disabled={saving}>
-          {saving ? "저장 중…" : saved ? "종결 정보 다시 저장" : "종결 정보 저장"}
-        </button>
-        <button type="button" className="btn primary" onClick={onClose} autoFocus>
+        <button type="button" className="btn primary" onClick={onConfirm} autoFocus>
           확인
         </button>
       </div>

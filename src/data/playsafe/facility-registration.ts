@@ -16,6 +16,12 @@ export const registrationSteps = [
 
 export const NOT_ELIGIBLE_MESSAGE = "모든 판단 기준에 부합하는 경우에만 등록신청이 가능합니다.";
 
+export const APPLICATION_SAVED_MESSAGE =
+  "시설정보와 등록신청정보가 DB에 저장되었습니다. 놀이기구 추가를 진행해 주세요.";
+
+export const APPLICATION_REQUIRED_MESSAGE =
+  "신규설치 등록신청에서 ‘선택 확인’을 눌러 시설정보와 등록신청정보를 먼저 저장해 주세요.";
+
 export const NOT_TARGET_TITLE = "안전성평가 대상 시설이 아닙니다";
 
 export const NOT_TARGET_SUMMARY =

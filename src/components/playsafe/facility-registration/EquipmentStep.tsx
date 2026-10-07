@@ -1,29 +1,27 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { NOT_ELIGIBLE_MESSAGE } from "@/data/playsafe/facility-registration";
+import { useRef } from "react";
+import { APPLICATION_REQUIRED_MESSAGE, NOT_ELIGIBLE_MESSAGE } from "@/data/playsafe/facility-registration";
 import { playsafeRoutes } from "@/lib/playsafe/routes";
-import { validateSubmitter } from "@/lib/playsafe-workflow/validation/submitter";
 import { scrollToStep } from "@/lib/playsafe/scrollToStep";
 import { useAssessmentStart } from "./useAssessmentStart";
-import { useRegistrationClose } from "./useRegistrationClose";
 import { EquipmentAddPanel } from "./EquipmentAddPanel";
 import { EquipmentList } from "./EquipmentList";
-import { NotTargetDialog } from "./NotTargetDialog";
+import { facilityInputsReady } from "./facilityInputsReady";
 import type { useFacilityRegistration } from "./useFacilityRegistration";
 
 type EquipmentStepProps = {
   state: ReturnType<typeof useFacilityRegistration>;
+  /** 2단계에서 대상으로 저장되어야 기구를 추가하고 안전성평가를 시작할 수 있다. */
+  applicationSaved: boolean;
   onToast: (message: string) => void;
 };
 
-export function EquipmentStep({ state, onToast }: EquipmentStepProps) {
+export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentStepProps) {
   const addButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-  const [notTargetOpen, setNotTargetOpen] = useState(false);
   const starter = useAssessmentStart(state);
-  const closure = useRegistrationClose(state);
   const closed = !state.allEligible;
 
   const returnToToolbar = () => {
@@ -32,6 +30,17 @@ export function EquipmentStep({ state, onToast }: EquipmentStepProps) {
       button?.scrollIntoView({ behavior: "smooth", block: "center" });
       button?.focus({ preventScroll: true });
     });
+  };
+
+  const requireApplication = () => {
+    if (applicationSaved) return true;
+    onToast(APPLICATION_REQUIRED_MESSAGE);
+    scrollToStep("step2");
+    return false;
+  };
+
+  const openPanel = () => {
+    if (requireApplication()) state.openAddPanel();
   };
 
   const closePanel = () => {
@@ -61,47 +70,15 @@ export function EquipmentStep({ state, onToast }: EquipmentStepProps) {
     onToast("입력한 등록정보를 JSON 파일로 다운로드했습니다.");
   };
 
-  const facilityInputsReady = () => {
-    const form = document.querySelector<HTMLFormElement>(".facility-form");
-    if (form && !form.reportValidity()) {
-      scrollToStep("step1");
-      return false;
-    }
-    const problem = !state.info.facilityName.trim()
-      ? "시설명을 입력해 주세요."
-      : !state.consentAt
-        ? "개인정보 수집 동의 후 진행해 주세요."
-        : validateSubmitter(state.submitter);
-    if (problem) {
-      onToast(problem);
-      scrollToStep("step1");
-      return false;
-    }
-    return true;
-  };
-
-  const saveClosure = () => {
-    if (closure.busy) return;
-    setNotTargetOpen(false);
-    if (!facilityInputsReady()) return;
-    void closure
-      .close()
-      .then(() => {
-        setNotTargetOpen(true);
-        onToast("시설정보와 판단 기준 답변을 대상 아님으로 저장했습니다.");
-      })
-      .catch((error: unknown) => {
-        onToast(error instanceof Error ? error.message : "종결 정보를 저장하지 못했습니다.");
-      });
-  };
-
   const startAssessment = () => {
     if (starter.busy) return;
     if (closed) {
-      setNotTargetOpen(true);
+      onToast(NOT_ELIGIBLE_MESSAGE);
+      scrollToStep("step2");
       return;
     }
-    if (!facilityInputsReady()) return;
+    if (!requireApplication()) return;
+    if (!facilityInputsReady(state, onToast)) return;
     const problem = state.completionProblem;
     if (problem) {
       onToast(problem.message);
@@ -126,7 +103,9 @@ export function EquipmentStep({ state, onToast }: EquipmentStepProps) {
           <p>
             {closed
               ? "신규설치 등록신청 판단 기준을 만족하지 않아 놀이기구 없음으로 종결되었습니다."
-              : "놀이기구를 추가하고 등록 정보를 확인합니다."}
+              : applicationSaved
+                ? "놀이기구를 추가하고 등록 정보를 확인합니다."
+                : "신규설치 등록신청에서 ‘선택 확인’을 눌러 저장한 뒤 놀이기구를 추가할 수 있습니다."}
           </p>
         </div>
       </header>
@@ -135,7 +114,7 @@ export function EquipmentStep({ state, onToast }: EquipmentStepProps) {
         closed={closed}
         adding={state.addPanelOpen}
         addButtonRef={addButtonRef}
-        onToggleAdd={state.addPanelOpen ? closePanel : state.openAddPanel}
+        onToggleAdd={state.addPanelOpen ? closePanel : openPanel}
         onRemove={state.removeRow}
         onExport={exportRegistration}
         onStartAssessment={startAssessment}
@@ -155,18 +134,6 @@ export function EquipmentStep({ state, onToast }: EquipmentStepProps) {
             />
           ) : null
         }
-      />
-      <NotTargetDialog
-        open={notTargetOpen}
-        criteria={state.failedCriteria}
-        saving={closure.busy}
-        saved={Boolean(closure.closedAt)}
-        onSave={saveClosure}
-        onClose={() => setNotTargetOpen(false)}
-        onReview={() => {
-          setNotTargetOpen(false);
-          scrollToStep("step2");
-        }}
       />
     </article>
   );

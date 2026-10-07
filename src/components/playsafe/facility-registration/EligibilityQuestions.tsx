@@ -7,11 +7,19 @@ type EligibilityQuestionsProps = {
   answers: readonly EligibilityAnswer[];
   failedCriteria: readonly FailedCriterion[];
   onAnswer: (index: number, value: EligibilityAnswer) => void;
+  saving: boolean;
   onBack: () => void;
   onNext: () => void;
 };
 
-export function EligibilityQuestions({ answers, failedCriteria, onAnswer, onBack, onNext }: EligibilityQuestionsProps) {
+export function EligibilityQuestions({
+  answers,
+  failedCriteria,
+  saving,
+  onAnswer,
+  onBack,
+  onNext,
+}: EligibilityQuestionsProps) {
   return (
     <>
       <ol className="facility-questions">
@@ -49,7 +57,10 @@ export function EligibilityQuestions({ answers, failedCriteria, onAnswer, onBack
       {failedCriteria.length > 0 ? (
         <div className="facility-not-target" role="status">
           <strong>{NOT_TARGET_TITLE}</strong>
-          <p>{NOT_TARGET_SUMMARY} 기구정보 등록은 ‘놀이기구 없음’으로 종결됩니다.</p>
+          <p>
+            {NOT_TARGET_SUMMARY} ‘선택 확인’을 누르면 시설정보와 답변이 대상 아님으로 저장되고, 기구정보 등록은
+            ‘놀이기구 없음’으로 종결됩니다.
+          </p>
           <FailedCriteriaList criteria={failedCriteria} />
         </div>
       ) : (
@@ -62,8 +73,8 @@ export function EligibilityQuestions({ answers, failedCriteria, onAnswer, onBack
         <button type="button" className="btn" onClick={onBack}>
           이전 항목으로
         </button>
-        <button type="button" className="btn primary" onClick={onNext}>
-          선택 확인 · 기구정보 등록
+        <button type="button" className="btn primary" onClick={onNext} disabled={saving}>
+          {saving ? "저장 중…" : "선택 확인 · 기구정보 등록"}
         </button>
       </div>
     </>

@@ -93,6 +93,16 @@ ol.facility-questions {
   line-height: 1.5;
 }
 
+.facility-saved {
+  margin: 12px 26px 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #edf4e8;
+  color: #356853;
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
 .facility-closed-label {
   color: #b9472a;
 }
@@ -110,5 +120,9 @@ ol.facility-questions {
 
   .facility-not-target {
     margin: 0 18px;
+  }
+
+  .facility-saved {
+    margin-inline: 18px;
   }
 }

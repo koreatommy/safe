@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { emptyFacilityInfo } from "@/data/playsafe/facility-registration";
 import { quizQuestions } from "@/data/playsafe/quiz";
 import { ELIGIBILITY_VERSION } from "./constants";
-import { parseCloseInput, validateCloseInput } from "./validation/closeRegistration";
+import { parseApplicationInput, validateApplicationInput } from "./validation/application";
 
 const answersWith = (noIndex: number | null) =>
   quizQuestions.map((question, index) => ({
@@ -17,28 +17,33 @@ const baseInput = (noIndex: number | null) => ({
   answers: answersWith(noIndex),
 });
 
-describe("close registration validation", () => {
+describe("application (facility info + eligibility) validation", () => {
   it("accepts facility info and answers without equipment when any answer is no", () => {
-    const parsed = parseCloseInput(baseInput(2));
+    const parsed = parseApplicationInput(baseInput(2));
     expect(parsed).not.toBeNull();
     expect(parsed).not.toHaveProperty("equipment");
-    expect(validateCloseInput(parsed!)).toBeNull();
+    expect(validateApplicationInput(parsed!)).toBeNull();
   });
 
-  it("rejects closing when every answer is yes", () => {
-    const parsed = parseCloseInput(baseInput(null));
-    expect(validateCloseInput(parsed!)).toContain("종결할 수 없습니다");
+  it("accepts eligible applications so they can be saved before equipment registration", () => {
+    const parsed = parseApplicationInput(baseInput(null));
+    expect(validateApplicationInput(parsed!)).toBeNull();
+  });
+
+  it("requires every eligibility question to be answered", () => {
+    const parsed = parseApplicationInput({ ...baseInput(null), answers: answersWith(null).slice(1) });
+    expect(validateApplicationInput(parsed!)).toContain("모두 답해");
   });
 
   it("requires consent and facility name", () => {
-    const parsed = parseCloseInput({ ...baseInput(0), consentAt: "" });
-    expect(validateCloseInput(parsed!)).toContain("동의");
-    const unnamed = parseCloseInput({ ...baseInput(0), information: emptyFacilityInfo });
-    expect(validateCloseInput(unnamed!)).toContain("시설명");
+    const parsed = parseApplicationInput({ ...baseInput(0), consentAt: "" });
+    expect(validateApplicationInput(parsed!)).toContain("동의");
+    const unnamed = parseApplicationInput({ ...baseInput(0), information: emptyFacilityInfo });
+    expect(validateApplicationInput(unnamed!)).toContain("시설명");
   });
 
   it("rejects payloads without answers", () => {
-    expect(parseCloseInput({ information: emptyFacilityInfo })).toBeNull();
+    expect(parseApplicationInput({ information: emptyFacilityInfo })).toBeNull();
   });
 
   it("accepts up to two facility photos with a request id", () => {
@@ -54,17 +59,17 @@ describe("close registration validation", () => {
       photo("55555555-5555-4555-8555-555555555555", 2),
     ];
     const requestId = "66666666-6666-4666-8666-666666666666";
-    const parsed = parseCloseInput({ ...baseInput(1), requestId, facilityPhotos: photos });
+    const parsed = parseApplicationInput({ ...baseInput(1), requestId, facilityPhotos: photos });
     expect(parsed?.facilityPhotos).toHaveLength(2);
-    expect(validateCloseInput(parsed!)).toBeNull();
+    expect(validateApplicationInput(parsed!)).toBeNull();
 
-    const withoutRequest = parseCloseInput({ ...baseInput(1), facilityPhotos: photos });
-    expect(validateCloseInput(withoutRequest!)).toContain("등록 요청");
-    const tooMany = parseCloseInput({
+    const withoutRequest = parseApplicationInput({ ...baseInput(1), facilityPhotos: photos });
+    expect(validateApplicationInput(withoutRequest!)).toContain("등록 요청");
+    const tooMany = parseApplicationInput({
       ...baseInput(1),
       requestId,
       facilityPhotos: [...photos, photo("77777777-7777-4777-8777-777777777777", 3)],
     });
-    expect(validateCloseInput(tooMany!)).toContain("최대 2장");
+    expect(validateApplicationInput(tooMany!)).toContain("최대 2장");
   });
 });
