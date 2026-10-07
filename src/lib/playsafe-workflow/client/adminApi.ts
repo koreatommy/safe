@@ -34,3 +34,7 @@ export function fetchAdminAssessments({ field, keyword, registrationId }: Assess
 export function fetchAdminDetail(registrationId: string) {
   return adminJson<AdminRegistrationDetail>(`/registrations/${registrationId}`);
 }
+
+export function deleteAdminRegistration(registrationId: string) {
+  return adminJson<{ ok: true }>(`/registrations/${registrationId}`, { method: "DELETE" });
+}

@@ -1,5 +1,5 @@
 import type { KeyboardEvent } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Trash2 } from "lucide-react";
 import type { AdminRegistrationRow } from "@/lib/playsafe-workflow/adminTypes";
 import { RegistrationDetailPanel } from "./RegistrationDetailPanel";
 import { TargetBadge } from "./TargetBadge";
@@ -11,11 +11,21 @@ type RegistrationTableRowProps = {
   open: boolean;
   onToggle: () => void;
   onOpenAssessment: () => void;
+  deleting: boolean;
+  onDelete: () => void;
 };
 
-export const REGISTRATION_COLUMN_COUNT = 6;
+export const REGISTRATION_COLUMN_COUNT = 7;
 
-export function RegistrationTableRow({ no, row, open, onToggle, onOpenAssessment }: RegistrationTableRowProps) {
+export function RegistrationTableRow({
+  no,
+  row,
+  open,
+  onToggle,
+  onOpenAssessment,
+  deleting,
+  onDelete,
+}: RegistrationTableRowProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLTableRowElement>) => {
     if (event.key !== "Enter" && event.key !== " ") return;
     event.preventDefault();
@@ -46,6 +56,22 @@ export function RegistrationTableRow({ no, row, open, onToggle, onOpenAssessment
           <TargetBadge status={row.status} />
         </td>
         <td className="px-3 py-3 text-white/60 whitespace-nowrap tabular-nums">{formatDateTime(row.createdAt)}</td>
+        <td className="px-3 py-3 text-center">
+          <button
+            type="button"
+            disabled={deleting}
+            aria-label={`${row.facilityName} 삭제`}
+            title="삭제"
+            onClick={(event) => {
+              event.stopPropagation();
+              onDelete();
+            }}
+            onKeyDown={(event) => event.stopPropagation()}
+            className="p-1.5 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500/30 disabled:opacity-50"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </td>
       </tr>
       {open && (
         <tr className="border-b border-white/10 bg-black/10">

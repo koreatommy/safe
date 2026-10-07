@@ -18,3 +18,7 @@ export function readCachedDetail(registrationId: string): AdminRegistrationDetai
 export function writeCachedDetail(registrationId: string, detail: AdminRegistrationDetail): void {
   cache.set(registrationId, { detail, expiresAt: Date.now() + CACHE_TTL_MS });
 }
+
+export function dropCachedDetail(registrationId: string): void {
+  cache.delete(registrationId);
+}

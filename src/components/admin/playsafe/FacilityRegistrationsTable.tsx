@@ -14,12 +14,33 @@ const COLUMNS = [
   { label: "주소", className: "" },
   { label: "평가대상여부", className: "w-28 text-center" },
   { label: "등록일", className: "w-44" },
+  { label: "삭제", className: "w-16 text-center" },
 ] as const;
 
+const DELETE_CONFIRM =
+  "이 시설의 등록정보, 기구정보, 안전성평가 결과와 모든 사진을 삭제할까요? 되돌릴 수 없습니다.";
+
 export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessment: (registrationId: string) => void }) {
-  const { registrations, total, page, pageSize, setPage, search, setSearch, isLoading, error } =
+  const { registrations, total, page, pageSize, setPage, search, setSearch, remove, isLoading, error } =
     usePlaysafeRegistrationsAdmin();
   const [openId, setOpenId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const confirmDelete = async (id: string, facilityName: string) => {
+    if (!window.confirm(`[${facilityName}]\n${DELETE_CONFIRM}`)) return;
+    setDeletingId(id);
+    setDeleteError(null);
+    try {
+      await remove(id);
+      if (openId === id) setOpenId(null);
+    } catch (e) {
+      setDeleteError(e instanceof Error ? e.message : "삭제하지 못했습니다.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+  const notice = deleteError ?? error;
 
   const isFiltered = search.keyword !== "" || search.target !== "all";
   const emptyMessage = isFiltered ? "검색 조건에 맞는 시설정보가 없습니다." : "입력된 시설정보가 없습니다.";
@@ -35,12 +56,12 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
         }}
       />
 
-      {error && (
-        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-amber-100/90 text-sm">{error}</div>
+      {notice && (
+        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-amber-100/90 text-sm">{notice}</div>
       )}
 
       <div className="overflow-x-auto rounded-xl border border-white/10">
-        <table className="w-full min-w-[860px] table-fixed text-sm">
+        <table className="w-full min-w-[920px] table-fixed text-sm">
           <thead className="bg-white/[0.04] text-white/60 text-xs">
             <tr className="border-b border-white/10">
               {COLUMNS.map((column) => (
@@ -66,6 +87,8 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
                   open={openId === row.id}
                   onToggle={() => setOpenId(openId === row.id ? null : row.id)}
                   onOpenAssessment={() => onOpenAssessment(row.id)}
+                  deleting={deletingId === row.id}
+                  onDelete={() => void confirmDelete(row.id, row.facilityName)}
                 />
               ))
             )}
