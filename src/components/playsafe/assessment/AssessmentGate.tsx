@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { CompletedRegistration } from "@/data/playsafe/types";
-import { loadSubmitter } from "@/lib/playsafe-workflow/client/submitterStore";
-import type { Submitter } from "@/lib/playsafe-workflow/types";
-import { clearAssessmentDraft, loadRegistrationDraft } from "@/lib/playsafe/assessmentDraft";
+import {
+  assessmentRegistrationId,
+  loadAssessmentRegistration,
+  type AssessmentRegistration,
+} from "@/lib/playsafe-workflow/client/assessmentRegistration";
+import { clearAssessmentDraft } from "@/lib/playsafe/assessmentDraft";
 import { ChecklistApp } from "../checklist/ChecklistApp";
 import { RegistrationRequired } from "./RegistrationRequired";
 import { RegistrationSummary } from "./RegistrationSummary";
@@ -13,23 +15,40 @@ import "./assessment-gate.css";
 
 type GateState =
   | { status: "loading" }
-  | { status: "empty" }
-  | { status: "ready"; registration: CompletedRegistration; submitter: Submitter | null }
+  | { status: "empty"; message?: string }
+  | ({ status: "ready" } & AssessmentRegistration)
   | { status: "submitted"; facilityName: string };
 
 export function AssessmentGate() {
   const [gate, setGate] = useState<GateState>({ status: "loading" });
 
   useEffect(() => {
-    void loadRegistrationDraft()
-      .catch(() => null)
-      .then((registration) =>
-        setGate(registration ? { status: "ready", registration, submitter: loadSubmitter() } : { status: "empty" }),
-      );
+    const registrationId = assessmentRegistrationId();
+    if (!registrationId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- the URL is only readable after mount
+      setGate({ status: "empty" });
+      return;
+    }
+    let cancelled = false;
+    void loadAssessmentRegistration(registrationId)
+      .then((loaded) => {
+        if (!cancelled) setGate({ status: "ready", ...loaded });
+      })
+      .catch((error: unknown) => {
+        if (cancelled) return;
+        setGate({ status: "empty", message: error instanceof Error ? error.message : undefined });
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (gate.status === "loading") return <div className="check-app check-app-loading" aria-busy="true" />;
-  if (gate.status === "empty") return <RegistrationRequired />;
+  if (gate.status === "empty") {
+    return (
+      <RegistrationRequired>{gate.message ? <p className="assessment-required-error">{gate.message}</p> : null}</RegistrationRequired>
+    );
+  }
   if (gate.status === "submitted") return <SubmissionComplete facilityName={gate.facilityName} />;
 
   const { registration, submitter } = gate;

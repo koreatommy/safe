@@ -3,17 +3,16 @@
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { APPLICATION_REQUIRED_MESSAGE, NOT_ELIGIBLE_MESSAGE } from "@/data/playsafe/facility-registration";
-import { playsafeRoutes } from "@/lib/playsafe/routes";
+import { assessmentRouteFor } from "@/lib/playsafe/routes";
 import { scrollToStep } from "@/lib/playsafe/scrollToStep";
-import { useAssessmentStart } from "./useAssessmentStart";
 import { EquipmentAddPanel } from "./EquipmentAddPanel";
 import { EquipmentList } from "./EquipmentList";
-import { facilityInputsReady } from "./facilityInputsReady";
+import { useEquipmentSave } from "./useEquipmentSave";
 import type { useFacilityRegistration } from "./useFacilityRegistration";
 
 type EquipmentStepProps = {
   state: ReturnType<typeof useFacilityRegistration>;
-  /** 2단계에서 대상으로 저장되어야 기구를 추가하고 안전성평가를 시작할 수 있다. */
+  /** 2단계에서 대상으로 저장되어야 기구를 추가하고 저장할 수 있다. */
   applicationSaved: boolean;
   onToast: (message: string) => void;
 };
@@ -21,7 +20,7 @@ type EquipmentStepProps = {
 export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentStepProps) {
   const addButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-  const starter = useAssessmentStart(state);
+  const equipmentSave = useEquipmentSave(state, applicationSaved, onToast);
   const closed = !state.allEligible;
 
   const returnToToolbar = () => {
@@ -32,15 +31,13 @@ export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentSte
     });
   };
 
-  const requireApplication = () => {
-    if (applicationSaved) return true;
+  const openPanel = () => {
+    if (applicationSaved) {
+      state.openAddPanel();
+      return;
+    }
     onToast(APPLICATION_REQUIRED_MESSAGE);
     scrollToStep("step2");
-    return false;
-  };
-
-  const openPanel = () => {
-    if (requireApplication()) state.openAddPanel();
   };
 
   const closePanel = () => {
@@ -51,7 +48,11 @@ export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentSte
   const savePanel = () => {
     const result = state.saveDrafts();
     if (!result.ok) return;
-    onToast(result.count ? `${result.count}개 기구의 개별 정보가 추가되었습니다.` : "기구 추가 없이 입력란을 닫았습니다.");
+    onToast(
+      result.count
+        ? `${result.count}개 기구를 목록에 추가했습니다. ‘저장’을 눌러 DB에 저장해 주세요.`
+        : "기구 추가 없이 입력란을 닫았습니다.",
+    );
     returnToToolbar();
   };
 
@@ -70,28 +71,15 @@ export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentSte
     onToast("입력한 등록정보를 JSON 파일로 다운로드했습니다.");
   };
 
-  const startAssessment = () => {
-    if (starter.busy) return;
+  const startAssessment = async () => {
     if (closed) {
       onToast(NOT_ELIGIBLE_MESSAGE);
       scrollToStep("step2");
       return;
     }
-    if (!requireApplication()) return;
-    if (!facilityInputsReady(state, onToast)) return;
-    const problem = state.completionProblem;
-    if (problem) {
-      onToast(problem.message);
-      scrollToStep(problem.step);
-      return;
-    }
-    void starter.start().then((saved) => {
-      if (!saved) {
-        onToast("브라우저 저장 공간이 부족해 시설정보를 임시 저장하지 못했습니다.");
-        return;
-      }
-      router.push(playsafeRoutes.assessment);
-    });
+    const registrationId =
+      equipmentSave.saved && state.registrationId ? state.registrationId : await equipmentSave.save();
+    if (registrationId) router.push(assessmentRouteFor(registrationId));
   };
 
   return (
@@ -104,7 +92,7 @@ export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentSte
             {closed
               ? "신규설치 등록신청 판단 기준을 만족하지 않아 놀이기구 없음으로 종결되었습니다."
               : applicationSaved
-                ? "놀이기구를 추가하고 등록 정보를 확인합니다."
+                ? "놀이기구를 추가한 뒤 ‘저장’을 누르면 시설정보·등록신청정보와 함께 DB에 저장됩니다."
                 : "신규설치 등록신청에서 ‘선택 확인’을 눌러 저장한 뒤 놀이기구를 추가할 수 있습니다."}
           </p>
         </div>
@@ -117,8 +105,10 @@ export function EquipmentStep({ state, applicationSaved, onToast }: EquipmentSte
         onToggleAdd={state.addPanelOpen ? closePanel : openPanel}
         onRemove={state.removeRow}
         onExport={exportRegistration}
-        onStartAssessment={startAssessment}
-        startBusy={starter.busy}
+        onSave={() => void equipmentSave.save()}
+        onStartAssessment={() => void startAssessment()}
+        saving={equipmentSave.busy}
+        saved={equipmentSave.saved}
         addPanel={
           state.addPanelOpen ? (
             <EquipmentAddPanel

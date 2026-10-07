@@ -279,6 +279,16 @@
   padding: 0 26px 22px;
 }
 
+.facility-status.is-saved {
+  color: #356853;
+  font-weight: 700;
+}
+
+.facility-status.is-dirty {
+  color: #b9472a;
+  font-weight: 700;
+}
+
 @media (max-width: 720px) {
   .facility-grid {
     grid-template-columns: 1fr;

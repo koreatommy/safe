@@ -12,9 +12,21 @@ type EquipmentListProps = {
   onToggleAdd: () => void;
   onRemove: (id: string) => void;
   onExport: () => void;
+  onSave: () => void;
   onStartAssessment: () => void;
-  startBusy?: boolean;
+  saving: boolean;
+  /** 시설정보·등록신청·기구정보가 마지막 변경까지 DB에 저장된 상태. */
+  saved: boolean;
 };
+
+function saveStatus(saved: boolean, rowCount: number) {
+  if (saved) return { className: "is-saved", text: "DB에 저장되었습니다. ‘안전성평가 시작’을 누르면 저장된 정보를 불러와 평가를 진행합니다." };
+  if (rowCount === 0) return { className: "", text: "놀이기구를 1개 이상 추가한 뒤 ‘저장’을 눌러 주세요." };
+  return {
+    className: "is-dirty",
+    text: "저장되지 않은 변경이 있습니다. ‘저장’을 누르면 시설정보·신규설치 등록신청정보·기구정보가 함께 DB에 저장됩니다.",
+  };
+}
 
 export function EquipmentList({
   rows,
@@ -25,10 +37,13 @@ export function EquipmentList({
   onToggleAdd,
   onRemove,
   onExport,
+  onSave,
   onStartAssessment,
-  startBusy = false,
+  saving,
+  saved,
 }: EquipmentListProps) {
   const visibleRows = closed ? [] : rows;
+  const status = saveStatus(saved, rows.length);
 
   return (
     <>
@@ -105,14 +120,22 @@ export function EquipmentList({
         <button type="button" className="btn" onClick={onExport}>
           등록정보 JSON 다운로드
         </button>
-        <button type="button" className="btn primary" onClick={onStartAssessment} disabled={startBusy}>
-          {startBusy ? "저장 중…" : "안전성평가 시작 →"}
-        </button>
+        {!closed && (
+          <>
+            <button type="button" className="btn" onClick={onSave} disabled={saving || saved}>
+              {saving ? "저장 중…" : saved ? "저장 완료 ✓" : "저장"}
+            </button>
+            <button type="button" className="btn primary" onClick={onStartAssessment} disabled={saving}>
+              안전성평가 시작 →
+            </button>
+          </>
+        )}
       </div>
-      <p className="facility-status">
-        아직 서버에 등록되지 않습니다. ‘안전성평가 시작’을 누르면 등록정보가 이 브라우저에 임시 저장되고, 안전성평가를 마친
-        뒤 ‘안전성평가 완료 후 등록’으로 한 번에 등록됩니다.
-      </p>
+      {!closed && (
+        <p className={`facility-status ${status.className}`.trim()} role="status">
+          {status.text}
+        </p>
+      )}
     </>
   );
 }

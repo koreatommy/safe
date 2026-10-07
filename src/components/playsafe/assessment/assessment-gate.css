@@ -5,6 +5,7 @@
 }
 .assessment-required strong { font-size: 20px; color: #8a5300; }
 .assessment-required p { margin: 0; font-size: 14px; line-height: 1.7; }
+.assessment-required .assessment-required-error { color: #b9472a; font-weight: 700; }
 
 .assessment-registration {
   margin-bottom: 20px; padding: 22px 28px; border-radius: 22px;

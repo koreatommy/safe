@@ -1,11 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { CompletedRegistration } from "@/data/playsafe/types";
 import { submitAssessment } from "@/lib/playsafe-workflow/client/submitAssessment";
 import type { ChecklistSnapshot } from "@/lib/playsafe/checklistStorage";
 
-export function useAssessmentSubmission(registration: CompletedRegistration, snapshot: ChecklistSnapshot) {
+export function useAssessmentSubmission(registrationId: string, snapshot: ChecklistSnapshot) {
   const submissionId = useRef<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
@@ -17,7 +16,7 @@ export function useAssessmentSubmission(registration: CompletedRegistration, sna
     try {
       return await submitAssessment({
         submissionId: submissionId.current,
-        registration,
+        registrationId,
         snapshot,
         onProgress: (done, total) => setProgress(`사진 업로드 중 ${done}/${total}`),
       });

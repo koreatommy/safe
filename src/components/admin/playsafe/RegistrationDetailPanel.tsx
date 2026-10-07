@@ -26,7 +26,9 @@ export function RegistrationDetailPanel({ registrationId, onOpenAssessment }: Re
       <EquipmentSection equipment={registration.equipment} closed={registration.status === "not_target"} />
       {registration.status === "registered" ? (
         <p className="rounded-lg border border-white/10 bg-white/[0.03] p-3 text-white/70">
-          시설정보·등록신청만 저장된 상태입니다. 기구정보와 안전성평가는 아직 등록되지 않았습니다.
+          {registration.equipment.length > 0
+            ? "기구정보까지 저장된 상태입니다. 안전성평가는 아직 등록되지 않았습니다."
+            : "시설정보·등록신청만 저장된 상태입니다. 기구정보와 안전성평가는 아직 등록되지 않았습니다."}
         </p>
       ) : null}
       {assessment ? (

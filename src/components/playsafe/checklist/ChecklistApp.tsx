@@ -17,14 +17,14 @@ const CHECK_GROUPS = groupCheckIndices(checkItems);
 const SUBMIT_CONFIRM = "등록 후에는 수정할 수 없습니다. 필요하면 먼저 ‘기록 내려받기’로 사본을 보관해 주세요.\n안전성평가를 등록할까요?";
 
 type ChecklistAppProps = {
-  registration: CompletedRegistration;
+  registration: CompletedRegistration & { id: string };
   onSubmitted: () => void;
 };
 
 export function ChecklistApp({ registration, onSubmitted }: ChecklistAppProps) {
   const local = useChecklistState(registration.information.facilityName);
   const { snapshot } = local;
-  const submission = useAssessmentSubmission(registration, snapshot);
+  const submission = useAssessmentSubmission(registration.id, snapshot);
   const toast = useToast();
   const recorded = snapshot.records.filter((row) => row.status !== UNRECORDED_STATUS).length;
   const riskFound = snapshot.records.filter((row) => row.status === RISK_FOUND_STATUS).length;

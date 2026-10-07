@@ -22,6 +22,9 @@ export const APPLICATION_SAVED_MESSAGE =
 export const APPLICATION_REQUIRED_MESSAGE =
   "신규설치 등록신청에서 ‘선택 확인’을 눌러 시설정보와 등록신청정보를 먼저 저장해 주세요.";
 
+export const EQUIPMENT_SAVED_MESSAGE =
+  "시설정보·신규설치 등록신청정보·기구정보가 DB에 저장되었습니다. ‘안전성평가 시작’으로 진행해 주세요.";
+
 export const NOT_TARGET_TITLE = "안전성평가 대상 시설이 아닙니다";
 
 export const NOT_TARGET_SUMMARY =

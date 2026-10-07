@@ -66,7 +66,7 @@ export function EquipmentAddPanel({
             취소
           </button>
           <button type="submit" className="btn primary" disabled={Boolean(draftProblem)}>
-            확인
+            목록에 추가
           </button>
         </div>
       </form>

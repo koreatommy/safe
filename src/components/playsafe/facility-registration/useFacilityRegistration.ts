@@ -38,7 +38,6 @@ export function useFacilityRegistration() {
   const [facilityPhotos, setFacilityPhotos] = useState<FacilityPhoto[]>([]);
   const [answers, setAnswers] = useState<EligibilityAnswer[]>(defaultAnswers);
   const [rows, setRows] = useState<EquipmentRow[]>([]);
-  const [sequence, setSequence] = useState(0);
   const [drafts, setDrafts] = useState<Record<string, EquipmentDraft>>({});
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [addPanelOpen, setAddPanelOpen] = useState(false);
@@ -101,10 +100,9 @@ export function useFacilityRegistration() {
 
   const saveDrafts = () => {
     if (draftProblem) return { ok: false as const, count: 0 };
-    const batch = buildRows(activeDrafts, sequence);
+    const batch = buildRows(activeDrafts);
     if (batch.length !== totalQuantity(activeDrafts)) return { ok: false as const, count: 0 };
     setRows((current) => [...current, ...batch]);
-    setSequence((current) => current + batch.length);
     closeAddPanel();
     return { ok: true as const, count: batch.length };
   };
@@ -150,11 +148,11 @@ export function useFacilityRegistration() {
     setFacilityPhotos([]);
     setAnswers(defaultAnswers());
     setRows([]);
-    setSequence(0);
     closeAddPanel();
   };
 
-  const saveForAssessment = () =>
+  /** 다시 방문했을 때 입력 화면을 복원하기 위한 브라우저 사본. 안전성평가는 DB 저장본을 쓴다. */
+  const saveLocalDraft = () =>
     saveRegistrationDraft({
       id: registrationId,
       information: info,
@@ -199,6 +197,6 @@ export function useFacilityRegistration() {
     saveDrafts,
     exportJson,
     completionProblem,
-    saveForAssessment,
+    saveLocalDraft,
   };
 }

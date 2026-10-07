@@ -1,5 +1,5 @@
 import type { SubmissionInput, SubmissionResult, SubmissionUploads } from "../submissionTypes";
-import type { ApplicationInput, ApplicationResult } from "../types";
+import type { ApplicationInput, ApplicationResult, SavedRegistration } from "../types";
 import { submitterHeaders } from "./submitterStore";
 
 async function requestJson<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
@@ -23,6 +23,12 @@ export function requestApplicationUploads(input: ApplicationInput) {
   return requestJson<SubmissionUploads>("/api/playsafe/applications/upload-urls", {
     method: "POST",
     body: JSON.stringify(input),
+  });
+}
+
+export function fetchSavedRegistration(registrationId: string) {
+  return requestJson<SavedRegistration>(`/api/playsafe/registrations/${encodeURIComponent(registrationId)}`, {
+    cache: "no-store",
   });
 }
 

@@ -33,7 +33,7 @@ export function RegistrationSummary({ registration, submitter }: RegistrationSum
   return (
     <section className="assessment-registration" aria-label="입력한 시설정보">
       <header>
-        <strong>입력한 시설정보 (등록 전)</strong>
+        <strong>저장된 시설정보 (안전성평가 등록 전)</strong>
         <Link href={playsafeRoutes.facilityInfo} className="btn">
           시설정보 다시 입력
         </Link>
@@ -52,7 +52,7 @@ export function RegistrationSummary({ registration, submitter }: RegistrationSum
           <ul>
             {facilityPhotos.map((photo, index) => (
               <li key={photo.id}>
-                {/* eslint-disable-next-line @next/next/no-img-element -- data URL preview */}
+                {/* eslint-disable-next-line @next/next/no-img-element -- short-lived signed URL */}
                 <img src={photo.photo} alt={`시설 전경사진 ${index + 1}`} />
               </li>
             ))}
@@ -63,7 +63,7 @@ export function RegistrationSummary({ registration, submitter }: RegistrationSum
         {equipment.map((row) => (
           <li key={row.id}>
             {row.photo ? (
-              // eslint-disable-next-line @next/next/no-img-element -- data URL preview
+              // eslint-disable-next-line @next/next/no-img-element -- short-lived signed URL
               <img src={row.photo} alt={`${row.type} 기구사진`} />
             ) : (
               <span className="assessment-equipment-empty">사진 없음</span>

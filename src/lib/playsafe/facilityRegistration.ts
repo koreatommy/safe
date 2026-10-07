@@ -59,14 +59,12 @@ export function createEquipmentDraft(type: string): EquipmentDraft {
   };
 }
 
-export function buildRows(records: readonly EquipmentDraft[], startSequence: number): EquipmentRow[] {
+export function buildRows(records: readonly EquipmentDraft[]): EquipmentRow[] {
   const rows: EquipmentRow[] = [];
-  let number = startSequence;
 
   for (const record of records) {
     const count = registrationQuantity(record.quantity);
     for (let index = 0; index < count; index += 1) {
-      number += 1;
       rows.push({
         id: crypto.randomUUID(),
         type: record.type,

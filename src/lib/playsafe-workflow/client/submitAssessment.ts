@@ -1,26 +1,21 @@
-import type { CompletedRegistration } from "@/data/playsafe/types";
 import type { ChecklistSnapshot } from "@/lib/playsafe/checklistStorage";
 import { toSubmissionInput } from "../submissionMapper";
 import type { SubmissionResult, SubmissionUploads } from "../submissionTypes";
 import { validateSubmissionInput } from "../validation/submission";
 import { requestSubmissionUploads, submitRegistration } from "./api";
-import { loadPhotoBlobs, photoMetaOf, type PhotoBlobs } from "./photoBlobs";
+import { loadChecklistPhotoBlobs, photoMetaOf, type PhotoBlobs } from "./photoBlobs";
 import { uploadToSignedUrl } from "./photoUpload";
 import { loadSubmitter } from "./submitterStore";
 
 type SubmitAssessmentOptions = {
   submissionId: string;
-  registration: CompletedRegistration;
+  registrationId: string;
   snapshot: ChecklistSnapshot;
   onProgress: (done: number, total: number) => void;
 };
 
 function uploadJobs(uploads: SubmissionUploads, blobs: Map<string, PhotoBlobs>) {
-  return [
-    ...Object.entries(uploads.facility),
-    ...Object.entries(uploads.equipment),
-    ...Object.entries(uploads.checklist),
-  ].flatMap(([id, tickets]) => {
+  return Object.entries(uploads.checklist).flatMap(([id, tickets]) => {
     const photo = blobs.get(id)!;
     return [
       { ticket: tickets.main, blob: photo.main },
@@ -29,17 +24,17 @@ function uploadJobs(uploads: SubmissionUploads, blobs: Map<string, PhotoBlobs>) 
   });
 }
 
-/** 사진(원본 압축본 + 썸네일)을 서명 URL로 먼저 올린 뒤, 시설정보·기구·평가를 한 번에 등록한다. */
+/** 위험요소 사진(원본 압축본 + 썸네일)을 서명 URL로 먼저 올린 뒤, DB에 저장된 등록에 안전성평가를 등록한다. */
 export async function submitAssessment({
   submissionId,
-  registration,
+  registrationId,
   snapshot,
   onProgress,
 }: SubmitAssessmentOptions): Promise<SubmissionResult> {
   if (!loadSubmitter()) throw new Error("입력자 정보가 없습니다. 시설정보입력에서 입력자 이름·이메일을 확인해 주세요.");
 
-  const blobs = await loadPhotoBlobs(registration, snapshot);
-  const input = toSubmissionInput({ submissionId, registration, snapshot, photoMeta: photoMetaOf(blobs) });
+  const blobs = await loadChecklistPhotoBlobs(snapshot);
+  const input = toSubmissionInput({ submissionId, registrationId, snapshot, photoMeta: photoMetaOf(blobs) });
   const problem = validateSubmissionInput(input);
   if (problem) throw new Error(problem);
 

@@ -6,10 +6,12 @@ import type {
   PhotoMeta,
   PhotoUploads,
   SignedUpload,
+  SubmissionEquipment,
   SubmissionFacilityPhoto,
   SubmissionInput,
   SubmissionUploads,
 } from "../submissionTypes";
+import type { ApplicationInput } from "../types";
 
 type FileKind = "facility" | "equipment" | "checklist";
 type FileVariant = "main" | "thumb";
@@ -24,22 +26,30 @@ function photoFiles(kind: FileKind, key: string, bucket: string, base: string, m
   ];
 }
 
-/** 최종 등록과 대상 아님 종결이 함께 쓴다. `requestId`는 요청마다 새로 만든 uuid. */
-export function facilityPhotoFiles(requestId: string, photos: SubmissionFacilityPhoto[]): StoredFile[] {
+/** `requestId`는 요청마다 새로 만든 uuid. */
+function facilityPhotoFiles(requestId: string, photos: SubmissionFacilityPhoto[]): StoredFile[] {
   return photos.flatMap((photo) =>
     photoFiles("facility", photo.id, PLAYSAFE_BUCKETS.facility, `${requestId}/${photo.id}`, photo),
   );
 }
 
+function equipmentPhotoFiles(requestId: string, equipment: SubmissionEquipment[]): StoredFile[] {
+  return equipment.flatMap((row) =>
+    row.photo ? photoFiles("equipment", row.id, PLAYSAFE_BUCKETS.equipment, `${requestId}/${row.id}`, row.photo) : [],
+  );
+}
+
+/** 2단계·3단계 저장에서 새로 올리는 시설 전경사진과 기구사진. 경로는 서버가 정한다. */
+export function applicationFiles(input: ApplicationInput): StoredFile[] {
+  return [
+    ...facilityPhotoFiles(input.requestId, input.facilityPhotos),
+    ...equipmentPhotoFiles(input.requestId, input.equipment ?? []),
+  ];
+}
+
 /** 저장 경로는 클라이언트 값이 아니라 등록 요청 id와 사진 메타데이터로 서버가 정한다. */
 export function submissionFiles(input: SubmissionInput): StoredFile[] {
-  const facility = facilityPhotoFiles(input.submissionId, input.facilityPhotos);
-  const equipment = input.equipment.flatMap((row) =>
-    row.photo
-      ? photoFiles("equipment", row.id, PLAYSAFE_BUCKETS.equipment, `${input.submissionId}/${row.id}`, row.photo)
-      : [],
-  );
-  const checklist = input.checklist.photos.flatMap((photo) =>
+  return input.checklist.photos.flatMap((photo) =>
     photoFiles(
       "checklist",
       photo.id,
@@ -48,7 +58,6 @@ export function submissionFiles(input: SubmissionInput): StoredFile[] {
       photo,
     ),
   );
-  return [...facility, ...equipment, ...checklist];
 }
 
 export function pathFor(files: StoredFile[], kind: FileKind, key: string, variant: FileVariant = "main"): string | null {

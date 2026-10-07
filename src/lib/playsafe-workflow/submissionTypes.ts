@@ -1,5 +1,4 @@
-import type { FacilityManagerInfo } from "@/data/playsafe/types";
-import type { AnswerStatus, EligibilityPair, EquipmentInput } from "./types";
+import type { AnswerStatus, EquipmentInput } from "./types";
 
 export type FileMeta = {
   bytes: number;
@@ -29,16 +28,10 @@ export type SubmissionChecklist = {
   photos: SubmissionChecklistPhoto[];
 };
 
-/** '안전성평가 완료 후 등록' 한 번에 보내는 시설정보·기구·평가 전체. */
+/** '안전성평가 완료 후 등록' 요청. 시설정보·기구는 3단계에서 DB에 저장된 값을 쓰고 평가만 보낸다. */
 export type SubmissionInput = {
   submissionId: string;
-  id?: string;
-  consentAt: string;
-  eligibilityVersion: string;
-  information: FacilityManagerInfo;
-  facilityPhotos: SubmissionFacilityPhoto[];
-  answers: EligibilityPair[];
-  equipment: SubmissionEquipment[];
+  id: string;
   checklist: SubmissionChecklist;
 };
 

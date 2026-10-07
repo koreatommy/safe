@@ -2,25 +2,24 @@ import { describe, expect, it } from "vitest";
 import { checkItems, NO_RISK_STATUS, RISK_FOUND_STATUS } from "@/data/playsafe/checks";
 import { emptyFacilityInfo } from "@/data/playsafe/facility-registration";
 import { quizQuestions } from "@/data/playsafe/quiz";
-import type { CompletedRegistration } from "@/data/playsafe/types";
 import { createEmptySnapshot } from "@/lib/playsafe/checklistStorage";
+import { ELIGIBILITY_VERSION } from "./constants";
 import { checklistItemCodes } from "./itemCodes";
 import { toAnswerStatus, toCheckLabel } from "./statusLabels";
 import { toSubmissionInput } from "./submissionMapper";
+import type { ApplicationInput } from "./types";
+import { parseApplicationInput, validateApplicationInput } from "./validation/application";
+import { typeCodeForTitle } from "./validation/facility";
 import { parseSubmissionInput, validateSubmissionInput } from "./validation/submission";
 import { normalizeSubmitter, sameSubmitter, validateSubmitter } from "./validation/submitter";
 
 const EQUIPMENT_ID = "11111111-1111-4111-8111-111111111111";
 const PHOTO_ID = "22222222-2222-4222-8222-222222222222";
 const SUBMISSION_ID = "33333333-3333-4333-8333-333333333333";
+const REGISTRATION_ID = "77777777-7777-4777-8777-777777777777";
+const REQUEST_ID = "88888888-8888-4888-8888-888888888888";
 
-const registration = (noIndex: number | null = null): CompletedRegistration => ({
-  information: { ...emptyFacilityInfo, facilityName: "테스트 시설" },
-  eligibility: quizQuestions.map((question, index) => ({ code: question.code, answer: index === noIndex ? "no" : "yes" })),
-  equipment: [{ id: EQUIPMENT_ID, type: "오르는놀이형", date: "", memo: "", photo: "" }],
-  completedAt: new Date().toISOString(),
-  consentAt: new Date().toISOString(),
-});
+const PHOTO_META = { bytes: 1000, mimeType: "image/webp", thumb: { bytes: 200, mimeType: "image/webp" } };
 
 function completedSnapshot() {
   const snapshot = createEmptySnapshot();
@@ -32,15 +31,28 @@ function completedSnapshot() {
   return snapshot;
 }
 
-const PHOTO_META = { bytes: 1000, mimeType: "image/webp", thumb: { bytes: 200, mimeType: "image/webp" } };
-
-const build = (snapshot = completedSnapshot(), source = registration()) =>
+const build = (snapshot = completedSnapshot()) =>
   toSubmissionInput({
     submissionId: SUBMISSION_ID,
-    registration: source,
+    registrationId: REGISTRATION_ID,
     snapshot,
     photoMeta: new Map([[PHOTO_ID, PHOTO_META]]),
   });
+
+const application = (noIndex: number | null = null): ApplicationInput => ({
+  id: REGISTRATION_ID,
+  requestId: REQUEST_ID,
+  consentAt: new Date().toISOString(),
+  eligibilityVersion: ELIGIBILITY_VERSION,
+  information: { ...emptyFacilityInfo, facilityName: "테스트 시설" },
+  facilityPhotos: [],
+  answers: quizQuestions.map((question, index) => ({ code: question.code, answer: index === noIndex ? "no" : "yes" })),
+  equipment: [
+    { id: EQUIPMENT_ID, type: "오르는놀이형", typeCode: typeCodeForTitle("오르는놀이형"), date: "", memo: "", photo: PHOTO_META },
+  ],
+});
+
+const roundTrip = <T,>(value: T): unknown => JSON.parse(JSON.stringify(value));
 
 describe("playsafe workflow domain", () => {
   it("maps 18 checklist codes in stable v1 order", () => {
@@ -67,15 +79,14 @@ describe("playsafe workflow domain", () => {
   });
 });
 
-describe("single submission", () => {
-  it("accepts a fully recorded checklist and survives a JSON round trip", () => {
+describe("assessment submission", () => {
+  it("accepts a fully recorded checklist for a saved registration and survives a JSON round trip", () => {
     const input = build();
+    expect(input.id).toBe(REGISTRATION_ID);
     expect(input.checklist.answers).toHaveLength(checkItems.length);
-    expect(input.checklist.photos).toEqual([
-      { id: PHOTO_ID, itemCode: "drowning-01", slot: 1, ...PHOTO_META },
-    ]);
-    const parsed = parseSubmissionInput(JSON.parse(JSON.stringify(input)));
-    expect(parsed).not.toBeNull();
+    expect(input.checklist.photos).toEqual([{ id: PHOTO_ID, itemCode: "drowning-01", slot: 1, ...PHOTO_META }]);
+    const parsed = parseSubmissionInput(roundTrip(input));
+    expect(parsed).toEqual(input);
     expect(validateSubmissionInput(parsed!)).toBeNull();
   });
 
@@ -83,12 +94,6 @@ describe("single submission", () => {
     const snapshot = completedSnapshot();
     snapshot.records[5] = { ...snapshot.records[5], status: "미확인" };
     expect(validateSubmissionInput(build(snapshot))).toContain("모든 항목");
-  });
-
-  it("rejects ineligible facilities and missing consent", () => {
-    expect(validateSubmissionInput(build(completedSnapshot(), registration(0)))).toContain("판단 기준");
-    const input = build();
-    expect(validateSubmissionInput({ ...input, consentAt: "" })).toContain("동의");
   });
 
   it("rejects photos on items that are not risk_found and unsupported photo formats", () => {
@@ -108,60 +113,49 @@ describe("single submission", () => {
       "썸네일",
     );
     const withoutThumb = { ...input.checklist.photos[0], thumb: undefined };
-    const parsed = parseSubmissionInput(
-      JSON.parse(JSON.stringify({ ...input, checklist: { ...input.checklist, photos: [withoutThumb] } })),
-    );
-    expect(parsed).toBeNull();
+    expect(parseSubmissionInput(roundTrip({ ...input, checklist: { ...input.checklist, photos: [withoutThumb] } }))).toBeNull();
   });
 
-  it("maps the separately managed unregistered type and rejects unknown type codes", () => {
-    const source = registration();
-    source.equipment = [{ ...source.equipment[0], type: "미등록 놀이기구" }];
-    const input = build(completedSnapshot(), source);
-    expect(input.equipment[0].typeCode).toBe("unregistered");
-    expect(validateSubmissionInput(input)).toBeNull();
-    const unknown = { ...input.equipment[0], typeCode: "unknown" };
-    expect(validateSubmissionInput({ ...input, equipment: [unknown] })).toContain("기구 유형");
-  });
-
-  it("requires a valid submission id", () => {
+  it("requires valid submission and registration ids", () => {
     expect(validateSubmissionInput({ ...build(), submissionId: "nope" })).toContain("등록 요청");
+    expect(validateSubmissionInput({ ...build(), id: "" })).toContain("저장된 시설정보");
   });
 });
 
-describe("facility photos", () => {
-  const FACILITY_IDS = [
-    "44444444-4444-4444-8444-444444444444",
-    "55555555-5555-4555-8555-555555555555",
-    "66666666-6666-4666-8666-666666666666",
-  ];
-  const withFacilityPhotos = (count: number) =>
-    toSubmissionInput({
-      submissionId: SUBMISSION_ID,
-      registration: {
-        ...registration(),
-        facilityPhotos: FACILITY_IDS.slice(0, count).map((id) => ({ id, photo: "" })),
-      },
-      snapshot: completedSnapshot(),
-      photoMeta: new Map([[PHOTO_ID, PHOTO_META], ...FACILITY_IDS.map((id) => [id, PHOTO_META] as const)]),
-    });
-
-  it("maps up to two photos into ordered slots and survives a JSON round trip", () => {
-    const input = withFacilityPhotos(2);
-    expect(input.facilityPhotos.map((photo) => photo.slot)).toEqual([1, 2]);
-    const parsed = parseSubmissionInput(JSON.parse(JSON.stringify(input)));
-    expect(parsed?.facilityPhotos).toHaveLength(2);
-    expect(validateSubmissionInput(parsed!)).toBeNull();
+describe("application save with equipment", () => {
+  it("accepts facility, application and equipment together and survives a JSON round trip", () => {
+    const parsed = parseApplicationInput(roundTrip(application()));
+    expect(parsed?.equipment).toHaveLength(1);
+    expect(validateApplicationInput(parsed!)).toBeNull();
   });
 
-  it("treats missing facility photos as none", () => {
-    const legacy = JSON.parse(JSON.stringify(build()));
-    delete legacy.facilityPhotos;
-    const parsed = parseSubmissionInput(legacy);
-    expect(parsed?.facilityPhotos).toEqual([]);
+  it("keeps equipment out of the step 2 save and allows kept photos", () => {
+    const stepTwo = { ...application(), equipment: undefined };
+    expect(parseApplicationInput(roundTrip(stepTwo))?.equipment).toBeUndefined();
+    const kept = { ...application(), equipment: application().equipment!.map((row) => ({ ...row, photo: null })) };
+    expect(validateApplicationInput(parseApplicationInput(roundTrip(kept))!)).toBeNull();
   });
 
-  it("rejects more than two photos", () => {
-    expect(validateSubmissionInput(withFacilityPhotos(3))).toContain("최대 2장");
+  it("rejects equipment for ineligible facilities and empty equipment lists", () => {
+    expect(validateApplicationInput(application(0))).toContain("판단 기준");
+    expect(validateApplicationInput({ ...application(), equipment: [] })).toContain("1개 이상");
+  });
+
+  it("maps the separately managed unregistered type and rejects unknown type codes", () => {
+    expect(typeCodeForTitle("미등록 놀이기구")).toBe("unregistered");
+    const input = application();
+    const unknown = { ...input.equipment![0], typeCode: "unknown" };
+    expect(validateApplicationInput({ ...input, equipment: [unknown] })).toContain("기구 유형");
+  });
+
+  it("limits facility photos to two", () => {
+    const ids = [
+      "44444444-4444-4444-8444-444444444444",
+      "55555555-5555-4555-8555-555555555555",
+      "66666666-6666-4666-8666-666666666666",
+    ];
+    const photos = (count: number) => ids.slice(0, count).map((id, index) => ({ id, slot: index + 1, ...PHOTO_META }));
+    expect(validateApplicationInput({ ...application(), facilityPhotos: photos(2) })).toBeNull();
+    expect(validateApplicationInput({ ...application(), facilityPhotos: photos(3) })).toContain("최대 2장");
   });
 });

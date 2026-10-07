@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     return jsonError("사진 업로드가 끝나지 않았습니다. 다시 등록해 주세요.", 409);
   }
 
-  const { data, error } = await admin.rpc("submit_playsafe_registration", {
+  const { data, error } = await admin.rpc("submit_playsafe_assessment", {
     payload: toSubmissionPayload(read.input, submitter, files),
   });
   if (error) {

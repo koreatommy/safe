@@ -1,7 +1,6 @@
-import type { CompletedRegistration } from "@/data/playsafe/types";
 import type { ChecklistSnapshot } from "@/lib/playsafe/checklistStorage";
 import { compressImageBlob } from "@/lib/playsafe/compressImage";
-import { checklistPhotoStore, equipmentPhotoStore, facilityPhotoStore } from "@/lib/playsafe/photoStore";
+import { checklistPhotoStore } from "@/lib/playsafe/photoStore";
 import { THUMBNAIL_MAX_EDGE, THUMBNAIL_QUALITY } from "../constants";
 import type { PhotoMeta } from "../submissionTypes";
 
@@ -14,22 +13,9 @@ export async function withThumbnail(main: Blob): Promise<PhotoBlobs> {
   return { main, thumb: await toThumbnail(main) };
 }
 
-/** 브라우저에 임시 저장된 압축 사진을 꺼내고, 관리자 목록용 썸네일을 함께 만든다. key는 시설 전경사진·기구·평가 사진 id. */
-export async function loadPhotoBlobs(
-  registration: CompletedRegistration,
-  snapshot: ChecklistSnapshot,
-): Promise<Map<string, PhotoBlobs>> {
+/** 브라우저에 임시 저장된 위험요소 사진을 꺼내고, 관리자 목록용 썸네일을 함께 만든다. key는 평가 사진 id. */
+export async function loadChecklistPhotoBlobs(snapshot: ChecklistSnapshot): Promise<Map<string, PhotoBlobs>> {
   const blobs = new Map<string, PhotoBlobs>();
-  const optional = [
-    ...(registration.facilityPhotos ?? []).map((photo) => ({ id: photo.id, store: facilityPhotoStore })),
-    ...registration.equipment.map((row) => ({ id: row.id, store: equipmentPhotoStore })),
-  ];
-  await Promise.all(
-    optional.map(async ({ id, store }) => {
-      const blob = await store.get(id).catch(() => undefined);
-      if (blob) blobs.set(id, await withThumbnail(blob));
-    }),
-  );
   const photoIds = snapshot.records.flatMap((record) => record.photos.map((photo) => photo.id));
   await Promise.all(
     photoIds.map(async (id) => {

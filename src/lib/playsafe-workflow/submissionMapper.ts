@@ -1,16 +1,14 @@
 import { checkItems, RISK_FOUND_STATUS } from "@/data/playsafe/checks";
-import type { CompletedRegistration } from "@/data/playsafe/types";
 import type { ChecklistSnapshot } from "@/lib/playsafe/checklistStorage";
-import { CHECKLIST_VERSION, ELIGIBILITY_VERSION } from "./constants";
+import { CHECKLIST_VERSION } from "./constants";
 import { toAnswerStatus } from "./statusLabels";
 import type { PhotoMeta, SubmissionChecklistPhoto, SubmissionInput } from "./submissionTypes";
-import { typeCodeForTitle } from "./validation/facility";
 
 type SubmissionSource = {
   submissionId: string;
-  registration: CompletedRegistration;
+  registrationId: string;
   snapshot: ChecklistSnapshot;
-  /** 브라우저에 저장된 사진 Blob의 실제 크기·형식. key는 시설 전경사진·기구·평가 사진 id. */
+  /** 브라우저에 저장된 위험요소 사진 Blob의 실제 크기·형식. key는 평가 사진 id. */
   photoMeta: ReadonlyMap<string, PhotoMeta>;
 };
 
@@ -26,27 +24,11 @@ function checklistPhotos(snapshot: ChecklistSnapshot, photoMeta: SubmissionSourc
   });
 }
 
-/** 브라우저 임시 저장본(시설정보 + 체크리스트)을 최종 등록 요청으로 바꾼다. */
-export function toSubmissionInput({ submissionId, registration, snapshot, photoMeta }: SubmissionSource): SubmissionInput {
+/** 체크리스트 임시 저장본을 DB에 저장된 등록에 붙일 안전성평가 등록 요청으로 바꾼다. */
+export function toSubmissionInput({ submissionId, registrationId, snapshot, photoMeta }: SubmissionSource): SubmissionInput {
   return {
     submissionId,
-    id: registration.id,
-    consentAt: registration.consentAt ?? "",
-    eligibilityVersion: ELIGIBILITY_VERSION,
-    information: registration.information,
-    facilityPhotos: (registration.facilityPhotos ?? []).flatMap((photo, index) => {
-      const meta = photoMeta.get(photo.id);
-      return meta ? [{ id: photo.id, slot: index + 1, ...meta }] : [];
-    }),
-    answers: registration.eligibility ?? [],
-    equipment: registration.equipment.map((row) => ({
-      id: row.id,
-      type: row.type,
-      typeCode: typeCodeForTitle(row.type),
-      date: row.date,
-      memo: row.memo,
-      photo: photoMeta.get(row.id) ?? null,
-    })),
+    id: registrationId,
     checklist: {
       version: CHECKLIST_VERSION,
       assessor: snapshot.assessor,

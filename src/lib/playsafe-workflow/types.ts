@@ -1,6 +1,6 @@
 import type { EligibilityAnswer, FacilityManagerInfo } from "@/data/playsafe/types";
 import type { ANSWER_STATUSES, ASSESSMENT_STATUSES, REGISTRATION_STATUSES } from "./constants";
-import type { SubmissionFacilityPhoto } from "./submissionTypes";
+import type { SubmissionEquipment, SubmissionFacilityPhoto } from "./submissionTypes";
 
 export type RegistrationStatus = (typeof REGISTRATION_STATUSES)[number];
 export type AssessmentStatus = (typeof ASSESSMENT_STATUSES)[number];
@@ -24,16 +24,21 @@ export type EquipmentInput = {
   memo: string;
 };
 
-/** 2단계 '선택 확인'에서 저장하는 시설정보·등록신청(자격 답변)·시설 전경사진. */
+/**
+ * 2단계 '선택 확인'은 시설정보·등록신청(자격 답변)·시설 전경사진을, 3단계 '저장'은 여기에 기구정보까지 저장한다.
+ * `equipment`가 없으면 DB의 기존 기구를 그대로 두고, 있으면 그 목록으로 교체한다.
+ */
 export type ApplicationInput = {
   id?: string;
-  /** 저장 요청마다 새로 만드는 id. 시설 전경사진 저장 경로의 첫 폴더가 된다. */
+  /** 저장 요청마다 새로 만드는 id. 시설 전경사진·기구사진 저장 경로의 첫 폴더가 된다. */
   requestId: string;
   consentAt: string;
   eligibilityVersion: string;
   information: FacilityManagerInfo;
   facilityPhotos: SubmissionFacilityPhoto[];
   answers: EligibilityPair[];
+  /** `photo`가 null인 기구는 이미 저장된 사진을 유지한다. */
+  equipment?: SubmissionEquipment[];
 };
 
 export type ApplicationResult = {
@@ -90,3 +95,6 @@ export type AssessmentWorkspace = {
     photos: AssessmentPhotoDto[];
   };
 };
+
+/** 안전성평가 화면이 DB에서 불러오는 3단계 저장 결과(시설정보·등록신청·기구). */
+export type SavedRegistration = AssessmentWorkspace["registration"];
