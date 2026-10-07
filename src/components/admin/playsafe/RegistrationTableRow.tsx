@@ -1,5 +1,5 @@
 import type { KeyboardEvent } from "react";
-import { ChevronDown, Trash2 } from "lucide-react";
+import { ChevronDown, Pencil, Trash2 } from "lucide-react";
 import type { AdminRegistrationRow } from "@/lib/playsafe-workflow/adminTypes";
 import { RegistrationDetailPanel } from "./RegistrationDetailPanel";
 import { TargetBadge } from "./TargetBadge";
@@ -13,6 +13,8 @@ type RegistrationTableRowProps = {
   onOpenAssessment: () => void;
   deleting: boolean;
   onDelete: () => void;
+  onEdit: () => void;
+  detailEpoch: number;
 };
 
 export const REGISTRATION_COLUMN_COUNT = 7;
@@ -25,6 +27,8 @@ export function RegistrationTableRow({
   onOpenAssessment,
   deleting,
   onDelete,
+  onEdit,
+  detailEpoch,
 }: RegistrationTableRowProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLTableRowElement>) => {
     if (event.key !== "Enter" && event.key !== " ") return;
@@ -57,26 +61,41 @@ export function RegistrationTableRow({
         </td>
         <td className="px-3 py-3 text-white/60 whitespace-nowrap tabular-nums">{formatDateTime(row.createdAt)}</td>
         <td className="px-3 py-3 text-center">
-          <button
-            type="button"
-            disabled={deleting}
-            aria-label={`${row.facilityName} 삭제`}
-            title="삭제"
-            onClick={(event) => {
-              event.stopPropagation();
-              onDelete();
-            }}
-            onKeyDown={(event) => event.stopPropagation()}
-            className="p-1.5 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500/30 disabled:opacity-50"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
+          <div className="inline-flex items-center justify-center gap-1.5">
+            <button
+              type="button"
+              aria-label={`${row.facilityName} 수정`}
+              title="수정"
+              onClick={(event) => {
+                event.stopPropagation();
+                onEdit();
+              }}
+              onKeyDown={(event) => event.stopPropagation()}
+              className="p-1.5 rounded-lg bg-[#00ff88]/15 border border-[#00ff88]/40 text-[#00ff88] hover:bg-[#00ff88]/25"
+            >
+              <Pencil className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              disabled={deleting}
+              aria-label={`${row.facilityName} 삭제`}
+              title="삭제"
+              onClick={(event) => {
+                event.stopPropagation();
+                onDelete();
+              }}
+              onKeyDown={(event) => event.stopPropagation()}
+              className="p-1.5 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500/30 disabled:opacity-50"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
         </td>
       </tr>
       {open && (
         <tr className="border-b border-white/10 bg-black/10">
           <td colSpan={REGISTRATION_COLUMN_COUNT} className="p-4">
-            <RegistrationDetailPanel registrationId={row.id} onOpenAssessment={onOpenAssessment} />
+            <RegistrationDetailPanel key={detailEpoch} registrationId={row.id} onOpenAssessment={onOpenAssessment} />
           </td>
         </tr>
       )}

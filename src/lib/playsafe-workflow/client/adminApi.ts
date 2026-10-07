@@ -2,9 +2,12 @@ import type {
   AdminAssessmentPage,
   AdminRegistrationDetail,
   AdminRegistrationPage,
+  AdminRegistrationUpdate,
+  AdminUploadRequest,
   AssessmentSearch,
   RegistrationSearch,
 } from "../adminTypes";
+import type { SubmissionUploads } from "../submissionTypes";
 
 const BASE = "/api/admin/playsafe";
 
@@ -37,4 +40,18 @@ export function fetchAdminDetail(registrationId: string) {
 
 export function deleteAdminRegistration(registrationId: string) {
   return adminJson<{ ok: true }>(`/registrations/${registrationId}`, { method: "DELETE" });
+}
+
+export function fetchAdminUploadUrls(registrationId: string, body: AdminUploadRequest) {
+  return adminJson<SubmissionUploads>(`/registrations/${registrationId}/upload-urls`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}
+
+export function updateAdminRegistration(registrationId: string, body: AdminRegistrationUpdate) {
+  return adminJson<{ ok: true }>(`/registrations/${registrationId}`, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+  });
 }

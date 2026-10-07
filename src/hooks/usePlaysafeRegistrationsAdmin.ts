@@ -63,6 +63,7 @@ export function usePlaysafeRegistrationsAdmin() {
     search,
     setSearch,
     remove,
+    reload: refetch,
     isLoading,
     error,
   };

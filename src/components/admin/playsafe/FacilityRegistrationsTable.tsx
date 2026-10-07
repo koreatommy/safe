@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { usePlaysafeRegistrationsAdmin } from "@/hooks/usePlaysafeRegistrationsAdmin";
+import { dropCachedDetail } from "@/lib/playsafe-workflow/client/adminDetailCache";
 import { Pagination } from "./Pagination";
+import { RegistrationEditModal } from "./RegistrationEditModal";
 import { RegistrationSearchBar } from "./RegistrationSearchBar";
 import { REGISTRATION_COLUMN_COUNT, RegistrationTableRow } from "./RegistrationTableRow";
 import "./playsafe-admin.css";
@@ -14,18 +16,20 @@ const COLUMNS = [
   { label: "주소", className: "" },
   { label: "평가대상여부", className: "w-28 text-center" },
   { label: "등록일", className: "w-44" },
-  { label: "삭제", className: "w-16 text-center" },
+  { label: "관리", className: "w-28 text-center" },
 ] as const;
 
 const DELETE_CONFIRM =
   "이 시설의 등록정보, 기구정보, 안전성평가 결과와 모든 사진을 삭제할까요? 되돌릴 수 없습니다.";
 
 export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessment: (registrationId: string) => void }) {
-  const { registrations, total, page, pageSize, setPage, search, setSearch, remove, isLoading, error } =
+  const { registrations, total, page, pageSize, setPage, search, setSearch, remove, reload, isLoading, error } =
     usePlaysafeRegistrationsAdmin();
   const [openId, setOpenId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [detailEpoch, setDetailEpoch] = useState(0);
 
   const confirmDelete = async (id: string, facilityName: string) => {
     if (!window.confirm(`[${facilityName}]\n${DELETE_CONFIRM}`)) return;
@@ -89,6 +93,8 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
                   onOpenAssessment={() => onOpenAssessment(row.id)}
                   deleting={deletingId === row.id}
                   onDelete={() => void confirmDelete(row.id, row.facilityName)}
+                  onEdit={() => setEditingId(row.id)}
+                  detailEpoch={detailEpoch}
                 />
               ))
             )}
@@ -108,6 +114,18 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
           }}
         />
       </div>
+      {editingId ? (
+        <RegistrationEditModal
+          registrationId={editingId}
+          onClose={() => setEditingId(null)}
+          onSaved={async () => {
+            dropCachedDetail(editingId);
+            setDetailEpoch((epoch) => epoch + 1);
+            setEditingId(null);
+            await reload();
+          }}
+        />
+      ) : null}
     </div>
   );
 }

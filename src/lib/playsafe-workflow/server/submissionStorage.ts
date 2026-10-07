@@ -6,6 +6,7 @@ import type {
   PhotoMeta,
   PhotoUploads,
   SignedUpload,
+  SubmissionChecklistPhoto,
   SubmissionEquipment,
   SubmissionFacilityPhoto,
   SubmissionInput,
@@ -37,6 +38,24 @@ function equipmentPhotoFiles(requestId: string, equipment: SubmissionEquipment[]
   return equipment.flatMap((row) =>
     row.photo ? photoFiles("equipment", row.id, PLAYSAFE_BUCKETS.equipment, `${requestId}/${row.id}`, row.photo) : [],
   );
+}
+
+/** 관리자 수정에서 새로 올리는 사진. 경로는 요청 id와 사진 id로 서버가 정한다. */
+export function adminEditFiles(
+  requestId: string,
+  facilityPhotos: SubmissionFacilityPhoto[],
+  equipmentPhotos: Array<{ id: string; photo: PhotoMeta }>,
+  checklistPhotos: SubmissionChecklistPhoto[] = [],
+): StoredFile[] {
+  return [
+    ...facilityPhotoFiles(requestId, facilityPhotos),
+    ...equipmentPhotos.flatMap((row) =>
+      photoFiles("equipment", row.id, PLAYSAFE_BUCKETS.equipment, `${requestId}/${row.id}`, row.photo),
+    ),
+    ...checklistPhotos.flatMap((photo) =>
+      photoFiles("checklist", photo.id, PLAYSAFE_BUCKETS.checklist, `${requestId}/${photo.itemCode}/${photo.id}`, photo),
+    ),
+  ];
 }
 
 /** 2단계·3단계 저장에서 새로 올리는 시설 전경사진과 기구사진. 경로는 서버가 정한다. */
