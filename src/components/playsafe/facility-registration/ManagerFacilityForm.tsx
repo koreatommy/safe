@@ -65,11 +65,14 @@ export function ManagerFacilityForm({
               onChange={(event) => onChange("facilityName", event.target.value)}
             />
           </label>
-          <label className="facility-field">
-            임시시설번호
-            <input type="text" value={info.facilityNo} placeholder="저장 시 자동 부여" readOnly tabIndex={-1} />
-            <p className="facility-hint">신규설치 등록신청을 저장하면 고유번호가 자동으로 부여됩니다.</p>
-          </label>
+          <div className="facility-field">
+            <span>임시시설번호</span>
+            {info.facilityNo ? (
+              <strong className="facility-no">{info.facilityNo}</strong>
+            ) : (
+              <p className="facility-hint facility-no-pending">신규설치 등록신청을 저장하면 고유번호가 자동으로 부여됩니다.</p>
+            )}
+          </div>
           <PlaceSelectField
             place={info.place}
             placeEtc={info.placeEtc}

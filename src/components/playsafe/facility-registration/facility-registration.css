@@ -106,6 +106,17 @@
   grid-column: 1 / -1;
 }
 
+.facility-no {
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--green);
+}
+
+.facility-no-pending {
+  color: var(--muted);
+}
+
 .facility-address {
   display: grid;
   grid-template-columns: 1fr 1fr;
