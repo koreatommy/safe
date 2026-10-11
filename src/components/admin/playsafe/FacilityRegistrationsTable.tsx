@@ -28,7 +28,7 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
   const [openId, setOpenId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editing, setEditing] = useState<{ id: string; startAssessment: boolean } | null>(null);
   const [detailEpoch, setDetailEpoch] = useState(0);
 
   const confirmDelete = async (id: string, facilityName: string) => {
@@ -93,7 +93,8 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
                   onOpenAssessment={() => onOpenAssessment(row.id)}
                   deleting={deletingId === row.id}
                   onDelete={() => void confirmDelete(row.id, row.facilityName)}
-                  onEdit={() => setEditingId(row.id)}
+                  onEdit={() => setEditing({ id: row.id, startAssessment: false })}
+                  onStartAssessment={() => setEditing({ id: row.id, startAssessment: true })}
                   detailEpoch={detailEpoch}
                 />
               ))
@@ -114,14 +115,15 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
           }}
         />
       </div>
-      {editingId ? (
+      {editing ? (
         <RegistrationEditModal
-          registrationId={editingId}
-          onClose={() => setEditingId(null)}
+          registrationId={editing.id}
+          startAssessment={editing.startAssessment}
+          onClose={() => setEditing(null)}
           onSaved={async () => {
-            dropCachedDetail(editingId);
+            dropCachedDetail(editing.id);
             setDetailEpoch((epoch) => epoch + 1);
-            setEditingId(null);
+            setEditing(null);
             await reload();
           }}
         />

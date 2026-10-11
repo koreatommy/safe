@@ -1,30 +1,19 @@
 import "server-only";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { AdminAssessmentUpdate, AdminRegistrationUpdate } from "../adminTypes";
+import type { AdminRegistrationUpdate } from "../adminTypes";
 import { PLAYSAFE_TABLES } from "../constants";
-import { pathFor, type StoredFile } from "./submissionStorage";
+import {
+  answerRows,
+  checklistPhotoRows,
+  type AnswerRow,
+  type AssessmentEditResult,
+  type ChecklistPhotoRow,
+} from "./assessmentRows";
+import { createAssessmentEdit } from "./createAssessmentEdit";
+import type { StoredFile } from "./submissionStorage";
 
-type AnswerRow = {
-  assessment_id: string;
-  item_code: string;
-  status: string;
-  memo: string;
-};
-
-type ChecklistPhotoRow = {
-  id: string;
-  assessment_id: string;
-  item_code: string;
-  slot: number;
-  storage_path: string;
-  thumb_path: string | null;
-  bytes: number;
-  mime_type: string;
-  status: string;
-};
-
-export type AssessmentEditResult = { ok: true; removedPaths: string[] } | { ok: false; message: string };
+export type { AssessmentEditResult } from "./assessmentRows";
 
 async function replaceRows(
   supabase: SupabaseClient,
@@ -43,46 +32,9 @@ async function replaceRows(
   return "위험요소 사진을 저장하지 못했습니다. 다시 시도해 주세요.";
 }
 
-function nextPhotos(
-  assessmentId: string,
-  existing: ChecklistPhotoRow[],
-  assessment: AdminAssessmentUpdate,
-  files: StoredFile[],
-): { rows: ChecklistPhotoRow[] } | { message: string } {
-  const rows: ChecklistPhotoRow[] = [];
-  const counts = new Map<string, number>();
-  for (const photo of assessment.photos) {
-    const slot = (counts.get(photo.itemCode) ?? 0) + 1;
-    counts.set(photo.itemCode, slot);
-    if (photo.action === "keep") {
-      const prev = existing.find((row) => row.id === photo.id);
-      if (!prev || prev.item_code !== photo.itemCode) {
-        return { message: "유지할 위험요소 사진을 찾지 못했습니다. 화면을 새로고침해 주세요." };
-      }
-      rows.push({ ...prev, slot });
-      continue;
-    }
-    const storagePath = pathFor(files, "checklist", photo.id);
-    const thumbPath = pathFor(files, "checklist", photo.id, "thumb");
-    if (!storagePath || !thumbPath) return { message: "위험요소 사진 업로드 정보가 올바르지 않습니다." };
-    rows.push({
-      id: photo.id,
-      assessment_id: assessmentId,
-      item_code: photo.itemCode,
-      slot,
-      storage_path: storagePath,
-      thumb_path: thumbPath,
-      bytes: photo.bytes,
-      mime_type: photo.mimeType,
-      status: "attached",
-    });
-  }
-  return { rows };
-}
-
 /**
- * 이미 있는 안전성평가의 평가자·평가일·18개 항목·위험요소 사진을 고친다.
- * 평가 행이 없으면 새로 만들지 않는다.
+ * 안전성평가의 평가자·평가일·18개 항목·위험요소 사진을 고친다.
+ * 평가 행이 없으면 관리자가 새로 등록하는 것으로 보고 평가를 만든다.
  */
 export async function applyAssessmentEdit(
   supabase: SupabaseClient,
@@ -96,9 +48,11 @@ export async function applyAssessmentEdit(
     .eq("registration_id", registrationId)
     .maybeSingle();
   if (error) return { ok: false, message: "안전성평가를 수정하지 못했습니다." };
-  if (!assessment && update.assessment) return { ok: false, message: "안전성평가가 등록된 뒤에 항목을 수정할 수 있습니다." };
   if (assessment && !update.assessment) return { ok: false, message: "안전성평가 항목이 빠졌습니다. 다시 저장해 주세요." };
-  if (!assessment || !update.assessment) return { ok: true, removedPaths: [] };
+  if (!update.assessment) return { ok: true, removedPaths: [] };
+  if (!assessment) {
+    return createAssessmentEdit(supabase, registrationId, update.assessment, update.equipment.length, files);
+  }
 
   const assessmentId = assessment.id as string;
   const [answers, photos] = await Promise.all([
@@ -112,7 +66,7 @@ export async function applyAssessmentEdit(
 
   const previousAnswers = (answers.data ?? []) as AnswerRow[];
   const previousPhotos = (photos.data ?? []) as ChecklistPhotoRow[];
-  const photoRows = nextPhotos(assessmentId, previousPhotos, update.assessment, files);
+  const photoRows = checklistPhotoRows(assessmentId, previousPhotos, update.assessment, files);
   if ("message" in photoRows) return { ok: false, message: photoRows.message };
 
   const { error: headerError } = await supabase
@@ -124,12 +78,7 @@ export async function applyAssessmentEdit(
     .eq("id", assessmentId);
   if (headerError) return { ok: false, message: "안전성평가를 수정하지 못했습니다." };
 
-  const nextAnswers: AnswerRow[] = update.assessment.answers.map((answer) => ({
-    assessment_id: assessmentId,
-    item_code: answer.itemCode,
-    status: answer.status,
-    memo: answer.memo,
-  }));
+  const nextAnswers = answerRows(assessmentId, update.assessment);
   const answerError = await replaceRows(supabase, PLAYSAFE_TABLES.answers, "assessment_id", assessmentId, previousAnswers, nextAnswers);
   if (answerError) return { ok: false, message: answerError };
   const photoError = await replaceRows(

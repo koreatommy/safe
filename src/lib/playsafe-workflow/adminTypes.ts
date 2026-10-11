@@ -88,7 +88,7 @@ export type AdminChecklistPhotoInput =
   | { action: "keep"; id: string; itemCode: string }
   | (PhotoMeta & { action: "new"; id: string; itemCode: string });
 
-/** 이미 저장된 안전성평가. 없으면 null이며, 이 요청으로 평가를 새로 만들지는 않는다. */
+/** 안전성평가 수정 내용. 저장된 평가가 없는 시설에 보내면 평가를 새로 등록한다. 평가를 다루지 않으면 null. */
 export type AdminAssessmentUpdate = {
   assessor: string;
   evalDate: string;

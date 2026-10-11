@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import type { AdminRegistrationDetail } from "@/lib/playsafe-workflow/adminTypes";
 import { useAdminRegistrationEdit } from "@/hooks/useAdminRegistrationEdit";
 import { usePlaysafeAdminDetail } from "@/hooks/usePlaysafeAdminDetail";
-import { EditAssessmentForm } from "./EditAssessmentForm";
+import { AssessmentEditSection } from "./AssessmentEditSection";
 import { EditEquipmentForm } from "./EditEquipmentForm";
 import { EditFacilityInfoForm } from "./EditFacilityInfoForm";
 import { EditFacilityPhotoForm } from "./EditFacilityPhotoForm";
@@ -13,6 +13,8 @@ import "./playsafe-admin.css";
 
 type RegistrationEditModalProps = {
   registrationId: string;
+  /** 평가가 없는 시설이면 안전성평가 입력폼을 펼친 채로 연다. */
+  startAssessment?: boolean;
   onClose: () => void;
   onSaved: () => Promise<void> | void;
 };
@@ -76,14 +78,17 @@ function EditDialog({
 
 function RegistrationEditor({
   detail,
+  startAssessment,
   onClose,
   onSaved,
 }: {
   detail: AdminRegistrationDetail;
+  startAssessment: boolean;
   onClose: () => void;
   onSaved: () => Promise<void> | void;
 }) {
-  const edit = useAdminRegistrationEdit(detail);
+  const startNew = startAssessment && !detail.assessment && detail.registration.status !== "not_target";
+  const edit = useAdminRegistrationEdit(detail, startNew);
   const notice = edit.saveError ?? edit.photoError;
   const locked = edit.busy || edit.saving;
 
@@ -99,7 +104,7 @@ function RegistrationEditor({
         }}
       >
         <p className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-white/60">
-          임시시설번호와 평가대상 여부, 등록신청 판단 기준은 이 화면에서 바꾸지 않습니다. 이미 등록된 안전성평가의 18개 항목과 위험요소 사진은 수정할 수 있습니다.
+          임시시설번호와 평가대상 여부, 등록신청 판단 기준은 이 화면에서 바꾸지 않습니다. 안전성평가의 18개 항목과 위험요소 사진은 수정할 수 있고, 평가가 없는 시설은 여기서 새로 등록할 수 있습니다.
         </p>
         {notice ? (
           <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-100/90">{notice}</div>
@@ -136,25 +141,13 @@ function RegistrationEditor({
             onClearPhoto={edit.clearEquipmentPhoto}
           />
         </section>
-        <section className="space-y-3">
-          <h3 className="text-sm font-semibold text-white/85">안전성평가</h3>
-          {edit.draft.assessment ? (
-            <EditAssessmentForm
-              assessment={edit.draft.assessment}
-              disabled={locked}
-              onAssessor={edit.setAssessor}
-              onEvalDate={edit.setEvalDate}
-              onStatus={edit.setAnswerStatus}
-              onMemo={edit.setAnswerMemo}
-              onAddPhotos={(itemCode, files) => void edit.addRiskPhotos(itemCode, files)}
-              onRemovePhoto={edit.removeRiskPhoto}
-            />
-          ) : (
-            <p className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-white/55">
-              안전성평가가 아직 등록되지 않았습니다. 평가가 등록된 뒤에 18개 항목과 위험요소 사진을 수정할 수 있습니다.
-            </p>
-          )}
-        </section>
+        <AssessmentEditSection
+          edit={edit}
+          status={detail.registration.status}
+          hasSavedAssessment={Boolean(detail.assessment)}
+          scrollOnMount={startNew}
+          disabled={locked}
+        />
         <div className="flex justify-end gap-2 border-t border-white/10 pt-4">
           <button
             type="button"
@@ -177,7 +170,7 @@ function RegistrationEditor({
   );
 }
 
-export function RegistrationEditModal({ registrationId, onClose, onSaved }: RegistrationEditModalProps) {
+export function RegistrationEditModal({ registrationId, startAssessment = false, onClose, onSaved }: RegistrationEditModalProps) {
   const { detail, error } = usePlaysafeAdminDetail(registrationId);
 
   if (error) {
@@ -194,5 +187,13 @@ export function RegistrationEditModal({ registrationId, onClose, onSaved }: Regi
       </EditDialog>
     );
   }
-  return <RegistrationEditor key={detail.registration.id} detail={detail} onClose={onClose} onSaved={onSaved} />;
+  return (
+    <RegistrationEditor
+      key={detail.registration.id}
+      detail={detail}
+      startAssessment={startAssessment}
+      onClose={onClose}
+      onSaved={onSaved}
+    />
+  );
 }

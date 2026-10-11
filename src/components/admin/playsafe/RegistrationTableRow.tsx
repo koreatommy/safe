@@ -14,6 +14,7 @@ type RegistrationTableRowProps = {
   deleting: boolean;
   onDelete: () => void;
   onEdit: () => void;
+  onStartAssessment: () => void;
   detailEpoch: number;
 };
 
@@ -28,6 +29,7 @@ export function RegistrationTableRow({
   deleting,
   onDelete,
   onEdit,
+  onStartAssessment,
   detailEpoch,
 }: RegistrationTableRowProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLTableRowElement>) => {
@@ -95,7 +97,12 @@ export function RegistrationTableRow({
       {open && (
         <tr className="border-b border-white/10 bg-black/10">
           <td colSpan={REGISTRATION_COLUMN_COUNT} className="p-4">
-            <RegistrationDetailPanel key={detailEpoch} registrationId={row.id} onOpenAssessment={onOpenAssessment} />
+            <RegistrationDetailPanel
+              key={detailEpoch}
+              registrationId={row.id}
+              onOpenAssessment={onOpenAssessment}
+              onStartAssessment={onStartAssessment}
+            />
           </td>
         </tr>
       )}

@@ -63,6 +63,20 @@ function assessmentDraft(detail: AdminRegistrationDetail): EditAssessment | null
   };
 }
 
+const todayIso = () => {
+  const now = new Date();
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
+};
+
+/** 안전성평가가 없는 시설에 새로 등록할 빈 평가. 평가일은 오늘, 18개 항목은 미기록으로 시작한다. */
+export function emptyAssessmentDraft(): EditAssessment {
+  return {
+    assessor: "",
+    evalDate: todayIso(),
+    answers: checkItems.map((item) => ({ itemCode: item.code, status: "unrecorded", memo: "", photos: [] })),
+  };
+}
+
 export function draftFromDetail(detail: AdminRegistrationDetail): AdminEditDraft {
   const { registration } = detail;
   return {

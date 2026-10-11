@@ -7,6 +7,7 @@ import type { FacilityManagerInfo } from "@/data/playsafe/types";
 import type { AdminRegistrationDetail } from "@/lib/playsafe-workflow/adminTypes";
 import {
   draftFromDetail,
+  emptyAssessmentDraft,
   revokeDraftUrls,
   type AdminEditDraft,
   type EditEquipmentRow,
@@ -19,8 +20,11 @@ import { MAX_ADMIN_EQUIPMENT } from "@/lib/playsafe-workflow/validation/adminUpd
 
 const messageOf = (error: unknown) => (error instanceof Error ? error.message : "사진을 읽지 못했습니다.");
 
-export function useAdminRegistrationEdit(detail: AdminRegistrationDetail) {
-  const [draft, setDraft] = useState<AdminEditDraft>(() => draftFromDetail(detail));
+export function useAdminRegistrationEdit(detail: AdminRegistrationDetail, openNewAssessment = false) {
+  const [draft, setDraft] = useState<AdminEditDraft>(() => {
+    const initial = draftFromDetail(detail);
+    return openNewAssessment && !initial.assessment ? { ...initial, assessment: emptyAssessmentDraft() } : initial;
+  });
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -132,6 +136,22 @@ export function useAdminRegistrationEdit(detail: AdminRegistrationDetail) {
         return { ...row, photo: { kind: "none" } };
       }),
     }));
+  };
+
+  const startAssessment = () => {
+    setDraft((current) => (current.assessment ? current : { ...current, assessment: emptyAssessmentDraft() }));
+  };
+
+  const cancelNewAssessment = () => {
+    if (detail.assessment) return;
+    setDraft((current) => {
+      current.assessment?.answers.forEach((answer) =>
+        answer.photos.forEach((photo) => {
+          if (photo.kind === "new") URL.revokeObjectURL(photo.previewUrl);
+        }),
+      );
+      return { ...current, assessment: null };
+    });
   };
 
   const setAssessor = (assessor: string) => {
@@ -261,6 +281,8 @@ export function useAdminRegistrationEdit(detail: AdminRegistrationDetail) {
     changeEquipment,
     pickEquipmentPhoto,
     clearEquipmentPhoto,
+    startAssessment,
+    cancelNewAssessment,
     setAssessor,
     setEvalDate,
     setAnswerStatus,

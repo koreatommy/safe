@@ -8,9 +8,10 @@ import { FacilityInfoSection } from "./FacilityInfoSection";
 type RegistrationDetailPanelProps = {
   registrationId: string;
   onOpenAssessment?: () => void;
+  onStartAssessment?: () => void;
 };
 
-export function RegistrationDetailPanel({ registrationId, onOpenAssessment }: RegistrationDetailPanelProps) {
+export function RegistrationDetailPanel({ registrationId, onOpenAssessment, onStartAssessment }: RegistrationDetailPanelProps) {
   const { detail, error } = usePlaysafeAdminDetail(registrationId);
 
   if (error) return <p className="text-amber-200 text-sm">{error}</p>;
@@ -25,11 +26,22 @@ export function RegistrationDetailPanel({ registrationId, onOpenAssessment }: Re
       <EligibilityAnswersSection answers={registration.answers} />
       <EquipmentSection equipment={registration.equipment} closed={registration.status === "not_target"} />
       {registration.status === "registered" ? (
-        <p className="rounded-lg border border-white/10 bg-white/[0.03] p-3 text-white/70">
-          {registration.equipment.length > 0
-            ? "기구정보까지 저장된 상태입니다. 안전성평가는 아직 등록되지 않았습니다."
-            : "시설정보·등록신청만 저장된 상태입니다. 기구정보와 안전성평가는 아직 등록되지 않았습니다."}
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+          <p className="text-white/70">
+            {registration.equipment.length > 0
+              ? "기구정보까지 저장된 상태입니다. 안전성평가는 아직 등록되지 않았습니다."
+              : "시설정보·등록신청만 저장된 상태입니다. 기구정보와 안전성평가는 아직 등록되지 않았습니다."}
+          </p>
+          {onStartAssessment && !assessment ? (
+            <button
+              type="button"
+              onClick={onStartAssessment}
+              className="rounded-lg border border-[#00ff88]/50 bg-[#00ff88]/10 px-3 py-1.5 text-xs text-[#00ff88] hover:bg-[#00ff88]/20"
+            >
+              안전성평가 등록
+            </button>
+          ) : null}
+        </div>
       ) : null}
       {assessment ? (
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] p-3">
