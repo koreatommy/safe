@@ -21,6 +21,7 @@ export type AdminRegistrationRow = {
   address: string;
   allEligible: boolean;
   equipmentCount: number;
+  assessed: boolean;
   createdAt: string;
   submittedAt: string | null;
 };

@@ -6,7 +6,13 @@ import { ADMIN_REGISTRATION_PAGE_SIZE, PLAYSAFE_TABLES } from "../constants";
 import type { RegistrationStatus } from "../types";
 import { escapeLike } from "./escapeLike";
 
-type CountEmbed = Array<{ count: number }> | null;
+type CountEmbed = Array<{ count: number }> | { count: number } | null;
+
+/** 1:N 관계는 [{ count }], unique FK로 1:1인 관계는 { count }로 온다. */
+const countOf = (embed: unknown) => {
+  const value = embed as CountEmbed;
+  return (Array.isArray(value) ? value[0]?.count : value?.count) ?? 0;
+};
 
 export async function listRegistrations(
   supabase: SupabaseClient,
@@ -17,7 +23,7 @@ export async function listRegistrations(
   let query = supabase
     .from(PLAYSAFE_TABLES.registrations)
     .select(
-      "id, status, submitter_name, submitter_email, facility_no, facility_name, manager_name, place, address, all_eligible, created_at, submitted_at, equipment:playsafe_registration_equipment(count)",
+      "id, status, submitter_name, submitter_email, facility_no, facility_name, manager_name, place, address, all_eligible, created_at, submitted_at, equipment:playsafe_registration_equipment(count), assessments:playsafe_assessments(count)",
       { count: "exact" },
     )
     .order("created_at", { ascending: false })
@@ -39,7 +45,8 @@ export async function listRegistrations(
     place: row.place as string,
     address: row.address as string,
     allEligible: row.all_eligible as boolean,
-    equipmentCount: (row.equipment as CountEmbed)?.[0]?.count ?? 0,
+    equipmentCount: countOf(row.equipment),
+    assessed: countOf(row.assessments) > 0,
     createdAt: row.created_at as string,
     submittedAt: (row.submitted_at as string | null) ?? null,
   }));

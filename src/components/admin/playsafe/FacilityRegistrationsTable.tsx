@@ -15,6 +15,7 @@ const COLUMNS = [
   { label: "시설명", className: "" },
   { label: "주소", className: "" },
   { label: "평가대상여부", className: "w-28 text-center" },
+  { label: "안전성평가", className: "w-24 text-center" },
   { label: "등록일", className: "w-44" },
   { label: "관리", className: "w-28 text-center" },
 ] as const;

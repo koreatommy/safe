@@ -2,6 +2,7 @@ import type { KeyboardEvent } from "react";
 import { ChevronDown, Pencil, Trash2 } from "lucide-react";
 import type { AdminRegistrationRow } from "@/lib/playsafe-workflow/adminTypes";
 import { RegistrationDetailPanel } from "./RegistrationDetailPanel";
+import { AssessmentBadge } from "./AssessmentBadge";
 import { TargetBadge } from "./TargetBadge";
 import { formatDateTime, orDash } from "./format";
 
@@ -18,7 +19,7 @@ type RegistrationTableRowProps = {
   detailEpoch: number;
 };
 
-export const REGISTRATION_COLUMN_COUNT = 7;
+export const REGISTRATION_COLUMN_COUNT = 8;
 
 export function RegistrationTableRow({
   no,
@@ -60,6 +61,9 @@ export function RegistrationTableRow({
         <td className="px-3 py-3 text-white/70 truncate">{orDash(row.address)}</td>
         <td className="px-3 py-3 text-center">
           <TargetBadge status={row.status} />
+        </td>
+        <td className="px-3 py-3 text-center">
+          <AssessmentBadge status={row.status} assessed={row.assessed} />
         </td>
         <td className="px-3 py-3 text-white/60 whitespace-nowrap tabular-nums">{formatDateTime(row.createdAt)}</td>
         <td className="px-3 py-3 text-center">
