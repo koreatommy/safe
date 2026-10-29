@@ -7,7 +7,7 @@ import { isUuid } from "@/lib/playsafe-workflow/validation/facility";
 type RouteContext = { params: Promise<{ id: string }> };
 
 export async function GET(request: Request, context: RouteContext) {
-  const auth = requireSubmitter(request);
+  const auth = await requireSubmitter(request);
   if (!auth.ok) return auth.response;
 
   const { id } = await context.params;

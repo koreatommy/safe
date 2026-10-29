@@ -2,6 +2,7 @@ import "server-only";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { NextResponse } from "next/server";
+import { isAssessmentRequest } from "@/lib/server/assessmentSession";
 import { jsonError, serviceUnavailable } from "@/lib/server/http";
 import { createServiceClient } from "@/lib/server/supabaseAdmin";
 import { SUBMITTER_HEADERS } from "../constants";
@@ -30,8 +31,11 @@ export function readSubmitter(request: Request): Submitter {
   });
 }
 
-/** 사용자 라우트는 입력자 이름·이메일 헤더로 식별하고, DB 접근은 service_role로만 한다. */
-export function requireSubmitter(request: Request): SubmitterResult {
+/** 비밀번호 세션·입력자 헤더를 확인한 뒤 DB 접근은 service_role로만 한다. */
+export async function requireSubmitter(request: Request): Promise<SubmitterResult> {
+  if (!(await isAssessmentRequest())) {
+    return { ok: false, response: jsonError("안전성평가 로그인이 필요합니다.", 401) };
+  }
   const admin = createServiceClient();
   if (!admin) return { ok: false, response: serviceUnavailable() };
   const submitter = readSubmitter(request);

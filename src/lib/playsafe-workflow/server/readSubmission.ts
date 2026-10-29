@@ -12,7 +12,7 @@ type ReadSubmissionResult =
 
 /** 입력자 헤더와 등록 본문을 함께 검증한다. */
 export async function readSubmission(request: Request): Promise<ReadSubmissionResult> {
-  const auth = requireSubmitter(request);
+  const auth = await requireSubmitter(request);
   if (!auth.ok) return auth;
   const input = parseSubmissionInput(await readJson(request));
   if (!input) return { ok: false, response: jsonError("등록 정보가 올바르지 않습니다.", 400) };

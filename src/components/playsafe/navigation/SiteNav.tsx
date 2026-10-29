@@ -5,11 +5,16 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { NAV_LINKS } from "@/data/playsafe/navigation";
 import { playsafeRoutes } from "@/lib/playsafe/routes";
+import { AssessmentLogoutButton } from "./AssessmentLogoutButton";
 import { NavDropdown } from "./NavDropdown";
 import { useMobileMenu } from "./useMobileMenu";
 import "./nav.css";
 
-export function SiteNav() {
+type SiteNavProps = {
+  assessmentLoggedIn?: boolean;
+};
+
+export function SiteNav({ assessmentLoggedIn = false }: SiteNavProps) {
   const pathname = usePathname();
   const menu = useMobileMenu();
   const readingRef = useRef<HTMLDivElement>(null);
@@ -60,10 +65,17 @@ export function SiteNav() {
               </Link>
             );
           })}
+          {assessmentLoggedIn ? (
+            <AssessmentLogoutButton className="nav-logout nav-logout-menu" onDone={menu.close} />
+          ) : null}
         </nav>
-        <Link href={playsafeRoutes.facilityInfo} className="btn primary nav-cta">
-          안전성평가 시작 ↗
-        </Link>
+        {assessmentLoggedIn ? (
+          <AssessmentLogoutButton className="btn nav-cta nav-logout" />
+        ) : (
+          <Link href={playsafeRoutes.assessmentLogin} className="btn primary nav-cta">
+            안전성평가 시작 ↗
+          </Link>
+        )}
         <button
           type="button"
           className="btn menu-toggle"

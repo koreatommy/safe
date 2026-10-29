@@ -2,6 +2,7 @@ export const playsafeRoutes = {
   home: "/",
   assessment: "/assessment",
   facilityInfo: "/assessment/facility",
+  assessmentLogin: "/assessment/login",
 } as const;
 
 export const ASSESSMENT_REGISTRATION_PARAM = "registration";
