@@ -41,6 +41,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# supabase CLI local cache
+supabase/.temp/
+
 # 미사용 파일 임시 보관함 (로컬 전용)
 /trash/
 
