@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { usePlaysafeRegistrationsAdmin } from "@/hooks/usePlaysafeRegistrationsAdmin";
 import { dropCachedDetail } from "@/lib/playsafe-workflow/client/adminDetailCache";
+import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { Pagination } from "./Pagination";
 import { RegistrationEditModal } from "./RegistrationEditModal";
 import { RegistrationSearchBar } from "./RegistrationSearchBar";
@@ -29,18 +30,20 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
   const [openId, setOpenId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<{ id: string; facilityName: string } | null>(null);
   const [editing, setEditing] = useState<{ id: string; startAssessment: boolean } | null>(null);
   const [detailEpoch, setDetailEpoch] = useState(0);
 
-  const confirmDelete = async (id: string, facilityName: string) => {
-    if (!window.confirm(`[${facilityName}]\n${DELETE_CONFIRM}`)) return;
+  const executeDelete = async (id: string) => {
     setDeletingId(id);
     setDeleteError(null);
     try {
       await remove(id);
       if (openId === id) setOpenId(null);
+      setPendingDelete(null);
     } catch (e) {
       setDeleteError(e instanceof Error ? e.message : "삭제하지 못했습니다.");
+      setPendingDelete(null);
     } finally {
       setDeletingId(null);
     }
@@ -93,7 +96,7 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
                   onToggle={() => setOpenId(openId === row.id ? null : row.id)}
                   onOpenAssessment={() => onOpenAssessment(row.id)}
                   deleting={deletingId === row.id}
-                  onDelete={() => void confirmDelete(row.id, row.facilityName)}
+                  onDelete={() => setPendingDelete({ id: row.id, facilityName: row.facilityName })}
                   onEdit={() => setEditing({ id: row.id, startAssessment: false })}
                   onStartAssessment={() => setEditing({ id: row.id, startAssessment: true })}
                   detailEpoch={detailEpoch}
@@ -116,6 +119,18 @@ export function FacilityRegistrationsTable({ onOpenAssessment }: { onOpenAssessm
           }}
         />
       </div>
+      {pendingDelete ? (
+        <DeleteConfirmDialog
+          facilityName={pendingDelete.facilityName}
+          message={DELETE_CONFIRM}
+          deleting={deletingId === pendingDelete.id}
+          onCancel={() => {
+            if (deletingId) return;
+            setPendingDelete(null);
+          }}
+          onConfirm={() => void executeDelete(pendingDelete.id)}
+        />
+      ) : null}
       {editing ? (
         <RegistrationEditModal
           registrationId={editing.id}
